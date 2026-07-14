@@ -26,13 +26,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
   }, []);
 
   const navLinks = [
-    { label: "Home", href: "#" },
-    { label: "Domestic Tours", href: "#domestic-tours" },
-    { label: "International Tours", href: "#international-tours" },
-    { label: "Group Tours", href: "#group-departures" },
-    { label: "Special Packages", href: "#special-packages" },
-    { label: "About", href: "#why-choose-us" },
-    { label: "Contact", href: "#footer" },
+    { label: "Home", href: "/" },
+    { label: "Domestic Tours", href: "/#domestic-tours" },
+    { label: "International Tours", href: "/#international-tours" },
+    { label: "Group Tours", href: "/#group-departures" },
+    { label: "Special Packages", href: "/#special-packages" },
+    { label: "About", href: "/#why-choose-us" },
+    { label: "Contact", href: "/contact" },
   ];
 
   return (
