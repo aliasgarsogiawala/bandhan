@@ -6,6 +6,7 @@ import Footer from "@/components/common/Footer";
 import { Container } from "@/components/ui/Container";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { ScrollPlane } from "@/components/ui/ScrollPlane";
 
 const bentoIcon = (
   path: React.ReactNode,
@@ -51,6 +52,9 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-sand flex flex-col overflow-x-hidden selection:bg-accent/20 selection:text-accent-dark">
       <Navbar onEnquiryClick={scrollToForm} />
+
+      {/* Scroll-driven plane doing a loop-de-loop across the page */}
+      <ScrollPlane />
 
       {/* Hero */}
       <section className="relative w-full pt-40 pb-24 sm:pt-48 sm:pb-28 overflow-hidden bg-gradient-to-b from-primary via-primary to-primary-dark">

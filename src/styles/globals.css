@@ -108,3 +108,35 @@
 @utility flex-center {
   @apply flex items-center justify-center;
 }
+
+/* Plane click easter-egg: celebratory barrel roll + spark burst */
+@keyframes plane-barrel-roll {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  45% {
+    transform: rotate(360deg) scale(1.45);
+  }
+  100% {
+    transform: rotate(720deg) scale(1);
+  }
+}
+
+.plane-rolling {
+  animation: plane-barrel-roll 0.9s cubic-bezier(0.5, 0, 0.3, 1);
+}
+
+@keyframes plane-spark {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--sx), var(--sy)) scale(0);
+    opacity: 0;
+  }
+}
+
+.plane-spark {
+  animation: plane-spark 0.7s ease-out forwards;
+}

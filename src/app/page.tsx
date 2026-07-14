@@ -12,6 +12,8 @@ import TravelGallery from "@/components/home/TravelGallery";
 import CTA from "@/components/home/CTA";
 import Footer from "@/components/common/Footer";
 import EnquiryModal from "@/components/common/EnquiryModal";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { ScrollPlane } from "@/components/ui/ScrollPlane";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,26 +44,43 @@ export default function Home() {
         onPlanTripClick={() => handleOpenModal("")}
       />
 
+      {/* Scroll-driven plane doing a loop-de-loop across the page */}
+      <ScrollPlane />
+
       {/* 4. Popular Destinations */}
-      <PopularDestinations onDestinationSelect={handleOpenModal} />
+      <ScrollReveal>
+        <PopularDestinations onDestinationSelect={handleOpenModal} />
+      </ScrollReveal>
 
       {/* 5. Featured Tour Packages */}
-      <FeaturedPackages onPackageSelect={handleOpenModal} />
+      <ScrollReveal>
+        <FeaturedPackages onPackageSelect={handleOpenModal} />
+      </ScrollReveal>
 
       {/* 6. Why Choose Bandhan */}
-      <WhyChooseUs />
+      <ScrollReveal>
+        <WhyChooseUs />
+      </ScrollReveal>
 
       {/* 7. Upcoming Group Departures */}
-      <GroupDepartures onBookNowSelect={handleOpenModal} />
+      <ScrollReveal>
+        <GroupDepartures onBookNowSelect={handleOpenModal} />
+      </ScrollReveal>
 
       {/* 8. Testimonials */}
-      <Testimonials />
+      <ScrollReveal>
+        <Testimonials />
+      </ScrollReveal>
 
       {/* 9. Travel Gallery */}
-      <TravelGallery />
+      <ScrollReveal>
+        <TravelGallery />
+      </ScrollReveal>
 
       {/* 10. CTA Section */}
-      <CTA onStartPlanningClick={() => handleOpenModal("")} />
+      <ScrollReveal>
+        <CTA onStartPlanningClick={() => handleOpenModal("")} />
+      </ScrollReveal>
 
       {/* 11. Footer */}
       <Footer />
