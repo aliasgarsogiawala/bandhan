@@ -2,17 +2,12 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
-import { PrimaryButton } from "@/components/ui/PrimaryButton";
-import { SecondaryButton } from "@/components/ui/SecondaryButton";
 import { featuredPackages } from "@/data/mockData";
 
-interface FeaturedPackagesProps {
-  onPackageSelect: (pkgTitle: string) => void;
-}
-
-export const FeaturedPackages: React.FC<FeaturedPackagesProps> = ({ onPackageSelect }) => {
+export const FeaturedPackages: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"all" | "domestic" | "international">("all");
 
   const filteredPackages = featuredPackages.filter((pkg) => {
@@ -70,9 +65,10 @@ export const FeaturedPackages: React.FC<FeaturedPackagesProps> = ({ onPackageSel
         {/* Packages Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredPackages.map((pkg) => (
-            <div
+            <Link
               key={pkg.id}
-              className="group bg-white rounded-3xl overflow-hidden shadow-soft hover:shadow-xl transition-all duration-500 flex flex-col h-full border border-slate-100/50 animate-scale-up"
+              href={`/packages/${pkg.id}`}
+              className="group bg-white rounded-3xl overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-500 flex flex-col h-full border border-slate-100/50 animate-scale-up"
             >
               {/* Image Container */}
               <div className="relative h-64 overflow-hidden">
@@ -133,18 +129,52 @@ export const FeaturedPackages: React.FC<FeaturedPackagesProps> = ({ onPackageSel
                     <div className="text-xl font-extrabold text-primary">{pkg.price}</div>
                   </div>
                   
-                  <PrimaryButton
-                    variant="navy"
-                    size="sm"
-                    onClick={() => onPackageSelect(pkg.title)}
-                    className="group-hover:bg-accent group-hover:text-white transition-colors duration-300"
-                  >
+                  <span className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-full bg-primary text-white group-hover:bg-accent transition-colors duration-300">
                     View Details
-                  </PrimaryButton>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="transition-transform duration-300 group-hover:translate-x-0.5"
+                    >
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                      <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                  </span>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
+        </div>
+
+        {/* View all packages */}
+        <div className="mt-14 text-center">
+          <Link
+            href="/packages"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border-2 border-primary/15 text-primary text-sm font-bold hover:border-primary hover:bg-primary hover:text-white transition-all duration-300"
+          >
+            View All Tour Packages
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </Link>
         </div>
       </Container>
     </section>
