@@ -7,6 +7,7 @@ import { Container } from "@/components/ui/Container";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { ScrollPlane } from "@/components/ui/ScrollPlane";
+import { store } from "@/lib/admin/store";
 
 const bentoIcon = (
   path: React.ReactNode,
@@ -42,6 +43,20 @@ export default function ContactPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+
+    // Persist the lead to the admin store (localStorage-backed).
+    store.add("enquiries", {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      destination: "",
+      subject: formData.subject,
+      message: formData.message,
+      source: "contact-page",
+      status: "new",
+      createdAt: new Date().toISOString(),
+    });
+
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitted(true);
