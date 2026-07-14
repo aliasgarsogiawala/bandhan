@@ -75,7 +75,8 @@ export const ScrollPlane: React.FC = () => {
     };
 
     buildPath();
-    wrap.style.opacity = "1";
+    // Kept subtle so the plane decorates the page without competing with content.
+    wrap.style.opacity = "0.55";
     window.addEventListener("resize", buildPath);
     raf = requestAnimationFrame(tick);
 
@@ -130,6 +131,7 @@ export const ScrollPlane: React.FC = () => {
           className="text-gold"
           fill="none"
           stroke="currentColor"
+          strokeOpacity="0.35"
           strokeWidth="3.5"
           strokeLinecap="round"
           strokeDasharray="0.1 16"

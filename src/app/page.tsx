@@ -54,7 +54,7 @@ export default function Home() {
 
       {/* 5. Featured Tour Packages */}
       <ScrollReveal>
-        <FeaturedPackages onPackageSelect={handleOpenModal} />
+        <FeaturedPackages />
       </ScrollReveal>
 
       {/* 6. Why Choose Bandhan */}

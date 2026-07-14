@@ -6,7 +6,7 @@ import Footer from "@/components/common/Footer";
 import { Container } from "@/components/ui/Container";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
-import { ScrollPlane } from "@/components/ui/ScrollPlane";
+import { store } from "@/lib/admin/store";
 
 const bentoIcon = (
   path: React.ReactNode,
@@ -42,6 +42,20 @@ export default function ContactPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+
+    // Persist the lead to the admin store (localStorage-backed).
+    store.add("enquiries", {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      destination: "",
+      subject: formData.subject,
+      message: formData.message,
+      source: "contact-page",
+      status: "new",
+      createdAt: new Date().toISOString(),
+    });
+
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitted(true);
@@ -52,9 +66,6 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-sand flex flex-col overflow-x-hidden selection:bg-accent/20 selection:text-accent-dark">
       <Navbar onEnquiryClick={scrollToForm} />
-
-      {/* Scroll-driven plane doing a loop-de-loop across the page */}
-      <ScrollPlane />
 
       {/* Hero */}
       <section className="relative w-full pt-40 pb-24 sm:pt-48 sm:pb-28 overflow-hidden bg-gradient-to-b from-primary via-primary to-primary-dark">

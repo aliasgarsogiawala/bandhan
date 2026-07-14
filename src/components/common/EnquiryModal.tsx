@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
+import { store } from "@/lib/admin/store";
 
 interface EnquiryModalProps {
   isOpen: boolean;
@@ -26,14 +27,18 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [wasOpen, setWasOpen] = useState(false);
 
-  // Sync defaultDestination prop when modal is opened
-  React.useEffect(() => {
-    if (isOpen) {
-      setFormData((prev) => ({ ...prev, destination: defaultDestination }));
-      setSubmitted(false);
-    }
-  }, [isOpen, defaultDestination]);
+  // Reset the form and seed the destination the moment the modal opens.
+  // Adjusting state during render (not in an effect) is the React-recommended
+  // pattern for reacting to a prop change without an extra render pass.
+  if (isOpen && !wasOpen) {
+    setWasOpen(true);
+    setFormData((prev) => ({ ...prev, destination: defaultDestination }));
+    setSubmitted(false);
+  } else if (!isOpen && wasOpen) {
+    setWasOpen(false);
+  }
 
   if (!isOpen) return null;
 
@@ -47,8 +52,22 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate API call
+
+    // Persist the lead to the admin store (localStorage-backed).
+    store.add("enquiries", {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      destination: formData.destination,
+      travelMonth: formData.travelMonth,
+      guests: formData.guests,
+      message: formData.message,
+      source: "enquiry-modal",
+      status: "new",
+      createdAt: new Date().toISOString(),
+    });
+
+    // Simulate network latency before showing the success state.
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitted(true);
