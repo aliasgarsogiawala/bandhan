@@ -140,3 +140,45 @@
 .plane-spark {
   animation: plane-spark 0.7s ease-out forwards;
 }
+
+/* ——— Miles, the travel-buddy mascot: idle life ——— */
+@keyframes miles-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+/* Mostly still, then an occasional playful banking wiggle while idle. */
+@keyframes miles-idle {
+  0%, 80%, 100% { transform: translateY(0) rotate(0deg); }
+  84% { transform: translateY(-3px) rotate(-10deg); }
+  88% { transform: translateY(-3px) rotate(10deg); }
+  92% { transform: translateY(-1px) rotate(-5deg); }
+  96% { transform: translateY(0) rotate(3deg); }
+}
+@keyframes miles-blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95%, 96% { transform: scaleY(0.1); }
+}
+/* One-shot happy hop played whenever Miles sends a reply. */
+@keyframes miles-hop {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  30% { transform: translateY(-6px) rotate(-9deg); }
+  60% { transform: translateY(-2px) rotate(7deg); }
+}
+
+.miles-float { animation: miles-float 3s ease-in-out infinite; }
+.miles-idle { animation: miles-idle 5s ease-in-out infinite; }
+.miles-hop { animation: miles-hop 0.7s ease-in-out; }
+.miles-eyes {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: miles-blink 5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .miles-float,
+  .miles-idle,
+  .miles-hop,
+  .miles-eyes {
+    animation: none;
+  }
+}

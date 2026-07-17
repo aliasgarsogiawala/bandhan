@@ -188,16 +188,44 @@ interface Message {
   chips?: string[]; // faq ids
 }
 
+/** A paper-plane glyph — used on the send button. */
 const PlaneIcon = ({ className = "" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" />
+    <line x1="22" y1="2" x2="11" y2="13" />
+    <polygon points="22 2 15 22 11 13 2 9 22 2" />
   </svg>
 );
 
-const Avatar = ({ className = "" }: { className?: string }) => (
-  <span className={`flex items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary-light shadow-inner ${className}`}>
-    <PlaneIcon className="w-1/2 h-1/2 text-gold fill-gold/20" />
-  </span>
+/**
+ * Miles himself — a cartoon airplane with a face: wings, tail fin, a spinner
+ * nose, two eyes (that blink when `blink` is set), rosy cheeks and a smile.
+ */
+const MilesMascot = ({ className = "", blink = false }: { className?: string; blink?: boolean }) => (
+  <svg viewBox="0 0 64 64" className={className} aria-hidden="true">
+    {/* Wings (behind the body) */}
+    <path d="M22 31 L4 40 C1.5 41.2 2.6 45 5.3 44.2 L23 40 Z" fill="#e03232" />
+    <path d="M42 31 L60 40 C62.5 41.2 61.4 45 58.7 44.2 L41 40 Z" fill="#e03232" />
+    {/* Tail fin */}
+    <path d="M27 15 L32 4 L37 15 Z" fill="#FED14F" />
+    {/* Fuselage */}
+    <rect x="18" y="10" width="28" height="44" rx="14" fill="#fe4f4f" />
+    {/* Spinner nose */}
+    <circle cx="32" cy="53" r="5" fill="#FED14F" />
+    {/* Cheeks */}
+    <circle cx="22.5" cy="39" r="2.4" fill="#ff7575" />
+    <circle cx="41.5" cy="39" r="2.4" fill="#ff7575" />
+    {/* Eyes */}
+    <g className={blink ? "miles-eyes" : undefined}>
+      <circle cx="26" cy="30" r="5.4" fill="#ffffff" />
+      <circle cx="38" cy="30" r="5.4" fill="#ffffff" />
+      <circle cx="26.6" cy="31" r="2.6" fill="#07203c" />
+      <circle cx="38.6" cy="31" r="2.6" fill="#07203c" />
+      <circle cx="25.3" cy="29.4" r="0.9" fill="#ffffff" />
+      <circle cx="37.3" cy="29.4" r="0.9" fill="#ffffff" />
+    </g>
+    {/* Smile */}
+    <path d="M25.5 40 Q32 46 38.5 40" fill="none" stroke="#07203c" strokeWidth="2.4" strokeLinecap="round" />
+  </svg>
 );
 
 let messageSeq = 0;
@@ -213,6 +241,7 @@ export const Chatbot: React.FC = () => {
   const [typing, setTyping] = useState(false);
   const [showTeaser, setShowTeaser] = useState(false);
   const [teaserDismissed, setTeaserDismissed] = useState(false);
+  const [hop, setHop] = useState(0); // bumps to replay Miles' happy hop on each reply
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -249,6 +278,7 @@ export const Chatbot: React.FC = () => {
     setTyping(true);
     replyTimer.current = setTimeout(() => {
       setTyping(false);
+      setHop((h) => h + 1);
       setMessages((prev) => [
         ...prev,
         faq
@@ -300,9 +330,12 @@ export const Chatbot: React.FC = () => {
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </button>
-            <p className="text-sm text-foreground font-sans leading-snug">
-              Hi! I&apos;m <span className="font-bold text-primary">{BOT_NAME}</span> 👋 Need a hand planning a trip?
-            </p>
+            <div className="flex items-center gap-2.5">
+              <MilesMascot className="w-9 h-9 shrink-0 miles-idle" blink />
+              <p className="text-sm text-foreground font-sans leading-snug">
+                Hi! I&apos;m <span className="font-bold text-primary">{BOT_NAME}</span> 👋 Need a hand planning a trip?
+              </p>
+            </div>
           </div>
         </div>
       )}
@@ -319,9 +352,11 @@ export const Chatbot: React.FC = () => {
           {/* Header */}
           <div className="relative bg-primary text-white px-4 py-3.5 flex items-center gap-3 shrink-0">
             <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-gold via-accent to-gold opacity-80" />
-            <div className="relative">
-              <Avatar className="w-10 h-10" />
-              <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-primary" />
+            <div className="relative miles-float">
+              <span key={hop} className={hop > 0 ? "miles-hop block" : "block"}>
+                <MilesMascot className="w-11 h-11 drop-shadow" blink />
+              </span>
+              <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-400 border-2 border-primary" />
             </div>
             <div className="leading-tight flex-1 min-w-0">
               <p className="font-heading font-bold text-sm">{BOT_NAME}</p>
@@ -347,7 +382,7 @@ export const Chatbot: React.FC = () => {
             {messages.map((m) => (
               <div key={m.id} className={`flex flex-col ${m.from === "user" ? "items-end" : "items-start"}`}>
                 <div className={m.from === "user" ? "flex justify-end" : "flex items-end gap-2 max-w-[85%]"}>
-                  {m.from === "bot" && <Avatar className="w-7 h-7 shrink-0 mb-0.5" />}
+                  {m.from === "bot" && <MilesMascot className="w-7 h-7 shrink-0 mb-0.5" />}
                   <div
                     className={`px-3.5 py-2.5 text-sm leading-relaxed font-sans whitespace-pre-line shadow-soft ${
                       m.from === "user"
@@ -384,7 +419,7 @@ export const Chatbot: React.FC = () => {
             {/* Typing indicator */}
             {typing && (
               <div className="flex items-end gap-2">
-                <Avatar className="w-7 h-7 shrink-0" />
+                <MilesMascot className="w-7 h-7 shrink-0 miles-float" />
                 <div className="bg-white border border-slate-100 rounded-2xl rounded-tl-sm px-4 py-3 shadow-soft flex items-center gap-1">
                   {[0, 1, 2].map((i) => (
                     <span
@@ -414,10 +449,7 @@ export const Chatbot: React.FC = () => {
               className="w-10 h-10 shrink-0 rounded-full bg-accent hover:bg-accent-dark text-white flex items-center justify-center transition-colors disabled:opacity-40 disabled:hover:bg-accent"
               aria-label="Send message"
             >
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="22" y1="2" x2="11" y2="13" />
-                <polygon points="22 2 15 22 11 13 2 9 22 2" />
-              </svg>
+              <PlaneIcon className="w-4 h-4" />
             </button>
           </form>
         </div>
@@ -426,22 +458,22 @@ export const Chatbot: React.FC = () => {
       {/* Launcher */}
       <button
         onClick={() => (open ? setOpen(false) : openPanel())}
-        className="fixed bottom-6 right-4 sm:right-6 z-40 w-14 h-14 rounded-full bg-primary text-gold shadow-xl shadow-primary/30 flex items-center justify-center hover:scale-105 active:scale-95 transition-transform duration-300"
+        className="fixed bottom-6 right-4 sm:right-6 z-40 w-15 h-15 min-w-14 min-h-14 rounded-full bg-primary text-gold shadow-xl shadow-primary/30 flex items-center justify-center hover:scale-105 active:scale-95 transition-transform duration-300"
         aria-label={open ? "Close chat" : `Chat with ${BOT_NAME}`}
         aria-expanded={open}
       >
         {!open && <span className="absolute inset-0 rounded-full bg-primary/40 animate-ping" style={{ animationDuration: "2.5s" }} />}
-        <span className="relative">
-          {open ? (
-            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
-          ) : (
-            <PlaneIcon className="w-6 h-6 fill-gold/20" />
-          )}
-        </span>
+        {open ? (
+          <svg className="relative w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        ) : (
+          <span className="relative miles-idle">
+            <MilesMascot className="w-9 h-9 drop-shadow" blink />
+          </span>
+        )}
         {!open && (
-          <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-accent border-2 border-primary" />
+          <span className="absolute top-0 right-0 w-3.5 h-3.5 rounded-full bg-accent border-2 border-primary" />
         )}
       </button>
     </>
