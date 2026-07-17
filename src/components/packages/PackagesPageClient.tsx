@@ -46,7 +46,7 @@ export const PackagesPageClient: React.FC = () => {
       <Navbar onEnquiryClick={() => handleOpenModal("")} />
 
       {/* Page hero */}
-      <header className="relative bg-primary pt-36 pb-20 overflow-hidden">
+      <header className="relative bg-primary pt-32 pb-16 sm:pt-36 sm:pb-20 overflow-hidden">
         {/* Soft radial glows echoing the brand palette */}
         <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-accent/20 blur-3xl" aria-hidden="true" />
         <div className="absolute -bottom-32 -left-16 w-80 h-80 rounded-full bg-gold/15 blur-3xl" aria-hidden="true" />
@@ -69,12 +69,12 @@ export const PackagesPageClient: React.FC = () => {
           </p>
 
           {/* Filter tabs */}
-          <div className="inline-flex p-1 bg-white/10 backdrop-blur-md rounded-full border border-white/15 mt-8">
+          <div className="inline-flex max-w-full flex-wrap gap-1 p-1 bg-white/10 backdrop-blur-md rounded-3xl sm:rounded-full border border-white/15 mt-8">
             {TABS.map((tab) => (
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
-                className={`px-5 sm:px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
+                className={`px-4 sm:px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
                   activeTab === tab.key
                     ? "bg-gold text-primary shadow-md"
                     : "text-white/70 hover:text-white"

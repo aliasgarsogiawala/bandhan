@@ -11,7 +11,7 @@ interface CTAProps {
 
 export const CTA: React.FC<CTAProps> = ({ onStartPlanningClick }) => {
   return (
-    <section id="special-packages" className="relative py-32 overflow-hidden z-10">
+    <section id="special-packages" className="relative py-20 sm:py-32 overflow-hidden z-10">
       {/* Background Image */}
       <div className="absolute inset-0 w-full h-full">
         <Image

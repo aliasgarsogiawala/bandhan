@@ -12,7 +12,7 @@ interface GroupDeparturesProps {
 
 export const GroupDepartures: React.FC<GroupDeparturesProps> = ({ onBookNowSelect }) => {
   return (
-    <section id="group-departures" className="py-24 bg-sand-bg/40 relative z-10">
+    <section id="group-departures" className="py-16 sm:py-24 bg-sand-bg/40 relative z-10">
       <Container>
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">

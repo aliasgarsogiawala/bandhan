@@ -8,7 +8,7 @@ import { galleryImages } from "@/data/mockData";
 
 export const TravelGallery: React.FC = () => {
   return (
-    <section className="py-24 bg-white relative z-10">
+    <section className="py-16 sm:py-24 bg-white relative z-10">
       <Container>
         {/* Header */}
         <div className="text-center mb-16 max-w-2xl mx-auto">

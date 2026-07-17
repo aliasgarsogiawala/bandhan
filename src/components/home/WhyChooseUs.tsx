@@ -47,9 +47,9 @@ export const WhyChooseUs: React.FC = () => {
   };
 
   return (
-    <section id="why-choose-us" className="py-24 bg-white relative z-10">
+    <section id="why-choose-us" className="py-16 sm:py-24 bg-white relative z-10">
       <Container>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           
           {/* Left Text details */}
           <div className="lg:col-span-5 space-y-6">
