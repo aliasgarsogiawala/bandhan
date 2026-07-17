@@ -274,24 +274,30 @@ export const Chatbot: React.FC = () => {
     setTeaserDismissed(true);
   };
 
+  // Generate the id up front so the state updater stays pure (React may invoke
+  // updaters more than once; calling nextId() inside one would collide ids).
+  const appendMessage = (msg: Omit<Message, "id">) => {
+    const id = nextId();
+    setMessages((prev) => [...prev, { id, ...msg }]);
+  };
+
   const pushBotReply = (faq: Faq | null) => {
     setTyping(true);
     replyTimer.current = setTimeout(() => {
       setTyping(false);
       setHop((h) => h + 1);
-      setMessages((prev) => [
-        ...prev,
+      appendMessage(
         faq
-          ? { id: nextId(), from: "bot", text: faq.answer, chips: faq.followups }
-          : { id: nextId(), from: "bot", text: FALLBACK_ANSWER, chips: FALLBACK_CHIPS },
-      ]);
+          ? { from: "bot", text: faq.answer, chips: faq.followups }
+          : { from: "bot", text: FALLBACK_ANSWER, chips: FALLBACK_CHIPS }
+      );
     }, 650);
   };
 
   const sendText = (raw: string) => {
     const text = raw.trim();
     if (!text || typing) return;
-    setMessages((prev) => [...prev, { id: nextId(), from: "user", text }]);
+    appendMessage({ from: "user", text });
     setInput("");
     pushBotReply(findFaq(text));
   };
@@ -299,7 +305,7 @@ export const Chatbot: React.FC = () => {
   const sendChip = (faqId: string) => {
     const faq = FAQS[faqId];
     if (!faq || typing) return;
-    setMessages((prev) => [...prev, { id: nextId(), from: "user", text: faq.chipLabel }]);
+    appendMessage({ from: "user", text: faq.chipLabel });
     pushBotReply(faq);
   };
 
