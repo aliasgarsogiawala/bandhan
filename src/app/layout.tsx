@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "@/styles/globals.css";
+import Chatbot from "@/components/common/Chatbot";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -32,6 +33,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-white text-foreground font-sans">
         {children}
+        <Chatbot />
       </body>
     </html>
   );
