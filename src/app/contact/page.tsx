@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import { Container } from "@/components/ui/Container";
@@ -17,7 +18,8 @@ const bentoIcon = (
   </svg>
 );
 
-export default function ContactPage() {
+function ContactContent() {
+  const searchParams = useSearchParams();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -27,10 +29,45 @@ export default function ContactPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [prefillDestination, setPrefillDestination] = useState("");
+  const [highlight, setHighlight] = useState(false);
+  const formCardRef = useRef<HTMLDivElement>(null);
 
   const scrollToForm = () => {
     document.getElementById("contact-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+
+  // Arriving from an "Enquire / Book / Plan" CTA: pre-fill the form for the
+  // chosen destination, sweep it into view, and give it a celebratory glow.
+  useEffect(() => {
+    const destination = searchParams.get("destination")?.trim() || "";
+    const isEnquiry = destination || searchParams.get("enquiry");
+    if (!isEnquiry) return;
+
+    if (destination) {
+      setPrefillDestination(destination);
+      setFormData((prev) => ({
+        ...prev,
+        subject: prev.subject || "New Booking",
+        message:
+          prev.message ||
+          `Hi Bandhan Tours, I'd love to enquire about ${destination}. Please share available dates, the itinerary, and pricing. Thank you!`,
+      }));
+    } else {
+      setFormData((prev) => ({ ...prev, subject: prev.subject || "Custom Itinerary" }));
+    }
+
+    const scrollTimer = setTimeout(() => {
+      formCardRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      setHighlight(true);
+    }, 350);
+    const glowTimer = setTimeout(() => setHighlight(false), 3200);
+    return () => {
+      clearTimeout(scrollTimer);
+      clearTimeout(glowTimer);
+    };
+    // Runs once per navigation; the query string is stable within a visit.
+  }, [searchParams]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -322,7 +359,21 @@ export default function ContactPage() {
 
             {/* Form card */}
             <ScrollReveal delay={120} className="lg:col-span-7">
-              <div className="bg-white rounded-3xl shadow-premium border border-slate-100 p-6 sm:p-10">
+              <div
+                ref={formCardRef}
+                className={`bg-white rounded-3xl shadow-premium border p-6 sm:p-10 transition-colors duration-500 ${
+                  highlight ? "border-accent contact-glow" : "border-slate-100"
+                }`}
+              >
+                {prefillDestination && !submitted && (
+                  <div className="mb-6 flex items-center gap-3 rounded-2xl bg-accent/10 border border-accent/20 px-4 py-3 animate-fade-in-up">
+                    <span className="text-lg" aria-hidden="true">✨</span>
+                    <p className="text-sm text-primary font-sans">
+                      Great pick! We&apos;ve started your enquiry for{" "}
+                      <span className="font-bold text-accent-dark">{prefillDestination}</span>. Just add your details below.
+                    </p>
+                  </div>
+                )}
                 {submitted ? (
                   <div className="text-center py-10 space-y-4">
                     <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner animate-scale-up">
@@ -438,5 +489,13 @@ export default function ContactPage() {
 
       <Footer />
     </div>
+  );
+}
+
+export default function ContactPage() {
+  return (
+    <Suspense>
+      <ContactContent />
+    </Suspense>
   );
 }
