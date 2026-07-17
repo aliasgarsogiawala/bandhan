@@ -43,6 +43,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
     { label: "Tour Packages", href: "/packages" },
     { label: "Domestic Tours", href: "/packages?category=domestic" },
     { label: "International Tours", href: "/packages?category=international" },
+    { label: "North East Tours", href: "/packages?category=north-east" },
     { label: "Group Tours", href: "/#group-departures" },
     { label: "About", href: "/#why-choose-us" },
     { label: "Contact", href: "/contact" },
@@ -71,7 +72,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-5 xl:gap-7">
             {navLinks.map((link) => (
               <a
                 key={link.label}

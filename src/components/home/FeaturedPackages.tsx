@@ -7,15 +7,13 @@ import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { SeatsLeft } from "@/components/ui/Urgency";
 import { featuredPackages } from "@/data/mockData";
+import { CATEGORY_TABS, matchesCategory, type CategoryTab } from "@/lib/packageCategory";
 
 export const FeaturedPackages: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<"all" | "domestic" | "international">("all");
+  const [activeTab, setActiveTab] = useState<CategoryTab>("all");
   const scrollerRef = useRef<HTMLDivElement>(null);
 
-  const filteredPackages = featuredPackages.filter((pkg) => {
-    if (activeTab === "all") return true;
-    return pkg.category.toLowerCase() === activeTab.toLowerCase();
-  });
+  const filteredPackages = featuredPackages.filter((pkg) => matchesCategory(pkg.category, activeTab));
 
   // Scroll the carousel by roughly one card (card width + the gap).
   const scrollByCards = (direction: 1 | -1) => {
@@ -45,36 +43,19 @@ export const FeaturedPackages: React.FC = () => {
 
           {/* Filter Tabs */}
           <div className="inline-flex max-w-full flex-wrap justify-center gap-1 p-1 bg-white rounded-3xl sm:rounded-full shadow-soft border border-slate-100/50 mt-6">
-            <button
-              onClick={() => setActiveTab("all")}
-              className={`px-4 sm:px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
-                activeTab === "all"
-                  ? "bg-primary text-white shadow-md"
-                  : "text-foreground-muted hover:text-primary"
-              }`}
-            >
-              All Packages
-            </button>
-            <button
-              onClick={() => setActiveTab("domestic")}
-              className={`px-4 sm:px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
-                activeTab === "domestic"
-                  ? "bg-primary text-white shadow-md"
-                  : "text-foreground-muted hover:text-primary"
-              }`}
-            >
-              Domestic Tours
-            </button>
-            <button
-              onClick={() => setActiveTab("international")}
-              className={`px-4 sm:px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
-                activeTab === "international"
-                  ? "bg-primary text-white shadow-md"
-                  : "text-foreground-muted hover:text-primary"
-              }`}
-            >
-              International
-            </button>
+            {CATEGORY_TABS.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={`px-4 sm:px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
+                  activeTab === tab.key
+                    ? "bg-primary text-white shadow-md"
+                    : "text-foreground-muted hover:text-primary"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
         </div>
 

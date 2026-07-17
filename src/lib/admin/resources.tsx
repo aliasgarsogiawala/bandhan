@@ -69,6 +69,7 @@ export const packagesResource: ResourceConfig<TourPackage> = {
       options: [
         { value: "Domestic", label: "Domestic" },
         { value: "International", label: "International" },
+        { value: "North East", label: "North East" },
       ],
     },
     { name: "duration", label: "Duration", type: "text", placeholder: "e.g. 6 Nights / 7 Days" },

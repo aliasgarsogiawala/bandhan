@@ -11,33 +11,18 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { featuredPackages } from "@/data/mockData";
 import { getFullPackage } from "@/data/packageDetails";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
-
-type CategoryTab = "all" | "domestic" | "international";
-
-const TABS: { key: CategoryTab; label: string }[] = [
-  { key: "all", label: "All Packages" },
-  { key: "domestic", label: "Domestic Tours" },
-  { key: "international", label: "International" },
-];
+import { CATEGORY_TABS, matchesCategory, parseCategoryParam } from "@/lib/packageCategory";
 
 export const PackagesPageClient: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const initialCategory = searchParams.get("category");
-  const [activeTab, setActiveTab] = useState<CategoryTab>(
-    initialCategory === "domestic" || initialCategory === "international"
-      ? initialCategory
-      : "all"
-  );
+  const [activeTab, setActiveTab] = useState(() => parseCategoryParam(searchParams.get("category")));
 
   const handleEnquire = (destination: string = "") => {
     router.push(contactEnquiryHref(destination));
   };
 
-  const filteredPackages = featuredPackages.filter((pkg) => {
-    if (activeTab === "all") return true;
-    return pkg.category.toLowerCase() === activeTab;
-  });
+  const filteredPackages = featuredPackages.filter((pkg) => matchesCategory(pkg.category, activeTab));
 
   return (
     <div className="min-h-screen bg-sand flex flex-col overflow-x-hidden">
@@ -68,7 +53,7 @@ export const PackagesPageClient: React.FC = () => {
 
           {/* Filter tabs */}
           <div className="inline-flex max-w-full flex-wrap gap-1 p-1 bg-white/10 backdrop-blur-md rounded-3xl sm:rounded-full border border-white/15 mt-8">
-            {TABS.map((tab) => (
+            {CATEGORY_TABS.map((tab) => (
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}

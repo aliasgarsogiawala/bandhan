@@ -128,7 +128,7 @@ export const featuredPackages: TourPackage[] = [
     duration: "9 Nights / 10 Days",
     price: "₹45,500",
     highlights: ["Gangtok sightseeing", "Tsomgo Lake & Baba Mandir", "Darjeeling Tea Estates", "Sunrise at Tiger Hill"],
-    category: "Domestic",
+    category: "North East",
     isPopular: true,
   },
   {
