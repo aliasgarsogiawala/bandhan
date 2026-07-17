@@ -8,7 +8,7 @@ import { testimonials } from "@/data/mockData";
 
 export const Testimonials: React.FC = () => {
   return (
-    <section className="py-24 bg-primary text-white overflow-hidden relative z-10">
+    <section className="py-16 sm:py-24 bg-primary text-white overflow-hidden relative z-10">
       {/* Decorative backdrop blobs */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-5 pointer-events-none">
         <div className="absolute -top-[20%] -right-[10%] w-[50%] h-[150%] rounded-full bg-white blur-3xl transform rotate-12" />

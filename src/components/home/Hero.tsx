@@ -31,7 +31,7 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
   };
 
   return (
-    <section className="relative w-full h-[95vh] min-h-[750px] flex items-center justify-center overflow-hidden">
+    <section className="relative w-full h-[95vh] min-h-[620px] sm:min-h-[750px] flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 w-full h-full">
         <Image
@@ -46,7 +46,7 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
       </div>
 
       {/* Hero Content */}
-      <div className="relative z-10 w-full pt-24 pb-20">
+      <div className="relative z-10 w-full pt-28 pb-16 sm:pt-24 sm:pb-20">
         <Container className="flex flex-col items-center text-center text-white">
           {/* Badge */}
           <span className="px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-gold text-xs font-semibold uppercase tracking-widest mb-6 inline-block animate-fade-in">

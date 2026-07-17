@@ -16,7 +16,7 @@ export const FeaturedPackages: React.FC = () => {
   });
 
   return (
-    <section id="international-tours" className="py-24 bg-sand-bg/40 relative z-10">
+    <section id="international-tours" className="py-16 sm:py-24 bg-sand-bg/40 relative z-10">
       <Container>
         {/* Header */}
         <div className="text-center mb-16 max-w-2xl mx-auto space-y-4">
@@ -28,10 +28,10 @@ export const FeaturedPackages: React.FC = () => {
           />
 
           {/* Filter Tabs */}
-          <div className="inline-flex p-1 bg-white rounded-full shadow-soft border border-slate-100/50 mt-6">
+          <div className="inline-flex max-w-full flex-wrap justify-center gap-1 p-1 bg-white rounded-3xl sm:rounded-full shadow-soft border border-slate-100/50 mt-6">
             <button
               onClick={() => setActiveTab("all")}
-              className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
+              className={`px-4 sm:px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
                 activeTab === "all"
                   ? "bg-primary text-white shadow-md"
                   : "text-foreground-muted hover:text-primary"
@@ -41,7 +41,7 @@ export const FeaturedPackages: React.FC = () => {
             </button>
             <button
               onClick={() => setActiveTab("domestic")}
-              className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
+              className={`px-4 sm:px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
                 activeTab === "domestic"
                   ? "bg-primary text-white shadow-md"
                   : "text-foreground-muted hover:text-primary"
@@ -51,7 +51,7 @@ export const FeaturedPackages: React.FC = () => {
             </button>
             <button
               onClick={() => setActiveTab("international")}
-              className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
+              className={`px-4 sm:px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
                 activeTab === "international"
                   ? "bg-primary text-white shadow-md"
                   : "text-foreground-muted hover:text-primary"

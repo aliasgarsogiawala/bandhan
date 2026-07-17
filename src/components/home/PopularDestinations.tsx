@@ -14,7 +14,7 @@ export const PopularDestinations: React.FC<PopularDestinationsProps> = ({
   onDestinationSelect,
 }) => {
   return (
-    <section id="domestic-tours" className="py-24 bg-white relative z-10">
+    <section id="domestic-tours" className="py-16 sm:py-24 bg-white relative z-10">
       <Container>
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
