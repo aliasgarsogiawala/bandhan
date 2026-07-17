@@ -12,6 +12,7 @@ import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import type { TourPackage } from "@/data/mockData";
 import type { FullPackage } from "@/data/packageDetails";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
+import { ViewingNow, SeatsLeft, RecentlyBooked, Countdown, endOfToday } from "@/components/ui/Urgency";
 
 interface PackageDetailClientProps {
   pkg: FullPackage;
@@ -475,6 +476,21 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
               </div>
 
               <div className="p-6 space-y-5">
+                {/* Urgency / scarcity */}
+                <div className="rounded-2xl bg-sand-dark/50 border border-slate-100 p-4 space-y-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <SeatsLeft seed={pkg.id} />
+                    <RecentlyBooked seed={pkg.id} />
+                  </div>
+                  <ViewingNow seed={pkg.id} className="text-xs text-foreground-muted" />
+                  <div className="flex items-center justify-between pt-3 border-t border-slate-200/70">
+                    <span className="text-xs font-bold uppercase tracking-wider text-primary">
+                      Offer ends in
+                    </span>
+                    <Countdown target={endOfToday()} className="text-accent text-base" />
+                  </div>
+                </div>
+
                 <ul className="space-y-2.5">
                   {pkg.inclusions.slice(0, 4).map((item) => (
                     <li

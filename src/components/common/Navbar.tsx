@@ -2,8 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
+import { useAuth } from "@/lib/auth/useAuth";
 
 interface NavbarProps {
   onEnquiryClick: () => void;
@@ -12,6 +15,16 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, signOut } = useAuth();
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    setIsMobileMenuOpen(false);
+    await signOut();
+    router.refresh();
+  };
+
+  const firstName = user?.name?.split(" ")[0] || "";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -70,8 +83,31 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
             ))}
           </div>
 
-          {/* Call to action & search */}
+          {/* Call to action & account */}
           <div className="hidden lg:flex items-center gap-4">
+            {user ? (
+              <div className="flex items-center gap-3">
+                <span className="flex items-center gap-2 text-sm text-white/85">
+                  <span className="w-7 h-7 rounded-full bg-gold text-primary flex items-center justify-center text-xs font-bold uppercase">
+                    {firstName.charAt(0) || "U"}
+                  </span>
+                  Hi, {firstName}
+                </span>
+                <button
+                  onClick={handleSignOut}
+                  className="text-sm font-medium text-white/70 hover:text-gold transition-colors"
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/signin"
+                className="text-sm font-medium tracking-wide text-white/85 hover:text-gold transition-colors duration-300"
+              >
+                Sign In
+              </Link>
+            )}
             <PrimaryButton
               variant="coral"
               size="sm"
@@ -140,7 +176,26 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
                 {link.label}
               </a>
             ))}
-            <div className="pt-6">
+            {user ? (
+              <div className="flex flex-col items-center gap-3 pt-2">
+                <span className="text-gold font-heading font-bold text-lg">Hi, {firstName}</span>
+                <button
+                  onClick={handleSignOut}
+                  className="text-lg font-semibold text-white/80 hover:text-gold transition-colors"
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/signin"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-2xl font-bold font-heading text-white/90 hover:text-gold transition-colors duration-300"
+              >
+                Sign In
+              </Link>
+            )}
+            <div className="pt-4">
               <PrimaryButton
                 variant="coral"
                 size="lg"

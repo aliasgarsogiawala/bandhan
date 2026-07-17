@@ -4,6 +4,7 @@ import React from "react";
 import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
+import { RecentlyBooked } from "@/components/ui/Urgency";
 import { groupDepartures } from "@/data/mockData";
 
 interface GroupDeparturesProps {
@@ -85,6 +86,9 @@ export const GroupDepartures: React.FC<GroupDeparturesProps> = ({ onBookNowSelec
                         }`}
                         style={{ width: `${100 - seatsPercent}%` }}
                       />
+                    </div>
+                    <div className="mt-2">
+                      <RecentlyBooked seed={departure.id} />
                     </div>
                   </div>
                 </div>
