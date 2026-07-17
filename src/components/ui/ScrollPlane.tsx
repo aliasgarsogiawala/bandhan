@@ -17,7 +17,22 @@ export const ScrollPlane: React.FC = () => {
   // Bumping this remounts the spark burst so its animation replays on every click.
   const [burst, setBurst] = useState(0);
 
+  // The plane is a desktop-only flourish — skip it entirely on phones/tablets so
+  // it never animates or overlays touch content. Gated on the same 1024px
+  // breakpoint the rest of the site uses for its `lg:` layout switch.
+  const [isDesktop, setIsDesktop] = useState(false);
+
   useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const update = () => setIsDesktop(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    if (!isDesktop) return;
+
     const wrap = wrapRef.current;
     const plane = planeRef.current;
     const path = pathRef.current;
@@ -84,7 +99,7 @@ export const ScrollPlane: React.FC = () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", buildPath);
     };
-  }, []);
+  }, [isDesktop]);
 
   const handlePlaneClick = () => {
     const spinner = spinnerRef.current;
@@ -96,6 +111,8 @@ export const ScrollPlane: React.FC = () => {
     }
     setBurst((b) => b + 1);
   };
+
+  if (!isDesktop) return null;
 
   return (
     <>
