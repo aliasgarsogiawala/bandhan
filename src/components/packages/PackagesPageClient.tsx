@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -12,23 +12,44 @@ import { featuredPackages } from "@/data/mockData";
 import { getFullPackage } from "@/data/packageDetails";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
 
-type CategoryTab = "all" | "domestic" | "international";
+type CategoryTab = "all" | "domestic" | "international" | "northeast";
 
 const TABS: { key: CategoryTab; label: string }[] = [
   { key: "all", label: "All Packages" },
   { key: "domestic", label: "Domestic Tours" },
   { key: "international", label: "International" },
+  { key: "northeast", label: "North East" },
 ];
 
 export const PackagesPageClient: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get("category");
-  const [activeTab, setActiveTab] = useState<CategoryTab>(
-    initialCategory === "domestic" || initialCategory === "international"
-      ? initialCategory
-      : "all"
-  );
+  
+  const getInitialTab = (): CategoryTab => {
+    if (!initialCategory) return "all";
+    const cat = initialCategory.toLowerCase();
+    if (cat === "domestic") return "domestic";
+    if (cat === "international") return "international";
+    if (cat === "northeast" || cat === "north-east" || cat === "north east") return "northeast";
+    return "all";
+  };
+
+  const [activeTab, setActiveTab] = useState<CategoryTab>(getInitialTab());
+
+  // Sync state when URL category query param changes
+  useEffect(() => {
+    const cat = searchParams.get("category");
+    if (!cat) {
+      setActiveTab("all");
+    } else {
+      const lower = cat.toLowerCase();
+      if (lower === "domestic") setActiveTab("domestic");
+      else if (lower === "international") setActiveTab("international");
+      else if (lower === "northeast" || lower === "north-east" || lower === "north east") setActiveTab("northeast");
+      else setActiveTab("all");
+    }
+  }, [searchParams]);
 
   const handleEnquire = (destination: string = "") => {
     router.push(contactEnquiryHref(destination));
@@ -36,6 +57,15 @@ export const PackagesPageClient: React.FC = () => {
 
   const filteredPackages = featuredPackages.filter((pkg) => {
     if (activeTab === "all") return true;
+    if (activeTab === "northeast") {
+      return (
+        pkg.title.toLowerCase().includes("northeast") ||
+        pkg.title.toLowerCase().includes("sikkim") ||
+        pkg.highlights.some(
+          (h) => h.toLowerCase().includes("northeast") || h.toLowerCase().includes("sikkim")
+        )
+      );
+    }
     return pkg.category.toLowerCase() === activeTab;
   });
 
