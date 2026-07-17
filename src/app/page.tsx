@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/common/Navbar";
 import Hero from "@/components/home/Hero";
 import PopularDestinations from "@/components/home/PopularDestinations";
@@ -11,37 +12,26 @@ import Testimonials from "@/components/home/Testimonials";
 import TravelGallery from "@/components/home/TravelGallery";
 import CTA from "@/components/home/CTA";
 import Footer from "@/components/common/Footer";
-import EnquiryModal from "@/components/common/EnquiryModal";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { ScrollPlane } from "@/components/ui/ScrollPlane";
+import { contactEnquiryHref } from "@/lib/enquiryLink";
 
 export default function Home() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedDestination, setSelectedDestination] = useState("");
+  const router = useRouter();
 
-  const handleOpenModal = (destination: string = "") => {
-    setSelectedDestination(destination);
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedDestination("");
-  };
-
-  const handleSearchSubmit = (searchQuery: string) => {
-    handleOpenModal(searchQuery);
+  const handleEnquire = (destination: string = "") => {
+    router.push(contactEnquiryHref(destination));
   };
 
   return (
     <div className="min-h-screen bg-sand flex flex-col overflow-x-hidden selection:bg-accent/20 selection:text-accent-dark">
       {/* 1. Transparent Sticky Navbar */}
-      <Navbar onEnquiryClick={() => handleOpenModal("")} />
+      <Navbar onEnquiryClick={() => handleEnquire("")} />
 
       {/* 2. Hero Section & 3. Floating Search Card */}
       <Hero
-        onSearchSubmit={handleSearchSubmit}
-        onPlanTripClick={() => handleOpenModal("")}
+        onSearchSubmit={handleEnquire}
+        onPlanTripClick={() => handleEnquire("")}
       />
 
       {/* Scroll-driven plane doing a loop-de-loop across the page */}
@@ -49,7 +39,7 @@ export default function Home() {
 
       {/* 4. Popular Destinations */}
       <ScrollReveal>
-        <PopularDestinations onDestinationSelect={handleOpenModal} />
+        <PopularDestinations onDestinationSelect={handleEnquire} />
       </ScrollReveal>
 
       {/* 5. Featured Tour Packages */}
@@ -64,7 +54,7 @@ export default function Home() {
 
       {/* 7. Upcoming Group Departures */}
       <ScrollReveal>
-        <GroupDepartures onBookNowSelect={handleOpenModal} />
+        <GroupDepartures onBookNowSelect={handleEnquire} />
       </ScrollReveal>
 
       {/* 8. Testimonials */}
@@ -79,18 +69,11 @@ export default function Home() {
 
       {/* 10. CTA Section */}
       <ScrollReveal>
-        <CTA onStartPlanningClick={() => handleOpenModal("")} />
+        <CTA onStartPlanningClick={() => handleEnquire("")} />
       </ScrollReveal>
 
       {/* 11. Footer */}
       <Footer />
-
-      {/* 12. Inquiry Modal */}
-      <EnquiryModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        defaultDestination={selectedDestination}
-      />
     </div>
   );
 }

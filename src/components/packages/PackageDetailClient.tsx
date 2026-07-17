@@ -3,14 +3,15 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
-import EnquiryModal from "@/components/common/EnquiryModal";
 import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import type { TourPackage } from "@/data/mockData";
 import type { FullPackage } from "@/data/packageDetails";
+import { contactEnquiryHref } from "@/lib/enquiryLink";
 
 interface PackageDetailClientProps {
   pkg: FullPackage;
@@ -79,9 +80,11 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
   pkg,
   relatedPackages,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
   const [openDay, setOpenDay] = useState<number | null>(1);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+
+  const enquire = () => router.push(contactEnquiryHref(pkg.title));
 
   const quickFacts = [
     { label: "Duration", value: pkg.duration },
@@ -92,7 +95,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
 
   return (
     <div className="min-h-screen bg-sand flex flex-col overflow-x-hidden">
-      <Navbar onEnquiryClick={() => setIsModalOpen(true)} />
+      <Navbar onEnquiryClick={enquire} />
 
       {/* Immersive hero */}
       <header className="relative h-[78vh] min-h-[540px] flex items-end">
@@ -179,7 +182,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
             </a>
           ))}
           <button
-            onClick={() => setIsModalOpen(true)}
+            onClick={enquire}
             className="ml-auto hidden sm:inline-flex px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-accent text-white hover:bg-accent-dark transition-colors duration-300 whitespace-nowrap"
           >
             Enquire Now
@@ -488,7 +491,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                   variant="coral"
                   size="md"
                   fullWidth
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={enquire}
                 >
                   Enquire About This Tour
                 </PrimaryButton>
@@ -618,12 +621,6 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
       </main>
 
       <Footer />
-
-      <EnquiryModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        defaultDestination={pkg.title}
-      />
     </div>
   );
 };

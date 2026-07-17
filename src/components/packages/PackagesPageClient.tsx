@@ -3,14 +3,14 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
-import EnquiryModal from "@/components/common/EnquiryModal";
 import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { featuredPackages } from "@/data/mockData";
 import { getFullPackage } from "@/data/packageDetails";
+import { contactEnquiryHref } from "@/lib/enquiryLink";
 
 type CategoryTab = "all" | "domestic" | "international";
 
@@ -21,6 +21,7 @@ const TABS: { key: CategoryTab; label: string }[] = [
 ];
 
 export const PackagesPageClient: React.FC = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get("category");
   const [activeTab, setActiveTab] = useState<CategoryTab>(
@@ -28,12 +29,9 @@ export const PackagesPageClient: React.FC = () => {
       ? initialCategory
       : "all"
   );
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedDestination, setSelectedDestination] = useState("");
 
-  const handleOpenModal = (destination: string = "") => {
-    setSelectedDestination(destination);
-    setIsModalOpen(true);
+  const handleEnquire = (destination: string = "") => {
+    router.push(contactEnquiryHref(destination));
   };
 
   const filteredPackages = featuredPackages.filter((pkg) => {
@@ -43,7 +41,7 @@ export const PackagesPageClient: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-sand flex flex-col overflow-x-hidden">
-      <Navbar onEnquiryClick={() => handleOpenModal("")} />
+      <Navbar onEnquiryClick={() => handleEnquire("")} />
 
       {/* Page hero */}
       <header className="relative bg-primary pt-32 pb-16 sm:pt-36 sm:pb-20 overflow-hidden">
@@ -196,7 +194,7 @@ export const PackagesPageClient: React.FC = () => {
                   in mind.
                 </p>
                 <button
-                  onClick={() => handleOpenModal("")}
+                  onClick={() => handleEnquire("")}
                   className="mt-6 inline-flex items-center gap-2 px-8 py-3.5 bg-accent text-white rounded-full text-sm font-bold hover:bg-accent-dark hover:shadow-lg hover:shadow-accent/20 transition-all duration-300"
                 >
                   Plan a Custom Trip
@@ -208,15 +206,6 @@ export const PackagesPageClient: React.FC = () => {
       </main>
 
       <Footer />
-
-      <EnquiryModal
-        isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          setSelectedDestination("");
-        }}
-        defaultDestination={selectedDestination}
-      />
     </div>
   );
 };
