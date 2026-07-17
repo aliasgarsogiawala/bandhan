@@ -16,6 +16,19 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Database & Accounts (Neon)
+
+User sign-in/sign-up is backed by [Neon](https://neon.tech) Postgres. To enable it:
+
+1. Create a project at [neon.tech](https://neon.tech) and copy the **pooled** connection string.
+2. `cp .env.example .env.local` and fill in:
+   - `DATABASE_URL` — your Neon connection string.
+   - `AUTH_SECRET` — generate with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`.
+3. Create the tables: `npm run db:migrate` (applies `db/schema.sql`).
+4. Run `npm run dev` and visit `/signup`.
+
+Until `DATABASE_URL` is set, the sign-in/sign-up endpoints return a friendly "not configured yet" message and the rest of the site works normally. Passwords are hashed with scrypt; sessions are stateless, signed cookies.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
