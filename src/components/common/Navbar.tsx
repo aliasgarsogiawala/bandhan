@@ -41,10 +41,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
   const navLinks = [
     { label: "Home", href: "/" },
     { label: "Tour Packages", href: "/packages" },
-    { label: "Domestic Tours", href: "/packages?category=domestic" },
-    { label: "International Tours", href: "/packages?category=international" },
-    { label: "North East Tours", href: "/packages?category=north-east" },
     { label: "Group Tours", href: "/#group-departures" },
+    { label: "Plan a Custom Trip", href: "/plan-trip" },
     { label: "About", href: "/#why-choose-us" },
     { label: "Contact", href: "/contact" },
   ];
@@ -72,12 +70,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-5 xl:gap-7">
+          <div className="hidden lg:flex items-center gap-6">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className="text-sm font-medium tracking-wide text-white/85 hover:text-gold transition-colors duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gold hover:after:w-full after:transition-all after:duration-300"
+                className="whitespace-nowrap text-sm font-medium tracking-wide text-white/85 hover:text-gold transition-colors duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gold hover:after:w-full after:transition-all after:duration-300"
               >
                 {link.label}
               </a>
@@ -88,12 +86,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
           <div className="hidden lg:flex items-center gap-4">
             {user ? (
               <div className="flex items-center gap-3">
-                <span className="flex items-center gap-2 text-sm text-white/85">
+                <Link
+                  href="/account"
+                  className="flex items-center gap-2 text-sm text-white/85 hover:text-gold transition-colors"
+                >
                   <span className="w-7 h-7 rounded-full bg-gold text-primary flex items-center justify-center text-xs font-bold uppercase">
                     {firstName.charAt(0) || "U"}
                   </span>
                   Hi, {firstName}
-                </span>
+                </Link>
                 <button
                   onClick={handleSignOut}
                   className="text-sm font-medium text-white/70 hover:text-gold transition-colors"

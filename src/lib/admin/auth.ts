@@ -31,3 +31,14 @@ export function isValidToken(token?: string | null): boolean {
   if (token.length !== expected.length) return false;
   return crypto.timingSafeEqual(Buffer.from(token), Buffer.from(expected));
 }
+
+/** True if the incoming request carries a valid admin session cookie. */
+export function requireAdmin(request: Request): boolean {
+  const cookieHeader = request.headers.get("cookie") || "";
+  const match = cookieHeader
+    .split(";")
+    .map((c) => c.trim())
+    .find((c) => c.startsWith(`${ADMIN_COOKIE}=`));
+  const token = match ? decodeURIComponent(match.slice(ADMIN_COOKIE.length + 1)) : null;
+  return isValidToken(token);
+}
