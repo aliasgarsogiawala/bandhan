@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import PackageDetailClient from "@/components/packages/PackageDetailClient";
+import PackageRouteClient from "@/components/packages/PackageRouteClient";
 import {
   getAllPackageIds,
   getFullPackage,
-  getRelatedPackages,
 } from "@/data/packageDetails";
 
 interface PackagePageProps {
@@ -36,10 +34,5 @@ export async function generateMetadata({
 
 export default async function PackagePage({ params }: PackagePageProps) {
   const { id } = await params;
-  const pkg = getFullPackage(id);
-  if (!pkg) notFound();
-
-  return (
-    <PackageDetailClient pkg={pkg} relatedPackages={getRelatedPackages(id)} />
-  );
+  return <PackageRouteClient id={id} />;
 }

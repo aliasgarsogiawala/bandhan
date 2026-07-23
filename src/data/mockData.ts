@@ -5,6 +5,31 @@ export interface Destination {
   price: string;
   description: string;
   tag?: string;
+  country?: string;
+  region?: string;
+  duration?: string;
+  bestTime?: string;
+  highlights?: string[];
+  gallery?: string[];
+  isFeatured?: boolean;
+}
+
+export interface ItineraryDay {
+  day: number;
+  title: string;
+  description: string;
+  meals: string;
+  stay?: string;
+}
+
+export interface PackageFaq {
+  question: string;
+  answer: string;
+}
+
+export interface PackageGalleryImage {
+  image: string;
+  caption: string;
 }
 
 export interface TourPackage {
@@ -16,6 +41,18 @@ export interface TourPackage {
   highlights: string[];
   category: string;
   isPopular?: boolean;
+  tagline?: string;
+  overview?: string;
+  heroImage?: string;
+  bestTime?: string;
+  startingPoint?: string;
+  groupSize?: string;
+  themes?: string[];
+  itinerary?: ItineraryDay[];
+  inclusions?: string[];
+  exclusions?: string[];
+  gallery?: PackageGalleryImage[];
+  faqs?: PackageFaq[];
 }
 
 export interface WhyChooseItem {

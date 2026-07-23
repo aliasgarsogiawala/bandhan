@@ -1,8 +1,7 @@
 "use client";
 
-import { ResourceManager } from "@/components/admin/ResourceManager";
-import { packagesResource } from "@/lib/admin/resources";
+import TourPackageManager from "@/components/admin/TourPackageManager";
 
 export default function PackagesPage() {
-  return <ResourceManager config={packagesResource} />;
+  return <TourPackageManager />;
 }

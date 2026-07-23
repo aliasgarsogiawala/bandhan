@@ -4,7 +4,8 @@ import React from "react";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
-import { destinations } from "@/data/mockData";
+import type { Destination } from "@/data/mockData";
+import { useCollection } from "@/lib/admin/store";
 
 interface PopularDestinationsProps {
   onDestinationSelect: (destName: string) => void;
@@ -13,6 +14,8 @@ interface PopularDestinationsProps {
 export const PopularDestinations: React.FC<PopularDestinationsProps> = ({
   onDestinationSelect,
 }) => {
+  const { items } = useCollection<Destination>("destinations");
+  const destinations = items.filter((destination) => destination.isFeatured !== false);
   return (
     <section id="domestic-tours" className="py-16 sm:py-24 bg-white relative z-10">
       <Container>

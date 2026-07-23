@@ -66,8 +66,16 @@ function emit(key: CollectionKey) {
 function subscribe(key: CollectionKey, cb: () => void) {
   if (!listeners.has(key)) listeners.set(key, new Set());
   listeners.get(key)!.add(cb);
+  const onStorage = (event: StorageEvent) => {
+    if (event.key === PREFIX + key) {
+      snapshots.delete(key);
+      cb();
+    }
+  };
+  if (typeof window !== "undefined") window.addEventListener("storage", onStorage);
   return () => {
     listeners.get(key)?.delete(cb);
+    if (typeof window !== "undefined") window.removeEventListener("storage", onStorage);
   };
 }
 

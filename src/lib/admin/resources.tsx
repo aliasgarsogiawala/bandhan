@@ -36,10 +36,17 @@ export const destinationsResource: ResourceConfig<Destination> = {
     { name: "name", label: "Name", type: "text", required: true, placeholder: "e.g. Kashmir" },
     { name: "price", label: "Starting Price", type: "text", placeholder: "e.g. ₹34,500" },
     { name: "tag", label: "Tag", type: "text", placeholder: "e.g. Romantic" },
-    { name: "image", label: "Image URL", type: "image", fullWidth: true, placeholder: "https://…" },
-    { name: "description", label: "Description", type: "textarea", fullWidth: true },
+    { name: "image", label: "Cover image", type: "media", fullWidth: true, placeholder: "https://…" },
+    { name: "description", label: "Description", type: "textarea", fullWidth: true, required: true },
+    { name: "country", label: "Market", type: "select", options: [{ value: "India", label: "India" }, { value: "International", label: "International" }] },
+    { name: "region", label: "Region", type: "text", placeholder: "e.g. North India" },
+    { name: "duration", label: "Typical Duration", type: "text", placeholder: "e.g. 6 Nights / 7 Days" },
+    { name: "bestTime", label: "Best Time", type: "text", placeholder: "e.g. October – March" },
+    { name: "gallery", label: "Destination gallery", type: "media", multiple: true, fullWidth: true },
+    { name: "highlights", label: "Highlights", type: "tags", fullWidth: true, placeholder: "Houseboats, mountain views, local food" },
+    { name: "isFeatured", label: "Feature on homepage", type: "boolean", help: "Show this destination in Popular Destinations" },
   ],
-  empty: { name: "", price: "", tag: "", image: "", description: "" },
+  empty: { name: "", price: "", tag: "", image: "", description: "", country: "India", region: "", duration: "", bestTime: "", gallery: [], highlights: [], isFeatured: true },
 };
 
 export const packagesResource: ResourceConfig<TourPackage> = {
@@ -74,7 +81,7 @@ export const packagesResource: ResourceConfig<TourPackage> = {
     { name: "duration", label: "Duration", type: "text", placeholder: "e.g. 6 Nights / 7 Days" },
     { name: "price", label: "Price", type: "text", placeholder: "e.g. ₹38,000" },
     { name: "isPopular", label: "Popular", type: "boolean", help: "Show a 'Popular' badge" },
-    { name: "image", label: "Image URL", type: "image", fullWidth: true, placeholder: "https://…" },
+    { name: "image", label: "Cover image", type: "media", fullWidth: true, placeholder: "https://…" },
     { name: "highlights", label: "Highlights", type: "tags", fullWidth: true, placeholder: "Dal Lake, Gulmarg, …" },
   ],
   empty: { title: "", category: "Domestic", duration: "", price: "", isPopular: false, image: "", highlights: [] },
@@ -146,7 +153,7 @@ export const testimonialsResource: ResourceConfig<Testimonial> = {
       type: "select",
       options: [5, 4, 3, 2, 1].map((n) => ({ value: String(n), label: `${n} Star${n > 1 ? "s" : ""}` })),
     },
-    { name: "photo", label: "Photo URL", type: "image", fullWidth: true, placeholder: "https://…" },
+    { name: "photo", label: "Photo", type: "media", fullWidth: true, placeholder: "https://…" },
     { name: "review", label: "Review", type: "textarea", fullWidth: true, required: true },
   ],
   empty: { name: "", destination: "", rating: 5, photo: "", review: "" },
@@ -166,7 +173,7 @@ export const galleryResource: ResourceConfig<GalleryItem> = {
   fields: [
     { name: "title", label: "Title", type: "text", required: true },
     { name: "location", label: "Location", type: "text", placeholder: "e.g. Kerala" },
-    { name: "image", label: "Image URL", type: "image", fullWidth: true, placeholder: "https://…" },
+    { name: "image", label: "Image", type: "media", fullWidth: true, placeholder: "https://…" },
   ],
   empty: { title: "", location: "", image: "" },
 };

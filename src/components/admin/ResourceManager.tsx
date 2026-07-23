@@ -5,6 +5,7 @@ import { store, useCollection } from "@/lib/admin/store";
 import type { FieldConfig, ResourceConfig, WithId } from "@/lib/admin/types";
 import PageHeader from "./PageHeader";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
+import MediaPicker from "./MediaPicker";
 
 function emptyDraft<T extends WithId>(config: ResourceConfig<T>): Record<string, unknown> {
   return { ...config.empty };
@@ -58,6 +59,16 @@ const FormField: React.FC<{
         />
         <span className="text-sm text-foreground-muted">{field.help || "Enabled"}</span>
       </label>
+    );
+  }
+
+  if (field.type === "media") {
+    return (
+      <MediaPicker
+        value={value as string | string[] | undefined}
+        onChange={(next) => onChange(field.name, next)}
+        multiple={field.multiple}
+      />
     );
   }
 

@@ -52,6 +52,7 @@ export type FieldType =
   | "textarea"
   | "number"
   | "image"
+  | "media"
   | "select"
   | "tags"
   | "boolean";
@@ -65,6 +66,7 @@ export interface FieldConfig {
   fullWidth?: boolean;
   options?: { value: string; label: string }[];
   help?: string;
+  multiple?: boolean;
 }
 
 export interface ColumnConfig<T = WithId> {

@@ -1,22 +1,14 @@
-import { featuredPackages, TourPackage } from "./mockData";
+import {
+  featuredPackages,
+  type ItineraryDay,
+  type PackageFaq,
+  type PackageGalleryImage,
+  type TourPackage,
+} from "./mockData";
 
-export interface ItineraryDay {
-  day: number;
-  title: string;
-  description: string;
-  meals: string;
-  stay?: string;
-}
+export type { ItineraryDay, PackageFaq } from "./mockData";
 
-export interface PackageFaq {
-  question: string;
-  answer: string;
-}
-
-export interface GalleryImage {
-  image: string;
-  caption: string;
-}
+export type GalleryImage = PackageGalleryImage;
 
 export interface PackageDetail {
   id: string;
@@ -870,9 +862,31 @@ const details: Record<string, PackageDetail> = {
 
 export const getFullPackage = (id: string): FullPackage | undefined => {
   const base = featuredPackages.find((pkg) => pkg.id === id);
-  const detail = details[id];
-  if (!base || !detail) return undefined;
-  return { ...base, ...detail };
+  return base ? getFullPackageForPackage(base) : undefined;
+};
+
+/**
+ * Converts the compact package card model into the complete itinerary model.
+ * Existing seeded packages use the editorial detail data below; packages
+ * created in the admin panel carry their own detail fields.
+ */
+export const getFullPackageForPackage = (pkg: TourPackage): FullPackage => {
+  const detail = details[pkg.id];
+  return {
+    ...pkg,
+    tagline: pkg.tagline ?? detail?.tagline ?? `${pkg.title} — thoughtfully planned by Bandhan Tours.`,
+    overview: pkg.overview ?? detail?.overview ?? "",
+    heroImage: pkg.heroImage ?? pkg.image ?? detail?.heroImage ?? "",
+    gallery: pkg.gallery?.length ? pkg.gallery : detail?.gallery ?? [{ image: pkg.image, caption: pkg.title }],
+    itinerary: pkg.itinerary?.length ? pkg.itinerary : detail?.itinerary ?? [],
+    inclusions: pkg.inclusions?.length ? pkg.inclusions : detail?.inclusions ?? [],
+    exclusions: pkg.exclusions?.length ? pkg.exclusions : detail?.exclusions ?? [],
+    bestTime: pkg.bestTime ?? detail?.bestTime ?? "Year-round",
+    startingPoint: pkg.startingPoint ?? detail?.startingPoint ?? "To be confirmed",
+    groupSize: pkg.groupSize ?? detail?.groupSize ?? "2+ guests",
+    themes: pkg.themes?.length ? pkg.themes : detail?.themes ?? [],
+    faqs: pkg.faqs?.length ? pkg.faqs : detail?.faqs ?? [],
+  };
 };
 
 export const getAllPackageIds = (): string[] =>

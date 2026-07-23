@@ -6,13 +6,15 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { SeatsLeft } from "@/components/ui/Urgency";
-import { featuredPackages } from "@/data/mockData";
+import type { TourPackage } from "@/data/mockData";
+import { useCollection } from "@/lib/admin/store";
 
 export const FeaturedPackages: React.FC = () => {
+  const { items: packages } = useCollection<TourPackage>("packages");
   const [activeTab, setActiveTab] = useState<"all" | "domestic" | "international">("all");
   const scrollerRef = useRef<HTMLDivElement>(null);
 
-  const filteredPackages = featuredPackages.filter((pkg) => {
+  const filteredPackages = packages.filter((pkg) => {
     if (activeTab === "all") return true;
     return pkg.category.toLowerCase() === activeTab.toLowerCase();
   });
@@ -149,7 +151,7 @@ export const FeaturedPackages: React.FC = () => {
 
                   {/* Highlights List */}
                   <ul className="space-y-2.5 mb-6 flex-1">
-                    {pkg.highlights.map((highlight, index) => (
+                    {(pkg.highlights || []).map((highlight, index) => (
                       <li key={index} className="flex items-start gap-2.5 text-sm text-foreground-muted">
                         <svg
                           className="w-4 h-4 text-accent mt-0.5 flex-shrink-0"
