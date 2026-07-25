@@ -8,13 +8,12 @@ import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
-import type { Destination, TourPackage } from "@/data/mockData";
+import type { TourPackage } from "@/data/mockData";
 import { getFullPackageForPackage } from "@/data/packageDetails";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
 import { useCollection } from "@/lib/admin/store";
 
 type CategoryTab = "all" | "domestic" | "international" | "northeast";
-type DiscoveryCard = TourPackage & { isDestination?: boolean };
 
 const TABS: { key: CategoryTab; label: string }[] = [
   { key: "all", label: "All Packages" },
@@ -25,7 +24,6 @@ const TABS: { key: CategoryTab; label: string }[] = [
 
 export const PackagesPageClient: React.FC = () => {
   const { items: packages } = useCollection<TourPackage>("packages");
-  const { items: destinations } = useCollection<Destination>("destinations");
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get("category");
@@ -45,7 +43,7 @@ export const PackagesPageClient: React.FC = () => {
     router.push(contactEnquiryHref(destination));
   };
 
-  const filteredPackages = packages.filter((pkg) => {
+  const filteredPackages = packages.filter((pkg) => pkg.status !== "draft").filter((pkg) => {
     if (activeTab === "all") return true;
     if (activeTab === "northeast") {
       return (
@@ -58,36 +56,6 @@ export const PackagesPageClient: React.FC = () => {
     }
     return pkg.category.toLowerCase() === activeTab;
   });
-
-  const destinationCards: DiscoveryCard[] = destinations
-    .filter((destination) => destination.isFeatured !== false)
-    .filter((destination) => {
-      const category = destination.country === "International" ? "international" : "domestic";
-      if (activeTab === "all") return true;
-      if (activeTab === "northeast") {
-        return `${destination.name} ${destination.region || ""}`.toLowerCase().includes("northeast") ||
-          `${destination.name} ${destination.region || ""}`.toLowerCase().includes("sikkim");
-      }
-      return category === activeTab;
-    })
-    .map((destination) => ({
-      id: `destination-${destination.id}`,
-      title: destination.name,
-      image: destination.image,
-      duration: destination.duration || "Custom trips",
-      price: destination.price,
-      highlights: destination.highlights || [],
-      category: destination.country === "International" ? "International" : "Domestic",
-      isPopular: Boolean(destination.isFeatured),
-      tagline: destination.description,
-      themes: [destination.tag, destination.region].filter(Boolean) as string[],
-      isDestination: true,
-    }));
-
-  const discoveryCards: DiscoveryCard[] = [
-    ...filteredPackages,
-    ...destinationCards,
-  ];
 
   return (
     <div className="min-h-screen bg-sand flex flex-col overflow-x-hidden">
@@ -139,13 +107,13 @@ export const PackagesPageClient: React.FC = () => {
       <main className="flex-1 py-16 sm:py-20 bg-sand-bg/40">
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {discoveryCards.map((pkg, index) => {
-              const detail = pkg.isDestination ? null : getFullPackageForPackage(pkg);
+            {filteredPackages.map((pkg, index) => {
+              const detail = getFullPackageForPackage(pkg);
               const image = pkg.image || "/logo.svg";
               return (
                 <ScrollReveal key={pkg.id} delay={(index % 3) * 100}>
                   <Link
-                    href={pkg.isDestination ? contactEnquiryHref(pkg.title) : `/packages/${pkg.id}`}
+                    href={`/packages/${pkg.id}`}
                     className="group bg-white rounded-3xl overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-500 flex flex-col h-full border border-slate-100/50"
                   >
                     <div className="relative h-64 overflow-hidden">
@@ -203,7 +171,7 @@ export const PackagesPageClient: React.FC = () => {
                           </div>
                         </div>
                         <span className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-full bg-primary text-white group-hover:bg-accent transition-colors duration-300">
-                          {pkg.isDestination ? "Enquire About Destination" : "View Itinerary"}
+                          View Itinerary
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="14"

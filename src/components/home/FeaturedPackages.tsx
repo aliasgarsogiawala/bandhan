@@ -14,7 +14,7 @@ export const FeaturedPackages: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"all" | "domestic" | "international">("all");
   const scrollerRef = useRef<HTMLDivElement>(null);
 
-  const filteredPackages = packages.filter((pkg) => {
+  const filteredPackages = packages.filter((pkg) => pkg.status !== "draft").filter((pkg) => {
     if (activeTab === "all") return true;
     return pkg.category.toLowerCase() === activeTab.toLowerCase();
   });

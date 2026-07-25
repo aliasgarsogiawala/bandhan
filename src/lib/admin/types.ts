@@ -53,6 +53,8 @@ export type FieldType =
   | "number"
   | "image"
   | "media"
+  | "itinerary"
+  | "faqs"
   | "select"
   | "tags"
   | "boolean";
@@ -84,5 +86,6 @@ export interface ResourceConfig<T = WithId> {
   searchKeys: string[];
   columns: ColumnConfig<T>[];
   fields: FieldConfig[];
+  visibleFields?: string[];
   empty: Record<string, unknown>;
 }

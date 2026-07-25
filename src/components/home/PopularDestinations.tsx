@@ -15,7 +15,7 @@ export const PopularDestinations: React.FC<PopularDestinationsProps> = ({
   onDestinationSelect,
 }) => {
   const { items } = useCollection<Destination>("destinations");
-  const destinations = items.filter((destination) => destination.isFeatured !== false);
+  const destinations = items.filter((destination) => destination.status !== "draft" && destination.isFeatured !== false);
   return (
     <section id="domestic-tours" className="py-16 sm:py-24 bg-white relative z-10">
       <Container>

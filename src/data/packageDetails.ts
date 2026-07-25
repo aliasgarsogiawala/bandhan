@@ -1,5 +1,6 @@
 import {
   featuredPackages,
+  type Destination,
   type ItineraryDay,
   type PackageFaq,
   type PackageGalleryImage,
@@ -886,6 +887,40 @@ export const getFullPackageForPackage = (pkg: TourPackage): FullPackage => {
     groupSize: pkg.groupSize ?? detail?.groupSize ?? "2+ guests",
     themes: pkg.themes?.length ? pkg.themes : detail?.themes ?? [],
     faqs: pkg.faqs?.length ? pkg.faqs : detail?.faqs ?? [],
+  };
+};
+
+/** Makes a destination record render through the same full itinerary page. */
+export const getFullPackageForDestination = (destination: Destination): FullPackage => {
+  const image = destination.image || "/logo.svg";
+  const gallery = destination.gallery?.length
+    ? destination.gallery.map((galleryImage, index) => ({ image: galleryImage, caption: `${destination.name} — view ${index + 1}` }))
+    : [{ image, caption: destination.name }];
+  const itinerary = destination.itinerary?.length
+    ? destination.itinerary
+    : [{ day: 1, title: `Discover ${destination.name}`, description: destination.overview || destination.description, meals: "To be confirmed", stay: destination.name }];
+
+  return {
+    id: `destination-${destination.id}`,
+    title: destination.name,
+    image,
+    duration: destination.duration || "Custom trip",
+    price: destination.price || "Enquire",
+    highlights: destination.highlights || [],
+    category: destination.country === "International" ? "International" : "Domestic",
+    isPopular: destination.isFeatured,
+    tagline: destination.tagline || destination.description,
+    overview: destination.overview || destination.description,
+    heroImage: image,
+    gallery,
+    itinerary,
+    inclusions: destination.inclusions || [],
+    exclusions: destination.exclusions || [],
+    bestTime: destination.bestTime || "Year-round",
+    startingPoint: destination.startingPoint || "To be confirmed",
+    groupSize: destination.groupSize || "2+ guests",
+    themes: destination.themes?.length ? destination.themes : [destination.tag, destination.region].filter(Boolean) as string[],
+    faqs: destination.faqs || [],
   };
 };
 

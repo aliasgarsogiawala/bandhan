@@ -12,6 +12,16 @@ export interface Destination {
   highlights?: string[];
   gallery?: string[];
   isFeatured?: boolean;
+  tagline?: string;
+  overview?: string;
+  startingPoint?: string;
+  groupSize?: string;
+  themes?: string[];
+  itinerary?: ItineraryDay[];
+  inclusions?: string[];
+  exclusions?: string[];
+  faqs?: PackageFaq[];
+  status?: "draft" | "active";
 }
 
 export interface ItineraryDay {
@@ -53,6 +63,7 @@ export interface TourPackage {
   exclusions?: string[];
   gallery?: PackageGalleryImage[];
   faqs?: PackageFaq[];
+  status?: "draft" | "active";
 }
 
 export interface WhyChooseItem {

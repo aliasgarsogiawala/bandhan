@@ -6,9 +6,35 @@ import type { FieldConfig, ResourceConfig, WithId } from "@/lib/admin/types";
 import PageHeader from "./PageHeader";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import MediaPicker from "./MediaPicker";
+import DestinationPreview from "./DestinationPreview";
+import type { ItineraryDay, PackageFaq } from "@/data/mockData";
 
 function emptyDraft<T extends WithId>(config: ResourceConfig<T>): Record<string, unknown> {
   return { ...config.empty };
+}
+
+const repeatableInput = "w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-accent text-sm text-primary bg-white";
+
+function ItineraryField({ value, onChange }: { value: unknown; onChange: (value: ItineraryDay[]) => void }) {
+  const days = Array.isArray(value) ? value as ItineraryDay[] : [];
+  const patch = (index: number, update: Partial<ItineraryDay>) => onChange(days.map((day, i) => i === index ? { ...day, ...update } : day));
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between"><span className="text-xs text-foreground-muted">Add each day with its route, meals, and overnight stay.</span><button type="button" onClick={() => onChange([...days, { day: days.length + 1, title: "", description: "", meals: "Breakfast", stay: "" }])} className="text-xs font-bold text-accent whitespace-nowrap">+ Add day</button></div>
+      {days.map((day, index) => <div key={index} className="rounded-xl border border-slate-100 bg-sand/50 p-3 space-y-2"><div className="flex items-center justify-between"><span className="text-xs font-bold text-accent">Day {index + 1}</span><button type="button" onClick={() => onChange(days.filter((_, i) => i !== index).map((item, i) => ({ ...item, day: i + 1 })))} className="text-xs text-foreground-muted hover:text-accent">Remove</button></div><input value={day.title} onChange={(e) => patch(index, { title: e.target.value, day: index + 1 })} className={repeatableInput} placeholder="Day title" /><textarea rows={2} value={day.description} onChange={(e) => patch(index, { description: e.target.value, day: index + 1 })} className={repeatableInput} placeholder="What happens on this day?" /><div className="grid grid-cols-1 sm:grid-cols-2 gap-2"><input value={day.meals} onChange={(e) => patch(index, { meals: e.target.value, day: index + 1 })} className={repeatableInput} placeholder="Meals" /><input value={day.stay || ""} onChange={(e) => patch(index, { stay: e.target.value, day: index + 1 })} className={repeatableInput} placeholder="Overnight" /></div></div>)}
+    </div>
+  );
+}
+
+function FaqField({ value, onChange }: { value: unknown; onChange: (value: PackageFaq[]) => void }) {
+  const faqs = Array.isArray(value) ? value as PackageFaq[] : [];
+  const patch = (index: number, update: Partial<PackageFaq>) => onChange(faqs.map((faq, i) => i === index ? { ...faq, ...update } : faq));
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between"><span className="text-xs text-foreground-muted">Answer the questions travellers ask most.</span><button type="button" onClick={() => onChange([...faqs, { question: "", answer: "" }])} className="text-xs font-bold text-accent whitespace-nowrap">+ Add FAQ</button></div>
+      {faqs.map((faq, index) => <div key={index} className="rounded-xl border border-slate-100 bg-sand/50 p-3 space-y-2"><div className="flex justify-end"><button type="button" onClick={() => onChange(faqs.filter((_, i) => i !== index))} className="text-xs text-foreground-muted hover:text-accent">Remove</button></div><input value={faq.question} onChange={(e) => patch(index, { question: e.target.value })} className={repeatableInput} placeholder="Question" /><textarea rows={2} value={faq.answer} onChange={(e) => patch(index, { answer: e.target.value })} className={repeatableInput} placeholder="Answer" /></div>)}
+    </div>
+  );
 }
 
 const FormField: React.FC<{
@@ -72,6 +98,14 @@ const FormField: React.FC<{
     );
   }
 
+  if (field.type === "itinerary") {
+    return <ItineraryField value={value} onChange={(next) => onChange(field.name, next)} />;
+  }
+
+  if (field.type === "faqs") {
+    return <FaqField value={value} onChange={(next) => onChange(field.name, next)} />;
+  }
+
   if (field.type === "number") {
     return (
       <input
@@ -133,6 +167,11 @@ export function ResourceManager<T extends WithId>({ config }: { config: Resource
   const [search, setSearch] = useState("");
   const [editing, setEditing] = useState<T | null>(null);
   const [draft, setDraft] = useState<Record<string, unknown> | null>(null);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const formFields = config.visibleFields
+    ? config.fields.filter((field) => config.visibleFields?.includes(field.name))
+    : config.fields;
+  const isStructuredDestination = config.key === "destinations" && formFields.some((field) => field.name === "itinerary");
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -146,17 +185,22 @@ export function ResourceManager<T extends WithId>({ config }: { config: Resource
 
   const openNew = () => {
     setEditing(null);
-    setDraft(emptyDraft(config));
+    setPreviewOpen(false);
+    const nextDraft = emptyDraft(config);
+    if (config.key === "destinations" && !nextDraft.status) nextDraft.status = "active";
+    setDraft(nextDraft);
   };
 
   const openEdit = (item: T) => {
     setEditing(item);
+    setPreviewOpen(false);
     setDraft({ ...item } as Record<string, unknown>);
   };
 
   const close = () => {
     setEditing(null);
     setDraft(null);
+    setPreviewOpen(false);
   };
 
   const setField = (name: string, value: unknown) =>
@@ -178,6 +222,25 @@ export function ResourceManager<T extends WithId>({ config }: { config: Resource
       store.remove(config.key, item.id);
     }
   };
+
+  const renderField = (field: FieldConfig) => (
+    <div key={field.name} className={`space-y-1.5 ${field.fullWidth ? "sm:col-span-2" : ""}`}>
+      <label className="text-xs font-semibold text-primary uppercase tracking-wide">
+        {field.label}
+        {field.required && <span className="text-accent"> *</span>}
+      </label>
+      <FormField field={field} value={draft?.[field.name]} onChange={setField} />
+    </div>
+  );
+
+  const destinationSections = [
+    { eyebrow: "Start here", title: "Destination basics", description: "The information used on cards, filters, pricing, and the itinerary header.", fields: ["name", "country", "region", "tag", "price", "duration", "bestTime"] },
+    { eyebrow: "Tell the story", title: "Experience & positioning", description: "Give travellers a clear reason to choose this destination.", fields: ["description", "tagline", "overview", "themes", "highlights"] },
+    { eyebrow: "Visual identity", title: "Media gallery", description: "Choose a cover and supporting images from the library or UploadThing.", fields: ["image", "gallery"] },
+    { eyebrow: "Build the route", title: "Travel details & itinerary", description: "Add the information the public itinerary page needs to sell the journey.", fields: ["startingPoint", "groupSize", "itinerary"] },
+    { eyebrow: "Build confidence", title: "Included, excluded & FAQs", description: "Set expectations before someone submits an enquiry.", fields: ["inclusions", "exclusions", "faqs"] },
+    { eyebrow: "Publish", title: "Visibility", description: "Save as a draft while you work, then switch to Active when the destination is ready.", fields: ["status", "isFeatured"] },
+  ];
 
   return (
     <div>
@@ -271,11 +334,12 @@ export function ResourceManager<T extends WithId>({ config }: { config: Resource
       {/* Form modal */}
       {draft && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/45 backdrop-blur-sm animate-fade-in">
-          <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-100 max-h-[90vh] flex flex-col animate-scale-up">
-            <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
-              <h3 className="text-lg font-bold font-heading text-primary">
-                {editing ? `Edit ${config.singular}` : `New ${config.singular}`}
-              </h3>
+          <div className={`relative w-full ${isStructuredDestination ? "max-w-5xl" : "max-w-2xl"} bg-white rounded-3xl shadow-2xl border border-slate-100 max-h-[94vh] min-h-0 flex flex-col animate-scale-up`}>
+            <div className="flex items-center justify-between gap-4 px-6 py-5 border-b border-slate-100 shrink-0">
+              <div>
+                <div className="flex items-center gap-2"><span className="px-2 py-1 rounded-full bg-accent/10 text-accent text-[10px] font-bold uppercase tracking-wider">{isStructuredDestination ? "Content template" : "Quick content editor"}</span><span className="text-[11px] text-foreground-light">{editing ? "Editing existing content" : "New content"}</span></div>
+                <h3 className="mt-2 text-xl font-bold font-heading text-primary">{editing ? `Edit ${config.singular}` : `Create ${config.singular}`}</h3>
+              </div>
               <button onClick={close} className="p-2 text-foreground-muted hover:text-primary rounded-full hover:bg-slate-100" aria-label="Close">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                   <line x1="18" y1="6" x2="6" y2="18" />
@@ -284,20 +348,21 @@ export function ResourceManager<T extends WithId>({ config }: { config: Resource
               </button>
             </div>
 
-            <form onSubmit={save} className="p-6 overflow-y-auto">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {config.fields.map((field) => (
-                  <div key={field.name} className={`space-y-1.5 ${field.fullWidth ? "sm:col-span-2" : ""}`}>
-                    <label className="text-xs font-semibold text-primary uppercase tracking-wide">
-                      {field.label}
-                      {field.required && <span className="text-accent"> *</span>}
-                    </label>
-                    <FormField field={field} value={draft[field.name]} onChange={setField} />
-                  </div>
-                ))}
-              </div>
+            <form onSubmit={save} className="p-6 overflow-y-auto min-h-0">
+              {isStructuredDestination ? (
+                <div className="space-y-6">
+                  <div className="rounded-2xl bg-primary px-5 py-4 text-white"><p className="text-[10px] uppercase tracking-widest text-gold font-bold">Destination publishing checklist</p><p className="mt-1 text-sm text-slate-200">Complete the sections that make this destination useful as both a discovery card and a full itinerary page.</p></div>
+                  {destinationSections.map((section) => {
+                    const fields = section.fields.map((name) => formFields.find((field) => field.name === name)).filter((field): field is FieldConfig => Boolean(field));
+                    return <section key={section.title} className="rounded-2xl border border-slate-100 bg-sand/25 p-5"><div className="mb-4"><p className="text-[10px] uppercase tracking-widest text-accent font-bold">{section.eyebrow}</p><h4 className="mt-1 text-lg font-heading font-bold text-primary">{section.title}</h4><p className="mt-1 text-xs text-foreground-muted">{section.description}</p></div><div className="grid grid-cols-1 sm:grid-cols-2 gap-4">{fields.map(renderField)}</div></section>;
+                  })}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">{formFields.map(renderField)}</div>
+              )}
 
-              <div className="flex justify-end gap-3 mt-6 pt-5 border-t border-slate-100">
+              <div className="flex justify-end gap-3 mt-6 pt-5 border-t border-slate-100 sticky bottom-0 bg-white/95 backdrop-blur-sm">
+                {config.key === "destinations" && <button type="button" onClick={() => setPreviewOpen(true)} className="mr-auto px-5 py-2.5 rounded-full text-sm font-semibold text-primary border border-primary/20 hover:border-primary hover:bg-primary hover:text-white transition-colors">Preview</button>}
                 <button
                   type="button"
                   onClick={close}
@@ -313,6 +378,7 @@ export function ResourceManager<T extends WithId>({ config }: { config: Resource
           </div>
         </div>
       )}
+      {draft && previewOpen && config.key === "destinations" && <DestinationPreview draft={draft} onClose={() => setPreviewOpen(false)} />}
     </div>
   );
 };
