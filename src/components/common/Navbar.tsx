@@ -43,6 +43,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
     { label: "Tour Packages", href: "/packages" },
     { label: "Group Tours", href: "/#group-departures" },
     { label: "Plan a Custom Trip", href: "/plan-trip" },
+    { label: "Blog", href: "/blog" },
     { label: "About", href: "/#why-choose-us" },
     { label: "Contact", href: "/contact" },
   ];

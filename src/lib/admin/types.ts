@@ -5,6 +5,7 @@ import type {
   Testimonial,
   GalleryItem,
   WhyChooseItem,
+  BlogPost,
 } from "@/data/mockData";
 
 export type {
@@ -14,6 +15,7 @@ export type {
   Testimonial,
   GalleryItem,
   WhyChooseItem,
+  BlogPost,
 };
 
 export interface Enquiry {
@@ -38,6 +40,7 @@ export type CollectionKey =
   | "testimonials"
   | "gallery"
   | "features"
+  | "blog"
   | "enquiries";
 
 /** A record stored in any collection always has a string id. */

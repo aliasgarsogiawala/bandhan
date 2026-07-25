@@ -15,15 +15,6 @@ export const FeaturedPackages: React.FC = () => {
 
   const filteredPackages = featuredPackages.filter((pkg) => matchesCategory(pkg.category, activeTab));
 
-  // Scroll the carousel by roughly one card (card width + the gap).
-  const scrollByCards = (direction: 1 | -1) => {
-    const el = scrollerRef.current;
-    if (!el) return;
-    const card = el.querySelector<HTMLElement>("[data-card]");
-    const amount = card ? card.offsetWidth + 24 : el.clientWidth * 0.85;
-    el.scrollBy({ left: direction * amount, behavior: "smooth" });
-  };
-
   // Snap back to the first card whenever the category filter changes.
   useEffect(() => {
     scrollerRef.current?.scrollTo({ left: 0, behavior: "smooth" });
@@ -61,28 +52,6 @@ export const FeaturedPackages: React.FC = () => {
 
         {/* Packages Carousel */}
         <div className="relative">
-          {/* Prev / Next controls (desktop) */}
-          <button
-            type="button"
-            onClick={() => scrollByCards(-1)}
-            aria-label="Previous packages"
-            className="hidden md:flex absolute left-0 md:-left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white text-primary shadow-premium border border-slate-100 items-center justify-center hover:bg-primary hover:text-white transition-colors duration-300"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="15 18 9 12 15 6" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            onClick={() => scrollByCards(1)}
-            aria-label="Next packages"
-            className="hidden md:flex absolute right-0 md:-right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white text-primary shadow-premium border border-slate-100 items-center justify-center hover:bg-primary hover:text-white transition-colors duration-300"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-          </button>
-
           {/* Scroll track */}
           <div
             ref={scrollerRef}
@@ -93,7 +62,7 @@ export const FeaturedPackages: React.FC = () => {
                 key={pkg.id}
                 data-card
                 href={`/packages/${pkg.id}`}
-                className="group shrink-0 snap-start w-[85%] sm:w-[60%] lg:w-[38%] xl:w-[calc((100%-3rem)/3)] bg-white rounded-3xl overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-500 flex flex-col border border-slate-100/50 animate-scale-up"
+                className="group shrink-0 snap-start w-[85%] sm:w-[60%] lg:w-[38%] xl:w-[calc((100%-3rem)/3)] bg-white overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-500 flex flex-col border border-slate-100/50 animate-scale-up"
               >
                 {/* Image Container */}
                 <div className="relative h-72 sm:h-80 overflow-hidden">
