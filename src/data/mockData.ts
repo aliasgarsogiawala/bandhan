@@ -101,6 +101,20 @@ export interface GalleryItem {
   title: string;
 }
 
+export interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string; // body; blank lines separate paragraphs
+  coverImage: string;
+  author: string;
+  category: string;
+  readTime: string;
+  date: string; // display string, e.g. "20 Jul 2026"
+  isPublished: boolean;
+}
+
 export const destinations: Destination[] = [
   {
     id: "kashmir",
@@ -176,7 +190,7 @@ export const featuredPackages: TourPackage[] = [
     duration: "9 Nights / 10 Days",
     price: "₹45,500",
     highlights: ["Gangtok sightseeing", "Tsomgo Lake & Baba Mandir", "Darjeeling Tea Estates", "Sunrise at Tiger Hill"],
-    category: "Domestic",
+    category: "North East",
     isPopular: true,
   },
   {
@@ -368,5 +382,56 @@ export const galleryImages: GalleryItem[] = [
     image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=600",
     location: "Paris, France",
     title: "Eiffel Tower Mornings",
+  },
+];
+
+export const blogPosts: BlogPost[] = [
+  {
+    id: "blog-kashmir-when-to-go",
+    slug: "best-time-to-visit-kashmir",
+    title: "The Best Time to Visit Kashmir: A Season-by-Season Guide",
+    excerpt:
+      "Tulip blooms in spring, houseboats under summer stars, saffron fields in autumn, or snow in Gulmarg — here's how to pick the right month for your Kashmir escape.",
+    content:
+      "Kashmir wears a different face in every season, and the 'best' time truly depends on the trip you're dreaming of.\n\nSpring (March–May) is when the valley wakes up. The Tulip Garden in Srinagar — Asia's largest — bursts into colour through late March and April, and the Mughal gardens are at their greenest. Days are mild and evenings still cool enough for a pheran.\n\nSummer (June–August) is peak season for good reason: warm days, blooming meadows in Gulmarg and Pahalgam, and long golden evenings on the Dal Lake houseboats. Book early — this is when families and honeymooners arrive in numbers.\n\nAutumn (September–November) is our quiet favourite. The chinar leaves turn crimson and gold, the saffron fields near Pampore are harvested, and the crowds thin out.\n\nWinter (December–February) belongs to the snow. Gulmarg becomes one of Asia's finest ski destinations, and the Gondola ride over a white valley is unforgettable.\n\nWhichever season calls you, our Kashmir designers will match the itinerary to the weather, the blooms, and your pace.",
+    coverImage:
+      "https://images.unsplash.com/photo-1566837945700-30057527ade0?auto=format&fit=crop&q=80&w=1600",
+    author: "Bandhan Travel Desk",
+    category: "Destinations",
+    readTime: "6 min read",
+    date: "18 Jul 2026",
+    isPublished: true,
+  },
+  {
+    id: "blog-northeast-first-timers",
+    slug: "north-east-india-first-timers-guide",
+    title: "North East India for First-Timers: Permits, Routes & Pacing",
+    excerpt:
+      "Sikkim, Meghalaya, and Arunachal reward the prepared traveller. A practical primer on inner-line permits, the smartest routes, and how not to over-pack your days.",
+    content:
+      "The North East is India's most rewarding frontier — but the routes, permits, and pace are genuinely different from the rest of the country, which is exactly why we run it as its own category.\n\nPermits first. Indian nationals need an Inner Line Permit (ILP) for parts of Sikkim (like Nathula and Tsomgo Lake), and for Arunachal Pradesh. Foreign nationals have their own Protected Area rules. We arrange these for you, but plan for a day of lead time.\n\nOn pacing: the single biggest mistake first-timers make is cramming too much. Mountain roads are slow and gloriously scenic — a 120km hop can take five hours. Build in buffer days, especially in North Sikkim where weather closes passes without notice.\n\nOur go-to first-timer loop pairs Gangtok and Tsomgo Lake with a slow descent into Darjeeling's tea country. Meghalaya's living root bridges and Shillong are a wonderful standalone second trip.\n\nCarry layers, cash for remote stretches, and a flexible attitude — the North East pays it all back in views.",
+    coverImage:
+      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=80&w=1600",
+    author: "Bandhan Travel Desk",
+    category: "Travel Tips",
+    readTime: "7 min read",
+    date: "10 Jul 2026",
+    isPublished: true,
+  },
+  {
+    id: "blog-packing-checklist",
+    slug: "smart-packing-checklist-for-india-tours",
+    title: "The Smart Packing Checklist for Indian Holidays",
+    excerpt:
+      "From the backwaters of Kerala to the snows of Manali, one carry-on can cover it. Our travel designers share the layering trick and the ten things people always forget.",
+    content:
+      "After planning thousands of trips, we've noticed the same items get forgotten again and again. Here's the checklist we quietly wish every traveller carried.\n\nThe layering rule: pack for the coldest morning and the warmest afternoon of your trip, not the average. A light thermal, a fleece, and a windcheater cover almost every Indian hill station without bulk.\n\nAlways forgotten: a universal power bank, a small torch (power cuts happen), motion-sickness tablets for winding roads, a reusable water bottle, sunscreen even in the hills, and copies of your ID stored separately from the originals.\n\nDocuments: keep digital and printed copies of your booking vouchers and permits. On group departures, your tour captain carries master copies too.\n\nFootwear: one pair of broken-in walking shoes beats three pairs of new ones. Your feet will thank you on day three.\n\nPack light, layer smart, and leave room for what you'll bring home.",
+    coverImage:
+      "https://images.unsplash.com/photo-1553531384-cc64ac80f931?auto=format&fit=crop&q=80&w=1600",
+    author: "Bandhan Travel Desk",
+    category: "Guides",
+    readTime: "4 min read",
+    date: "28 Jun 2026",
+    isPublished: true,
   },
 ];

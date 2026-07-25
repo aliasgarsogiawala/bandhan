@@ -34,15 +34,23 @@ const FAQS: Record<string, Faq> = {
     chipLabel: "Tour packages",
     keywords: ["package", "packages", "tour", "tours", "trip", "holiday", "vacation", "itinerary", "destination", "where"],
     answer:
-      "We run curated domestic and international tours — think Kashmir, Sikkim, Rajasthan, Kerala, and escapes abroad. Every itinerary lives on our Packages page with day-by-day plans, inclusions, and pricing. Want me to narrow it down?",
-    followups: ["domestic", "international", "group", "booking"],
+      "We run curated domestic, North East, and international tours — think Kashmir, Sikkim, Rajasthan, Kerala, and escapes abroad. Every itinerary lives on our Packages page with day-by-day plans, inclusions, and pricing. Want me to narrow it down?",
+    followups: ["domestic", "northeast", "international", "group"],
   },
   domestic: {
     id: "domestic",
     chipLabel: "Domestic tours",
-    keywords: ["domestic", "india", "indian", "kashmir", "sikkim", "rajasthan", "kerala", "goa", "himachal", "himalaya"],
+    keywords: ["domestic", "india", "indian", "kashmir", "rajasthan", "kerala", "goa", "himachal"],
     answer:
-      "Our domestic collection spans the Himalayas to the backwaters — favourites include Kashmir Paradise, Sikkim Special, and Royal Rajasthan. Prices usually start around ₹18,000–₹35,000 per person on twin sharing. Shall I show you how to book?",
+      "Our domestic collection spans the Himalayas to the backwaters — favourites include Kashmir Paradise and Royal Heritage of Rajasthan. Prices usually start around ₹18,000–₹35,000 per person on twin sharing. Shall I show you how to book?",
+    followups: ["northeast", "booking", "price", "contact"],
+  },
+  northeast: {
+    id: "northeast",
+    chipLabel: "North East tours",
+    keywords: ["northeast", "north east", "sikkim", "gangtok", "darjeeling", "meghalaya", "shillong", "assam", "arunachal", "nagaland", "manipur", "tripura", "seven sisters"],
+    answer:
+      "The North East is one of our specialities — think Gangtok, Tsomgo Lake, and Darjeeling's tea estates on our Mystic Northeast & Sikkim Special. We keep it as its own category since the routes, permits, and pace are quite different from the rest of India. Want the details?",
     followups: ["booking", "price", "contact"],
   },
   international: {

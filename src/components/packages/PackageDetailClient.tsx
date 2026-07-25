@@ -13,6 +13,8 @@ import type { TourPackage } from "@/data/mockData";
 import type { FullPackage } from "@/data/packageDetails";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
 import { ViewingNow, SeatsLeft, RecentlyBooked, Countdown, endOfToday } from "@/components/ui/Urgency";
+import { SecondaryButton } from "@/components/ui/SecondaryButton";
+import BookingModal from "@/components/packages/BookingModal";
 
 interface PackageDetailClientProps {
   pkg: FullPackage;
@@ -84,6 +86,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
   const router = useRouter();
   const [openDay, setOpenDay] = useState<number | null>(1);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   const enquire = () => router.push(contactEnquiryHref(pkg.title));
 
@@ -183,10 +186,10 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
             </a>
           ))}
           <button
-            onClick={enquire}
+            onClick={() => setIsBookingOpen(true)}
             className="ml-auto hidden sm:inline-flex px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-accent text-white hover:bg-accent-dark transition-colors duration-300 whitespace-nowrap"
           >
-            Enquire Now
+            Book Now
           </button>
         </Container>
       </div>
@@ -507,10 +510,19 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                   variant="coral"
                   size="md"
                   fullWidth
+                  onClick={() => setIsBookingOpen(true)}
+                >
+                  Book Now
+                </PrimaryButton>
+
+                <SecondaryButton
+                  variant="outline-navy"
+                  size="md"
+                  fullWidth
                   onClick={enquire}
                 >
                   Enquire About This Tour
-                </PrimaryButton>
+                </SecondaryButton>
 
                 <a
                   href="tel:+919876543210"
@@ -637,6 +649,13 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
       </main>
 
       <Footer />
+
+      <BookingModal
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+        packageId={pkg.id}
+        packageTitle={pkg.title}
+      />
     </div>
   );
 };

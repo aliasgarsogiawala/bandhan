@@ -8,25 +8,16 @@ import { SectionTitle } from "@/components/ui/SectionTitle";
 import { SeatsLeft } from "@/components/ui/Urgency";
 import type { TourPackage } from "@/data/mockData";
 import { useCollection } from "@/lib/admin/store";
+import { CATEGORY_TABS, matchesCategory, type CategoryTab } from "@/lib/packageCategory";
 
 export const FeaturedPackages: React.FC = () => {
   const { items: packages } = useCollection<TourPackage>("packages");
-  const [activeTab, setActiveTab] = useState<"all" | "domestic" | "international">("all");
+  const [activeTab, setActiveTab] = useState<CategoryTab>("all");
   const scrollerRef = useRef<HTMLDivElement>(null);
 
-  const filteredPackages = packages.filter((pkg) => pkg.status !== "draft").filter((pkg) => {
-    if (activeTab === "all") return true;
-    return pkg.category.toLowerCase() === activeTab.toLowerCase();
-  });
-
-  // Scroll the carousel by roughly one card (card width + the gap).
-  const scrollByCards = (direction: 1 | -1) => {
-    const el = scrollerRef.current;
-    if (!el) return;
-    const card = el.querySelector<HTMLElement>("[data-card]");
-    const amount = card ? card.offsetWidth + 24 : el.clientWidth * 0.85;
-    el.scrollBy({ left: direction * amount, behavior: "smooth" });
-  };
+  const filteredPackages = packages
+    .filter((pkg) => pkg.status !== "draft")
+    .filter((pkg) => matchesCategory(pkg.category, activeTab));
 
   // Snap back to the first card whenever the category filter changes.
   useEffect(() => {
@@ -47,63 +38,24 @@ export const FeaturedPackages: React.FC = () => {
 
           {/* Filter Tabs */}
           <div className="inline-flex max-w-full flex-wrap justify-center gap-1 p-1 bg-white rounded-3xl sm:rounded-full shadow-soft border border-slate-100/50 mt-6">
-            <button
-              onClick={() => setActiveTab("all")}
-              className={`px-4 sm:px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
-                activeTab === "all"
-                  ? "bg-primary text-white shadow-md"
-                  : "text-foreground-muted hover:text-primary"
-              }`}
-            >
-              All Packages
-            </button>
-            <button
-              onClick={() => setActiveTab("domestic")}
-              className={`px-4 sm:px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
-                activeTab === "domestic"
-                  ? "bg-primary text-white shadow-md"
-                  : "text-foreground-muted hover:text-primary"
-              }`}
-            >
-              Domestic Tours
-            </button>
-            <button
-              onClick={() => setActiveTab("international")}
-              className={`px-4 sm:px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
-                activeTab === "international"
-                  ? "bg-primary text-white shadow-md"
-                  : "text-foreground-muted hover:text-primary"
-              }`}
-            >
-              International
-            </button>
+            {CATEGORY_TABS.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={`px-4 sm:px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
+                  activeTab === tab.key
+                    ? "bg-primary text-white shadow-md"
+                    : "text-foreground-muted hover:text-primary"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
         </div>
 
         {/* Packages Carousel */}
         <div className="relative">
-          {/* Prev / Next controls (desktop) */}
-          <button
-            type="button"
-            onClick={() => scrollByCards(-1)}
-            aria-label="Previous packages"
-            className="hidden md:flex absolute left-0 md:-left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white text-primary shadow-premium border border-slate-100 items-center justify-center hover:bg-primary hover:text-white transition-colors duration-300"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="15 18 9 12 15 6" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            onClick={() => scrollByCards(1)}
-            aria-label="Next packages"
-            className="hidden md:flex absolute right-0 md:-right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white text-primary shadow-premium border border-slate-100 items-center justify-center hover:bg-primary hover:text-white transition-colors duration-300"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-          </button>
-
           {/* Scroll track */}
           <div
             ref={scrollerRef}
@@ -114,7 +66,7 @@ export const FeaturedPackages: React.FC = () => {
                 key={pkg.id}
                 data-card
                 href={`/packages/${pkg.id}`}
-                className="group shrink-0 snap-start w-[85%] sm:w-[60%] lg:w-[38%] xl:w-[calc((100%-3rem)/3)] bg-white rounded-3xl overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-500 flex flex-col border border-slate-100/50 animate-scale-up"
+                className="group shrink-0 snap-start w-[85%] sm:w-[60%] lg:w-[38%] xl:w-[calc((100%-3rem)/3)] bg-white overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-500 flex flex-col border border-slate-100/50 animate-scale-up"
               >
                 {/* Image Container */}
                 <div className="relative h-72 sm:h-80 overflow-hidden">

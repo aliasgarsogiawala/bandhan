@@ -43,6 +43,14 @@ try {
   }
   console.log(`\n✓ Database ready — applied ${statements.length} statements.\n`);
 } catch (error) {
-  console.error("\n✗ Migration failed:", error.message, "\n");
+  console.error("\n✗ Migration failed:", error.message);
+  // fetch-based errors (DNS, TLS, connection refused, timeout) hide the real
+  // reason in .cause — surface the full chain so it's actually diagnosable.
+  let cause = error.cause;
+  while (cause) {
+    console.error("  caused by:", cause.code || cause.message || cause);
+    cause = cause.cause;
+  }
+  console.error("");
   process.exit(1);
 }

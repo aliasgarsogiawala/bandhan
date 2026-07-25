@@ -36,6 +36,39 @@ export const adminNav: AdminNavItem[] = [
     ),
   },
   {
+    label: "Bookings",
+    href: "/admin/bookings",
+    icon: icon(
+      <>
+        <path d="M20 7h-3V6a4 4 0 0 0-8 0v1H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
+        <path d="M9 6a3 3 0 0 1 6 0v1H9V6z" />
+      </>
+    ),
+  },
+  {
+    label: "Customers",
+    href: "/admin/customers",
+    icon: icon(
+      <>
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      </>
+    ),
+  },
+  {
+    label: "Agents",
+    href: "/admin/agents",
+    icon: icon(
+      <>
+        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+        <circle cx="8.5" cy="7" r="4" />
+        <path d="M20 8v6M23 11h-6" />
+      </>
+    ),
+  },
+  {
     label: "Packages",
     href: "/admin/packages",
     icon: icon(
@@ -91,6 +124,18 @@ export const adminNav: AdminNavItem[] = [
     href: "/admin/features",
     icon: icon(
       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    ),
+  },
+  {
+    label: "Blog",
+    href: "/admin/blog",
+    icon: icon(
+      <>
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+        <line x1="9" y1="7" x2="15" y2="7" />
+        <line x1="9" y1="11" x2="15" y2="11" />
+      </>
     ),
   },
 ];

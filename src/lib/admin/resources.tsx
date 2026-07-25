@@ -8,6 +8,7 @@ import type {
   Testimonial,
   GalleryItem,
   WhyChooseItem,
+  BlogPost,
 } from "./types";
 
 const truncate = (s: unknown, n = 60) => {
@@ -88,6 +89,7 @@ export const packagesResource: ResourceConfig<TourPackage> = {
       options: [
         { value: "Domestic", label: "Domestic" },
         { value: "International", label: "International" },
+        { value: "North East", label: "North East" },
       ],
     },
     { name: "duration", label: "Duration", type: "text", placeholder: "e.g. 6 Nights / 7 Days" },
@@ -188,6 +190,64 @@ export const galleryResource: ResourceConfig<GalleryItem> = {
     { name: "image", label: "Image", type: "media", fullWidth: true, placeholder: "https://…" },
   ],
   empty: { title: "", location: "", image: "" },
+};
+
+export const blogResource: ResourceConfig<BlogPost> = {
+  key: "blog",
+  title: "Blog",
+  singular: "Post",
+  description: "Articles and travel guides shown on the public blog.",
+  searchKeys: ["title", "category", "author", "excerpt"],
+  columns: [
+    { key: "coverImage", label: "", render: (p) => <Thumb src={p.coverImage} alt={p.title} /> },
+    { key: "title", label: "Title", className: "font-semibold text-primary", render: (p) => truncate(p.title, 48) },
+    { key: "category", label: "Category" },
+    { key: "author", label: "Author" },
+    { key: "date", label: "Date" },
+    {
+      key: "isPublished",
+      label: "Status",
+      render: (p) =>
+        p.isPublished
+          ? badge("Published", "bg-emerald-50 text-emerald-600 border-emerald-200")
+          : badge("Draft", "bg-slate-100 text-slate-500 border-slate-200"),
+    },
+  ],
+  fields: [
+    { name: "title", label: "Title", type: "text", required: true, fullWidth: true },
+    { name: "slug", label: "URL Slug", type: "text", fullWidth: true, placeholder: "best-time-to-visit-kashmir", help: "URL-friendly; leave blank to use the post id" },
+    {
+      name: "category",
+      label: "Category",
+      type: "select",
+      options: [
+        { value: "Destinations", label: "Destinations" },
+        { value: "Travel Tips", label: "Travel Tips" },
+        { value: "Guides", label: "Guides" },
+        { value: "Stories", label: "Stories" },
+        { value: "News", label: "News" },
+      ],
+    },
+    { name: "author", label: "Author", type: "text", placeholder: "e.g. Bandhan Travel Desk" },
+    { name: "date", label: "Date", type: "text", placeholder: "e.g. 20 Jul 2026" },
+    { name: "readTime", label: "Read Time", type: "text", placeholder: "e.g. 5 min read" },
+    { name: "isPublished", label: "Published", type: "boolean", help: "Show this post on the public blog" },
+    { name: "coverImage", label: "Cover Image URL", type: "image", fullWidth: true, placeholder: "https://…" },
+    { name: "excerpt", label: "Excerpt", type: "textarea", fullWidth: true, placeholder: "A short summary shown on cards and previews." },
+    { name: "content", label: "Content", type: "textarea", fullWidth: true, required: true, help: "Separate paragraphs with a blank line." },
+  ],
+  empty: {
+    title: "",
+    slug: "",
+    category: "Destinations",
+    author: "Bandhan Travel Desk",
+    date: "",
+    readTime: "",
+    isPublished: true,
+    coverImage: "",
+    excerpt: "",
+    content: "",
+  },
 };
 
 export const featuresResource: ResourceConfig<WhyChooseItem> = {

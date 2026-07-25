@@ -8,6 +8,7 @@ import {
   testimonials,
   galleryImages,
   whyChooseUs,
+  blogPosts,
 } from "@/data/mockData";
 import type { CollectionKey, Enquiry, WithId } from "./types";
 
@@ -50,6 +51,7 @@ const seeds: Record<CollectionKey, WithId[]> = {
   testimonials: testimonials as unknown as WithId[],
   gallery: galleryImages as unknown as WithId[],
   features: whyChooseUs as unknown as WithId[],
+  blog: blogPosts as unknown as WithId[],
   enquiries: sampleEnquiries as unknown as WithId[],
 };
 

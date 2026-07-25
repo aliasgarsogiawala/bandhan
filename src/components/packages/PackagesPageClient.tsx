@@ -27,7 +27,7 @@ export const PackagesPageClient: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get("category");
-  
+
   const getInitialTab = (): CategoryTab => {
     if (!initialCategory) return "all";
     const cat = initialCategory.toLowerCase();

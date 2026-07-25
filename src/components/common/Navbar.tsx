@@ -71,6 +71,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
   const navLinks = [
     { label: "Home", href: "/" },
     { label: "Group Tours", href: "/#group-departures" },
+    { label: "Plan a Custom Trip", href: "/plan-trip" },
+    { label: "Blog", href: "/blog" },
     { label: "About", href: "/#why-choose-us" },
     { label: "Contact", href: "/contact" },
   ];
@@ -196,7 +198,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
               <a
                 key={link.label}
                 href={link.href}
-                className="text-sm font-medium tracking-wide text-white/85 hover:text-gold transition-colors duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gold hover:after:w-full after:transition-all after:duration-300"
+                className="whitespace-nowrap text-sm font-medium tracking-wide text-white/85 hover:text-gold transition-colors duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gold hover:after:w-full after:transition-all after:duration-300"
               >
                 {link.label}
               </a>
