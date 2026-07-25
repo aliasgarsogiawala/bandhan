@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Poppins } from "next/font/google";
+import { Inter, Poppins, Noto_Sans_Devanagari } from "next/font/google";
 import "@/styles/globals.css";
 import Chatbot from "@/components/common/Chatbot";
 
@@ -16,6 +16,13 @@ const poppins = Poppins({
   display: "swap",
 });
 
+const devanagari = Noto_Sans_Devanagari({
+  variable: "--font-devanagari",
+  subsets: ["devanagari"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Bandhan Tours | Where Colors Come Alive",
   description: "Experience premium, modern, and curated domestic & international travel bookings with Bandhan Tours.",
@@ -29,9 +36,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${poppins.variable} h-full antialiased`}
+      className={`${inter.variable} ${poppins.variable} ${devanagari.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-white text-foreground font-sans">
+      <body className="min-h-full flex flex-col bg-white text-foreground font-sans selection:bg-gold/30">
         {children}
         <Chatbot />
       </body>
