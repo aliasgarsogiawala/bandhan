@@ -73,13 +73,24 @@ export default function AccountBookingDetailPage() {
                   <h1 className="text-2xl sm:text-3xl font-heading font-extrabold text-primary mt-1">
                     {booking.package_title || booking.destination || "Trip Request"}
                   </h1>
-                  <Link
-                    href={`/account/bookings/${booking.id}/quotation`}
-                    target="_blank"
-                    className="text-xs font-bold uppercase tracking-wider text-accent hover:text-accent-dark whitespace-nowrap"
-                  >
-                    Download Summary →
-                  </Link>
+                  <div className="flex flex-wrap items-center gap-4">
+                    {(booking.status === "confirmed" || booking.status === "completed") && (
+                      <Link
+                        href={`/api/bookings/${booking.id}/confirmation`}
+                        target="_blank"
+                        className="text-xs font-bold uppercase tracking-wider text-primary hover:text-accent whitespace-nowrap"
+                      >
+                        Booking Confirmation PDF →
+                      </Link>
+                    )}
+                    <Link
+                      href={`/account/bookings/${booking.id}/quotation`}
+                      target="_blank"
+                      className="text-xs font-bold uppercase tracking-wider text-accent hover:text-accent-dark whitespace-nowrap"
+                    >
+                      Download Summary →
+                    </Link>
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">

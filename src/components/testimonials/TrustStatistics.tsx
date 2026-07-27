@@ -2,8 +2,8 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { Users, Award, Calendar, MapPin, Smile, ShieldCheck } from "lucide-react";
-import { trustStats, TrustStat } from "@/data/testimonialData";
+import { Users, Award, Calendar, MapPin, Smile } from "lucide-react";
+import { trustStats } from "@/data/testimonialData";
 
 const iconMap = {
   users: Users,
@@ -27,20 +27,17 @@ const AnimatedCounter: React.FC<CounterProps> = ({ value, suffix, prefix = "" })
   useEffect(() => {
     if (!isInView) return;
 
-    let start = 0;
     const duration = 2000; // 2 seconds
     const frameRate = 1000 / 60;
     const totalFrames = Math.round(duration / frameRate);
     let frame = 0;
-
-    const isFloat = value % 1 !== 0;
 
     const timer = setInterval(() => {
       frame++;
       const progress = frame / totalFrames;
       // Ease out cubic formula
       const easedProgress = 1 - Math.pow(1 - progress, 3);
-      const current = start + (value - start) * easedProgress;
+      const current = value * easedProgress;
 
       if (frame >= totalFrames) {
         setCount(value);
@@ -56,7 +53,7 @@ const AnimatedCounter: React.FC<CounterProps> = ({ value, suffix, prefix = "" })
   const formattedValue = value % 1 !== 0 ? count.toFixed(1) : Math.floor(count).toLocaleString();
 
   return (
-    <span ref={ref} className="font-heading font-extrabold text-3xl sm:text-4xl text-gold">
+    <span ref={ref} className="font-heading text-2xl font-semibold tracking-tight text-white sm:text-3xl">
       {prefix}
       {formattedValue}
       {suffix}
@@ -66,17 +63,8 @@ const AnimatedCounter: React.FC<CounterProps> = ({ value, suffix, prefix = "" })
 
 export const TrustStatistics: React.FC = () => {
   return (
-    <div className="w-full py-8 mb-12">
-      {/* Top trust badge */}
-      <div className="flex justify-center mb-8">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/10 border border-gold/30 text-gold text-xs sm:text-sm font-medium tracking-wide">
-          <ShieldCheck className="w-4 h-4 text-gold" />
-          <span>Bandhan Tours Trust Guarantee • 100% Authentic Customer Reviews</span>
-        </div>
-      </div>
-
-      {/* Grid of stats */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
+    <div className="mb-8 w-full">
+      <div className="grid grid-cols-2 overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.025] md:grid-cols-3 lg:grid-cols-5">
         {trustStats.map((stat, idx) => {
           const IconComponent = iconMap[stat.icon] || Users;
           return (
@@ -85,16 +73,16 @@ export const TrustStatistics: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
-              whileHover={{ y: -4, transition: { duration: 0.2 } }}
-              className="bg-white/5 backdrop-blur-md border border-white/10 hover:border-gold/40 p-5 rounded-2xl flex flex-col items-center text-center transition-all shadow-lg hover:shadow-gold/10 group"
+              transition={{ duration: 0.5, delay: idx * 0.06 }}
+              className="group relative flex min-h-24 flex-col items-center justify-center border-b border-r border-white/[0.07] px-4 py-4 text-center last:border-r-0 lg:border-b-0"
             >
-              <div className="w-12 h-12 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center mb-3 group-hover:bg-gold group-hover:text-slate-950 transition-colors duration-300 text-gold">
-                <IconComponent className="w-6 h-6" />
+              <div className="mb-2 flex items-center gap-2 text-gold/70">
+                <IconComponent className="h-4 w-4" aria-hidden="true" />
+                <AnimatedCounter value={stat.value} suffix={stat.suffix} prefix={stat.prefix} />
               </div>
-              <AnimatedCounter value={stat.value} suffix={stat.suffix} prefix={stat.prefix} />
-              <h3 className="font-semibold text-white text-sm mt-1">{stat.label}</h3>
-              <p className="text-xs text-slate-400 mt-1 line-clamp-1">{stat.description}</p>
+              <h3 className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-white/45">
+                {stat.label}
+              </h3>
             </motion.div>
           );
         })}

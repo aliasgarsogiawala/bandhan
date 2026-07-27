@@ -44,23 +44,21 @@ export const ScrollPlane: React.FC = () => {
 
     let total = 0;
     let current = 0;
+    let currentOpacity = 0.12;
     let raf = 0;
 
-    // Flight plan in viewport coordinates: swoop right, bank back left,
-    // full loop-de-loop mid-screen, then dive and exit bottom-right.
+    // Keep the flight on the viewport perimeter so it frames content instead
+    // of crossing through cards, buttons, or reading areas.
     const buildPath = () => {
       const w = window.innerWidth;
       const h = window.innerHeight;
-      const r = Math.min(w, h) * 0.09;
       const d = [
-        `M ${-0.12 * w} ${0.24 * h}`,
-        `C ${0.22 * w} ${0.1 * h} ${0.5 * w} ${0.34 * h} ${0.78 * w} ${0.2 * h}`,
-        `C ${0.98 * w} ${0.1 * h} ${1.04 * w} ${0.36 * h} ${0.86 * w} ${0.46 * h}`,
-        `C ${0.66 * w} ${0.57 * h} ${0.52 * w} ${0.42 * h} ${0.4 * w} ${0.5 * h}`,
-        `a ${r} ${r} 0 1 1 0 ${-2 * r}`,
-        `a ${r} ${r} 0 1 1 0 ${2 * r}`,
-        `C ${0.26 * w} ${0.58 * h} ${0.1 * w} ${0.68 * h} ${0.22 * w} ${0.8 * h}`,
-        `C ${0.42 * w} ${0.94 * h} ${0.8 * w} ${0.76 * h} ${1.15 * w} ${0.85 * h}`,
+        `M ${-0.1 * w} ${0.14 * h}`,
+        `C ${0.18 * w} ${0.05 * h} ${0.58 * w} ${0.07 * h} ${0.82 * w} ${0.15 * h}`,
+        `C ${1.01 * w} ${0.21 * h} ${1.03 * w} ${0.34 * h} ${0.96 * w} ${0.44 * h}`,
+        `C ${0.9 * w} ${0.54 * h} ${0.91 * w} ${0.67 * h} ${0.98 * w} ${0.76 * h}`,
+        `C ${1.04 * w} ${0.84 * h} ${0.9 * w} ${0.93 * h} ${0.7 * w} ${0.95 * h}`,
+        `C ${0.4 * w} ${0.99 * h} ${0.12 * w} ${0.91 * h} ${-0.12 * w} ${0.82 * h}`,
       ].join(" ");
       path.setAttribute("d", d);
       trail.setAttribute("d", d);
@@ -80,18 +78,27 @@ export const ScrollPlane: React.FC = () => {
       const behind = path.getPointAtLength(Math.max(0, current - 2));
       const angle =
         (Math.atan2(ahead.y - behind.y, ahead.x - behind.x) * 180) / Math.PI;
+      const safeZone = document.querySelector<HTMLElement>("[data-plane-safe-zone]");
+      const safeRect = safeZone?.getBoundingClientRect();
+      const isSafeZoneVisible = Boolean(
+        safeRect && safeRect.top < window.innerHeight && safeRect.bottom > 0
+      );
+      const targetOpacity = isSafeZoneVisible ? 0.012 : 0.12;
+      currentOpacity += (targetOpacity - currentOpacity) * 0.08;
 
       wrap.style.transform = `translate3d(${pt.x}px, ${pt.y}px, 0)`;
+      wrap.style.opacity = String(currentOpacity);
+      if (spinnerRef.current) {
+        spinnerRef.current.style.pointerEvents = isSafeZoneVisible ? "none" : "auto";
+      }
       plane.style.transform = `translate(-50%, -50%) rotate(${angle + ICON_ROTATION_OFFSET}deg)`;
-      // Reveal the dotted trail only up to where the plane has flown.
+      trail.style.opacity = isSafeZoneVisible ? "0.035" : "0.55";
       maskPath.setAttribute("stroke-dashoffset", String(total - current));
 
       raf = requestAnimationFrame(tick);
     };
 
     buildPath();
-    // Kept subtle so the plane decorates the page without competing with content.
-    wrap.style.opacity = "0.55";
     window.addEventListener("resize", buildPath);
     raf = requestAnimationFrame(tick);
 
@@ -118,7 +125,7 @@ export const ScrollPlane: React.FC = () => {
     <>
       {/* Full-screen SVG: hidden math path + visible dotted trail revealed via mask */}
       <svg
-        className="fixed inset-0 w-full h-full z-40 pointer-events-none overflow-visible"
+        className="pointer-events-none fixed inset-0 z-20 h-full w-full overflow-visible"
         aria-hidden="true"
       >
         <defs>
@@ -148,8 +155,8 @@ export const ScrollPlane: React.FC = () => {
           className="text-gold"
           fill="none"
           stroke="currentColor"
-          strokeOpacity="0.35"
-          strokeWidth="3.5"
+          strokeOpacity="0.12"
+          strokeWidth="2"
           strokeLinecap="round"
           strokeDasharray="0.1 16"
           mask="url(#planeTrailMask)"
@@ -158,7 +165,7 @@ export const ScrollPlane: React.FC = () => {
 
       <div
         ref={wrapRef}
-        className="fixed top-0 left-0 z-40 pointer-events-none opacity-0 will-change-transform"
+        className="pointer-events-none fixed left-0 top-0 z-20 opacity-0 will-change-transform"
         aria-hidden="true"
       >
         <div ref={planeRef} className="will-change-transform">
@@ -190,15 +197,15 @@ export const ScrollPlane: React.FC = () => {
             )}
 
             <svg
-              width="44"
-              height="44"
+              width="38"
+              height="38"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="text-accent fill-accent/25 drop-shadow-lg"
+              className="text-accent fill-accent/15 drop-shadow-lg"
             >
               <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" />
             </svg>

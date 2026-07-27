@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { Sparkles, MessageSquarePlus, Compass } from "lucide-react";
+import { ArrowUpRight, Compass, MessageSquarePlus, Star } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { testimonialData, TestimonialItem } from "@/data/testimonialData";
 import { TrustStatistics } from "./TrustStatistics";
@@ -41,34 +42,38 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
 
   return (
     <section
-      className={`py-16 sm:py-24 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white relative overflow-hidden ${className}`}
+      id="guest-stories"
+      data-plane-safe-zone="testimonials"
+      aria-labelledby="guest-stories-title"
+      className={`relative isolate z-30 overflow-hidden bg-[#061625] py-14 text-white sm:py-16 lg:py-20 ${className}`}
     >
-      {/* Background Decorative Glows */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-gold/10 rounded-full blur-[140px] pointer-events-none" />
+      <div className="pointer-events-none absolute inset-0 opacity-25 [background-image:linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] [background-size:72px_72px]" />
+      <div className="pointer-events-none absolute -left-48 top-1/4 h-[460px] w-[460px] rounded-full bg-primary-light/15 blur-[150px]" />
+      <div className="pointer-events-none absolute -right-52 bottom-0 h-[500px] w-[500px] rounded-full bg-gold/[0.03] blur-[150px]" />
 
       <Container className="relative z-10">
-        {/* Header Section */}
-        <div className="text-center max-w-3xl mx-auto space-y-4 mb-12">
+        <div className="mx-auto mb-8 max-w-4xl text-center sm:mb-10">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/15 border border-gold/30 text-gold text-xs sm:text-sm font-semibold uppercase tracking-wider"
+            className="mb-4 inline-flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-gold"
           >
-            <Sparkles className="w-4 h-4 text-gold" />
-            <span>Guest Reviews & Experiences</span>
+            <span className="text-sm" aria-hidden="true">✨</span>
+            <span>The Bandhan standard</span>
           </motion.div>
 
           <motion.h2
+            id="guest-stories-title"
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="font-heading font-extrabold text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight"
+            className="font-heading text-3xl font-semibold leading-[1.08] tracking-normal text-white sm:text-4xl md:text-5xl"
           >
-            Trusted by Thousands of <span className="text-gold">Happy Travellers</span>
+            Journeys remembered.
+            <span className="block font-light text-white/55">Stories worth sharing.</span>
           </motion.h2>
 
           <motion.p
@@ -76,52 +81,65 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-base sm:text-lg text-slate-300 font-light leading-relaxed"
+            className="mx-auto mt-4 max-w-2xl text-sm font-light leading-relaxed text-white/55 sm:text-base"
           >
-            Real experiences shared by our valued customers who explored incredible destinations with
-            Bandhan Tours.
+            In their own words—thoughtful itineraries, warm hospitality, and the
+            little details that turned a holiday into a lifelong memory.
           </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mt-5 flex items-center justify-center gap-3 text-xs text-white/45"
+          >
+            <span className="flex items-center gap-1 text-gold" aria-label="5 out of 5 stars">
+              {Array.from({ length: 5 }).map((_, index) => (
+                <Star key={index} className="h-3.5 w-3.5 fill-gold" aria-hidden="true" />
+              ))}
+            </span>
+            <span>5.0 average from verified travellers</span>
+          </motion.div>
         </div>
 
-        {/* Trust Statistics Section */}
         <TrustStatistics />
 
-        {/* Horizontal Testimonials Carousel (3 cards visible on desktop, 2 on tablet, 1 on mobile) */}
-        <div className="mt-4">
+        <div>
           <TestimonialCarousel
             testimonials={testimonialData}
             onReadMore={handleOpenReviewModal}
           />
         </div>
 
-        {/* Bottom CTA Bar */}
-        <div className="mt-16 bg-gradient-to-r from-gold/10 via-white/5 to-gold/10 border border-gold/30 rounded-3xl p-6 sm:p-10 flex flex-wrap items-center justify-between gap-6 text-center sm:text-left">
+        <div className="mt-10 flex flex-col items-center justify-between gap-5 border-t border-white/[0.08] pt-7 text-center sm:flex-row sm:text-left">
           <div>
-            <h3 className="font-heading font-bold text-xl sm:text-2xl text-white">
-              Have you travelled with Bandhan Tours recently?
+            <h3 className="font-heading text-xl font-semibold text-white">
+              Your journey deserves a chapter here.
             </h3>
-            <p className="text-sm text-slate-300 mt-1">
-              Share your wonderful journey and inspire thousands of fellow travellers.
+            <p className="mt-1.5 text-sm text-white/45">
+              Travelled with us recently? Share the moment you still talk about.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 w-full sm:w-auto">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <a
               href="https://g.page/r/review"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-gold hover:bg-amber-400 text-slate-950 font-bold text-sm transition-all shadow-lg hover:shadow-gold/20"
+              className="inline-flex items-center gap-2 rounded-full bg-gold px-5 py-3 text-sm font-semibold text-primary shadow-[0_12px_35px_-15px_rgba(254,209,79,0.75)] transition-colors hover:bg-gold-light"
             >
-              <MessageSquarePlus className="w-4 h-4" />
+              <MessageSquarePlus className="h-4 w-4" aria-hidden="true" />
               <span>Write a Review</span>
             </a>
-            <a
+            <Link
               href="/packages"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-semibold text-sm border border-white/20 transition-all"
+              className="group inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white/80 transition-colors hover:border-gold/40 hover:text-gold"
             >
-              <Compass className="w-4 h-4 text-gold" />
+              <Compass className="h-4 w-4" aria-hidden="true" />
               <span>Explore All Tours</span>
-            </a>
+              <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
+            </Link>
           </div>
         </div>
       </Container>

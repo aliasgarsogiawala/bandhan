@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { TestimonialItem } from "@/data/testimonialData";
 import { TestimonialCard } from "./TestimonialCard";
 
@@ -18,65 +18,56 @@ export const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({
   autoPlayInterval = 4500,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const [cardsToShow, setCardsToShow] = useState(3);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Responsive items count detector
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setCardsToShow(1);
-      } else if (window.innerWidth < 1024) {
-        setCardsToShow(2);
-      } else {
-        setCardsToShow(3);
-      }
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const totalPages = Math.ceil(testimonials.length / cardsToShow);
-  const maxIndex = Math.max(0, testimonials.length - cardsToShow);
+  const [isInteracting, setIsInteracting] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(1);
+  const shouldReduceMotion = useReducedMotion();
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const totalSlides = testimonials.length;
+  const maxStartIndex = Math.max(0, totalSlides - visibleCount);
+  const isPaused = isInteracting || Boolean(shouldReduceMotion);
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => {
-      if (prev >= maxIndex) {
-        return 0; // Infinite loop wrap around
-      }
-      return prev + 1;
+      const safeIndex = Math.min(prev, maxStartIndex);
+      return safeIndex >= maxStartIndex ? 0 : safeIndex + 1;
     });
-  }, [maxIndex]);
+  }, [maxStartIndex]);
 
   const prevSlide = useCallback(() => {
     setCurrentIndex((prev) => {
-      if (prev <= 0) {
-        return maxIndex; // Infinite loop wrap around
-      }
-      return prev - 1;
+      const safeIndex = Math.min(prev, maxStartIndex);
+      return safeIndex <= 0 ? maxStartIndex : safeIndex - 1;
     });
-  }, [maxIndex]);
+  }, [maxStartIndex]);
 
-  // Auto-play timer
   useEffect(() => {
-    if (isPaused || totalPages <= 1) return;
+    const updateVisibleCount = () => {
+      if (window.matchMedia("(min-width: 1024px)").matches) {
+        setVisibleCount(3);
+      } else if (window.matchMedia("(min-width: 640px)").matches) {
+        setVisibleCount(2);
+      } else {
+        setVisibleCount(1);
+      }
+    };
 
-    timerRef.current = setInterval(() => {
-      nextSlide();
-    }, autoPlayInterval);
+    updateVisibleCount();
+    window.addEventListener("resize", updateVisibleCount);
+    return () => window.removeEventListener("resize", updateVisibleCount);
+  }, []);
+
+  useEffect(() => {
+    if (isPaused || totalSlides <= 1) return;
+
+    timerRef.current = setInterval(nextSlide, autoPlayInterval);
 
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isPaused, autoPlayInterval, nextSlide, totalPages]);
+  }, [isPaused, autoPlayInterval, nextSlide, totalSlides]);
 
-  // Handle mobile touch swipe
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
-
   const minSwipeDistance = 50;
 
   const onTouchStart = (e: React.TouchEvent) => {
@@ -89,112 +80,95 @@ export const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({
   };
 
   const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
+    if (touchStart === null || touchEnd === null) return;
     const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < -minSwipeDistance;
-
-    if (isLeftSwipe) {
-      nextSlide();
-    } else if (isRightSwipe) {
-      prevSlide();
-    }
+    if (distance > minSwipeDistance) nextSlide();
+    if (distance < -minSwipeDistance) prevSlide();
+    setTouchStart(null);
+    setTouchEnd(null);
   };
 
   if (testimonials.length === 0) return null;
 
-  // Active page indicator calculation
-  const activePage = Math.floor(currentIndex / cardsToShow);
+  const activeIndex = Math.min(currentIndex, maxStartIndex);
+  const currentTestimonial = testimonials[activeIndex];
+  const slideWidth = `(100% - ${(visibleCount - 1) * 24}px) / ${visibleCount}`;
 
   return (
-    <div
-      className="relative w-full py-4 select-none"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+    <section
+      className="relative w-full select-none"
+      aria-roledescription="carousel"
+      aria-label="Traveller stories"
+      tabIndex={0}
+      onKeyDown={(event) => {
+        if (event.key === "ArrowLeft") prevSlide();
+        if (event.key === "ArrowRight") nextSlide();
+      }}
+      onMouseEnter={() => setIsInteracting(true)}
+      onMouseLeave={() => setIsInteracting(false)}
+      onFocusCapture={() => setIsInteracting(true)}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setIsInteracting(false);
+      }}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      {/* Carousel Track Window */}
-      <div className="overflow-hidden px-1 py-4">
-        <motion.div
-          className="flex gap-6 transition-transform duration-500 ease-out"
-          animate={{
-            x: `-${currentIndex * (100 / cardsToShow + 24 / cardsToShow)}%`,
-          }}
-          transition={{ type: "spring", stiffness: 260, damping: 28 }}
+      <div className="relative overflow-visible">
+        <button
+          type="button"
+          onClick={prevSlide}
+          className="group absolute left-0 top-1/2 z-20 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-[#061625]/75 text-white shadow-[0_18px_45px_-24px_rgba(0,0,0,0.9)] backdrop-blur-xl transition-all hover:border-gold/70 hover:bg-gold hover:text-primary active:scale-95 max-sm:left-4 max-sm:translate-x-0"
+          aria-label="Previous testimonial"
         >
-          {testimonials.map((item) => (
-            <div
-              key={item.id}
-              className="flex-shrink-0"
+          <ChevronLeft className="h-5 w-5 transition-transform group-hover:-translate-x-0.5" />
+        </button>
+
+        <button
+          type="button"
+          onClick={nextSlide}
+          className="group absolute right-0 top-1/2 z-20 flex h-11 w-11 translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-gold/45 bg-gold text-primary shadow-[0_18px_45px_-18px_rgba(254,209,79,0.42)] transition-all hover:bg-gold-light active:scale-95 max-sm:right-4 max-sm:translate-x-0"
+          aria-label="Next testimonial"
+        >
+          <ChevronRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
+        </button>
+
+        <div className="overflow-hidden rounded-[1.5rem]">
+          <AnimatePresence initial={false} mode="popLayout">
+            <motion.div
+              key={visibleCount}
+              initial={shouldReduceMotion ? false : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="flex gap-6 transition-transform duration-500 ease-out"
               style={{
-                width: `calc(${100 / cardsToShow}% - ${(24 * (cardsToShow - 1)) / cardsToShow}px)`,
+                transform: `translateX(calc(-${activeIndex} * (${slideWidth} + 24px)))`,
               }}
             >
-              <TestimonialCard testimonial={item} onReadMore={onReadMore} />
-            </div>
-          ))}
-        </motion.div>
-      </div>
-
-      {/* Navigation Controls Bar */}
-      <div className="mt-8 flex flex-wrap items-center justify-between gap-4 px-2">
-        {/* Play/Pause indicator & Status */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setIsPaused(!isPaused)}
-            className="flex items-center gap-2 text-xs text-slate-400 hover:text-gold transition-colors bg-white/5 border border-white/10 px-3 py-1.5 rounded-full"
-            aria-label={isPaused ? "Play carousel auto-scroll" : "Pause carousel auto-scroll"}
-          >
-            {isPaused ? <Play className="w-3.5 h-3.5 text-gold" /> : <Pause className="w-3.5 h-3.5 text-gold" />}
-            <span className="font-medium">{isPaused ? "Paused" : "Auto-scrolling"}</span>
-          </button>
-          <span className="hidden sm:inline-block text-xs text-slate-400">
-            Showing {currentIndex + 1} to {Math.min(currentIndex + cardsToShow, testimonials.length)} of{" "}
-            {testimonials.length} reviews
-          </span>
-        </div>
-
-        {/* Pagination Dots */}
-        <div className="flex items-center gap-2">
-          {Array.from({ length: totalPages }).map((_, pageIdx) => {
-            const isActive = pageIdx === activePage;
-            return (
-              <button
-                key={pageIdx}
-                onClick={() => setCurrentIndex(Math.min(pageIdx * cardsToShow, maxIndex))}
-                className={`h-2.5 rounded-full transition-all duration-300 ${
-                  isActive
-                    ? "w-8 bg-gold border border-amber-300"
-                    : "w-2.5 bg-white/20 hover:bg-white/40"
-                }`}
-                aria-label={`Go to testimonial page ${pageIdx + 1}`}
-              />
-            );
-          })}
-        </div>
-
-        {/* Previous & Next Arrows */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={prevSlide}
-            className="w-11 h-11 rounded-full bg-slate-900 border border-white/20 hover:border-gold hover:bg-gold hover:text-slate-950 text-white flex items-center justify-center transition-all duration-300 shadow-md group active:scale-95"
-            aria-label="Previous testimonials"
-          >
-            <ChevronLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
-          </button>
-
-          <button
-            onClick={nextSlide}
-            className="w-11 h-11 rounded-full bg-slate-900 border border-white/20 hover:border-gold hover:bg-gold hover:text-slate-950 text-white flex items-center justify-center transition-all duration-300 shadow-md group active:scale-95"
-            aria-label="Next testimonials"
-          >
-            <ChevronRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
-          </button>
+              {testimonials.map((testimonial, index) => (
+                <div
+                  key={testimonial.id}
+                  className="shrink-0"
+                  style={{ flexBasis: `calc(${slideWidth})` }}
+                  aria-roledescription="slide"
+                  aria-label={`${index + 1} of ${totalSlides}`}
+                >
+                  <TestimonialCard
+                    testimonial={testimonial}
+                    onReadMore={onReadMore}
+                  />
+                </div>
+              ))}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
-    </div>
+
+      <p className="sr-only" aria-live="polite">
+        Showing reviews starting with {currentTestimonial.name}
+      </p>
+    </section>
   );
 };
 
