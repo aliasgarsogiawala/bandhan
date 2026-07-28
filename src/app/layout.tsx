@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Poppins, Noto_Sans_Devanagari } from "next/font/google";
 import "@/styles/globals.css";
 import Chatbot from "@/components/common/Chatbot";
+import { siteUrl } from "@/lib/siteConfig";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -24,6 +25,7 @@ const devanagari = Noto_Sans_Devanagari({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Bandhan Tours | Where Colors Come Alive",
   description: "Experience premium, modern, and curated domestic & international travel bookings with Bandhan Tours.",
 };

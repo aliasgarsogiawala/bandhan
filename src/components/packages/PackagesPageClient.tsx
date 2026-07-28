@@ -22,6 +22,36 @@ const TABS: { key: CategoryTab; label: string }[] = [
   { key: "northeast", label: "North East" },
 ];
 
+type BudgetKey = "all" | "under-30k" | "30k-60k" | "60k-1l" | "above-1l";
+
+const BUDGET_RANGES: { key: BudgetKey; label: string; test: (price: number) => boolean }[] = [
+  { key: "all", label: "Any Budget", test: () => true },
+  { key: "under-30k", label: "Under ₹30,000", test: (p) => p < 30000 },
+  { key: "30k-60k", label: "₹30,000 – ₹60,000", test: (p) => p >= 30000 && p < 60000 },
+  { key: "60k-1l", label: "₹60,000 – ₹1,00,000", test: (p) => p >= 60000 && p < 100000 },
+  { key: "above-1l", label: "Above ₹1,00,000", test: (p) => p >= 100000 },
+];
+
+type DurationKey = "all" | "up-to-7" | "8-10" | "11-plus";
+
+const DURATION_RANGES: { key: DurationKey; label: string; test: (days: number) => boolean }[] = [
+  { key: "all", label: "Any Duration", test: () => true },
+  { key: "up-to-7", label: "Up to 7 Days", test: (d) => d <= 7 },
+  { key: "8-10", label: "8 – 10 Days", test: (d) => d >= 8 && d <= 10 },
+  { key: "11-plus", label: "11+ Days", test: (d) => d >= 11 },
+];
+
+// "₹34,500" -> 34500
+function parsePrice(price: string): number {
+  return Number(price.replace(/[^0-9]/g, "")) || 0;
+}
+
+// "9 Nights / 10 Days" -> 10 (the larger of the two numbers found)
+function parseDurationDays(duration: string): number {
+  const numbers = duration.match(/\d+/g)?.map(Number) ?? [];
+  return numbers.length ? Math.max(...numbers) : 0;
+}
+
 export const PackagesPageClient: React.FC = () => {
   const { items: packages } = useCollection<TourPackage>("packages");
   const router = useRouter();
@@ -38,24 +68,33 @@ export const PackagesPageClient: React.FC = () => {
   };
 
   const [activeTab, setActiveTab] = useState<CategoryTab>(getInitialTab());
+  const [budget, setBudget] = useState<BudgetKey>("all");
+  const [duration, setDuration] = useState<DurationKey>("all");
 
   const handleEnquire = (destination: string = "") => {
     router.push(contactEnquiryHref(destination));
   };
 
-  const filteredPackages = packages.filter((pkg) => pkg.status !== "draft").filter((pkg) => {
-    if (activeTab === "all") return true;
-    if (activeTab === "northeast") {
-      return (
-        pkg.title.toLowerCase().includes("northeast") ||
-        pkg.title.toLowerCase().includes("sikkim") ||
-        pkg.highlights.some(
-          (h) => h.toLowerCase().includes("northeast") || h.toLowerCase().includes("sikkim")
-        )
-      );
-    }
-    return pkg.category.toLowerCase() === activeTab;
-  });
+  const budgetRange = BUDGET_RANGES.find((r) => r.key === budget) ?? BUDGET_RANGES[0];
+  const durationRange = DURATION_RANGES.find((r) => r.key === duration) ?? DURATION_RANGES[0];
+
+  const filteredPackages = packages
+    .filter((pkg) => pkg.status !== "draft")
+    .filter((pkg) => {
+      if (activeTab === "all") return true;
+      if (activeTab === "northeast") {
+        return (
+          pkg.title.toLowerCase().includes("northeast") ||
+          pkg.title.toLowerCase().includes("sikkim") ||
+          pkg.highlights.some(
+            (h) => h.toLowerCase().includes("northeast") || h.toLowerCase().includes("sikkim")
+          )
+        );
+      }
+      return pkg.category.toLowerCase() === activeTab;
+    })
+    .filter((pkg) => budgetRange.test(parsePrice(pkg.price)))
+    .filter((pkg) => durationRange.test(parseDurationDays(pkg.duration)));
 
   return (
     <div className="min-h-screen bg-sand flex flex-col overflow-x-hidden">
@@ -100,12 +139,57 @@ export const PackagesPageClient: React.FC = () => {
               </button>
             ))}
           </div>
+
+          {/* Budget & duration filters */}
+          <div className="flex flex-wrap gap-3 mt-4">
+            <label className="sr-only" htmlFor="budget-filter">
+              Filter by budget
+            </label>
+            <select
+              id="budget-filter"
+              value={budget}
+              onChange={(e) => setBudget(e.target.value as BudgetKey)}
+              className="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-white/10 backdrop-blur-md border border-white/15 text-white/90 focus:outline-none focus:ring-2 focus:ring-gold cursor-pointer"
+            >
+              {BUDGET_RANGES.map((range) => (
+                <option key={range.key} value={range.key} className="text-primary">
+                  {range.label}
+                </option>
+              ))}
+            </select>
+
+            <label className="sr-only" htmlFor="duration-filter">
+              Filter by duration
+            </label>
+            <select
+              id="duration-filter"
+              value={duration}
+              onChange={(e) => setDuration(e.target.value as DurationKey)}
+              className="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-white/10 backdrop-blur-md border border-white/15 text-white/90 focus:outline-none focus:ring-2 focus:ring-gold cursor-pointer"
+            >
+              {DURATION_RANGES.map((range) => (
+                <option key={range.key} value={range.key} className="text-primary">
+                  {range.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </Container>
       </header>
 
       {/* Packages grid */}
       <main className="flex-1 py-16 sm:py-20 bg-sand-bg/40">
         <Container>
+          {filteredPackages.length === 0 && (
+            <div className="text-center py-16">
+              <p className="text-lg font-semibold text-primary">
+                No packages match these filters yet.
+              </p>
+              <p className="mt-2 text-sm text-foreground-muted">
+                Try widening the budget or duration range, or plan a custom trip below.
+              </p>
+            </div>
+          )}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredPackages.map((pkg, index) => {
               const detail = getFullPackageForPackage(pkg);
