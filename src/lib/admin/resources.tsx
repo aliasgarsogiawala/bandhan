@@ -4,7 +4,6 @@ import type {
   ResourceConfig,
   Destination,
   TourPackage,
-  GroupDeparture,
   Testimonial,
   GalleryItem,
   WhyChooseItem,
@@ -99,50 +98,6 @@ export const packagesResource: ResourceConfig<TourPackage> = {
     { name: "highlights", label: "Highlights", type: "tags", fullWidth: true, placeholder: "Dal Lake, Gulmarg, …" },
   ],
   empty: { title: "", category: "Domestic", duration: "", price: "", isPopular: false, image: "", highlights: [] },
-};
-
-const seatStatusOptions = [
-  { value: "filling-fast", label: "Filling Fast" },
-  { value: "limited-seats", label: "Limited Seats" },
-  { value: "guaranteed", label: "Guaranteed" },
-];
-
-export const departuresResource: ResourceConfig<GroupDeparture> = {
-  key: "departures",
-  title: "Departures",
-  singular: "Departure",
-  description: "Upcoming group departure dates.",
-  searchKeys: ["destination", "date", "status"],
-  columns: [
-    { key: "destination", label: "Destination", className: "font-semibold text-primary" },
-    { key: "date", label: "Date" },
-    { key: "duration", label: "Duration" },
-    { key: "price", label: "Price" },
-    { key: "seats", label: "Seats", render: (d) => `${d.seatsLeft}/${d.totalSeats}` },
-    {
-      key: "status",
-      label: "Status",
-      render: (d) =>
-        badge(
-          d.status.replace("-", " "),
-          d.status === "guaranteed"
-            ? "bg-emerald-50 text-emerald-600 border-emerald-200"
-            : d.status === "filling-fast"
-            ? "bg-gold/20 text-gold-dark border-gold/30"
-            : "bg-accent/10 text-accent-dark border-accent/20"
-        ),
-    },
-  ],
-  fields: [
-    { name: "destination", label: "Destination / Title", type: "text", required: true, fullWidth: true },
-    { name: "date", label: "Departure Date", type: "text", placeholder: "e.g. Aug 15, 2026" },
-    { name: "duration", label: "Duration", type: "text", placeholder: "e.g. 7 Nights / 8 Days" },
-    { name: "price", label: "Price", type: "text", placeholder: "e.g. ₹42,500" },
-    { name: "seatsLeft", label: "Seats Left", type: "number" },
-    { name: "totalSeats", label: "Total Seats", type: "number" },
-    { name: "status", label: "Status", type: "select", options: seatStatusOptions },
-  ],
-  empty: { destination: "", date: "", duration: "", price: "", seatsLeft: 0, totalSeats: 0, status: "guaranteed" },
 };
 
 export const testimonialsResource: ResourceConfig<Testimonial> = {

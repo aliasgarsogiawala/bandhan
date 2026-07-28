@@ -1,17 +1,26 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { RecentlyBooked } from "@/components/ui/Urgency";
-import { groupDepartures } from "@/data/mockData";
+import BookingModal from "@/components/packages/BookingModal";
+import type { GroupDeparture } from "@/lib/departures/types";
 
-interface GroupDeparturesProps {
-  onBookNowSelect: (destName: string) => void;
-}
+export const GroupDepartures: React.FC = () => {
+  const [groupDepartures, setGroupDepartures] = useState<GroupDeparture[]>([]);
+  const [selected, setSelected] = useState<GroupDeparture | null>(null);
 
-export const GroupDepartures: React.FC<GroupDeparturesProps> = ({ onBookNowSelect }) => {
+  useEffect(() => {
+    fetch("/api/departures", { cache: "no-store" })
+      .then((res) => res.json())
+      .then((data) => setGroupDepartures(data.departures || []))
+      .catch(() => setGroupDepartures([]));
+  }, []);
+
+  if (groupDepartures.length === 0) return null;
+
   return (
     <section id="group-departures" className="py-16 sm:py-24 bg-sand-bg/40 relative z-10">
       <Container>
@@ -29,19 +38,22 @@ export const GroupDepartures: React.FC<GroupDeparturesProps> = ({ onBookNowSelec
         {/* Departure Cards List */}
         <div className="space-y-6">
           {groupDepartures.map((departure) => {
-            const seatsPercent = (departure.seatsLeft / departure.totalSeats) * 100;
-            
+            const seatsPercent = (departure.seats_left / departure.total_seats) * 100;
+            const soldOut = departure.seats_left <= 0;
+
             // Status tag colors
             const statusClasses = {
               "filling-fast": "bg-red-50 text-red-600 border-red-200/50",
               "limited-seats": "bg-amber-50 text-amber-600 border-amber-200/50",
               guaranteed: "bg-emerald-50 text-emerald-600 border-emerald-200/50",
+              "sold-out": "bg-slate-100 text-slate-500 border-slate-200",
             };
 
             const statusText = {
               "filling-fast": "Filling Fast",
               "limited-seats": "Limited Seats Left",
               guaranteed: "Departure Guaranteed",
+              "sold-out": "Sold Out",
             };
 
             return (
@@ -69,7 +81,7 @@ export const GroupDepartures: React.FC<GroupDeparturesProps> = ({ onBookNowSelec
                   <div className="w-full max-w-sm pt-2">
                     <div className="flex items-center justify-between text-xs mb-1.5">
                       <span className="text-foreground-muted font-sans">
-                        Seats Left: <strong className="text-primary">{departure.seatsLeft}</strong> / {departure.totalSeats}
+                        Seats Left: <strong className="text-primary">{departure.seats_left}</strong> / {departure.total_seats}
                       </span>
                       <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase border ${statusClasses[departure.status]}`}>
                         {statusText[departure.status]}
@@ -82,6 +94,8 @@ export const GroupDepartures: React.FC<GroupDeparturesProps> = ({ onBookNowSelec
                             ? "bg-red-500"
                             : departure.status === "limited-seats"
                             ? "bg-amber-500"
+                            : departure.status === "sold-out"
+                            ? "bg-slate-400"
                             : "bg-emerald-500"
                         }`}
                         style={{ width: `${100 - seatsPercent}%` }}
@@ -104,12 +118,12 @@ export const GroupDepartures: React.FC<GroupDeparturesProps> = ({ onBookNowSelec
                   </div>
 
                   <PrimaryButton
-                    variant="coral"
+                    variant={soldOut ? "navy" : "coral"}
                     size="md"
-                    onClick={() => onBookNowSelect(departure.destination)}
+                    onClick={() => setSelected(departure)}
                     className="hover:scale-105 transition-transform duration-300"
                   >
-                    Book Now
+                    {soldOut ? "Sold Out" : "Book Now"}
                   </PrimaryButton>
                 </div>
               </div>
@@ -117,6 +131,15 @@ export const GroupDepartures: React.FC<GroupDeparturesProps> = ({ onBookNowSelec
           })}
         </div>
       </Container>
+
+      <BookingModal
+        isOpen={selected !== null}
+        onClose={() => setSelected(null)}
+        packageTitle={selected?.destination || ""}
+        departureId={selected?.id}
+        initialTravelDate={selected?.date}
+        seatsLeft={selected?.seats_left}
+      />
     </section>
   );
 };

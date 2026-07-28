@@ -4,7 +4,6 @@ import { useSyncExternalStore } from "react";
 import {
   destinations,
   featuredPackages,
-  groupDepartures,
   testimonials,
   galleryImages,
   whyChooseUs,
@@ -47,7 +46,6 @@ const sampleEnquiries: Enquiry[] = [
 const seeds: Record<CollectionKey, WithId[]> = {
   destinations: destinations as unknown as WithId[],
   packages: featuredPackages as unknown as WithId[],
-  departures: groupDepartures as unknown as WithId[],
   testimonials: testimonials as unknown as WithId[],
   gallery: galleryImages as unknown as WithId[],
   features: whyChooseUs as unknown as WithId[],

@@ -44,6 +44,7 @@ export interface Booking {
   agent_id: string | null;
   package_id: string | null;
   package_title: string | null;
+  departure_id: string | null;
   destination: string | null;
   travel_date: string | null;
   travellers_count: number | null;

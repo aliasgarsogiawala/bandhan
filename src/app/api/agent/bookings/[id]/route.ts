@@ -8,6 +8,7 @@ import {
   setPricing,
   setRemarks,
   updateStatus,
+  SoldOutError,
 } from "@/lib/bookings/db";
 
 interface RouteParams {
@@ -107,6 +108,9 @@ export async function PATCH(request: Request, { params }: RouteParams) {
     }
     return NextResponse.json({ ok: true, booking });
   } catch (error) {
+    if (error instanceof SoldOutError) {
+      return NextResponse.json({ ok: false, error: error.message }, { status: 409 });
+    }
     console.error("update booking error:", error);
     return NextResponse.json({ ok: false, error: "Could not update the booking." }, { status: 500 });
   }

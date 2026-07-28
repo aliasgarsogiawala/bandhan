@@ -54,7 +54,7 @@ export default function Home() {
 
       {/* 7. Upcoming Group Departures */}
       <ScrollReveal>
-        <GroupDepartures onBookNowSelect={handleEnquire} />
+        <GroupDepartures />
       </ScrollReveal>
 
       {/* 8. Testimonials */}

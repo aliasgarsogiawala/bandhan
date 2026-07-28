@@ -74,17 +74,6 @@ export interface WhyChooseItem {
   iconName: "experience" | "happy" | "planning" | "support";
 }
 
-export interface GroupDeparture {
-  id: string;
-  destination: string;
-  date: string;
-  duration: string;
-  price: string;
-  seatsLeft: number;
-  totalSeats: number;
-  status: "filling-fast" | "limited-seats" | "guaranteed";
-}
-
 export interface Testimonial {
   id: string;
   name: string;
@@ -273,49 +262,6 @@ export const whyChooseUs: WhyChooseItem[] = [
     description: "Round-the-clock backup and assistance during your tour for total peace of mind.",
     stat: "24/7 Care",
     iconName: "support",
-  },
-];
-
-export const groupDepartures: GroupDeparture[] = [
-  {
-    id: "gd1",
-    destination: "Leh Ladakh Summer Special",
-    date: "Aug 15, 2026",
-    duration: "7 Nights / 8 Days",
-    price: "₹42,500",
-    seatsLeft: 6,
-    totalSeats: 30,
-    status: "limited-seats",
-  },
-  {
-    id: "gd2",
-    destination: "Kashmir Autumn Paradise Group Tour",
-    date: "Sep 22, 2026",
-    duration: "6 Nights / 7 Days",
-    price: "₹36,000",
-    seatsLeft: 12,
-    totalSeats: 25,
-    status: "filling-fast",
-  },
-  {
-    id: "gd3",
-    destination: "Sikkim & Northeast Autumn Colors",
-    date: "Oct 10, 2026",
-    duration: "9 Nights / 10 Days",
-    price: "₹48,000",
-    seatsLeft: 18,
-    totalSeats: 25,
-    status: "guaranteed",
-  },
-  {
-    id: "gd4",
-    destination: "Scenic Europe Wonders Explorer",
-    date: "Nov 02, 2026",
-    duration: "11 Nights / 12 Days",
-    price: "₹2,10,000",
-    seatsLeft: 4,
-    totalSeats: 20,
-    status: "limited-seats",
   },
 ];
 

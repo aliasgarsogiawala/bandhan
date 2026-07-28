@@ -1,9 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useCollection } from "@/lib/admin/store";
-import type { Enquiry, GroupDeparture } from "@/lib/admin/types";
+import type { Enquiry } from "@/lib/admin/types";
+import type { GroupDeparture } from "@/lib/departures/types";
 import PageHeader from "@/components/admin/PageHeader";
 
 function timeAgo(iso: string) {
@@ -25,12 +26,18 @@ export default function AdminDashboard() {
   const { items: enquiries } = useCollection<Enquiry>("enquiries");
   const { items: packages } = useCollection("packages");
   const { items: destinations } = useCollection("destinations");
-  const { items: departures } = useCollection<GroupDeparture>("departures");
   const { items: testimonials } = useCollection("testimonials");
   const { items: gallery } = useCollection("gallery");
+  const [departures, setDepartures] = useState<GroupDeparture[]>([]);
+
+  useEffect(() => {
+    fetch("/api/admin/departures", { cache: "no-store" })
+      .then((res) => res.json())
+      .then((data) => setDepartures(data.departures || []));
+  }, []);
 
   const newEnquiries = enquiries.filter((e) => e.status === "new").length;
-  const seatsLeft = departures.reduce((sum, d) => sum + (d.seatsLeft || 0), 0);
+  const seatsLeft = departures.reduce((sum, d) => sum + (d.seats_left || 0), 0);
 
   const stats = [
     { label: "New Enquiries", value: newEnquiries, href: "/admin/enquiries", accent: true },

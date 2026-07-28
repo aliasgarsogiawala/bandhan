@@ -1,4 +1,5 @@
 import { getSql } from "@/lib/db";
+import { decrementSeats, getDepartureById, restoreSeats } from "@/lib/departures/db";
 import type {
   Booking,
   BookingDetail,
@@ -37,6 +38,7 @@ export interface CreateBookingInput {
   userId?: string | null;
   packageId?: string;
   packageTitle?: string;
+  departureId?: string;
   destination?: string;
   travelDate?: string;
   travellersCount?: number;
@@ -46,22 +48,44 @@ export interface CreateBookingInput {
   contactName: string;
   contactEmail: string;
   contactPhone: string;
+  /** Who logged this request — defaults to 'system' for the public booking forms. */
+  createdBy?: string;
+  createdNote?: string;
+}
+
+export class SoldOutError extends Error {
+  constructor() {
+    super("This departure is sold out.");
+    this.name = "SoldOutError";
+  }
 }
 
 export async function createBooking(input: CreateBookingInput): Promise<Booking> {
+  let destination = input.destination;
+  let travelDate = input.travelDate;
+  let packageTitle = input.packageTitle;
+
+  if (input.departureId) {
+    const departure = await getDepartureById(input.departureId);
+    if (!departure || departure.seats_left <= 0) throw new SoldOutError();
+    destination = destination || departure.destination;
+    travelDate = travelDate || departure.date;
+    packageTitle = packageTitle || departure.destination;
+  }
+
   const sql = getSql();
   const code = await uniqueBookingCode();
   const rows = (await sql`
     INSERT INTO bookings (
-      booking_code, type, user_id, package_id, package_title, destination,
+      booking_code, type, user_id, package_id, package_title, departure_id, destination,
       travel_date, travellers_count, traveller_names, budget, special_requirements,
       contact_name, contact_email, contact_phone
     ) VALUES (
       ${code}, ${input.type}, ${input.userId || null}, ${input.packageId || null},
-      ${input.packageTitle || null}, ${input.destination || null}, ${input.travelDate || null},
-      ${input.travellersCount ?? null}, ${input.travellerNames || null}, ${input.budget || null},
-      ${input.specialRequirements || null}, ${input.contactName}, ${input.contactEmail},
-      ${input.contactPhone}
+      ${packageTitle || null}, ${input.departureId || null}, ${destination || null},
+      ${travelDate || null}, ${input.travellersCount ?? null}, ${input.travellerNames || null},
+      ${input.budget || null}, ${input.specialRequirements || null}, ${input.contactName},
+      ${input.contactEmail}, ${input.contactPhone}
     )
     RETURNING *
   `) as Booking[];
@@ -69,7 +93,10 @@ export async function createBooking(input: CreateBookingInput): Promise<Booking>
   const booking = rows[0];
   await sql`
     INSERT INTO booking_status_history (booking_id, from_status, to_status, note, changed_by)
-    VALUES (${booking.id}, NULL, 'new', 'Request submitted', 'system')
+    VALUES (
+      ${booking.id}, NULL, 'new',
+      ${input.createdNote || "Request submitted"}, ${input.createdBy || "system"}
+    )
   `;
   return booking;
 }
@@ -121,6 +148,20 @@ export async function updateStatus(
   const sql = getSql();
   const current = await getBookingById(bookingId);
   if (!current) return null;
+
+  // Seats are claimed only once a booking is actually confirmed (payment
+  // received), and released if a confirmed booking later falls through —
+  // this is the one place every status transition passes through.
+  if (current.departure_id && toStatus === "confirmed" && current.status !== "confirmed") {
+    const claimed = await decrementSeats(current.departure_id, current.travellers_count || 1);
+    if (!claimed) throw new SoldOutError();
+  } else if (
+    current.departure_id &&
+    current.status === "confirmed" &&
+    (toStatus === "cancelled" || toStatus === "rejected")
+  ) {
+    await restoreSeats(current.departure_id, current.travellers_count || 1);
+  }
 
   const rows = (await sql`
     UPDATE bookings SET status = ${toStatus}, updated_at = now()

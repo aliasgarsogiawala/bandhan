@@ -54,7 +54,18 @@ export default function AdminBookingsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Bookings" description="All standard and customized bookings across agents." />
+      <PageHeader
+        title="Bookings"
+        description="All standard and customized bookings across agents."
+        action={
+          <Link
+            href="/admin/bookings/new"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-colors"
+          >
+            New Booking
+          </Link>
+        }
+      />
 
       <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden overflow-x-auto">
         {loading ? (

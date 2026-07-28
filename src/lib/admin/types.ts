@@ -1,7 +1,6 @@
 import type {
   Destination,
   TourPackage,
-  GroupDeparture,
   Testimonial,
   GalleryItem,
   WhyChooseItem,
@@ -11,7 +10,6 @@ import type {
 export type {
   Destination,
   TourPackage,
-  GroupDeparture,
   Testimonial,
   GalleryItem,
   WhyChooseItem,
@@ -36,7 +34,6 @@ export interface Enquiry {
 export type CollectionKey =
   | "destinations"
   | "packages"
-  | "departures"
   | "testimonials"
   | "gallery"
   | "features"

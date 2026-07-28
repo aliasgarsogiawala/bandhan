@@ -6,8 +6,11 @@ import { PrimaryButton } from "@/components/ui/PrimaryButton";
 interface BookingModalProps {
   isOpen: boolean;
   onClose: () => void;
-  packageId: string;
+  packageId?: string;
   packageTitle: string;
+  departureId?: string;
+  initialTravelDate?: string;
+  seatsLeft?: number;
 }
 
 const initialForm = {
@@ -25,6 +28,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   onClose,
   packageId,
   packageTitle,
+  departureId,
+  initialTravelDate,
+  seatsLeft,
 }) => {
   const [form, setForm] = useState(initialForm);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -35,7 +41,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   // Reset the form the moment the modal opens — same pattern as EnquiryModal.
   if (isOpen && !wasOpen) {
     setWasOpen(true);
-    setForm(initialForm);
+    setForm({ ...initialForm, travelDate: initialTravelDate || "" });
     setError("");
     setBookingCode(null);
   } else if (!isOpen && wasOpen) {
@@ -64,6 +70,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           type: "standard",
           packageId,
           packageTitle,
+          departureId,
           ...form,
         }),
       });
@@ -114,7 +121,20 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         </div>
 
         <div className="p-6 md:p-8 max-h-[75vh] overflow-y-auto">
-          {bookingCode ? (
+          {typeof seatsLeft === "number" && seatsLeft <= 0 ? (
+            <div className="text-center py-8 space-y-3">
+              <p className="text-lg font-bold text-primary">This departure is sold out.</p>
+              <p className="text-sm text-foreground-muted max-w-sm mx-auto">
+                All seats for this batch have been booked. Get in touch and we&apos;ll let you
+                know as soon as another departure opens up.
+              </p>
+              <div className="pt-2">
+                <PrimaryButton variant="navy" onClick={onClose} size="md" className="mx-auto">
+                  Close Window
+                </PrimaryButton>
+              </div>
+            </div>
+          ) : bookingCode ? (
             <div className="text-center py-8 space-y-4">
               <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner animate-scale-up">
                 <svg

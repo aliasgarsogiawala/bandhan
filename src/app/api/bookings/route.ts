@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { isDbConfigured } from "@/lib/db";
 import { getSessionUserId } from "@/lib/auth/session";
-import { createBooking } from "@/lib/bookings/db";
+import { createBooking, SoldOutError } from "@/lib/bookings/db";
 import type { BookingType } from "@/lib/bookings/types";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -10,6 +10,7 @@ interface CreateBookingBody {
   type?: BookingType;
   packageId?: string;
   packageTitle?: string;
+  departureId?: string;
   destination?: string;
   travelDate?: string;
   travellersCount?: string | number;
@@ -70,6 +71,7 @@ export async function POST(request: Request) {
       userId,
       packageId: body.packageId,
       packageTitle: body.packageTitle,
+      departureId: body.departureId,
       destination: body.destination,
       travelDate: body.travelDate,
       travellersCount: Number.isFinite(travellersCount) ? travellersCount : undefined,
@@ -82,6 +84,9 @@ export async function POST(request: Request) {
     });
     return NextResponse.json({ ok: true, booking });
   } catch (error) {
+    if (error instanceof SoldOutError) {
+      return NextResponse.json({ ok: false, error: error.message }, { status: 409 });
+    }
     console.error("create booking error:", error);
     return NextResponse.json(
       { ok: false, error: "Could not submit your booking. Please try again." },
