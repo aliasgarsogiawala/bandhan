@@ -13,7 +13,6 @@ import TravelGallery from "@/components/home/TravelGallery";
 import CTA from "@/components/home/CTA";
 import Footer from "@/components/common/Footer";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
-import { ScrollPlane } from "@/components/ui/ScrollPlane";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
 
 export default function Home() {
@@ -33,9 +32,6 @@ export default function Home() {
         onSearchSubmit={handleEnquire}
         onPlanTripClick={() => handleEnquire("")}
       />
-
-      {/* Scroll-driven plane doing a loop-de-loop across the page */}
-      <ScrollPlane />
 
       {/* 4. Popular Destinations */}
       <ScrollReveal>
