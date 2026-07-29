@@ -2,18 +2,13 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import type { Destination } from "@/data/mockData";
 import { useCollection } from "@/lib/admin/store";
 
-interface PopularDestinationsProps {
-  onDestinationSelect: (destName: string) => void;
-}
-
-export const PopularDestinations: React.FC<PopularDestinationsProps> = ({
-  onDestinationSelect,
-}) => {
+export const PopularDestinations: React.FC = () => {
   const { items } = useCollection<Destination>("destinations");
   const destinations = items.filter((destination) => destination.status !== "draft" && destination.isFeatured !== false);
   return (
@@ -33,9 +28,9 @@ export const PopularDestinations: React.FC<PopularDestinationsProps> = ({
         {/* Destination Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {destinations.map((dest, idx) => (
-            <div
+            <Link
               key={dest.id}
-              onClick={() => onDestinationSelect(dest.name)}
+              href={`/book?type=destination&id=${encodeURIComponent(dest.id)}`}
               className="group relative h-[380px] rounded-3xl overflow-hidden cursor-pointer shadow-soft hover:shadow-xl transition-all duration-500 border border-slate-100/50"
               style={{
                 animationDelay: `${idx * 100}ms`,
@@ -74,7 +69,7 @@ export const PopularDestinations: React.FC<PopularDestinationsProps> = ({
 
                 {/* Call To Action indicator */}
                 <div className="mt-3 flex items-center gap-1.5 text-xs text-gold font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <span>Enquire Details</span>
+                  <span>Plan This Destination</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="12"
@@ -91,7 +86,7 @@ export const PopularDestinations: React.FC<PopularDestinationsProps> = ({
                   </svg>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </Container>

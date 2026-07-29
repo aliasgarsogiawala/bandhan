@@ -78,6 +78,25 @@ export default function AdminBookingDetailPage() {
             </div>
           )}
         </div>
+        <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-slate-100 pt-5">
+          <span className="mr-auto text-xs font-bold uppercase tracking-wider text-foreground-muted">
+            {booking.quotation_number}
+          </span>
+          <a
+            href={`/api/bookings/${booking.id}/brochure`}
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-full bg-primary px-4 py-2 text-xs font-bold text-white"
+          >
+            Preview brochure
+          </a>
+          <a
+            href={`/api/bookings/${booking.id}/brochure?download=1`}
+            className="rounded-full border border-primary/20 px-4 py-2 text-xs font-bold text-primary"
+          >
+            Download PDF
+          </a>
+        </div>
       </div>
 
       <div className="bg-white rounded-2xl border border-slate-100 p-6">

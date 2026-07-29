@@ -40,7 +40,10 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${poppins.variable} ${devanagari.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-white text-foreground font-sans selection:bg-gold/30">
+      <body
+        suppressHydrationWarning
+        className="min-h-full flex flex-col bg-white text-foreground font-sans selection:bg-gold/30"
+      >
         {children}
         <Chatbot />
       </body>

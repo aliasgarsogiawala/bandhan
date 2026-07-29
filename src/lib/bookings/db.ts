@@ -12,6 +12,15 @@ import type {
   NotificationChannel,
   PaymentStatus,
 } from "./types";
+import type {
+  BookingPackageSnapshot,
+  BookingSource,
+  QuoteSnapshot,
+  RoomConfiguration,
+  SelectedAddon,
+  TravellerBreakdown,
+} from "./pricing";
+import { formatMoney } from "./pricing";
 
 const CODE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // no 0/O/1/I
 
@@ -45,6 +54,15 @@ export interface CreateBookingInput {
   travellerNames?: string;
   budget?: string;
   specialRequirements?: string;
+  bookingSource?: BookingSource;
+  departureCity?: string;
+  durationLabel?: string;
+  travellers?: TravellerBreakdown;
+  rooms?: RoomConfiguration;
+  selectedAddons?: SelectedAddon[];
+  pricingSnapshot?: QuoteSnapshot;
+  packageSnapshot?: BookingPackageSnapshot;
+  termsAccepted?: boolean;
   contactName: string;
   contactEmail: string;
   contactPhone: string;
@@ -75,17 +93,36 @@ export async function createBooking(input: CreateBookingInput): Promise<Booking>
 
   const sql = getSql();
   const code = await uniqueBookingCode();
+  const quotationNumber = `QT-${code.replace("BKG-", "")}`;
+  const travellers = input.travellers || {
+    adults: Math.max(1, input.travellersCount || 1),
+    childrenWithBed: 0,
+    childrenWithoutBed: 0,
+    infants: 0,
+  };
+  const rooms = input.rooms || { singleRooms: 0, doubleRooms: 1, tripleRooms: 0 };
+  const selectedAddons = JSON.stringify(input.selectedAddons || []);
+  const pricingSnapshot = JSON.stringify(input.pricingSnapshot || {});
+  const packageSnapshot = JSON.stringify(input.packageSnapshot || {});
   const rows = (await sql`
     INSERT INTO bookings (
       booking_code, type, user_id, package_id, package_title, departure_id, destination,
       travel_date, travellers_count, traveller_names, budget, special_requirements,
-      contact_name, contact_email, contact_phone
+      contact_name, contact_email, contact_phone, booking_source, departure_city,
+      duration_label, adults, children_with_bed, children_without_bed, infants,
+      room_configuration, selected_addons, pricing_snapshot, package_snapshot,
+      terms_accepted, quotation_number, price_amount
     ) VALUES (
       ${code}, ${input.type}, ${input.userId || null}, ${input.packageId || null},
       ${packageTitle || null}, ${input.departureId || null}, ${destination || null},
       ${travelDate || null}, ${input.travellersCount ?? null}, ${input.travellerNames || null},
       ${input.budget || null}, ${input.specialRequirements || null}, ${input.contactName},
-      ${input.contactEmail}, ${input.contactPhone}
+      ${input.contactEmail}, ${input.contactPhone}, ${input.bookingSource || "package"},
+      ${input.departureCity || null}, ${input.durationLabel || null}, ${travellers.adults},
+      ${travellers.childrenWithBed}, ${travellers.childrenWithoutBed}, ${travellers.infants},
+      ${JSON.stringify(rooms)}::jsonb, ${selectedAddons}::jsonb, ${pricingSnapshot}::jsonb,
+      ${packageSnapshot}::jsonb, ${Boolean(input.termsAccepted)}, ${quotationNumber},
+      ${input.pricingSnapshot?.total ? formatMoney(input.pricingSnapshot.total) : null}
     )
     RETURNING *
   `) as Booking[];
@@ -104,6 +141,17 @@ export async function createBooking(input: CreateBookingInput): Promise<Booking>
 export async function getBookingById(id: string): Promise<Booking | null> {
   const sql = getSql();
   const rows = (await sql`SELECT * FROM bookings WHERE id = ${id} LIMIT 1`) as Booking[];
+  return rows[0] ?? null;
+}
+
+export async function getBookingByAccessToken(
+  id: string,
+  accessToken: string
+): Promise<Booking | null> {
+  const sql = getSql();
+  const rows = (await sql`
+    SELECT * FROM bookings WHERE id = ${id} AND access_token = ${accessToken} LIMIT 1
+  `) as Booking[];
   return rows[0] ?? null;
 }
 
@@ -292,4 +340,15 @@ export async function listNotifications(bookingId: string): Promise<BookingNotif
   return (await sql`
     SELECT * FROM booking_notifications WHERE booking_id = ${bookingId} ORDER BY created_at DESC
   `) as BookingNotification[];
+}
+
+export async function markBrochureSent(bookingId: string): Promise<Booking | null> {
+  const sql = getSql();
+  const rows = (await sql`
+    UPDATE bookings
+    SET brochure_sent_at = now(), quotation_status = 'sent', updated_at = now()
+    WHERE id = ${bookingId}
+    RETURNING *
+  `) as Booking[];
+  return rows[0] ?? null;
 }

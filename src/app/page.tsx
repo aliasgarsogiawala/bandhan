@@ -21,6 +21,9 @@ export default function Home() {
   const handleEnquire = (destination: string = "") => {
     router.push(contactEnquiryHref(destination));
   };
+  const handleSearch = (destination: string) => {
+    router.push(`/book?type=custom&destination=${encodeURIComponent(destination)}`);
+  };
 
   return (
     <div className="min-h-screen bg-sand flex flex-col overflow-x-hidden selection:bg-accent/20 selection:text-accent-dark">
@@ -29,13 +32,13 @@ export default function Home() {
 
       {/* 2. Hero Section & 3. Floating Search Card */}
       <Hero
-        onSearchSubmit={handleEnquire}
-        onPlanTripClick={() => handleEnquire("")}
+        onSearchSubmit={handleSearch}
+        onPlanTripClick={() => router.push("/book?type=custom")}
       />
 
       {/* 4. Popular Destinations */}
       <ScrollReveal>
-        <PopularDestinations onDestinationSelect={handleEnquire} />
+        <PopularDestinations />
       </ScrollReveal>
 
       {/* 5. Featured Tour Packages */}
@@ -65,7 +68,7 @@ export default function Home() {
 
       {/* 10. CTA Section */}
       <ScrollReveal>
-        <CTA onStartPlanningClick={() => handleEnquire("")} />
+        <CTA onStartPlanningClick={() => router.push("/book?type=custom")} />
       </ScrollReveal>
 
       {/* 11. Footer */}

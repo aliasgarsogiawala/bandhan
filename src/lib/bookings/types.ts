@@ -1,3 +1,11 @@
+import type {
+  BookingPackageSnapshot,
+  BookingSource,
+  QuoteSnapshot,
+  RoomConfiguration,
+  SelectedAddon,
+} from "./pricing";
+
 export type BookingType = "standard" | "customized";
 
 export type BookingStatus =
@@ -58,6 +66,22 @@ export interface Booking {
   price_amount: string | null;
   payment_status: PaymentStatus;
   internal_remarks: string | null;
+  booking_source: BookingSource;
+  access_token: string;
+  departure_city: string | null;
+  duration_label: string | null;
+  adults: number;
+  children_with_bed: number;
+  children_without_bed: number;
+  infants: number;
+  room_configuration: RoomConfiguration;
+  selected_addons: SelectedAddon[];
+  pricing_snapshot: QuoteSnapshot;
+  package_snapshot: BookingPackageSnapshot;
+  terms_accepted: boolean;
+  quotation_number: string;
+  quotation_status: "generated" | "sent" | "accepted" | "expired";
+  brochure_sent_at: string | null;
   created_at: string;
   updated_at: string;
 }

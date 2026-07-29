@@ -42,6 +42,25 @@ export interface PackageGalleryImage {
   caption: string;
 }
 
+export interface PackageAddon {
+  id: string;
+  title: string;
+  description?: string;
+  price: number;
+  pricing: "per-person" | "per-booking";
+}
+
+export interface PackagePricing {
+  adultPrice: number;
+  childWithBedPrice: number;
+  childWithoutBedPrice: number;
+  infantPrice: number;
+  singleRoomSupplement: number;
+  depositPercent: number;
+  quoteValidityDays: number;
+  addons: PackageAddon[];
+}
+
 export interface TourPackage {
   id: string;
   title: string;
@@ -63,6 +82,7 @@ export interface TourPackage {
   exclusions?: string[];
   gallery?: PackageGalleryImage[];
   faqs?: PackageFaq[];
+  pricing?: PackagePricing;
   status?: "draft" | "active";
 }
 

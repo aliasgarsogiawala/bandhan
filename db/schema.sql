@@ -66,11 +66,34 @@ CREATE TABLE IF NOT EXISTS bookings (
 );
 
 ALTER TABLE bookings ADD COLUMN IF NOT EXISTS departure_id uuid REFERENCES group_departures(id);
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS booking_source text NOT NULL DEFAULT 'package';
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS access_token text;
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS departure_city text;
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS duration_label text;
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS adults int NOT NULL DEFAULT 1;
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS children_with_bed int NOT NULL DEFAULT 0;
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS children_without_bed int NOT NULL DEFAULT 0;
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS infants int NOT NULL DEFAULT 0;
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS room_configuration jsonb NOT NULL DEFAULT '{}'::jsonb;
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS selected_addons jsonb NOT NULL DEFAULT '[]'::jsonb;
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS pricing_snapshot jsonb NOT NULL DEFAULT '{}'::jsonb;
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS package_snapshot jsonb NOT NULL DEFAULT '{}'::jsonb;
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS terms_accepted boolean NOT NULL DEFAULT false;
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS quotation_number text;
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS quotation_status text NOT NULL DEFAULT 'generated';
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS brochure_sent_at timestamptz;
+UPDATE bookings SET access_token = encode(gen_random_bytes(24), 'hex') WHERE access_token IS NULL;
+ALTER TABLE bookings ALTER COLUMN access_token SET DEFAULT encode(gen_random_bytes(24), 'hex');
+ALTER TABLE bookings ALTER COLUMN access_token SET NOT NULL;
+UPDATE bookings SET quotation_number = 'QT-' || replace(booking_code, 'BKG-', '') WHERE quotation_number IS NULL;
+ALTER TABLE bookings ALTER COLUMN quotation_number SET NOT NULL;
 
 CREATE INDEX IF NOT EXISTS bookings_user_id_idx ON bookings (user_id);
 CREATE INDEX IF NOT EXISTS bookings_agent_id_idx ON bookings (agent_id);
 CREATE INDEX IF NOT EXISTS bookings_status_idx ON bookings (status);
 CREATE INDEX IF NOT EXISTS bookings_departure_id_idx ON bookings (departure_id);
+CREATE UNIQUE INDEX IF NOT EXISTS bookings_access_token_idx ON bookings (access_token);
+CREATE UNIQUE INDEX IF NOT EXISTS bookings_quotation_number_idx ON bookings (quotation_number);
 
 CREATE TABLE IF NOT EXISTS booking_status_history (
   id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),

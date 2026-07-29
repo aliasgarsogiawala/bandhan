@@ -295,10 +295,10 @@ export const PackagesPageClient: React.FC = () => {
                   in mind.
                 </p>
                 <button
-                  onClick={() => handleEnquire("")}
+                  onClick={() => router.push("/book?type=custom")}
                   className="mt-6 inline-flex items-center gap-2 px-8 py-3.5 bg-accent text-white rounded-full text-sm font-bold hover:bg-accent-dark hover:shadow-lg hover:shadow-accent/20 transition-all duration-300"
                 >
-                  Plan a Custom Trip
+                  Build a Custom Trip
                 </button>
               </div>
             </div>

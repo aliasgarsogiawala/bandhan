@@ -8,13 +8,11 @@ import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
-import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import type { TourPackage } from "@/data/mockData";
 import type { FullPackage } from "@/data/packageDetails";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
 import { ViewingNow, SeatsLeft, RecentlyBooked, Countdown, endOfToday } from "@/components/ui/Urgency";
 import { SecondaryButton } from "@/components/ui/SecondaryButton";
-import BookingModal from "@/components/packages/BookingModal";
 
 interface PackageDetailClientProps {
   pkg: FullPackage;
@@ -86,7 +84,6 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
   const router = useRouter();
   const [openDay, setOpenDay] = useState<number | null>(1);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
-  const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   const enquire = () => router.push(contactEnquiryHref(pkg.title));
 
@@ -185,12 +182,12 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
               {section.label}
             </a>
           ))}
-          <button
-            onClick={() => setIsBookingOpen(true)}
+          <Link
+            href={`/book?type=package&id=${encodeURIComponent(pkg.id)}`}
             className="ml-auto hidden sm:inline-flex px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-accent text-white hover:bg-accent-dark transition-colors duration-300 whitespace-nowrap"
           >
             Book Now
-          </button>
+          </Link>
         </Container>
       </div>
 
@@ -506,14 +503,12 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                   ))}
                 </ul>
 
-                <PrimaryButton
-                  variant="coral"
-                  size="md"
-                  fullWidth
-                  onClick={() => setIsBookingOpen(true)}
+                <Link
+                  href={`/book?type=package&id=${encodeURIComponent(pkg.id)}`}
+                  className="inline-flex w-full items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-bold text-white transition hover:bg-accent-dark"
                 >
                   Book Now
-                </PrimaryButton>
+                </Link>
 
                 <SecondaryButton
                   variant="outline-navy"
@@ -650,12 +645,6 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
 
       <Footer />
 
-      <BookingModal
-        isOpen={isBookingOpen}
-        onClose={() => setIsBookingOpen(false)}
-        packageId={pkg.id}
-        packageTitle={pkg.title}
-      />
     </div>
   );
 };

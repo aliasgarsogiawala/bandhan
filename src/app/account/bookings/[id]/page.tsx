@@ -84,11 +84,11 @@ export default function AccountBookingDetailPage() {
                       </Link>
                     )}
                     <Link
-                      href={`/account/bookings/${booking.id}/quotation`}
+                      href={`/api/bookings/${booking.id}/brochure`}
                       target="_blank"
                       className="text-xs font-bold uppercase tracking-wider text-accent hover:text-accent-dark whitespace-nowrap"
                     >
-                      Download Summary →
+                      Proposal Brochure →
                     </Link>
                   </div>
                 </div>

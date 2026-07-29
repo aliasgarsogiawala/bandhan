@@ -123,6 +123,28 @@ export default function AgentBookingDetailPage() {
     }
   };
 
+  const sendBrochure = async (deliveryChannel: "email" | "whatsapp") => {
+    setBusy(true);
+    try {
+      const res = await fetch(`/api/bookings/${params.id}/send-brochure`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ channel: deliveryChannel }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) {
+        alert(data.error || "Could not send the brochure.");
+        return;
+      }
+      if (data.shareUrl) window.open(data.shareUrl, "_blank", "noopener,noreferrer");
+      else if (data.mailtoUrl) window.location.assign(data.mailtoUrl);
+      else alert(`Brochure sent to ${booking?.contact_email}.`);
+      await refresh();
+    } finally {
+      setBusy(false);
+    }
+  };
+
   if (loading) return <p className="text-sm text-foreground-muted">Loading…</p>;
   if (error || !booking) {
     return <p className="text-sm text-foreground-muted">{error || "Booking not found."}</p>;
@@ -284,6 +306,18 @@ export default function AgentBookingDetailPage() {
       {/* Documents */}
       <div className="bg-white rounded-2xl border border-slate-100 p-6 space-y-4">
         <h2 className="text-sm font-bold uppercase tracking-wider text-primary">Documents</h2>
+        <div className="rounded-2xl border border-gold/30 bg-gold/10 p-4">
+          <p className="text-sm font-bold text-primary">Generated proposal brochure</p>
+          <p className="mt-1 text-xs text-foreground-muted">
+            Includes the saved itinerary, traveller configuration, price breakdown, inclusions and terms.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <a href={`/api/bookings/${booking.id}/brochure`} target="_blank" rel="noreferrer" className="rounded-full bg-primary px-4 py-2 text-xs font-bold text-white">Preview PDF</a>
+            <a href={`/api/bookings/${booking.id}/brochure?download=1`} className="rounded-full border border-primary/20 px-4 py-2 text-xs font-bold text-primary">Download</a>
+            <button type="button" disabled={busy} onClick={() => sendBrochure("email")} className="rounded-full border border-primary/20 px-4 py-2 text-xs font-bold text-primary disabled:opacity-50">Send email</button>
+            <button type="button" disabled={busy} onClick={() => sendBrochure("whatsapp")} className="rounded-full bg-emerald-600 px-4 py-2 text-xs font-bold text-white disabled:opacity-50">Share WhatsApp</button>
+          </div>
+        </div>
         <ul className="space-y-2">
           {booking.documents.map((doc) => (
             <li key={doc.id} className="text-sm">
@@ -318,7 +352,7 @@ export default function AgentBookingDetailPage() {
           </PrimaryButton>
         </div>
         <p className="text-xs text-foreground-muted">
-          Tip: link to <code>/account/bookings/{booking.id}/quotation</code> for a printable summary.
+          The generated proposal is always available at <code>/api/bookings/{booking.id}/brochure</code>.
         </p>
       </div>
 

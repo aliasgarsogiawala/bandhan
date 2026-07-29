@@ -3,6 +3,15 @@ import { isDbConfigured } from "@/lib/db";
 import { getSessionUserId } from "@/lib/auth/session";
 import { createBooking, SoldOutError } from "@/lib/bookings/db";
 import type { BookingType } from "@/lib/bookings/types";
+import type {
+  BookingPackageSnapshot,
+  BookingSource,
+  QuoteSnapshot,
+  RoomConfiguration,
+  SelectedAddon,
+  TravellerBreakdown,
+} from "@/lib/bookings/pricing";
+import { totalTravellers } from "@/lib/bookings/pricing";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -17,6 +26,15 @@ interface CreateBookingBody {
   travellerNames?: string;
   budget?: string;
   specialRequirements?: string;
+  bookingSource?: BookingSource;
+  departureCity?: string;
+  durationLabel?: string;
+  travellers?: TravellerBreakdown;
+  rooms?: RoomConfiguration;
+  selectedAddons?: SelectedAddon[];
+  pricingSnapshot?: QuoteSnapshot;
+  packageSnapshot?: BookingPackageSnapshot;
+  termsAccepted?: boolean;
   contactName?: string;
   contactEmail?: string;
   contactPhone?: string;
@@ -38,6 +56,10 @@ export async function POST(request: Request) {
   }
 
   const type: BookingType = body.type === "customized" ? "customized" : "standard";
+  const bookingSource: BookingSource =
+    body.bookingSource === "destination" || body.bookingSource === "custom"
+      ? body.bookingSource
+      : "package";
   const contactName = (body.contactName || "").trim();
   const contactEmail = (body.contactEmail || "").trim().toLowerCase();
   const contactPhone = (body.contactPhone || "").trim();
@@ -48,7 +70,7 @@ export async function POST(request: Request) {
 
   const userId = await getSessionUserId();
 
-  if (type === "customized" && !userId) {
+  if (bookingSource === "custom" && !userId) {
     return NextResponse.json(
       { ok: false, error: "Please sign in to submit a customized trip request." },
       { status: 401 }
@@ -63,7 +85,15 @@ export async function POST(request: Request) {
     return fail("Missing package details.");
   }
 
-  const travellersCount = body.travellersCount ? Number(body.travellersCount) : undefined;
+  if (!(body.travelDate || "").trim()) return fail("Please select your travel date.");
+  if (!body.termsAccepted) return fail("Please accept the booking and cancellation terms.");
+
+  const travellers = sanitizeTravellers(body.travellers, body.travellersCount);
+  const travellersCount = totalTravellers(travellers);
+  if (travellersCount < 1) return fail("Please add at least one traveller.");
+  if (!body.pricingSnapshot || !Number.isFinite(Number(body.pricingSnapshot.total))) {
+    return fail("The quotation could not be calculated. Please review your trip details.");
+  }
 
   try {
     const booking = await createBooking({
@@ -72,17 +102,31 @@ export async function POST(request: Request) {
       packageId: body.packageId,
       packageTitle: body.packageTitle,
       departureId: body.departureId,
+      bookingSource,
       destination: body.destination,
       travelDate: body.travelDate,
-      travellersCount: Number.isFinite(travellersCount) ? travellersCount : undefined,
+      travellersCount,
       travellerNames: body.travellerNames,
       budget: body.budget,
       specialRequirements: body.specialRequirements,
+      departureCity: body.departureCity,
+      durationLabel: body.durationLabel,
+      travellers,
+      rooms: body.rooms,
+      selectedAddons: body.selectedAddons,
+      pricingSnapshot: body.pricingSnapshot,
+      packageSnapshot: body.packageSnapshot,
+      termsAccepted: body.termsAccepted,
       contactName,
       contactEmail,
       contactPhone,
     });
-    return NextResponse.json({ ok: true, booking });
+    return NextResponse.json({
+      ok: true,
+      booking,
+      accessToken: booking.access_token,
+      brochureUrl: `/api/bookings/${booking.id}/brochure?token=${booking.access_token}`,
+    });
   } catch (error) {
     if (error instanceof SoldOutError) {
       return NextResponse.json({ ok: false, error: error.message }, { status: 409 });
@@ -93,6 +137,22 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
+}
+
+function sanitizeTravellers(
+  value: TravellerBreakdown | undefined,
+  fallback: string | number | undefined
+): TravellerBreakdown {
+  const safe = (input: unknown, defaultValue = 0) => {
+    const numeric = Number(input);
+    return Number.isFinite(numeric) ? Math.min(99, Math.max(0, Math.floor(numeric))) : defaultValue;
+  };
+  return {
+    adults: safe(value?.adults, safe(fallback, 1)),
+    childrenWithBed: safe(value?.childrenWithBed),
+    childrenWithoutBed: safe(value?.childrenWithoutBed),
+    infants: safe(value?.infants),
+  };
 }
 
 function fail(error: string) {

@@ -9,7 +9,7 @@ import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { useAuth } from "@/lib/auth/useAuth";
 
 interface NavbarProps {
-  onEnquiryClick: () => void;
+  onEnquiryClick?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
@@ -22,6 +22,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
 
   const { user, signOut } = useAuth();
   const router = useRouter();
+  const openEnquiry = onEnquiryClick || (() => router.push("/contact"));
 
   const packagesRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -129,12 +130,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
             {/* Home Link */}
-            <a
+            <Link
               href="/"
               className="text-sm font-medium tracking-wide text-white/85 hover:text-gold transition-colors duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gold hover:after:w-full after:transition-all after:duration-300"
             >
               Home
-            </a>
+            </Link>
 
             {/* Packages Dropdown Trigger & Menu */}
             <div
@@ -271,7 +272,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
             <PrimaryButton
               variant="coral"
               size="sm"
-              onClick={onEnquiryClick}
+              onClick={openEnquiry}
               className="hover:scale-105 duration-300 shrink-0"
             >
               Enquire Now
@@ -388,13 +389,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
         >
           <div className="flex flex-col gap-6 text-center max-h-[80vh] overflow-y-auto py-8">
             {/* Home link */}
-            <a
+            <Link
               href="/"
               onClick={() => setIsMobileMenuOpen(false)}
               className="text-2xl font-bold font-heading text-white/90 hover:text-gold transition-colors duration-300"
             >
               Home
-            </a>
+            </Link>
 
             {/* Mobile Packages Collapsible Trigger & Submenu */}
             <div className="flex flex-col items-center">
@@ -471,7 +472,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
                 size="lg"
                 onClick={() => {
                   setIsMobileMenuOpen(false);
-                  onEnquiryClick();
+                  openEnquiry();
                 }}
                 className="w-full max-w-[280px]"
               >

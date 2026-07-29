@@ -29,6 +29,29 @@ User sign-in/sign-up is backed by [Neon](https://neon.tech) Postgres. To enable 
 
 Until `DATABASE_URL` is set, the sign-in/sign-up endpoints return a friendly "not configured yet" message and the rest of the site works normally. Passwords are hashed with scrypt; sessions are stateless, signed cookies.
 
+## Booking Engine & Proposal Delivery
+
+The complete customer configurator is available at `/book` and supports:
+
+- Published tour-package bookings.
+- Destination-led custom holidays.
+- Fully custom trip requests.
+- Adult, child-with-bed, child-without-bed and infant pricing.
+- Single, double/twin and triple room configuration.
+- Optional activities and upgrades.
+- Indicative quotation, booking advance and balance calculation.
+- A branded itinerary and quotation brochure PDF.
+- Customer, agent and admin brochure access.
+- Email delivery with a PDF attachment and WhatsApp sharing.
+
+Package rates, child rates, room supplements, advance percentage, quotation
+validity and optional activities are configured in **Admin → Tour Packages**.
+
+Run `npm run db:migrate` after pulling booking-engine changes. To deliver emails
+directly, configure `RESEND_API_KEY` and `EMAIL_FROM` in `.env.local`. Without a
+mail provider the system opens a prepared email draft and keeps PDF download and
+WhatsApp sharing available.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
