@@ -6,6 +6,9 @@ import { Container } from "@/components/ui/Container";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { SecondaryButton } from "@/components/ui/SecondaryButton";
 import { useRecentSearches } from "@/lib/recentSearches";
+import { useCollection } from "@/lib/admin/store";
+import { fuzzySearch } from "@/lib/fuzzySearch";
+import type { Destination, TourPackage } from "@/data/mockData";
 
 export interface HeroSearch {
   destination: string;
@@ -15,16 +18,42 @@ export interface HeroSearch {
 }
 
 interface HeroProps {
-  onSearchSubmit: (search: HeroSearch) => void;
+  onSearchSubmit: (href: string) => void;
   onPlanTripClick: () => void;
 }
+
+const parsePrice = (price: string) => Number(price.replace(/[^0-9]/g, "")) || 0;
+const parseDays = (value: string) => {
+  const numbers = value.match(/\d+/g)?.map(Number) ?? [];
+  return numbers.length ? Math.max(...numbers) : 0;
+};
+
+const matchesBudget = (price: string, budget: string) => {
+  const amount = parsePrice(price);
+  if (!budget) return true;
+  if (budget === "25000") return amount < 30000;
+  if (budget === "45000") return amount >= 30000 && amount < 60000;
+  if (budget === "90000") return amount >= 60000 && amount < 120000;
+  return amount >= 120000;
+};
+
+const matchesDuration = (value: string, duration: string) => {
+  const days = parseDays(value);
+  if (!duration) return true;
+  if (duration === "3-5 Days") return days >= 3 && days <= 5;
+  if (duration === "6-9 Days") return days >= 6 && days <= 9;
+  return days >= 10;
+};
 
 export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) => {
   const [destination, setDestination] = useState("");
   const [travelMonth, setTravelMonth] = useState("");
   const [duration, setDuration] = useState("");
   const [budget, setBudget] = useState("");
+  const [searchError, setSearchError] = useState("");
   const { saveRecentSearch } = useRecentSearches();
+  const { items: packages } = useCollection<TourPackage>("packages");
+  const { items: destinations } = useCollection<Destination>("destinations");
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +63,7 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
     const budgetLabel = budget
       ? { "25000": "under ₹30k", "45000": "₹30k – ₹60k", "90000": "₹60k – ₹1.2L", "150000": "over ₹1.2L" }[budget]
       : "";
-    const query = [
+    const searchDescription = [
       destination.trim(),
       travelMonthLabel ? `in ${travelMonthLabel}` : "",
       duration ? `for ${duration}` : "",
@@ -42,13 +71,43 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
     ]
       .filter(Boolean)
       .join(", ");
-    const searchLabel = query || destination || "Any Destination";
+    const searchLabel = searchDescription || destination || "Any Destination";
 
     saveRecentSearch({
       label: searchLabel,
       destination: destination.trim() || searchLabel,
     });
-    onSearchSubmit({ destination: destination.trim(), travelMonth, duration, budget });
+
+    const query = destination.trim();
+    const packageMatches = fuzzySearch(
+      packages.filter((pkg) => pkg.status !== "draft"),
+      query,
+      ["title", "category", "tagline", "overview", "highlights", "themes"]
+    ).filter((pkg) => matchesBudget(pkg.price, budget) && matchesDuration(pkg.duration, duration));
+
+    if (packageMatches[0]) {
+      setSearchError("");
+      onSearchSubmit(`/packages/${encodeURIComponent(packageMatches[0].id)}`);
+      return;
+    }
+
+    const destinationMatches = fuzzySearch(
+      destinations.filter((item) => item.status !== "draft"),
+      query,
+      ["name", "country", "region", "tag", "description", "highlights"]
+    );
+
+    if (destinationMatches[0] && !budget && !duration) {
+      setSearchError("");
+      onSearchSubmit(`/destinations/${encodeURIComponent(destinationMatches[0].id)}`);
+      return;
+    }
+
+    setSearchError(
+      budget || duration
+        ? "No trip matches that destination and your selected filters. Try a wider budget or duration."
+        : "Trip not found. Try another destination or browse all available tours."
+    );
   };
 
   return (
@@ -130,7 +189,10 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
                   type="text"
                   required
                   value={destination}
-                  onChange={(e) => setDestination(e.target.value)}
+                  onChange={(e) => {
+                    setDestination(e.target.value);
+                    if (searchError) setSearchError("");
+                  }}
                   placeholder="e.g. Kashmir, Bali, Europe"
                   className="bg-transparent text-white outline-none font-medium placeholder:text-slate-300 text-sm w-full"
                 />
@@ -203,7 +265,16 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
               </div>
               </div>
             </form>
-            <p className="mt-3 text-center text-xs font-medium text-white/65">Choose a destination to start. You can fine-tune everything with your travel designer.</p>
+            {searchError ? (
+              <div className="mt-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center" role="alert">
+                <p className="text-xs font-semibold text-white">{searchError}</p>
+                <button type="button" onClick={() => onSearchSubmit("/packages")} className="text-xs font-bold text-gold underline decoration-gold/40 underline-offset-4 hover:text-white">
+                  Browse all tours
+                </button>
+              </div>
+            ) : (
+              <p className="mt-3 text-center text-xs font-medium text-white/65">We&apos;ll open the closest matching tour from the live catalogue.</p>
+            )}
           </div>
         </Container>
       </div>

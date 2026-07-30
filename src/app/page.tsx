@@ -4,7 +4,6 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/common/Navbar";
 import Hero from "@/components/home/Hero";
-import type { HeroSearch } from "@/components/home/Hero";
 import PopularDestinations from "@/components/home/PopularDestinations";
 import FeaturedPackages from "@/components/home/FeaturedPackages";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
@@ -22,13 +21,7 @@ export default function Home() {
   const handleEnquire = (destination: string = "") => {
     router.push(contactEnquiryHref(destination));
   };
-  const handleSearch = ({ destination, travelMonth, duration, budget }: HeroSearch) => {
-    const params = new URLSearchParams({ type: "custom", destination });
-    if (travelMonth) params.set("month", travelMonth);
-    if (duration) params.set("duration", duration);
-    if (budget) params.set("budget", budget);
-    router.push(`/book?${params.toString()}`);
-  };
+  const handleSearch = (href: string) => router.push(href);
 
   return (
     <div className="min-h-screen bg-sand flex flex-col overflow-x-hidden selection:bg-accent/20 selection:text-accent-dark">

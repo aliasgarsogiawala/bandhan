@@ -38,8 +38,8 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
     <div
       ref={ref}
       style={{ transitionDelay: isVisible ? `${delay}ms` : "0ms" }}
-      className={`transition-all duration-700 ease-out will-change-transform ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+      className={`transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform motion-reduce:transform-none motion-reduce:opacity-100 motion-reduce:blur-none motion-reduce:transition-none ${
+        isVisible ? "translate-y-0 scale-100 opacity-100 blur-none" : "translate-y-12 scale-[0.985] opacity-0 blur-[2px]"
       } ${className}`}
     >
       {children}

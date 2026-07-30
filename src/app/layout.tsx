@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 import Chatbot from "@/components/common/Chatbot";
 import { siteUrl } from "@/lib/siteConfig";
 import { AuthProvider } from "@/lib/auth/useAuth";
+import ScrollProgress from "@/components/ui/ScrollProgress";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -45,6 +46,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className="min-h-full flex flex-col bg-white text-foreground font-sans selection:bg-gold/30"
       >
+        <ScrollProgress />
         <AuthProvider>
           {children}
           <Chatbot />

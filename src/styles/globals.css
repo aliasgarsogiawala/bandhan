@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+}
+
 @theme {
   --color-primary: #07203c;
   --color-primary-light: #123358;
@@ -104,6 +108,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .draw-path { animation: none; stroke-dashoffset: 0; }
   .animate-float, .animate-float-slow { animation: none; }

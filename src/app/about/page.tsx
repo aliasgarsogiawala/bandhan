@@ -5,33 +5,60 @@ import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import AboutHero from "@/components/about/AboutHero";
 
 export const metadata: Metadata = {
-  title: "About Bandhan Tours | Thoughtful Travel, Personally Planned",
+  title: "About Bandhan Tours | Trusted Travel Experts Since 2013",
   description:
-    "Meet Bandhan Tours, a Kolkata-based travel company creating considered group tours, family holidays, and personalised journeys across India and abroad.",
+    "Meet Bandhan Tours, a Thane-headquartered travel company trusted by more than 25,000 travellers for domestic, international, B2B, and Northeast India tours.",
 };
 
 const standards = [
   {
     number: "01",
-    title: "We listen before we plan",
-    copy: "The destination is only the beginning. We understand the people travelling, the pace they enjoy, and what will make the journey feel worthwhile.",
+    title: "Commitment to excellence",
+    copy: "Every itinerary is planned with care, precision, and a clear standard for service from the first conversation to the journey home.",
   },
   {
     number: "02",
-    title: "We make the details visible",
-    copy: "Hotels, transfers, meals, sightseeing, and exclusions are set out clearly so travellers know what they are choosing.",
+    title: "Customised travel",
+    copy: "Journeys are shaped around the traveller—their interests, pace, dates, and priorities—not forced into a one-size-fits-all plan.",
   },
   {
     number: "03",
-    title: "We stay close to the journey",
-    copy: "From the first conversation to the return home, one accountable team remains available to support the trip.",
+    title: "Quality & safety",
+    copy: "Trusted professionals, considered stays, dependable transport, and practical route planning keep every experience comfortable and secure.",
   },
   {
     number: "04",
-    title: "We value the memory, not the rush",
-    copy: "Good itineraries leave room to experience a place. We plan for meaningful days rather than simply adding more stops.",
+    title: "Customer satisfaction",
+    copy: "Guest comfort and honest support guide every decision, because the experience matters as much as the destination.",
+  },
+  {
+    number: "05",
+    title: "Unmatched expertise",
+    copy: "Years of domestic, international, B2B, and Northeast India experience help us turn complex travel details into a smooth journey.",
+  },
+];
+
+const reviews = [
+  {
+    name: "Kishorkumar Soni",
+    trip: "Kerala & Kanyakumari",
+    quote:
+      "Our seven-night Kerala and Kanyakumari journey was thoroughly enjoyable, with especially thoughtful food arrangements throughout the tour.",
+  },
+  {
+    name: "Chandrakant Aade",
+    trip: "Leh Ladakh",
+    quote:
+      "An incredible experience—from Leh’s striking landscapes to the high-altitude journey, the tour left us with memories to keep.",
+  },
+  {
+    name: "Shweta Firake",
+    trip: "Custom tour",
+    quote:
+      "The team managed the journey well and worked around our requirements, making the overall experience easy and enjoyable.",
   },
 ];
 
@@ -40,32 +67,7 @@ export default function AboutPage() {
     <div className="min-h-screen overflow-x-hidden bg-white">
       <Navbar />
 
-      <header className="relative flex min-h-[680px] items-end overflow-hidden bg-primary pt-36">
-        <Image
-          src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&q=85&w=2200"
-          alt="Travellers driving through a mountain landscape"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/70 to-primary/20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-primary/35" />
-        <Container className="relative pb-20 sm:pb-24">
-          <div className="max-w-4xl">
-            <span className="text-xs font-bold uppercase tracking-[0.3em] text-gold">
-              About Bandhan Tours
-            </span>
-            <h1 className="mt-5 font-heading text-4xl font-extrabold leading-[1.05] text-white sm:text-6xl lg:text-7xl">
-              Travel feels different when someone truly understands the journey.
-            </h1>
-            <p className="mt-7 max-w-2xl text-base leading-relaxed text-slate-200 sm:text-lg">
-              We are a Kolkata-based travel company planning group tours, family holidays, and
-              personalised journeys across India and the world.
-            </p>
-          </div>
-        </Container>
-      </header>
+      <AboutHero />
 
       <main>
         <section className="border-b border-slate-200 py-20 sm:py-28">
@@ -73,46 +75,89 @@ export default function AboutPage() {
             <div className="grid gap-14 lg:grid-cols-12 lg:items-center">
               <ScrollReveal className="lg:col-span-5">
                 <span className="text-xs font-bold uppercase tracking-[0.24em] text-accent">
-                  Our perspective
+                  Get to know us better
                 </span>
                 <h2 className="mt-4 font-heading text-3xl font-extrabold leading-tight text-primary sm:text-5xl">
-                  A journey should feel cared for, never manufactured.
+                  A trusted name, wherever you go.
                 </h2>
               </ScrollReveal>
               <ScrollReveal delay={90} className="lg:col-span-6 lg:col-start-7">
                 <div className="space-y-5 text-base leading-8 text-foreground-muted">
                   <p>
-                    Bandhan began with a simple belief: the best travel plans come from knowing
-                    the traveller, not just knowing the destination. That belief continues to
-                    guide how we work today.
+                    Bandhan Tours began in 2013 and is headquartered in Thane,
+                    Maharashtra. Our certified travel professionals plan every
+                    detail—from the first route idea to the final transfer—to make
+                    each tour smooth, secure, and memorable.
                   </p>
                   <p>
-                    We combine destination knowledge with patient, practical planning. Some
-                    guests travel with a large group, some with family, and some want a journey
-                    designed entirely around them. Each deserves the same clarity, care, and
-                    attention.
+                    More than 25,000 travellers have trusted our domestic,
+                    international, and B2B travel services. Northeast India is a
+                    particular area of expertise, supported by our dedicated
+                    Guwahati branch and local destination knowledge.
+                  </p>
+                  <p>
+                    Guest satisfaction is our priority. We believe the best trips
+                    feel well prepared without feeling predictable—leaving room
+                    for the good surprises that make travel unforgettable.
                   </p>
                 </div>
                 <div className="mt-9 grid grid-cols-3 border-y border-slate-200 py-6">
                   <div>
                     <strong className="block font-heading text-2xl font-extrabold text-primary sm:text-3xl">
-                      15+
+                      2013
                     </strong>
-                    <span className="mt-1 block text-xs text-foreground-muted">Years planning travel</span>
+                    <span className="mt-1 block text-xs text-foreground-muted">Our journey began</span>
                   </div>
                   <div className="border-x border-slate-200 px-5">
                     <strong className="block font-heading text-2xl font-extrabold text-primary sm:text-3xl">
-                      120+
+                      25K+
                     </strong>
-                    <span className="mt-1 block text-xs text-foreground-muted">Destinations</span>
+                    <span className="mt-1 block text-xs text-foreground-muted">Happy travellers</span>
                   </div>
                   <div className="pl-5">
                     <strong className="block font-heading text-2xl font-extrabold text-primary sm:text-3xl">
-                      24h
+                      A–Z
                     </strong>
-                    <span className="mt-1 block text-xs text-foreground-muted">Typical response</span>
+                    <span className="mt-1 block text-xs text-foreground-muted">Detail-led planning</span>
                   </div>
                 </div>
+              </ScrollReveal>
+            </div>
+          </Container>
+        </section>
+
+        <section className="border-b border-slate-200 bg-white py-20 sm:py-28">
+          <Container>
+            <div className="grid gap-px bg-slate-200 lg:grid-cols-2">
+              <ScrollReveal className="bg-primary p-8 text-white sm:p-12 lg:p-16">
+                <span className="text-xs font-bold uppercase tracking-[0.24em] text-gold">
+                  Our vision
+                </span>
+                <h2 className="mt-5 font-heading text-3xl font-extrabold sm:text-4xl">
+                  Personal service, backed by expertise and quality.
+                </h2>
+                <p className="mt-7 max-w-xl text-base leading-8 text-slate-300">
+                  We aim to become a leading travel company by first leading
+                  travellers towards unforgettable experiences. That means
+                  continually evolving our tours, expanding what we offer, and
+                  answering every call for adventure or tranquillity with the
+                  right journey.
+                </p>
+              </ScrollReveal>
+              <ScrollReveal delay={90} className="bg-sand/55 p-8 sm:p-12 lg:p-16">
+                <span className="text-xs font-bold uppercase tracking-[0.24em] text-accent">
+                  Our mission
+                </span>
+                <h2 className="mt-5 font-heading text-3xl font-extrabold text-primary sm:text-4xl">
+                  Travel experiences that inspire.
+                </h2>
+                <p className="mt-7 max-w-xl text-base leading-8 text-foreground-muted">
+                  Our mission is to meet a wide range of travel needs through
+                  high-quality, secure, and personalised packages. We bring
+                  attention to detail and service excellence to every step,
+                  building a lasting bond with travellers and encouraging their
+                  desire to explore.
+                </p>
               </ScrollReveal>
             </div>
           </Container>
@@ -124,15 +169,15 @@ export default function AboutPage() {
               <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
                 <div>
                   <span className="text-xs font-bold uppercase tracking-[0.24em] text-accent">
-                    The Bandhan standard
+                    Reasons to believe in us
                   </span>
                   <h2 className="mt-4 font-heading text-3xl font-extrabold text-primary sm:text-5xl">
-                    How we earn your trust.
+                    What travellers can expect.
                   </h2>
                 </div>
                 <p className="max-w-xl text-base leading-relaxed text-foreground-muted lg:justify-self-end">
-                  Our standards are less about grand promises and more about doing the important
-                  things consistently well.
+                  Five principles shape how our professionals plan, deliver, and
+                  support every Bandhan Tours journey.
                 </p>
               </div>
             </ScrollReveal>
@@ -166,21 +211,60 @@ export default function AboutPage() {
               <ScrollReveal delay={90} className="flex bg-primary p-8 text-white sm:p-12 lg:col-span-5 lg:items-end">
                 <div>
                   <span className="text-xs font-bold uppercase tracking-[0.24em] text-gold">
-                    From Kolkata, outward
+                    From Thane to every horizon
                   </span>
                   <h2 className="mt-5 font-heading text-3xl font-extrabold leading-tight sm:text-4xl">
-                    Local accountability. A world of possibilities.
+                    Deep roots. Wide-ranging journeys.
                   </h2>
                   <p className="mt-6 text-sm leading-7 text-slate-300">
-                    Our team works from Rash Behari Avenue in Kolkata, bringing together
-                    trusted partners, practical route knowledge, and personal support for every
-                    itinerary we create.
+                    Our head office is in Thane, Maharashtra, with a corporate
+                    office in Pune and a dedicated branch in Guwahati for our
+                    Northeast India tours. Together, our teams connect local
+                    knowledge with dependable support across India and abroad.
                   </p>
                   <p className="mt-7 border-l-2 border-gold pl-5 text-sm font-semibold text-white">
-                    One team, from the first idea to the final return.
+                    226, Lodha Supremus Tower 2, Wagle Estate, Thane West.
                   </p>
                 </div>
               </ScrollReveal>
+            </div>
+          </Container>
+        </section>
+
+        <section className="border-t border-slate-200 bg-white py-20 sm:py-28">
+          <Container>
+            <ScrollReveal>
+              <div className="flex flex-col gap-5 border-b border-slate-200 pb-10 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <span className="text-xs font-bold uppercase tracking-[0.24em] text-accent">
+                    Traveller stories
+                  </span>
+                  <h2 className="mt-4 font-heading text-3xl font-extrabold text-primary sm:text-5xl">
+                    Real experiences, shared honestly.
+                  </h2>
+                </div>
+                <Link href="/testimonials" className="text-sm font-bold text-primary underline decoration-gold decoration-2 underline-offset-8">
+                  Read more traveller stories
+                </Link>
+              </div>
+            </ScrollReveal>
+            <div className="grid border-b border-slate-200 md:grid-cols-3">
+              {reviews.map((review, index) => (
+                <ScrollReveal
+                  key={review.name}
+                  delay={index * 70}
+                  className="border-t border-slate-200 px-0 py-9 md:border-l md:border-t-0 md:px-8 first:md:border-l-0 first:md:pl-0 last:md:pr-0"
+                >
+                  <div className="text-sm tracking-[0.2em] text-gold" aria-label="5 out of 5 stars">
+                    ★★★★★
+                  </div>
+                  <blockquote className="mt-5 text-base leading-8 text-foreground-muted">
+                    “{review.quote}”
+                  </blockquote>
+                  <p className="mt-7 font-heading text-base font-bold text-primary">{review.name}</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.18em] text-foreground-muted">{review.trip}</p>
+                </ScrollReveal>
+              ))}
             </div>
           </Container>
         </section>
