@@ -1,6 +1,7 @@
 "use client";
 
 import React, { Suspense, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
@@ -27,6 +28,7 @@ function ContactContent() {
     subject: "",
     message: "",
   });
+  const [preferredContact, setPreferredContact] = useState<"WhatsApp" | "Phone call" | "Email">("WhatsApp");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [prefillDestination, setPrefillDestination] = useState("");
@@ -44,18 +46,20 @@ function ContactContent() {
     const isEnquiry = destination || searchParams.get("enquiry");
     if (!isEnquiry) return;
 
-    if (destination) {
-      setPrefillDestination(destination);
-      setFormData((prev) => ({
-        ...prev,
-        subject: prev.subject || "New Booking",
-        message:
-          prev.message ||
-          `Hi Bandhan Tours, I'd love to enquire about ${destination}. Please share available dates, the itinerary, and pricing. Thank you!`,
-      }));
-    } else {
-      setFormData((prev) => ({ ...prev, subject: prev.subject || "Custom Itinerary" }));
-    }
+    const hydrateTimer = setTimeout(() => {
+      if (destination) {
+        setPrefillDestination(destination);
+        setFormData((prev) => ({
+          ...prev,
+          subject: prev.subject || "New Booking",
+          message:
+            prev.message ||
+            `Hi Bandhan Tours, I'd love to enquire about ${destination}. Please share available dates, the itinerary, and pricing. Thank you!`,
+        }));
+      } else {
+        setFormData((prev) => ({ ...prev, subject: prev.subject || "Custom Itinerary" }));
+      }
+    }, 0);
 
     const scrollTimer = setTimeout(() => {
       formCardRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -63,6 +67,7 @@ function ContactContent() {
     }, 350);
     const glowTimer = setTimeout(() => setHighlight(false), 3200);
     return () => {
+      clearTimeout(hydrateTimer);
       clearTimeout(scrollTimer);
       clearTimeout(glowTimer);
     };
@@ -85,9 +90,9 @@ function ContactContent() {
       name: formData.name,
       email: formData.email,
       phone: formData.phone,
-      destination: "",
+      destination: prefillDestination,
       subject: formData.subject,
-      message: formData.message,
+      message: `${formData.message}\n\nPreferred contact: ${preferredContact}`,
       source: "contact-page",
       status: "new",
       createdAt: new Date().toISOString(),
@@ -105,7 +110,15 @@ function ContactContent() {
       <Navbar onEnquiryClick={scrollToForm} />
 
       {/* Hero */}
-      <section className="relative w-full pt-40 pb-24 sm:pt-48 sm:pb-28 overflow-hidden bg-gradient-to-b from-primary via-primary to-primary-dark">
+      <section className="relative w-full pt-40 pb-24 sm:pt-48 sm:pb-28 overflow-hidden bg-primary">
+        <Image
+          src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=2000"
+          alt=""
+          fill
+          priority
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/85 via-primary/80 to-primary-dark/95" />
         <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_20%_20%,rgba(254,209,79,0.25),transparent_45%),radial-gradient(circle_at_80%_60%,rgba(254,209,79,0.2),transparent_40%)]" />
         <Container className="relative z-10 flex flex-col items-center text-center text-white">
           <span className="px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-gold text-xs font-semibold uppercase tracking-widest mb-6 inline-block animate-fade-in">
@@ -117,16 +130,71 @@ function ContactContent() {
           <p className="text-base sm:text-lg text-slate-200 max-w-2xl font-light leading-relaxed mb-10 animate-fade-in-up">
             Have a question about a package, group booking, or a custom itinerary? Our travel designers are just a message away.
           </p>
-          <div className="animate-fade-in-up">
+          <div className="flex flex-wrap justify-center gap-3 animate-fade-in-up">
             <PrimaryButton variant="coral" size="lg" onClick={scrollToForm}>
-              Send Us a Message
+              Start an Enquiry
             </PrimaryButton>
+            <a href="https://wa.me/919830012345" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-full border border-white/25 bg-white/10 px-6 py-3 text-sm font-bold text-white backdrop-blur transition hover:bg-white/20">
+              WhatsApp Us
+            </a>
+          </div>
+          <div className="mt-12 grid w-full max-w-3xl grid-cols-1 gap-3 text-left sm:grid-cols-3">
+            {[ ["24 hours", "Typical response time"], ["No pressure", "Free trip planning"], ["One team", "From first idea to return"] ].map(([value, label]) => <div key={label} className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3 backdrop-blur-sm"><p className="font-heading text-base font-bold text-gold">{value}</p><p className="mt-0.5 text-xs text-slate-300">{label}</p></div>)}
           </div>
         </Container>
       </section>
 
-      {/* Bento Grid - Contact Info */}
-      <section className="py-20 sm:py-24 bg-white relative z-10">
+      <section className="relative overflow-hidden border-y border-slate-200 bg-white py-20 text-primary sm:py-28">
+        <div className="absolute inset-y-0 left-0 w-1 bg-gold" aria-hidden="true" />
+        <Container className="relative">
+          <ScrollReveal>
+            <div className="grid gap-10 border-b border-slate-200 pb-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-[0.28em] text-gold">Begin here</span>
+                <h2 className="mt-5 max-w-3xl font-heading text-4xl font-extrabold leading-[1.05] sm:text-5xl lg:text-6xl">A beautiful trip can start with one conversation.</h2>
+              </div>
+              <p className="max-w-lg text-base leading-relaxed text-foreground-muted lg:justify-self-end">Tell us where you want to go—or simply how you want the journey to feel. A Bandhan travel designer will help shape the rest.</p>
+            </div>
+          </ScrollReveal>
+
+          <div className="mt-12 grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
+            <ScrollReveal>
+              <div className="flex h-full flex-col justify-between border border-slate-200 bg-sand/40 p-6 sm:p-8">
+                <div>
+                  <div className="flex items-center gap-2 text-xs font-semibold text-emerald-700"><span className="h-2 w-2 bg-emerald-500" /> Travel desk open today</div>
+                  <h3 className="mt-8 font-heading text-2xl font-bold sm:text-3xl">Choose how we talk.</h3>
+                  <div className="mt-7 divide-y divide-slate-200 border-y border-slate-200">
+                    <a href="https://wa.me/919830012345" target="_blank" rel="noreferrer" className="group flex items-center justify-between gap-4 py-5"><div><span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Fastest</span><p className="mt-1 text-lg font-bold">WhatsApp our team</p></div><span className="text-2xl text-accent transition-transform group-hover:translate-x-1">→</span></a>
+                    <a href="tel:+919830012345" className="group flex items-center justify-between gap-4 py-5"><div><span className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground-light">Speak directly</span><p className="mt-1 text-lg font-bold">+91 98300 12345</p></div><span className="text-2xl text-accent transition-transform group-hover:translate-x-1">→</span></a>
+                    <a href="mailto:info@bandhantours.com" className="group flex items-center justify-between gap-4 py-5"><div><span className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground-light">Write to us</span><p className="mt-1 text-lg font-bold">info@bandhantours.com</p></div><span className="text-2xl text-accent transition-transform group-hover:translate-x-1">→</span></a>
+                  </div>
+                </div>
+                <p className="mt-8 text-sm text-foreground-muted">Monday–Saturday · 10:00 am–7:00 pm IST</p>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={100}>
+              <div className="relative min-h-[520px] overflow-hidden border border-slate-200 bg-sand">
+                <iframe title="Bandhan Tours Office Location" src="https://www.google.com/maps?q=122%20Rash%20Behari%20Avenue%2C%20Kolkata%2C%20West%20Bengal%2C%20India&output=embed" className="absolute inset-0 h-full w-full border-0 grayscale-[0.15]" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+                <div className="absolute bottom-0 right-0 w-[calc(100%-2rem)] border-l-4 border-gold bg-primary p-5 shadow-2xl sm:w-[72%] sm:p-6">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold">Bandhan Tours · Kolkata</span>
+                  <p className="mt-2 max-w-xl font-heading text-lg font-bold leading-snug text-white sm:text-xl">122, Rash Behari Avenue, 2nd Floor<br />Kolkata – 700029, West Bengal</p>
+                  <a href="https://www.google.com/maps/search/?api=1&query=122+Rash+Behari+Avenue+Kolkata" target="_blank" rel="noreferrer" className="mt-4 inline-flex text-sm font-bold text-gold hover:text-white">Open directions →</a>
+                </div>
+              </div>
+            </ScrollReveal>
+          </div>
+
+          <ScrollReveal className="mt-12">
+            <div className="grid border-y border-slate-200 sm:grid-cols-3">
+              {[["01", "Share the idea", "Destination, dates, budget—or just the mood."], ["02", "Meet your planner", "One specialist understands and refines the brief."], ["03", "Receive the journey", "A thoughtful itinerary, clearly priced and ready to shape."]].map(([number, title, copy]) => <div key={number} className="border-b border-slate-200 p-6 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0 sm:p-7"><span className="font-heading text-sm font-bold text-accent">{number}</span><h3 className="mt-5 font-heading text-lg font-bold text-primary">{title}</h3><p className="mt-2 text-sm leading-relaxed text-foreground-muted">{copy}</p></div>)}
+            </div>
+          </ScrollReveal>
+        </Container>
+      </section>
+
+      {/* Retained while the contact routes transition to the simplified layout. */}
+      <section className="hidden" aria-hidden="true">
         <Container>
           <ScrollReveal className="mb-12">
             <div className="flex flex-col items-center text-center max-w-2xl mx-auto">
@@ -333,7 +401,7 @@ function ContactContent() {
                 Tell Us About Your Dream Trip
               </h2>
               <p className="text-base text-foreground-muted leading-relaxed mb-8 max-w-md">
-                Fill in the form and one of our travel designers will get back to you within 24 hours with a custom plan tailored to your budget and taste.
+                A few details are enough. One of our travel designers will come back within 24 hours with the right next step for your trip.
               </p>
               <ul className="space-y-4">
                 <li className="flex items-center gap-3 text-sm text-foreground-muted">
@@ -403,6 +471,13 @@ function ContactContent() {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-5">
+                    <div className="flex items-center justify-between gap-3 rounded-2xl bg-sand px-4 py-3">
+                      <div>
+                        <p className="text-sm font-bold text-primary">Tell us the essentials</p>
+                        <p className="mt-0.5 text-xs text-foreground-muted">This takes about a minute.</p>
+                      </div>
+                      <span className="rounded-full bg-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-accent shadow-sm">No commitment</span>
+                    </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1">
                         <label className="text-xs font-semibold text-primary uppercase">Full Name</label>
@@ -443,6 +518,13 @@ function ContactContent() {
                       />
                     </div>
 
+                    <fieldset className="space-y-2">
+                      <legend className="text-xs font-semibold text-primary uppercase">Best way to reach you</legend>
+                      <div className="grid grid-cols-3 gap-2">
+                        {(["WhatsApp", "Phone call", "Email"] as const).map((option) => <button key={option} type="button" onClick={() => setPreferredContact(option)} className={`rounded-xl border px-3 py-2.5 text-xs font-bold transition-colors ${preferredContact === option ? "border-primary bg-primary text-white" : "border-slate-200 bg-slate-50/50 text-foreground-muted hover:border-primary/30"}`}>{option}</button>)}
+                      </div>
+                    </fieldset>
+
                     <div className="space-y-1">
                       <label className="text-xs font-semibold text-primary uppercase">Subject</label>
                       <select
@@ -478,6 +560,7 @@ function ContactContent() {
                       <PrimaryButton type="submit" variant="coral" isLoading={isSubmitting} fullWidth size="md">
                         Send Message
                       </PrimaryButton>
+                      <p className="mt-3 text-center text-xs text-foreground-light">By sending, you&apos;re asking Bandhan Tours to contact you about this enquiry.</p>
                     </div>
                   </form>
                 )}

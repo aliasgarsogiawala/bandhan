@@ -1,6 +1,7 @@
 "use client";
 
 import React, { Suspense, useState } from "react";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 
@@ -88,10 +89,29 @@ function LoginForm() {
 
 export default function AdminLoginPage() {
   return (
-    <main className="min-h-screen flex items-center justify-center bg-sand px-4 py-12">
-      <Suspense fallback={<div className="text-foreground-muted text-sm">Loading…</div>}>
-        <LoginForm />
-      </Suspense>
+    <main className="relative min-h-screen overflow-hidden bg-primary">
+      <Image
+        src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=2200"
+        alt="The Taj Mahal at sunrise"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-center"
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/70 to-primary/35" />
+      <div className="relative mx-auto grid min-h-screen w-full max-w-6xl items-center gap-12 px-5 py-12 lg:grid-cols-[1fr_430px] lg:px-8">
+        <div className="hidden max-w-xl text-white lg:block">
+          <span className="text-xs font-bold uppercase tracking-[0.28em] text-gold">Bandhan Tours · Back office</span>
+          <h2 className="mt-5 font-heading text-5xl font-extrabold leading-tight">Manage every journey from one place.</h2>
+          <p className="mt-5 max-w-lg text-base leading-relaxed text-slate-200">Packages, enquiries, customers, departures, and website content—securely managed by the Bandhan team.</p>
+          <div className="mt-10 h-px w-24 bg-gold" />
+        </div>
+        <div className="flex justify-center lg:justify-end">
+          <Suspense fallback={<div className="text-sm text-white/70">Loading…</div>}>
+            <LoginForm />
+          </Suspense>
+        </div>
+      </div>
     </main>
   );
 }

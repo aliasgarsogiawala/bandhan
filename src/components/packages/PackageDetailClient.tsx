@@ -13,6 +13,7 @@ import type { FullPackage } from "@/data/packageDetails";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
 import { ViewingNow, SeatsLeft, RecentlyBooked, Countdown, endOfToday } from "@/components/ui/Urgency";
 import { SecondaryButton } from "@/components/ui/SecondaryButton";
+import PackageServiceDetails from "./PackageServiceDetails";
 
 interface PackageDetailClientProps {
   pkg: FullPackage;
@@ -324,6 +325,8 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                 <h2 className="mt-2 text-2xl sm:text-3xl font-heading font-extrabold text-primary">
                   What&apos;s Included
                 </h2>
+
+                <PackageServiceDetails details={pkg.serviceDetails} />
 
                 <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="bg-white rounded-3xl border border-slate-100/80 shadow-soft p-6 sm:p-8">

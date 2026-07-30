@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Search, X } from "lucide-react";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import { Container } from "@/components/ui/Container";
@@ -12,6 +13,7 @@ import type { TourPackage } from "@/data/mockData";
 import { getFullPackageForPackage } from "@/data/packageDetails";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
 import { useCollection } from "@/lib/admin/store";
+import { fuzzySearch } from "@/lib/fuzzySearch";
 
 type CategoryTab = "all" | "domestic" | "international" | "northeast";
 
@@ -70,6 +72,7 @@ export const PackagesPageClient: React.FC = () => {
   const [activeTab, setActiveTab] = useState<CategoryTab>(getInitialTab());
   const [budget, setBudget] = useState<BudgetKey>("all");
   const [duration, setDuration] = useState<DurationKey>("all");
+  const [query, setQuery] = useState(searchParams.get("search") || "");
 
   const handleEnquire = (destination: string = "") => {
     router.push(contactEnquiryHref(destination));
@@ -78,7 +81,16 @@ export const PackagesPageClient: React.FC = () => {
   const budgetRange = BUDGET_RANGES.find((r) => r.key === budget) ?? BUDGET_RANGES[0];
   const durationRange = DURATION_RANGES.find((r) => r.key === duration) ?? DURATION_RANGES[0];
 
-  const filteredPackages = packages
+  const searchedPackages = fuzzySearch(packages, query, [
+    "title",
+    "category",
+    "tagline",
+    "overview",
+    "highlights",
+    "themes",
+  ]);
+
+  const filteredPackages = searchedPackages
     .filter((pkg) => pkg.status !== "draft")
     .filter((pkg) => {
       if (activeTab === "all") return true;
@@ -102,6 +114,15 @@ export const PackagesPageClient: React.FC = () => {
 
       {/* Page hero */}
       <header className="relative bg-primary pt-32 pb-16 sm:pt-36 sm:pb-20 overflow-hidden">
+        {/* Background image */}
+        <Image
+          src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=80&w=2000"
+          alt=""
+          fill
+          priority
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/85 via-primary/75 to-primary" />
         {/* Soft radial glows echoing the brand palette */}
         <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-accent/20 blur-3xl" aria-hidden="true" />
         <div className="absolute -bottom-32 -left-16 w-80 h-80 rounded-full bg-gold/15 blur-3xl" aria-hidden="true" />
@@ -123,8 +144,37 @@ export const PackagesPageClient: React.FC = () => {
             book for our own families.
           </p>
 
+          {/* Search box */}
+          <div className="relative mt-8 max-w-md">
+            <label className="sr-only" htmlFor="package-search">
+              Search packages
+            </label>
+            <Search
+              size={17}
+              className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-white/50"
+            />
+            <input
+              id="package-search"
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search by destination, title or theme…"
+              className="w-full rounded-full bg-white/10 backdrop-blur-md border border-white/15 pl-11 pr-10 py-3 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-gold"
+            />
+            {query && (
+              <button
+                type="button"
+                onClick={() => setQuery("")}
+                aria-label="Clear search"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors"
+              >
+                <X size={16} />
+              </button>
+            )}
+          </div>
+
           {/* Filter tabs */}
-          <div className="inline-flex max-w-full flex-wrap gap-1 p-1 bg-white/10 backdrop-blur-md rounded-3xl sm:rounded-full border border-white/15 mt-8">
+          <div className="inline-flex max-w-full flex-wrap gap-1 p-1 bg-white/10 backdrop-blur-md rounded-3xl sm:rounded-full border border-white/15 mt-4">
             {TABS.map((tab) => (
               <button
                 key={tab.key}
@@ -183,7 +233,7 @@ export const PackagesPageClient: React.FC = () => {
           {filteredPackages.length === 0 && (
             <div className="text-center py-16">
               <p className="text-lg font-semibold text-primary">
-                No packages match these filters yet.
+                {query ? `No packages match "${query}".` : "No packages match these filters yet."}
               </p>
               <p className="mt-2 text-sm text-foreground-muted">
                 Try widening the budget or duration range, or plan a custom trip below.

@@ -3,7 +3,8 @@
 import React, { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Search, X } from "lucide-react";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import { Container } from "@/components/ui/Container";
@@ -11,13 +12,16 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { useCollection } from "@/lib/admin/store";
 import type { BlogPost } from "@/lib/admin/types";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
+import { fuzzySearch } from "@/lib/fuzzySearch";
 
 const ALL = "All";
 
 export const BlogListClient: React.FC = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { items, ready } = useCollection<BlogPost>("blog");
   const [activeCategory, setActiveCategory] = useState(ALL);
+  const [query, setQuery] = useState(searchParams.get("search") || "");
 
   const published = useMemo(() => items.filter((p) => p.isPublished), [items]);
 
@@ -26,10 +30,9 @@ export const BlogListClient: React.FC = () => {
     [published]
   );
 
-  const visible =
-    activeCategory === ALL
-      ? published
-      : published.filter((p) => p.category === activeCategory);
+  const searchedPosts = fuzzySearch(published, query, ["title", "excerpt", "content", "category", "author"]);
+
+  const visible = searchedPosts.filter((p) => activeCategory === ALL || p.category === activeCategory);
 
   const postHref = (post: BlogPost) => `/blog/${post.slug || post.id}`;
 
@@ -39,6 +42,15 @@ export const BlogListClient: React.FC = () => {
 
       {/* Page hero */}
       <header className="relative bg-primary pt-32 pb-16 sm:pt-36 sm:pb-20 overflow-hidden">
+        {/* Background image */}
+        <Image
+          src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=2000"
+          alt=""
+          fill
+          priority
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/85 via-primary/75 to-primary" />
         <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-accent/20 blur-3xl" aria-hidden="true" />
         <div className="absolute -bottom-32 -left-16 w-80 h-80 rounded-full bg-gold/15 blur-3xl" aria-hidden="true" />
 
@@ -57,6 +69,35 @@ export const BlogListClient: React.FC = () => {
             Field notes, seasonal guides, and honest advice from the designers who
             plan our journeys — everything we learn on the road, shared with you.
           </p>
+
+          {/* Search box */}
+          <div className="relative mt-8 max-w-md">
+            <label className="sr-only" htmlFor="blog-search">
+              Search articles
+            </label>
+            <Search
+              size={17}
+              className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-white/50"
+            />
+            <input
+              id="blog-search"
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search articles by title or topic…"
+              className="w-full rounded-full bg-white/10 backdrop-blur-md border border-white/15 pl-11 pr-10 py-3 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-gold"
+            />
+            {query && (
+              <button
+                type="button"
+                onClick={() => setQuery("")}
+                aria-label="Clear search"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors"
+              >
+                <X size={16} />
+              </button>
+            )}
+          </div>
 
           {/* Category filter */}
           {categories.length > 1 && (
@@ -84,7 +125,9 @@ export const BlogListClient: React.FC = () => {
         <Container>
           {ready && visible.length === 0 ? (
             <p className="text-center text-foreground-muted py-16">
-              No articles here yet — check back soon for fresh travel stories.
+              {query
+                ? `No articles match "${query}".`
+                : "No articles here yet — check back soon for fresh travel stories."}
             </p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

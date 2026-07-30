@@ -64,6 +64,15 @@ export const BlogPostClient: React.FC<{ slug: string }> = ({ slug }) => {
 
       {/* Hero */}
       <header className="relative bg-primary pt-32 pb-16 sm:pt-36 sm:pb-20 overflow-hidden">
+        {/* Background image */}
+        <Image
+          src={post?.coverImage || "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=2000"}
+          alt=""
+          fill
+          priority
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/80 to-primary" />
         <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-accent/20 blur-3xl" aria-hidden="true" />
         <div className="absolute -bottom-32 -left-16 w-80 h-80 rounded-full bg-gold/15 blur-3xl" aria-hidden="true" />
         <Container className="relative max-w-3xl">

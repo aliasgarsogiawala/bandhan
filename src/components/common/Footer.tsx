@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 
 export const Footer: React.FC = () => {
@@ -85,7 +86,7 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-3 font-sans text-sm">
               <li>
-                <a href="#" className="hover:text-gold transition-colors duration-300">Home</a>
+                <Link href="/" className="hover:text-gold transition-colors duration-300">Home</Link>
               </li>
               <li>
                 <a href="#domestic-tours" className="hover:text-gold transition-colors duration-300">Domestic Holidays</a>
@@ -97,7 +98,7 @@ export const Footer: React.FC = () => {
                 <a href="#group-departures" className="hover:text-gold transition-colors duration-300">Group Departures</a>
               </li>
               <li>
-                <a href="#why-choose-us" className="hover:text-gold transition-colors duration-300">About Us</a>
+                <Link href="/about" className="hover:text-gold transition-colors duration-300">About Us</Link>
               </li>
               <li>
                 <a href="/testimonials" className="hover:text-gold transition-colors duration-300">Guest Reviews</a>

@@ -39,6 +39,7 @@ import {
   type TravellerBreakdown,
 } from "@/lib/bookings/pricing";
 import { saveRecentSearch, useRecentSearches } from "@/lib/recentSearches";
+import InlineAuthModal from "@/components/booking/InlineAuthModal";
 
 const steps = ["Choose trip", "Travel plan", "Travellers", "Your details", "Review"];
 const inputClass =
@@ -138,9 +139,12 @@ function SummaryCard({
 export default function BookingEngine() {
   const searchParams = useSearchParams();
   const initialCustomDestination = searchParams.get("destination") || "";
+  const initialTravelMonth = searchParams.get("month") || "";
+  const initialDuration = searchParams.get("duration") || "";
+  const initialBudget = Number(searchParams.get("budget")) || 45000;
   const { items: packages } = useCollection<TourPackage>("packages");
   const { items: destinations } = useCollection<Destination>("destinations");
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, refresh: refreshAuth } = useAuth();
 
   const initialSource = (searchParams.get("type") || "package") as BookingSource;
   const [source, setSource] = useState<BookingSource>(
@@ -149,10 +153,10 @@ export default function BookingEngine() {
   const [selectedId, setSelectedId] = useState(searchParams.get("id") || "");
   const [step, setStep] = useState(0);
   const [customDestination, setCustomDestination] = useState(initialCustomDestination);
-  const [travelDate, setTravelDate] = useState("");
+  const [travelDate, setTravelDate] = useState(initialTravelMonth ? `${initialTravelMonth}-01` : "");
   const [departureCity, setDepartureCity] = useState("");
-  const [durationLabel, setDurationLabel] = useState("");
-  const [budgetPerAdult, setBudgetPerAdult] = useState(45000);
+  const [durationLabel, setDurationLabel] = useState(initialDuration);
+  const [budgetPerAdult, setBudgetPerAdult] = useState(initialBudget);
   const [travellers, setTravellers] = useState<TravellerBreakdown>({
     adults: 2,
     childrenWithBed: 0,
@@ -179,6 +183,7 @@ export default function BookingEngine() {
   const [deliveryMessage, setDeliveryMessage] = useState("");
   const [sending, setSending] = useState<"email" | "whatsapp" | null>(null);
   const [result, setResult] = useState<BookingResult | null>(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const { items: recentSearches, clearRecentSearches } = useRecentSearches();
 
   const activePackages = packages.filter((item) => item.status !== "draft");
@@ -321,9 +326,6 @@ export default function BookingEngine() {
       if (contact.phone.replace(/\D/g, "").length < 8) {
         return "Please enter a valid phone number.";
       }
-      if (source === "custom" && !user) {
-        return "Please sign in before submitting a custom trip request.";
-      }
     }
     if (step === 4 && !termsAccepted) {
       return "Please accept the quotation and cancellation terms.";
@@ -341,10 +343,19 @@ export default function BookingEngine() {
     setStep((value) => Math.min(4, value + 1));
   };
 
-  const submit = async () => {
+  const submit = async (options?: { skipAuthGate?: boolean }) => {
     const validation = validateStep();
     if (validation) {
       setError(validation);
+      return;
+    }
+    // The auth modal's login/signup request already set the real session
+    // cookie server-side; `user` here is just our own optimistic mirror of
+    // that and only updates on this component's next render, so callers
+    // that already know sign-in just succeeded pass skipAuthGate instead of
+    // waiting on it.
+    if (source === "custom" && !user && !options?.skipAuthGate) {
+      setShowAuthModal(true);
       return;
     }
     setSubmitting(true);
@@ -682,6 +693,14 @@ export default function BookingEngine() {
                       </label>
                     </div>
 
+                    {!authLoading && !user ? (
+                      <p className="rounded-2xl bg-sand/60 px-4 py-3 text-xs leading-relaxed text-foreground-muted">
+                        Custom trips are saved to a free account so our designers can follow up with your
+                        itinerary. You can fill this out first — we&apos;ll only ask you to sign in at the
+                        very end, and nothing you enter will be lost.
+                      </p>
+                    ) : null}
+
                     {recentSearches.length > 0 ? (
                       <div className="rounded-3xl border border-slate-200 bg-sand/70 p-4">
                         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -814,11 +833,15 @@ export default function BookingEngine() {
               </p>
               {source === "custom" && !authLoading && !user ? (
                 <div className="mt-5 rounded-2xl border border-gold/40 bg-gold/10 p-4 text-sm text-primary">
-                  Custom trips are saved to your customer account.{" "}
-                  <Link href="/signin?from=/book?type=custom" className="font-bold text-accent">
-                    Sign in to continue
-                  </Link>
-                  .
+                  Custom trips are saved to a customer account so our designers can follow up.{" "}
+                  <button
+                    type="button"
+                    onClick={() => setShowAuthModal(true)}
+                    className="font-bold text-accent underline-offset-2 hover:underline"
+                  >
+                    Sign in now
+                  </button>{" "}
+                  or continue — we&apos;ll ask you to sign in when you submit, and everything here stays exactly as you left it.
                 </div>
               ) : null}
               {user ? (
@@ -953,7 +976,7 @@ export default function BookingEngine() {
                 Continue <ArrowRight size={16} />
               </button>
             ) : (
-              <button type="button" onClick={submit} disabled={submitting} className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-bold text-white hover:bg-accent-dark disabled:opacity-50">
+              <button type="button" onClick={() => submit()} disabled={submitting} className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-bold text-white hover:bg-accent-dark disabled:opacity-50">
                 {submitting ? "Creating proposal..." : "Create booking & brochure"} <FileText size={16} />
               </button>
             )}
@@ -978,6 +1001,16 @@ export default function BookingEngine() {
           </div>
         </aside>
       </div>
+
+      <InlineAuthModal
+        open={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onSuccess={() => {
+          setShowAuthModal(false);
+          refreshAuth();
+          submit({ skipAuthGate: true });
+        }}
+      />
     </div>
   );
 }

@@ -4,10 +4,12 @@ import {
   type ItineraryDay,
   type PackageFaq,
   type PackageGalleryImage,
+  type PackageServiceDetails,
+  type PackageServiceKey,
   type TourPackage,
 } from "./mockData";
 
-export type { ItineraryDay, PackageFaq } from "./mockData";
+export type { ItineraryDay, PackageFaq, PackageServiceDetails, PackageServiceKey } from "./mockData";
 
 export type GalleryImage = PackageGalleryImage;
 
@@ -20,6 +22,7 @@ export interface PackageDetail {
   itinerary: ItineraryDay[];
   inclusions: string[];
   exclusions: string[];
+  serviceDetails: PackageServiceDetails[];
   bestTime: string;
   startingPoint: string;
   groupSize: string;
@@ -28,6 +31,31 @@ export interface PackageDetail {
 }
 
 export type FullPackage = TourPackage & PackageDetail;
+
+const serviceKeywords: Record<PackageServiceKey, RegExp> = {
+  hotel: /hotel|accommodation|stay|room|resort/i,
+  meals: /meal|breakfast|lunch|dinner|food|restaurant/i,
+  flights: /flight|airfare|air ticket|airport/i,
+  sightseeing: /sightseeing|tour|entry|activity|water sports|safari|temple|guide/i,
+  transfer: /transfer|transport|vehicle|coach|pickup|drop|speedboat/i,
+  visa: /visa|insurance|permit/i,
+};
+
+const serviceFallbacks: Record<PackageServiceKey, string> = {
+  hotel: "Accommodation is arranged as per the confirmed itinerary.",
+  meals: "Meal plan follows the day-by-day itinerary.",
+  flights: "Flight arrangements can be added on request.",
+  sightseeing: "Sightseeing follows the confirmed itinerary.",
+  transfer: "Airport and route transfers are arranged as per the itinerary.",
+  visa: "Visa and travel-document support is available on request.",
+};
+
+function serviceDetailsFromInclusions(inclusions: string[]): PackageServiceDetails[] {
+  return (Object.keys(serviceKeywords) as PackageServiceKey[]).map((kind) => {
+    const items = inclusions.filter((item) => serviceKeywords[kind].test(item));
+    return { kind, items: items.length ? items : [serviceFallbacks[kind]] };
+  });
+}
 
 const details: Record<string, PackageDetail> = {};
 
@@ -52,6 +80,7 @@ export const getFullPackageForPackage = (pkg: TourPackage): FullPackage => {
     itinerary: pkg.itinerary?.length ? pkg.itinerary : detail?.itinerary ?? [],
     inclusions: pkg.inclusions?.length ? pkg.inclusions : detail?.inclusions ?? [],
     exclusions: pkg.exclusions?.length ? pkg.exclusions : detail?.exclusions ?? [],
+    serviceDetails: pkg.serviceDetails?.length ? pkg.serviceDetails : serviceDetailsFromInclusions(pkg.inclusions?.length ? pkg.inclusions : detail?.inclusions ?? []),
     bestTime: pkg.bestTime ?? detail?.bestTime ?? "Year-round",
     startingPoint: pkg.startingPoint ?? detail?.startingPoint ?? "To be confirmed",
     groupSize: pkg.groupSize ?? detail?.groupSize ?? "2+ guests",
@@ -86,6 +115,7 @@ export const getFullPackageForDestination = (destination: Destination): FullPack
     itinerary,
     inclusions: destination.inclusions || [],
     exclusions: destination.exclusions || [],
+    serviceDetails: serviceDetailsFromInclusions(destination.inclusions || []),
     bestTime: destination.bestTime || "Year-round",
     startingPoint: destination.startingPoint || "To be confirmed",
     groupSize: destination.groupSize || "2+ guests",

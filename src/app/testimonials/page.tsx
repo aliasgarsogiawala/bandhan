@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import type { Metadata } from "next";
 import TestimonialsSection from "@/components/testimonials/TestimonialsSection";
 
@@ -12,8 +13,16 @@ export default function TestimonialsPage() {
   return (
     <main className="min-h-screen bg-slate-950">
       {/* Top Page Banner */}
-      <div className="bg-slate-900 border-b border-white/10 py-12 pt-24 text-center">
-        <div className="max-w-4xl mx-auto px-4">
+      <div className="relative overflow-hidden border-b border-white/10 py-12 pt-24 text-center">
+        <Image
+          src="https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=80&w=2000"
+          alt=""
+          fill
+          priority
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/90 via-slate-950/85 to-slate-950" />
+        <div className="relative max-w-4xl mx-auto px-4">
           <span className="text-xs font-bold text-gold uppercase tracking-widest bg-gold/10 px-3 py-1 rounded-full border border-gold/30">
             Authentic Guest Feedback
           </span>

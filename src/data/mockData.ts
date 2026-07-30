@@ -61,6 +61,15 @@ export interface PackagePricing {
   addons: PackageAddon[];
 }
 
+export const PACKAGE_SERVICE_KEYS = ["hotel", "meals", "flights", "sightseeing", "transfer", "visa"] as const;
+export type PackageServiceKey = (typeof PACKAGE_SERVICE_KEYS)[number];
+
+/** Detailed service notes shown in the package inclusion tabs. */
+export interface PackageServiceDetails {
+  kind: PackageServiceKey;
+  items: string[];
+}
+
 export interface TourPackage {
   id: string;
   title: string;
@@ -80,6 +89,7 @@ export interface TourPackage {
   itinerary?: ItineraryDay[];
   inclusions?: string[];
   exclusions?: string[];
+  serviceDetails?: PackageServiceDetails[];
   gallery?: PackageGalleryImage[];
   faqs?: PackageFaq[];
   pricing?: PackagePricing;
@@ -1322,7 +1332,7 @@ export const blogPosts: BlogPost[] = [
     content:
       "Kashmir wears a different face in every season, and the 'best' time truly depends on the trip you're dreaming of.\n\nSpring (March–May) is when the valley wakes up. The Tulip Garden in Srinagar — Asia's largest — bursts into colour through late March and April, and the Mughal gardens are at their greenest. Days are mild and evenings still cool enough for a pheran.\n\nSummer (June–August) is peak season for good reason: warm days, blooming meadows in Gulmarg and Pahalgam, and long golden evenings on the Dal Lake houseboats. Book early — this is when families and honeymooners arrive in numbers.\n\nAutumn (September–November) is our quiet favourite. The chinar leaves turn crimson and gold, the saffron fields near Pampore are harvested, and the crowds thin out.\n\nWinter (December–February) belongs to the snow. Gulmarg becomes one of Asia's finest ski destinations, and the Gondola ride over a white valley is unforgettable.\n\nWhichever season calls you, our Kashmir designers will match the itinerary to the weather, the blooms, and your pace.",
     coverImage:
-      "https://images.unsplash.com/photo-1566837945700-30057527ade0?auto=format&fit=crop&q=80&w=1600",
+      "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=80&w=1600",
     author: "Bandhan Travel Desk",
     category: "Destinations",
     readTime: "6 min read",

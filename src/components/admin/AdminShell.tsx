@@ -7,9 +7,7 @@ import { ChevronDown, ExternalLink, LogOut, Menu, Plane, X } from "lucide-react"
 import { adminNavGroups } from "./adminNav";
 
 const isActive = (pathname: string, href: string) =>
-  href === "/admin" || href === "/admin/finance"
-    ? pathname === href
-    : pathname.startsWith(href);
+  href === "/admin" ? pathname === href : pathname.startsWith(href);
 
 export const AdminShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const pathname = usePathname();
@@ -96,7 +94,7 @@ export const AdminShell: React.FC<{ children: React.ReactNode }> = ({ children }
           <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-xs font-semibold text-white">BA</span>
           <span className="min-w-0">
             <span className="block truncate text-xs font-semibold text-white">Bandhan Admin</span>
-            <span className="block truncate text-[10px] text-slate-500">Finance & operations</span>
+            <span className="block truncate text-[10px] text-slate-500">Website & operations</span>
           </span>
         </div>
         <button
