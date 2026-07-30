@@ -1,24 +1,102 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useCollection } from "@/lib/admin/store";
+import type { TourPackage, Destination } from "@/data/mockData";
+import type { BlogPost } from "@/lib/admin/types";
+import { fuzzySearchScored } from "@/lib/fuzzySearch";
+import { formatMoney, parseMoney } from "@/lib/bookings/pricing";
 
 /**
  * Miles — Bandhan Tours' corner FAQ assistant.
  *
  * A lightweight, rule-based chatbot (no backend / LLM): user messages are
  * keyword-matched against the knowledge base below and answered instantly.
- * Quick-reply chips make it tappable-first for mobile users.
+ * Quick-reply chips make it tappable-first for mobile users. Package,
+ * category and pricing answers are generated live from the same package
+ * and blog data the rest of the site uses, so the bot never quotes a trip
+ * that isn't actually published.
  */
 
 const BOT_NAME = "Miles";
+
+interface KnowledgeContext {
+  packages: TourPackage[];
+  posts: BlogPost[];
+  destinations: Destination[];
+}
 
 interface Faq {
   id: string;
   chipLabel: string; // short label shown on suggestion chips
   keywords: string[];
-  answer: string;
+  answer: string | ((ctx: KnowledgeContext) => string);
   followups?: string[]; // ids of Faqs to suggest as next chips
+}
+
+interface BotResponse {
+  text: string;
+  chips?: string[];
+  link?: { label: string; href: string };
+}
+
+function resolveAnswer(faq: Faq, ctx: KnowledgeContext): string {
+  return typeof faq.answer === "function" ? faq.answer(ctx) : faq.answer;
+}
+
+function priceRange(pkgs: TourPackage[]): string {
+  const prices = pkgs.map((p) => parseMoney(p.price)).filter((n) => n > 0);
+  if (!prices.length) return "a custom quote";
+  const min = Math.min(...prices);
+  const max = Math.max(...prices);
+  return min === max ? `around ${formatMoney(min)}` : `${formatMoney(min)} – ${formatMoney(max)}`;
+}
+
+function listPackages(pkgs: TourPackage[], limit = 4): string {
+  return pkgs.slice(0, limit).map((p) => `• ${p.title} (${p.duration}) — ${p.price}`).join("\n");
+}
+
+function categoryAnswer(label: string, pkgs: TourPackage[]): string {
+  if (!pkgs.length) {
+    return `We don't have a published ${label} package live right now, but our designers can build one from scratch around your dates and budget. Want to start a custom trip?`;
+  }
+  return `Here are a few of our current ${label} packages:\n${listPackages(pkgs)}\n\nPrices run roughly ${priceRange(pkgs)} per person, depending on season and hotel category. Want the full itinerary for one of these, or something more specific?`;
+}
+
+function packageSummary(pkg: TourPackage): BotResponse {
+  const topHighlights = pkg.highlights.slice(0, 3).join(", ");
+  const tagline = pkg.tagline ? `${pkg.tagline}\n` : "";
+  const extras: string[] = [];
+  if (pkg.bestTime) extras.push(`Best time to go: ${pkg.bestTime}.`);
+  if (pkg.inclusions?.length) extras.push(`Includes: ${pkg.inclusions.slice(0, 4).join(", ")}${pkg.inclusions.length > 4 ? "…" : ""}.`);
+  return {
+    text: `${pkg.title} — ${pkg.duration}, from ${pkg.price} per person.\n${tagline}${
+      topHighlights ? `Highlights: ${topHighlights}.` : ""
+    }${extras.length ? `\n${extras.join(" ")}` : ""}`,
+    link: { label: `View full ${pkg.title} itinerary`, href: `/packages/${pkg.id}` },
+    chips: ["packages", "booking", "custom"],
+  };
+}
+
+function destinationSummary(dest: Destination): BotResponse {
+  const extras: string[] = [];
+  if (dest.bestTime) extras.push(`Best time to go: ${dest.bestTime}.`);
+  if (dest.duration) extras.push(`Typical trip length: ${dest.duration}.`);
+  return {
+    text: `${dest.name} — ${dest.description}\nStarting from ${dest.price} per person.${extras.length ? ` ${extras.join(" ")}` : ""}`,
+    link: { label: `Explore ${dest.name}`, href: `/destinations/${dest.id}` },
+    chips: ["packages", "booking", "custom"],
+  };
+}
+
+function postSummary(post: BlogPost): BotResponse {
+  return {
+    text: `We've actually written about that: "${post.title}". ${post.excerpt}`,
+    link: { label: "Read the full article", href: `/blog/${post.slug || post.id}` },
+    chips: ["packages", "contact"],
+  };
 }
 
 const FAQS: Record<string, Faq> = {
@@ -32,33 +110,38 @@ const FAQS: Record<string, Faq> = {
   packages: {
     id: "packages",
     chipLabel: "Tour packages",
-    keywords: ["package", "packages", "tour", "tours", "trip", "holiday", "vacation", "itinerary", "destination", "where"],
-    answer:
-      "We run curated domestic, North East, and international tours — think Kashmir, Sikkim, Rajasthan, Kerala, and escapes abroad. Every itinerary lives on our Packages page with day-by-day plans, inclusions, and pricing. Want me to narrow it down?",
+    // Singular forms only ("tour" substring-matches "tours" already) —
+    // keeping both would double-count a single occurrence and let this
+    // catch-all FAQ out-score a more specific one like "domestic".
+    keywords: ["package", "tour", "trip", "holiday", "vacation", "itinerary", "destination", "where"],
+    answer: (ctx) => {
+      const total = ctx.packages.length;
+      const domestic = ctx.packages.filter((p) => p.category === "Domestic").length;
+      const intl = ctx.packages.filter((p) => p.category === "International").length;
+      const ne = ctx.packages.filter((p) => p.category === "North East").length;
+      return `We currently have ${total} tour packages live — ${domestic} domestic, ${ne} North East, and ${intl} international. Every itinerary lives on our Packages page with day-by-day plans, inclusions, and pricing. Want me to narrow it down, or ask about a specific destination?`;
+    },
     followups: ["domestic", "northeast", "international", "group"],
   },
   domestic: {
     id: "domestic",
     chipLabel: "Domestic tours",
-    keywords: ["domestic", "india", "indian", "kashmir", "rajasthan", "kerala", "goa", "himachal"],
-    answer:
-      "Our domestic collection spans the Himalayas to the backwaters — favourites include Kashmir Paradise and Royal Heritage of Rajasthan. Prices usually start around ₹18,000–₹35,000 per person on twin sharing. Shall I show you how to book?",
+    keywords: ["domestic", "india", "indian", "rajasthan", "kerala", "andaman", "karnataka", "ayodhya", "varanasi", "temple", "kanyakumari", "kashmir", "goa", "himachal"],
+    answer: (ctx) => categoryAnswer("domestic", ctx.packages.filter((p) => p.category === "Domestic")),
     followups: ["northeast", "booking", "price", "contact"],
   },
   northeast: {
     id: "northeast",
     chipLabel: "North East tours",
-    keywords: ["northeast", "north east", "sikkim", "gangtok", "darjeeling", "meghalaya", "shillong", "assam", "arunachal", "nagaland", "manipur", "tripura", "seven sisters"],
-    answer:
-      "The North East is one of our specialities — think Gangtok, Tsomgo Lake, and Darjeeling's tea estates on our Mystic Northeast & Sikkim Special. We keep it as its own category since the routes, permits, and pace are quite different from the rest of India. Want the details?",
+    keywords: ["northeast", "north east", "sikkim", "gangtok", "darjeeling", "meghalaya", "shillong", "assam", "arunachal", "nagaland", "manipur", "tripura", "mizoram", "seven sisters", "kaziranga", "tawang"],
+    answer: (ctx) => categoryAnswer("North East", ctx.packages.filter((p) => p.category === "North East")),
     followups: ["booking", "price", "contact"],
   },
   international: {
     id: "international",
     chipLabel: "International tours",
-    keywords: ["international", "abroad", "overseas", "foreign", "dubai", "thailand", "bali", "singapore", "europe", "maldives", "visa"],
-    answer:
-      "Absolutely — we craft international getaways across Southeast Asia, the Middle East, and Europe, with visa guidance, flights, and hand-picked stays. Tell us your dream destination and we'll build a custom plan. Want to talk to a trip designer?",
+    keywords: ["international", "abroad", "overseas", "foreign", "thailand", "bali", "singapore", "malaysia", "bhutan", "vietnam", "europe", "austria", "italy", "germany", "switzerland", "london", "edinburgh", "paris", "dubai", "maldives", "visa"],
+    answer: (ctx) => categoryAnswer("international", ctx.packages.filter((p) => p.category === "International")),
     followups: ["custom", "contact", "booking"],
   },
   booking: {
@@ -105,8 +188,12 @@ const FAQS: Record<string, Faq> = {
     id: "price",
     chipLabel: "Pricing",
     keywords: ["price", "pricing", "cost", "budget", "cheap", "expensive", "fee", "charge", "rate"],
-    answer:
-      "Prices vary by destination, season, and hotel category. Domestic tours often start around ₹18,000–₹35,000 per person; international from ₹60,000+. Every quote is customised — tell us your budget and we'll match a trip to it.",
+    answer: (ctx) => {
+      const domestic = priceRange(ctx.packages.filter((p) => p.category === "Domestic"));
+      const ne = priceRange(ctx.packages.filter((p) => p.category === "North East"));
+      const intl = priceRange(ctx.packages.filter((p) => p.category === "International"));
+      return `Prices vary by destination, season, and hotel category. Right now, domestic tours run about ${domestic} per person, North East trips about ${ne}, and international getaways about ${intl}. Every quote is customised — tell us your budget and we'll match a trip to it.`;
+    },
     followups: ["packages", "custom", "contact"],
   },
   contact: {
@@ -155,6 +242,83 @@ const FAQS: Record<string, Faq> = {
     answer: "Safe travels! ✈️ Come back anytime you need a hand planning.",
     followups: ["packages", "contact"],
   },
+  visa: {
+    id: "visa",
+    chipLabel: "Visa help",
+    keywords: ["visa", "passport", "immigration", "documents", "document"],
+    answer: (ctx) => {
+      const withVisa = ctx.packages.filter((p) => p.category === "International" && p.inclusions?.some((i) => /visa/i.test(i)));
+      const note = withVisa.length
+        ? `Most of our international packages (like ${withVisa[0].title}) include visa assistance or a full visa-inclusive fare — it's listed right in that package's inclusions.`
+        : "Visa requirements depend on your destination and nationality.";
+      return `${note} Our team handles the paperwork end-to-end for international trips — just make sure your passport has 6+ months' validity. Which country are you travelling to?`;
+    },
+    followups: ["international", "flights", "contact"],
+  },
+  flights: {
+    id: "flights",
+    chipLabel: "Flights included?",
+    keywords: ["flight", "flights", "airfare", "air ticket", "airline"],
+    answer:
+      "Some packages are flight-inclusive and some are land-only (flights booked separately) — it's always listed in that package's inclusions/exclusions tab. Tell me the destination and I'll check whether flights are bundled in.",
+    followups: ["packages", "visa", "price"],
+  },
+  hotels: {
+    id: "hotels",
+    chipLabel: "Hotels & meals",
+    keywords: ["hotel", "hotels", "stay", "accommodation", "resort", "meal", "meals", "breakfast", "food", "cuisine"],
+    answer:
+      "Stays are handpicked 3★–5★ hotels or resorts depending on the package category, and most itineraries include daily breakfast (many include all meals). Exact hotel names and meal plans are listed on each package's inclusion tab — want me to check a specific trip?",
+    followups: ["packages", "price", "custom"],
+  },
+  honeymoon: {
+    id: "honeymoon",
+    chipLabel: "Honeymoon trips",
+    keywords: ["honeymoon", "couple", "romantic", "romance", "anniversary", "wedding trip"],
+    answer: (ctx) => {
+      const romantic = ctx.packages.filter((p) => p.themes?.some((t) => /beach|island|scenic|romantic/i.test(t)));
+      return romantic.length
+        ? `Popular with couples:\n${listPackages(romantic, 4)}\n\nWe can also add private candlelight dinners, room upgrades, or a scenic add-on for a honeymoon package. Want a custom romantic itinerary?`
+        : "We design honeymoon itineraries around beaches, hills, or scenic getaways with private touches like candlelight dinners. Want to tell me your dream destination?";
+    },
+    followups: ["custom", "international", "booking"],
+  },
+  family: {
+    id: "family",
+    chipLabel: "Family trips",
+    keywords: ["family", "kids", "children", "senior", "elderly", "parents", "child"],
+    answer: (ctx) => {
+      const familyFriendly = ctx.packages.filter((p) => p.themes?.some((t) => /family/i.test(t)));
+      return familyFriendly.length
+        ? `Great family-friendly picks:\n${listPackages(familyFriendly, 4)}\n\nWe pace these trips comfortably for kids and senior citizens alike, with flexible sightseeing. Want details on any of these?`
+        : "We tailor pacing, hotel choices, and sightseeing for families with kids or senior citizens on any of our packages. Tell me who's travelling and I'll suggest a good fit.";
+    },
+    followups: ["packages", "custom", "booking"],
+  },
+  safety: {
+    id: "safety",
+    chipLabel: "Is it safe?",
+    keywords: ["safe", "safety", "secure", "insurance", "emergency", "risk"],
+    answer:
+      "Every tour includes 24×7 on-trip support from our team, and we can add travel insurance covering medical emergencies, trip delays, and baggage loss for a small fee. For North East India and high-altitude routes we also handle permits so nothing catches you off guard.",
+    followups: ["about", "contact", "booking"],
+  },
+  permits: {
+    id: "permits",
+    chipLabel: "Permits (NE/Andaman)",
+    keywords: ["permit", "permits", "ilp", "inner line permit", "restricted area"],
+    answer:
+      "Some North East India destinations (like Arunachal Pradesh, parts of Sikkim, Nagaland and Mizoram) and Andaman need an Inner Line Permit or restricted-area permit — we arrange all of that for you as part of the package, you just need to share ID proof in advance.",
+    followups: ["northeast", "domestic", "contact"],
+  },
+  reviews: {
+    id: "reviews",
+    chipLabel: "Reviews & reputation",
+    keywords: ["review", "reviews", "rating", "ratings", "testimonial", "testimonials", "feedback"],
+    answer:
+      "We're rated highly by 5,000+ travellers — you'll find real trip stories and ratings on our Testimonials page. Happy to share a couple of highlights if you tell me which destination you're considering.",
+    followups: ["about", "packages", "contact"],
+  },
 };
 
 const FAQ_LIST = Object.values(FAQS);
@@ -181,7 +345,11 @@ function findFaq(raw: string): Faq | null {
         score += 1;
       }
     }
-    if (score > bestScore) {
+    // >= (not >) so that on a tie, the later, more specific FAQ wins over an
+    // earlier, broader one — e.g. "domestic tours" ties "packages" (catch-all,
+    // defined first) with "domestic" (defined later) at one keyword hit each;
+    // the specific answer is the more useful one to show.
+    if (score > 0 && score >= bestScore) {
       bestScore = score;
       best = faq;
     }
@@ -189,11 +357,86 @@ function findFaq(raw: string): Faq | null {
   return best;
 }
 
+/** Generic intent words ("tour", "trip", "package"...) are deliberately kept
+ * out of the specific-match path below — several of them are literal
+ * substrings of real titles (e.g. "3 Sisters Tour"), and a bare "tour"
+ * should get the overview answer, not whichever title happens to contain
+ * the word "tour". */
+const GENERIC_QUERY_WORDS = new Set([
+  "tour", "tours", "trip", "trips", "package", "packages", "holiday", "holidays",
+  "vacation", "itinerary", "destination", "where", "book", "booking", "price",
+  "pricing", "cost", "budget", "contact", "hi", "hello", "hey", "help", "custom",
+  "group", "domestic", "international", "northeast",
+]);
+
+function isGenericQuery(raw: string): boolean {
+  return GENERIC_QUERY_WORDS.has(raw.trim().toLowerCase());
+}
+
+/** Fuse's normalized score penalises short queries against long titles more
+ * than you'd expect (e.g. "bali" vs. "Bali – The Island of Dreams" scores
+ * worse than a plain substring check would), so a direct, case-insensitive
+ * substring hit is tried first and only falls back to fuzzy matching (for
+ * typos) when nothing contains the query outright. */
+function findBySubstringOrFuzzy<T>(
+  items: T[],
+  raw: string,
+  fields: (item: T) => string[],
+  fuzzyKeys: (keyof T | string)[]
+): T | null {
+  const q = raw.trim().toLowerCase();
+  if (q.length < 3) return null;
+  const substringHit = items.find((item) => fields(item).some((f) => f.toLowerCase().includes(q)));
+  if (substringHit) return substringHit;
+  const scored = fuzzySearchScored(items, raw, fuzzyKeys, 1);
+  return scored.length && scored[0].score <= 0.3 ? scored[0].item : null;
+}
+
+/** A confident, specific match (a real package, destination, or article
+ * title) wins over the generic keyword FAQs below it, so "bali" answers with
+ * the actual Bali package instead of the generic "international tours"
+ * blurb, and "goa" or "kashmir" (which have no full package yet) still
+ * answer from the featured-destinations data instead of falling through. */
+function resolveResponse(raw: string, ctx: KnowledgeContext): BotResponse {
+  const generic = isGenericQuery(raw);
+
+  if (!generic) {
+    const pkg = findBySubstringOrFuzzy(
+      ctx.packages,
+      raw,
+      (p) => [p.title, ...p.highlights],
+      ["title", "highlights"]
+    );
+    if (pkg) return packageSummary(pkg);
+
+    const dest = findBySubstringOrFuzzy(
+      ctx.destinations,
+      raw,
+      (d) => [d.name, d.description],
+      ["name", "description"]
+    );
+    if (dest) return destinationSummary(dest);
+  }
+
+  const faq = findFaq(raw);
+  if (faq) {
+    return { text: resolveAnswer(faq, ctx), chips: faq.followups };
+  }
+
+  if (!generic) {
+    const post = findBySubstringOrFuzzy(ctx.posts, raw, (p) => [p.title, p.excerpt], ["title", "excerpt"]);
+    if (post) return postSummary(post);
+  }
+
+  return { text: FALLBACK_ANSWER, chips: FALLBACK_CHIPS };
+}
+
 interface Message {
   id: number;
   from: "bot" | "user";
   text: string;
   chips?: string[]; // faq ids
+  link?: { label: string; href: string };
 }
 
 /** A paper-plane glyph — used on the send button. */
@@ -241,6 +484,17 @@ const nextId = () => ++messageSeq;
 
 export const Chatbot: React.FC = () => {
   const pathname = usePathname();
+  const { items: allPackages } = useCollection<TourPackage>("packages");
+  const { items: allPosts } = useCollection<BlogPost>("blog");
+  const { items: allDestinations } = useCollection<Destination>("destinations");
+  const knowledge: KnowledgeContext = useMemo(
+    () => ({
+      packages: allPackages.filter((p) => p.status !== "draft"),
+      posts: allPosts.filter((p) => p.isPublished),
+      destinations: allDestinations.filter((d) => d.status !== "draft"),
+    }),
+    [allPackages, allPosts, allDestinations]
+  );
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     { id: nextId(), from: "bot", text: GREETING, chips: GREETING_CHIPS },
@@ -289,16 +543,12 @@ export const Chatbot: React.FC = () => {
     setMessages((prev) => [...prev, { id, ...msg }]);
   };
 
-  const pushBotReply = (faq: Faq | null) => {
+  const pushBotReply = (response: BotResponse) => {
     setTyping(true);
     replyTimer.current = setTimeout(() => {
       setTyping(false);
       setHop((h) => h + 1);
-      appendMessage(
-        faq
-          ? { from: "bot", text: faq.answer, chips: faq.followups }
-          : { from: "bot", text: FALLBACK_ANSWER, chips: FALLBACK_CHIPS }
-      );
+      appendMessage({ from: "bot", text: response.text, chips: response.chips, link: response.link });
     }, 650);
   };
 
@@ -307,14 +557,14 @@ export const Chatbot: React.FC = () => {
     if (!text || typing) return;
     appendMessage({ from: "user", text });
     setInput("");
-    pushBotReply(findFaq(text));
+    pushBotReply(resolveResponse(text, knowledge));
   };
 
   const sendChip = (faqId: string) => {
     const faq = FAQS[faqId];
     if (!faq || typing) return;
     appendMessage({ from: "user", text: faq.chipLabel });
-    pushBotReply(faq);
+    pushBotReply({ text: resolveAnswer(faq, knowledge), chips: faq.followups });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -407,6 +657,20 @@ export const Chatbot: React.FC = () => {
                     {m.text}
                   </div>
                 </div>
+
+                {/* Deep link to the real package/article page */}
+                {m.from === "bot" && m.link && (
+                  <Link
+                    href={m.link.href}
+                    className="mt-2.5 ml-9 inline-flex items-center gap-1.5 rounded-full bg-primary px-3.5 py-1.5 text-xs font-bold text-white hover:bg-accent transition-colors duration-200"
+                  >
+                    {m.link.label}
+                    <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                      <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                  </Link>
+                )}
 
                 {/* Suggestion chips */}
                 {m.from === "bot" && m.chips && m.chips.length > 0 && (
