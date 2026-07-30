@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { SecondaryButton } from "@/components/ui/SecondaryButton";
+import { useRecentSearches } from "@/lib/recentSearches";
 
 interface HeroProps {
   onSearchSubmit: (destination: string) => void;
@@ -16,6 +17,7 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
   const [travelMonth, setTravelMonth] = useState("");
   const [duration, setDuration] = useState("");
   const [budget, setBudget] = useState("");
+  const { items: recentSearches, saveRecentSearch, clearRecentSearches } = useRecentSearches();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,7 +29,13 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
     ]
       .filter(Boolean)
       .join(", ");
-    onSearchSubmit(query || destination || "Any Destination");
+    const searchLabel = query || destination || "Any Destination";
+
+    saveRecentSearch({
+      label: searchLabel,
+      destination: destination || searchLabel,
+    });
+    onSearchSubmit(searchLabel);
   };
 
   return (
@@ -185,6 +193,41 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
                 </PrimaryButton>
               </div>
             </form>
+
+            {recentSearches.length > 0 ? (
+              <div className="mt-4 rounded-[1.75rem] border border-white/15 bg-primary/25 px-4 py-4 text-left backdrop-blur-md sm:px-5">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold">
+                      Recent searches
+                    </p>
+                    <p className="mt-1 text-sm text-slate-200">
+                      Pick up a trip idea you searched for recently.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={clearRecentSearches}
+                    className="text-xs font-semibold uppercase tracking-wider text-white/70 transition hover:text-white"
+                  >
+                    Clear
+                  </button>
+                </div>
+
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {recentSearches.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => onSearchSubmit(item.label)}
+                      className="rounded-full border border-white/15 bg-white/10 px-3 py-2 text-xs font-semibold text-white transition hover:border-gold/40 hover:bg-white/15"
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : null}
           </div>
         </Container>
       </div>

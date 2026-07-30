@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -38,6 +38,7 @@ import {
   type SelectedAddon,
   type TravellerBreakdown,
 } from "@/lib/bookings/pricing";
+import { saveRecentSearch, useRecentSearches } from "@/lib/recentSearches";
 
 const steps = ["Choose trip", "Travel plan", "Travellers", "Your details", "Review"];
 const inputClass =
@@ -136,6 +137,7 @@ function SummaryCard({
 
 export default function BookingEngine() {
   const searchParams = useSearchParams();
+  const initialCustomDestination = searchParams.get("destination") || "";
   const { items: packages } = useCollection<TourPackage>("packages");
   const { items: destinations } = useCollection<Destination>("destinations");
   const { user, loading: authLoading } = useAuth();
@@ -146,9 +148,7 @@ export default function BookingEngine() {
   );
   const [selectedId, setSelectedId] = useState(searchParams.get("id") || "");
   const [step, setStep] = useState(0);
-  const [customDestination, setCustomDestination] = useState(
-    searchParams.get("destination") || ""
-  );
+  const [customDestination, setCustomDestination] = useState(initialCustomDestination);
   const [travelDate, setTravelDate] = useState("");
   const [departureCity, setDepartureCity] = useState("");
   const [durationLabel, setDurationLabel] = useState("");
@@ -179,6 +179,7 @@ export default function BookingEngine() {
   const [deliveryMessage, setDeliveryMessage] = useState("");
   const [sending, setSending] = useState<"email" | "whatsapp" | null>(null);
   const [result, setResult] = useState<BookingResult | null>(null);
+  const { items: recentSearches, clearRecentSearches } = useRecentSearches();
 
   const activePackages = packages.filter((item) => item.status !== "draft");
   const activeDestinations = destinations.filter((item) => item.status !== "draft");
@@ -282,6 +283,15 @@ export default function BookingEngine() {
     setAddonIds([]);
   };
 
+  useEffect(() => {
+    if (source === "custom" && initialCustomDestination.trim()) {
+      saveRecentSearch({
+        label: initialCustomDestination.trim(),
+        destination: initialCustomDestination.trim(),
+      });
+    }
+  }, [initialCustomDestination, source]);
+
   const validateStep = () => {
     if (step === 0) {
       if (source === "package" && !selectedPackage) return "Please select a tour package.";
@@ -339,6 +349,12 @@ export default function BookingEngine() {
     }
     setSubmitting(true);
     setError("");
+    if (source === "custom" && customDestination.trim()) {
+      saveRecentSearch({
+        label: customDestination.trim(),
+        destination: customDestination.trim(),
+      });
+    }
     try {
       const response = await fetch("/api/bookings", {
         method: "POST",
@@ -638,31 +654,67 @@ export default function BookingEngine() {
                     </select>
                   </label>
                 ) : (
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <label className="space-y-2">
-                      <span className="text-xs font-bold uppercase tracking-wider text-primary">
-                        Preferred destination
-                      </span>
-                      <input
-                        value={customDestination}
-                        onChange={(event) => setCustomDestination(event.target.value)}
-                        className={inputClass}
-                        placeholder="e.g. Japan, Ladakh, Europe"
-                      />
-                    </label>
-                    <label className="space-y-2">
-                      <span className="text-xs font-bold uppercase tracking-wider text-primary">
-                        Budget per adult
-                      </span>
-                      <input
-                        type="number"
-                        min={5000}
-                        step={1000}
-                        value={budgetPerAdult}
-                        onChange={(event) => setBudgetPerAdult(Number(event.target.value) || 0)}
-                        className={inputClass}
-                      />
-                    </label>
+                  <div className="space-y-4">
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <label className="space-y-2">
+                        <span className="text-xs font-bold uppercase tracking-wider text-primary">
+                          Preferred destination
+                        </span>
+                        <input
+                          value={customDestination}
+                          onChange={(event) => setCustomDestination(event.target.value)}
+                          className={inputClass}
+                          placeholder="e.g. Japan, Ladakh, Europe"
+                        />
+                      </label>
+                      <label className="space-y-2">
+                        <span className="text-xs font-bold uppercase tracking-wider text-primary">
+                          Budget per adult
+                        </span>
+                        <input
+                          type="number"
+                          min={5000}
+                          step={1000}
+                          value={budgetPerAdult}
+                          onChange={(event) => setBudgetPerAdult(Number(event.target.value) || 0)}
+                          className={inputClass}
+                        />
+                      </label>
+                    </div>
+
+                    {recentSearches.length > 0 ? (
+                      <div className="rounded-3xl border border-slate-200 bg-sand/70 p-4">
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                          <div>
+                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">
+                              Recent searches
+                            </p>
+                            <p className="mt-1 text-sm text-foreground-muted">
+                              Reuse a destination you looked up recently.
+                            </p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={clearRecentSearches}
+                            className="text-xs font-semibold uppercase tracking-wider text-foreground-muted transition hover:text-primary"
+                          >
+                            Clear
+                          </button>
+                        </div>
+                        <div className="mt-4 flex flex-wrap gap-2">
+                          {recentSearches.map((item) => (
+                            <button
+                              key={item.id}
+                              type="button"
+                              onClick={() => setCustomDestination(item.destination)}
+                              className="rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-primary transition hover:border-accent hover:text-accent"
+                            >
+                              {item.destination}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
                 )}
               </div>
