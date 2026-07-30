@@ -172,6 +172,7 @@ export default function BookingEngine() {
     travellerNames: "",
     requirements: "",
   });
+  const [bookingFor, setBookingFor] = useState<"self" | "other">("self");
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -200,8 +201,9 @@ export default function BookingEngine() {
         ? selectedDestination?.duration
         : "") ||
     "6 Nights / 7 Days";
-  const contactName = contact.name || user?.name || "";
-  const contactEmail = contact.email || user?.email || "";
+  const bookingForSelf = Boolean(user) && bookingFor === "self";
+  const contactName = bookingForSelf ? user!.name : contact.name;
+  const contactEmail = bookingForSelf ? user!.email : contact.email;
 
   const snapshot: BookingPackageSnapshot = (() => {
     if (source === "package" && fullPackage) return packageSnapshot(fullPackage);
@@ -767,10 +769,42 @@ export default function BookingEngine() {
                   .
                 </div>
               ) : null}
+              {user ? (
+                <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                  {(
+                    [
+                      ["self", "Booking for myself", user.name],
+                      ["other", "Booking for someone else", "A family member, friend or colleague"],
+                    ] as const
+                  ).map(([value, label, hint]) => (
+                    <button
+                      type="button"
+                      key={value}
+                      onClick={() => setBookingFor(value)}
+                      className={`rounded-2xl border p-4 text-left transition ${
+                        bookingFor === value
+                          ? "border-primary bg-primary text-white shadow-lg"
+                          : "border-slate-200 hover:border-primary/30"
+                      }`}
+                    >
+                      <strong className="block text-sm">{label}</strong>
+                      <span className={`mt-1 block text-xs ${bookingFor === value ? "text-slate-300" : "text-foreground-muted"}`}>
+                        {hint}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              ) : null}
               <div className="mt-7 grid gap-5 sm:grid-cols-2">
                 <label className="space-y-2">
                   <span className="text-xs font-bold uppercase tracking-wider text-primary">Full name</span>
-                  <input value={contactName} onChange={(event) => setContact((current) => ({ ...current, name: event.target.value }))} className={inputClass} placeholder="Lead traveller" />
+                  <input
+                    value={contactName}
+                    disabled={bookingForSelf}
+                    onChange={(event) => setContact((current) => ({ ...current, name: event.target.value }))}
+                    className={`${inputClass} ${bookingForSelf ? "cursor-not-allowed bg-slate-50 text-foreground-muted" : ""}`}
+                    placeholder="Lead traveller"
+                  />
                 </label>
                 <label className="space-y-2">
                   <span className="text-xs font-bold uppercase tracking-wider text-primary">Phone</span>
@@ -778,7 +812,14 @@ export default function BookingEngine() {
                 </label>
                 <label className="space-y-2 sm:col-span-2">
                   <span className="text-xs font-bold uppercase tracking-wider text-primary">Email address</span>
-                  <input type="email" value={contactEmail} onChange={(event) => setContact((current) => ({ ...current, email: event.target.value }))} className={inputClass} placeholder="name@example.com" />
+                  <input
+                    type="email"
+                    value={contactEmail}
+                    disabled={bookingForSelf}
+                    onChange={(event) => setContact((current) => ({ ...current, email: event.target.value }))}
+                    className={`${inputClass} ${bookingForSelf ? "cursor-not-allowed bg-slate-50 text-foreground-muted" : ""}`}
+                    placeholder="name@example.com"
+                  />
                 </label>
                 <label className="space-y-2 sm:col-span-2">
                   <span className="text-xs font-bold uppercase tracking-wider text-primary">Traveller names</span>
