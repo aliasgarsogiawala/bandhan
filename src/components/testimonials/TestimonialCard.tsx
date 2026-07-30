@@ -40,11 +40,11 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
 
   return (
     <article
-      className="group relative flex h-full min-h-[420px] flex-col overflow-hidden rounded-2xl border border-white/[0.11] bg-white/[0.04] shadow-[0_28px_80px_-54px_rgba(0,0,0,0.95)] backdrop-blur-xl"
+      className="group relative flex h-full min-h-[420px] flex-col overflow-hidden rounded-[1.75rem] border border-gold/25 bg-[#0b2138] shadow-[0_28px_80px_-54px_rgba(0,0,0,0.95)]"
     >
       <div className="pointer-events-none absolute inset-x-8 top-0 z-20 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent" />
 
-      <div className="relative h-40 shrink-0 overflow-hidden sm:h-44">
+      <div className="relative h-48 shrink-0 overflow-hidden sm:h-56">
         {thumbnailPhoto ? (
           <Image
             src={thumbnailPhoto}
@@ -69,7 +69,7 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
         </div>
       </div>
 
-      <div className="relative flex flex-1 flex-col justify-between p-5 sm:p-6">
+      <div className="relative flex flex-1 flex-col justify-between p-6 sm:p-7">
         <Quote
           className="absolute right-5 top-5 h-12 w-12 fill-gold/[0.03] text-gold/[0.07]"
           aria-hidden="true"
@@ -91,7 +91,7 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
               <span className="text-xs font-semibold text-white/75">{rating}.0</span>
             </div>
           </div>
-          <blockquote className="line-clamp-4 font-devanagari text-base font-light leading-[1.65] text-white/86">
+          <blockquote className="line-clamp-4 font-devanagari text-base font-light leading-[1.65] text-white/85">
             “{displayReview}”
           </blockquote>
 

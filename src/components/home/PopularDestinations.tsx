@@ -10,7 +10,9 @@ import { useCollection } from "@/lib/admin/store";
 
 export const PopularDestinations: React.FC = () => {
   const { items } = useCollection<Destination>("destinations");
-  const destinations = items.filter((destination) => destination.status !== "draft" && destination.isFeatured !== false);
+  const destinations = items
+    .filter((destination) => destination.status !== "draft" && destination.isFeatured !== false)
+    .slice(0, 8);
   return (
     <section id="domestic-tours" className="py-16 sm:py-24 bg-white relative z-10">
       <Container>
@@ -23,6 +25,13 @@ export const PopularDestinations: React.FC = () => {
             description="Explore our hand-picked domestic and international gateways curated for unforgettable memories."
             className="max-w-2xl"
           />
+          <Link
+            href="/destinations"
+            className="group inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-primary/15 bg-white px-5 py-3 text-sm font-bold text-primary shadow-soft transition-all hover:border-primary hover:bg-primary hover:text-white md:self-end"
+          >
+            Explore all destinations
+            <span className="text-lg leading-none transition-transform group-hover:translate-x-1">→</span>
+          </Link>
         </div>
 
         {/* Destination Cards Grid */}
@@ -30,7 +39,7 @@ export const PopularDestinations: React.FC = () => {
           {destinations.map((dest, idx) => (
             <Link
               key={dest.id}
-              href={`/book?type=destination&id=${encodeURIComponent(dest.id)}`}
+              href={`/destinations/${encodeURIComponent(dest.id)}`}
               className="group relative h-[380px] rounded-3xl overflow-hidden cursor-pointer shadow-soft hover:shadow-xl transition-all duration-500 border border-slate-100/50"
               style={{
                 animationDelay: `${idx * 100}ms`,
