@@ -29,28 +29,25 @@ export const SectionTitle: React.FC<SectionTitleProps> = ({
     right: "text-right",
   };
 
+  const eyebrow = badge || subtitle;
+
   return (
     <div
       className={`flex flex-col max-w-3xl ${alignmentClasses[align]} ${className}`}
     >
-      {badge && (
-        <span className="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-accent/10 text-accent border border-accent/20 mb-3 animate-fade-in">
-          {badge}
-        </span>
-      )}
-      
-      {subtitle && !badge && (
-        <span className="text-accent font-heading font-semibold tracking-widest uppercase text-sm mb-2 block">
-          {subtitle}
+      {eyebrow && (
+        <span className="inline-flex items-center gap-2.5 text-[0.7rem] font-bold uppercase tracking-[0.24em] text-accent mb-4">
+          <span className="h-px w-7 bg-accent/60" aria-hidden="true" />
+          {eyebrow}
         </span>
       )}
 
-      <h2 className="font-heading font-extrabold text-3xl sm:text-4xl md:text-5xl text-primary leading-tight tracking-tight">
+      <h2 className="font-heading font-extrabold text-3xl sm:text-4xl md:text-[2.9rem] text-primary leading-[1.08] tracking-tight">
         {title}
       </h2>
 
       {description && (
-        <p className={`mt-4 text-base sm:text-lg text-foreground-muted leading-relaxed font-sans max-w-2xl ${textAlignmentClasses[align]}`}>
+        <p className={`mt-5 text-base sm:text-lg text-foreground-muted leading-relaxed font-sans max-w-2xl ${textAlignmentClasses[align]}`}>
           {description}
         </p>
       )}

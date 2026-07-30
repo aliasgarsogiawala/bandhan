@@ -3,6 +3,7 @@
 import React from "react";
 import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
+import { Stagger, StaggerItem } from "@/components/ui/Stagger";
 import { whyChooseUs } from "@/data/mockData";
 
 export const WhyChooseUs: React.FC = () => {
@@ -47,12 +48,11 @@ export const WhyChooseUs: React.FC = () => {
   };
 
   return (
-    <section id="why-choose-us" className="py-16 sm:py-24 bg-white relative z-10">
+    <section id="why-choose-us" className="relative z-10 bg-sand-bg/50 py-20 sm:py-28">
       <Container>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-          
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
           {/* Left Text details */}
-          <div className="lg:col-span-5 space-y-6">
+          <div className="space-y-7 lg:col-span-5">
             <SectionTitle
               align="left"
               badge="Why Choose Us"
@@ -60,51 +60,51 @@ export const WhyChooseUs: React.FC = () => {
               description="For over 15 years, Bandhan Tours has been leading domestic & international getaways. We believe that traveling is about exploring the true colors of life. Our group tours, family packages, and custom getaways ensure stress-free bookings, professional drivers, hand-picked hotels, and unique memories."
               className="max-w-xl"
             />
-            
-            {/* Soft decorative element */}
-            <div className="pt-6 border-t border-slate-100 flex items-center gap-6">
+
+            {/* Quiet figures with hairline dividers */}
+            <div className="flex items-center gap-8 border-t border-slate-200 pt-7">
               <div>
-                <span className="text-4xl font-extrabold text-primary font-heading block">98%</span>
-                <span className="text-xs text-foreground-muted uppercase font-bold tracking-wider">Customer Satisfaction</span>
+                <span className="font-heading text-4xl font-extrabold text-primary">98%</span>
+                <span className="mt-1 block text-xs font-bold uppercase tracking-wider text-foreground-muted">
+                  Customer Satisfaction
+                </span>
               </div>
-              <div className="h-10 w-px bg-slate-200"></div>
+              <div className="h-12 w-px bg-slate-200" />
               <div>
-                <span className="text-4xl font-extrabold text-primary font-heading block">120+</span>
-                <span className="text-xs text-foreground-muted uppercase font-bold tracking-wider">Unique Destinations</span>
+                <span className="font-heading text-4xl font-extrabold text-primary">120+</span>
+                <span className="mt-1 block text-xs font-bold uppercase tracking-wider text-foreground-muted">
+                  Unique Destinations
+                </span>
               </div>
             </div>
           </div>
 
           {/* Right Metrics Grid */}
-          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <Stagger className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:col-span-7" stagger={0.09}>
             {whyChooseUs.map((item) => (
-              <div
-                key={item.id}
-                className="group p-8 rounded-3xl bg-sand/35 hover:bg-primary hover:text-white transition-all duration-500 border border-slate-100/50 shadow-soft hover:shadow-xl hover:-translate-y-1"
-              >
-                {/* Icon Wrapper */}
-                <div className="w-12 h-12 rounded-2xl bg-accent/10 group-hover:bg-white/10 text-accent group-hover:text-gold flex items-center justify-center mb-6 transition-colors duration-500 shadow-inner">
-                  {renderIcon(item.iconName)}
+              <StaggerItem key={item.id} as="div" y={26}>
+                <div className="group h-full rounded-[1.5rem] border border-slate-100 bg-white p-8 shadow-soft transition-all duration-500 hover:-translate-y-1 hover:border-primary/15 hover:shadow-[0_24px_55px_-30px_rgba(7,32,60,0.3)]">
+                  {/* Icon Wrapper */}
+                  <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-gold/12 text-gold-dark transition-colors duration-500 group-hover:bg-gold group-hover:text-primary">
+                    {renderIcon(item.iconName)}
+                  </div>
+
+                  {/* Stat Number */}
+                  <span className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-accent">
+                    {item.stat}
+                  </span>
+
+                  {/* Title */}
+                  <h4 className="mb-3 font-heading text-xl font-bold text-primary">{item.title}</h4>
+
+                  {/* Description */}
+                  <p className="font-sans text-sm leading-relaxed text-foreground-muted">
+                    {item.description}
+                  </p>
                 </div>
-
-                {/* Stat Number */}
-                <span className="text-xs font-bold text-accent group-hover:text-gold uppercase tracking-wider block mb-1">
-                  {item.stat}
-                </span>
-
-                {/* Title */}
-                <h4 className="text-xl font-bold font-heading text-primary group-hover:text-white mb-3 transition-colors duration-300">
-                  {item.title}
-                </h4>
-
-                {/* Description */}
-                <p className="text-sm text-foreground-muted group-hover:text-slate-300 leading-relaxed font-sans transition-colors duration-300">
-                  {item.description}
-                </p>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
-
+          </Stagger>
         </div>
       </Container>
     </section>

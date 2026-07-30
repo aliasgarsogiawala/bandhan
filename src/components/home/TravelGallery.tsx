@@ -4,14 +4,29 @@ import React from "react";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
+import { Stagger, StaggerItem } from "@/components/ui/Stagger";
 import { galleryImages } from "@/data/mockData";
+
+// Varied aspect ratios give the grid a natural masonry rhythm
+// while keeping next/image dimensions explicit (no CLS).
+const aspectClasses = [
+  "aspect-[4/5]",
+  "aspect-square",
+  "aspect-[4/5]",
+  "aspect-[5/6]",
+  "aspect-square",
+  "aspect-[4/5]",
+  "aspect-[5/6]",
+  "aspect-square",
+  "aspect-[4/5]",
+];
 
 export const TravelGallery: React.FC = () => {
   return (
-    <section className="py-16 sm:py-24 bg-white relative z-10">
+    <section className="relative z-10 bg-white py-20 sm:py-28">
       <Container>
         {/* Header */}
-        <div className="text-center mb-16 max-w-2xl mx-auto">
+        <div className="mx-auto mb-14 max-w-2xl text-center">
           <SectionTitle
             align="center"
             badge="Visual Inspiration"
@@ -20,38 +35,34 @@ export const TravelGallery: React.FC = () => {
           />
         </div>
 
-        {/* Pinterest-style Masonry Grid */}
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+        {/* Masonry-style grid */}
+        <Stagger
+          className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:gap-6"
+          stagger={0.06}
+        >
           {galleryImages.map((item, idx) => (
-            <div
-              key={item.id}
-              className="break-inside-avoid relative rounded-3xl overflow-hidden shadow-soft group cursor-pointer border border-slate-100/50"
-              style={{
-                marginBottom: "24px",
-              }}
-            >
-              {/* Image */}
-              <div className="relative w-full h-auto min-h-[220px]">
-                <img
+            <StaggerItem key={item.id} as="div" y={26} className={idx % 5 === 0 ? "sm:row-span-2" : ""}>
+              <div
+                className={`group relative h-full w-full overflow-hidden rounded-[1.25rem] border border-slate-100 shadow-soft ${aspectClasses[idx % aspectClasses.length]}`}
+              >
+                <Image
                   src={item.image}
                   alt={item.title}
-                  className="w-full h-auto rounded-3xl object-cover transition-transform duration-700 group-hover:scale-108"
-                  loading="lazy"
+                  fill
+                  sizes="(max-width: 640px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-105"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/85 via-primary/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <div className="absolute inset-x-0 bottom-0 translate-y-2 p-5 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold">
+                    {item.location}
+                  </span>
+                  <h4 className="mt-1 font-heading text-lg font-bold text-white">{item.title}</h4>
+                </div>
               </div>
-
-              {/* Hover Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
-                <span className="text-gold text-xs uppercase tracking-widest font-bold mb-1">
-                  {item.location}
-                </span>
-                <h4 className="text-white font-heading font-bold text-lg">
-                  {item.title}
-                </h4>
-              </div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </Container>
     </section>
   );

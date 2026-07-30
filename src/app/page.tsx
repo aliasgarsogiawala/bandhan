@@ -12,7 +12,6 @@ import Testimonials from "@/components/home/Testimonials";
 import TravelGallery from "@/components/home/TravelGallery";
 import CTA from "@/components/home/CTA";
 import Footer from "@/components/common/Footer";
-import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
 
 export default function Home() {
@@ -24,50 +23,42 @@ export default function Home() {
   const handleSearch = (href: string) => router.push(href);
 
   return (
-    <div className="min-h-screen bg-sand flex flex-col overflow-x-hidden selection:bg-accent/20 selection:text-accent-dark">
+    <div className="min-h-screen flex flex-col overflow-x-hidden bg-white selection:bg-accent/20 selection:text-accent-dark">
       {/* 1. Transparent Sticky Navbar */}
       <Navbar onEnquiryClick={() => handleEnquire("")} />
 
-      {/* 2. Hero Section & 3. Floating Search Card */}
-      <Hero
-        onSearchSubmit={handleSearch}
-        onPlanTripClick={() => router.push("/book?type=custom")}
-      />
+      {/*
+        Sections animate their own internals via the Stagger primitive,
+        giving a sequenced editorial rhythm instead of one blocky reveal.
+      */}
+      <main className="flex flex-col">
+        {/* 2. Hero Section & 3. Floating Search Card */}
+        <Hero
+          onSearchSubmit={handleSearch}
+          onPlanTripClick={() => router.push("/book?type=custom")}
+        />
 
-      {/* 4. Popular Destinations */}
-      <ScrollReveal>
+        {/* 4. Popular Destinations */}
         <PopularDestinations />
-      </ScrollReveal>
 
-      {/* 5. Featured Tour Packages */}
-      <ScrollReveal>
+        {/* 5. Featured Tour Packages */}
         <FeaturedPackages />
-      </ScrollReveal>
 
-      {/* 6. Why Choose Bandhan */}
-      <ScrollReveal>
+        {/* 6. Why Choose Bandhan */}
         <WhyChooseUs />
-      </ScrollReveal>
 
-      {/* 7. Upcoming Group Departures */}
-      <ScrollReveal>
+        {/* 7. Upcoming Group Departures */}
         <GroupDepartures />
-      </ScrollReveal>
 
-      {/* 8. Testimonials */}
-      <ScrollReveal>
+        {/* 8. Testimonials */}
         <Testimonials />
-      </ScrollReveal>
 
-      {/* 9. Travel Gallery */}
-      <ScrollReveal>
+        {/* 9. Travel Gallery */}
         <TravelGallery />
-      </ScrollReveal>
 
-      {/* 10. CTA Section */}
-      <ScrollReveal>
+        {/* 10. CTA Section */}
         <CTA onStartPlanningClick={() => router.push("/book?type=custom")} />
-      </ScrollReveal>
+      </main>
 
       {/* 11. Footer */}
       <Footer />

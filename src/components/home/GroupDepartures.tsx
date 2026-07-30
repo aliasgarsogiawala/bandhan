@@ -2,18 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import {
-  ArrowRight,
-  CalendarDays,
-  CheckCircle2,
-  Clock3,
-  MapPin,
-  Users,
-} from "lucide-react";
+import { ArrowRight, CalendarDays, CheckCircle2, Clock3, MapPin } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
-import { RecentlyBooked } from "@/components/ui/Urgency";
+import { Stagger, StaggerItem } from "@/components/ui/Stagger";
+import { ContourPattern } from "./HomeDecor";
 import BookingModal from "@/components/packages/BookingModal";
 import type { DepartureStatus, GroupDeparture } from "@/lib/departures/types";
 
@@ -62,28 +56,33 @@ const fallbackVisual = {
   label: "Curated group experience",
 };
 
+// Refined, editorial status system — muted navy/gold instead of cartoon colors.
 const statusStyles: Record<
   DepartureStatus,
-  { label: string; badge: string; bar: string }
+  { label: string; badge: string; dot: string; bar: string }
 > = {
   "filling-fast": {
     label: "Filling fast",
-    badge: "bg-red-50 text-red-700 ring-red-200",
-    bar: "bg-red-500",
+    badge: "border-accent/30 bg-accent/10 text-accent-dark",
+    dot: "bg-accent",
+    bar: "bg-accent",
   },
   "limited-seats": {
     label: "Limited seats",
-    badge: "bg-amber-50 text-amber-700 ring-amber-200",
-    bar: "bg-amber-500",
+    badge: "border-gold/40 bg-gold/15 text-gold-dark",
+    dot: "bg-gold",
+    bar: "bg-gold-dark",
   },
   guaranteed: {
     label: "Guaranteed",
-    badge: "bg-emerald-50 text-emerald-700 ring-emerald-200",
+    badge: "border-emerald-500/30 bg-emerald-500/10 text-emerald-700",
+    dot: "bg-emerald-500",
     bar: "bg-emerald-500",
   },
   "sold-out": {
     label: "Sold out",
-    badge: "bg-slate-100 text-slate-600 ring-slate-200",
+    badge: "border-slate-300 bg-slate-100 text-slate-500",
+    dot: "bg-slate-400",
     bar: "bg-slate-400",
   },
 };
@@ -113,13 +112,12 @@ export const GroupDepartures: React.FC = () => {
   return (
     <section
       id="group-departures"
-      className="relative z-10 overflow-hidden bg-sand-bg py-16 sm:py-20"
+      className="relative z-10 overflow-hidden bg-white py-20 sm:py-28"
     >
-      <div className="pointer-events-none absolute -left-32 top-14 h-80 w-80 rounded-full bg-accent/[0.07] blur-3xl" />
-      <div className="pointer-events-none absolute -right-24 bottom-0 h-96 w-96 rounded-full bg-gold/15 blur-3xl" />
+      <ContourPattern className="pointer-events-none absolute inset-0 h-full w-full text-primary/[0.025]" />
 
       <Container>
-        <div className="mb-9 flex flex-col gap-5 lg:mb-10 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mb-12 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionTitle
             align="left"
             badge="Travel Together"
@@ -127,9 +125,9 @@ export const GroupDepartures: React.FC = () => {
             description="Pick your next story. Fixed dates, thoughtfully planned itineraries, and a wonderful group to share the journey with."
             className="max-w-3xl"
           />
-          <div className="hidden items-center gap-3 rounded-2xl border border-primary/[0.08] bg-white px-5 py-4 text-primary shadow-soft lg:flex">
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gold/30 text-primary">
-              <CheckCircle2 size={20} strokeWidth={2.5} />
+          <div className="hidden items-center gap-3 rounded-2xl border border-primary/10 bg-sand-bg px-5 py-4 text-primary shadow-soft lg:flex">
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gold/25 text-primary">
+              <CheckCircle2 size={20} strokeWidth={2.25} />
             </span>
             <div>
               <p className="text-sm font-bold">Expert-led group tours</p>
@@ -138,7 +136,7 @@ export const GroupDepartures: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+        <Stagger className="grid gap-5 md:grid-cols-2 xl:grid-cols-4" stagger={0.08}>
           {groupDepartures.map((departure) => {
             const soldOut = departure.seats_left <= 0;
             const totalSeats = Math.max(departure.total_seats, 1);
@@ -151,123 +149,119 @@ export const GroupDepartures: React.FC = () => {
             const status = statusStyles[departure.status];
 
             return (
-              <article
-                key={departure.id}
-                className="group overflow-hidden rounded-3xl border border-primary/[0.07] bg-white shadow-soft transition duration-500 hover:-translate-y-1 hover:shadow-[0_24px_55px_-25px_rgba(7,32,60,0.35)]"
-              >
-                <div className="relative h-44 overflow-hidden sm:h-48">
-                  <Image
-                    src={visual.image}
-                    alt={`Scenic view from ${departure.destination}`}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/85 via-primary/10 to-transparent" />
+              <StaggerItem key={departure.id} as="article" y={28}>
+                <div className="group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-slate-100 bg-white shadow-soft transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_30px_60px_-30px_rgba(7,32,60,0.35)]">
+                  <div className="relative h-44 overflow-hidden sm:h-48">
+                    <Image
+                      src={visual.image}
+                      alt={`Scenic view from ${departure.destination}`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/15 to-transparent" />
 
-                  <span
-                    className={`absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[9px] font-extrabold uppercase tracking-[0.1em] ring-1 ring-inset ${status.badge}`}
-                  >
-                    <span className="h-1.5 w-1.5 rounded-full bg-current" />
-                    {status.label}
-                  </span>
-
-                  <div className="absolute inset-x-4 bottom-4 text-white">
-                    <div className="mb-1.5 flex items-center gap-1.5 text-[10px] font-semibold text-white/75">
-                      <MapPin size={14} />
-                      {visual.label}
-                    </div>
-                    <h3 className="max-w-lg font-heading text-xl font-bold leading-tight sm:text-[1.35rem]">
-                      {departure.destination}
-                    </h3>
-                  </div>
-                </div>
-
-                <div className="p-4 sm:p-5">
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="flex items-center gap-2 rounded-xl bg-sand-bg px-2.5 py-2.5">
-                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white text-accent shadow-sm">
-                        <CalendarDays size={14} strokeWidth={2.25} />
-                      </span>
-                      <div className="min-w-0">
-                        <span className="block text-[8px] font-bold uppercase tracking-[0.1em] text-foreground-light">
-                          Departure
-                        </span>
-                        <span className="block truncate text-[11px] font-bold text-primary">
-                          {departure.date}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2 rounded-xl bg-sand-bg px-2.5 py-2.5">
-                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white text-accent shadow-sm">
-                        <Clock3 size={14} strokeWidth={2.25} />
-                      </span>
-                      <div className="min-w-0">
-                        <span className="block text-[8px] font-bold uppercase tracking-[0.1em] text-foreground-light">
-                          Duration
-                        </span>
-                        <span className="block truncate text-[11px] font-bold text-primary">
-                          {departure.duration || "To be announced"}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-4">
-                    <div className="mb-2 flex items-center justify-between gap-3">
-                      <span className="flex items-center gap-1.5 text-[11px] font-semibold text-foreground-muted">
-                        <Users size={14} className="text-accent" />
-                        <strong className="text-primary">{seatsLeft}</strong> of {totalSeats} seats left
-                      </span>
-                      <span className="text-[9px] font-bold uppercase tracking-wider text-foreground-light">
-                        {Math.round(bookedPercent)}% booked
-                      </span>
-                    </div>
-                    <div
-                      className="h-1.5 overflow-hidden rounded-full bg-slate-100"
-                      role="progressbar"
-                      aria-label={`${departure.destination} seats booked`}
-                      aria-valuemin={0}
-                      aria-valuemax={100}
-                      aria-valuenow={Math.round(bookedPercent)}
+                    <span
+                      className={`absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.12em] ${status.badge}`}
                     >
+                      <span className={`h-1.5 w-1.5 rounded-full ${status.dot}`} />
+                      {status.label}
+                    </span>
+
+                    <div className="absolute inset-x-4 bottom-4 text-white">
+                      <div className="mb-1.5 flex items-center gap-1.5 text-[10px] font-semibold text-white/75">
+                        <MapPin size={14} />
+                        {visual.label}
+                      </div>
+                      <h3 className="max-w-lg font-heading text-xl font-bold leading-tight sm:text-[1.35rem]">
+                        {departure.destination}
+                      </h3>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-1 flex-col p-5">
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="flex items-center gap-2 rounded-xl bg-sand-bg px-2.5 py-2.5">
+                        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white text-accent shadow-sm">
+                          <CalendarDays size={14} strokeWidth={2.25} />
+                        </span>
+                        <div className="min-w-0">
+                          <span className="block text-[8px] font-bold uppercase tracking-[0.1em] text-foreground-light">
+                            Departure
+                          </span>
+                          <span className="block truncate text-[11px] font-bold text-primary">
+                            {departure.date}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 rounded-xl bg-sand-bg px-2.5 py-2.5">
+                        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white text-accent shadow-sm">
+                          <Clock3 size={14} strokeWidth={2.25} />
+                        </span>
+                        <div className="min-w-0">
+                          <span className="block text-[8px] font-bold uppercase tracking-[0.1em] text-foreground-light">
+                            Duration
+                          </span>
+                          <span className="block truncate text-[11px] font-bold text-primary">
+                            {departure.duration || "TBA"}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Genuine seat availability — no fake scarcity widgets */}
+                    <div className="mt-4">
+                      <div className="mb-2 flex items-center justify-between gap-3">
+                        <span className="text-[11px] font-semibold text-foreground-muted">
+                          <strong className="text-primary">{seatsLeft}</strong> of {totalSeats} seats left
+                        </span>
+                        <span className="text-[9px] font-bold uppercase tracking-wider text-foreground-light">
+                          {Math.round(bookedPercent)}% booked
+                        </span>
+                      </div>
                       <div
-                        className={`h-full rounded-full transition-all duration-500 ${status.bar}`}
-                        style={{ width: `${bookedPercent}%` }}
-                      />
-                    </div>
-                    <div className="mt-2">
-                      <RecentlyBooked seed={departure.id} />
-                    </div>
-                  </div>
-
-                  <div className="mt-4 flex items-end justify-between gap-3 border-t border-slate-100 pt-4">
-                    <div>
-                      <span className="block text-[8px] font-bold uppercase tracking-[0.12em] text-foreground-light">
-                        Price per person
-                      </span>
-                      <div className="mt-0.5 text-xl font-extrabold text-primary">
-                        {departure.price || "On request"}
+                        className="h-1.5 overflow-hidden rounded-full bg-slate-100"
+                        role="progressbar"
+                        aria-label={`${departure.destination} seats booked`}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                        aria-valuenow={Math.round(bookedPercent)}
+                      >
+                        <div
+                          className={`h-full rounded-full transition-all duration-500 ${status.bar}`}
+                          style={{ width: `${bookedPercent}%` }}
+                        />
                       </div>
                     </div>
 
-                    <PrimaryButton
-                      variant={soldOut ? "navy" : "coral"}
-                      size="sm"
-                      disabled={soldOut}
-                      onClick={() => setSelected(departure)}
-                      rightIcon={!soldOut ? <ArrowRight size={16} /> : undefined}
-                      className="shrink-0"
-                    >
-                      {soldOut ? "Sold Out" : "Book Now"}
-                    </PrimaryButton>
+                    <div className="mt-auto flex items-end justify-between gap-3 border-t border-slate-100 pt-4">
+                      <div>
+                        <span className="block text-[8px] font-bold uppercase tracking-[0.12em] text-foreground-light">
+                          Price per person
+                        </span>
+                        <div className="mt-0.5 text-xl font-extrabold text-primary">
+                          {departure.price || "On request"}
+                        </div>
+                      </div>
+
+                      <PrimaryButton
+                        variant={soldOut ? "navy" : "coral"}
+                        size="sm"
+                        disabled={soldOut}
+                        onClick={() => setSelected(departure)}
+                        rightIcon={!soldOut ? <ArrowRight size={16} /> : undefined}
+                        className="shrink-0"
+                      >
+                        {soldOut ? "Sold Out" : "Book Now"}
+                      </PrimaryButton>
+                    </div>
                   </div>
                 </div>
-              </article>
+              </StaggerItem>
             );
           })}
-        </div>
+        </Stagger>
       </Container>
 
       <BookingModal

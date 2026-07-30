@@ -1,189 +1,65 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight, ArrowUpRight, Clock3 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
-import { SeatsLeft } from "@/components/ui/Urgency";
 import type { TourPackage } from "@/data/mockData";
 import { useCollection } from "@/lib/admin/store";
 import { CATEGORY_TABS, matchesCategory, type CategoryTab } from "@/lib/packageCategory";
 
+function SpotlightPackage({ pkg }: { pkg: TourPackage }) {
+  return (
+    <Link href={`/packages/${pkg.id}`} className="group relative flex min-h-[34rem] overflow-hidden rounded-[1.75rem] bg-primary shadow-[0_24px_70px_-34px_rgba(7,32,60,0.55)] lg:min-h-[39rem]">
+      <Image src={pkg.image} alt={pkg.title} fill sizes="(max-width: 1024px) 100vw, 55vw" className="object-cover transition-transform duration-1000 group-hover:scale-105" />
+      <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/35 to-primary/5" />
+      <div className="absolute left-6 top-6 flex flex-wrap gap-2 sm:left-8 sm:top-8">
+        <span className="rounded-full border border-white/20 bg-primary/40 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-white backdrop-blur-md">Featured route</span>
+        {pkg.isPopular && <span className="rounded-full bg-gold px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-primary">Popular</span>}
+      </div>
+      <div className="absolute inset-x-6 bottom-6 text-white sm:inset-x-8 sm:bottom-8">
+        <div className="flex flex-wrap items-center gap-3 text-xs font-semibold text-white/75"><span className="uppercase tracking-[0.16em] text-gold">{pkg.category}</span><span className="h-1 w-1 rounded-full bg-white/40" /><span className="flex items-center gap-1.5"><Clock3 size={13} />{pkg.duration}</span></div>
+        <h3 className="mt-3 max-w-xl font-heading text-3xl font-bold leading-tight sm:text-4xl">{pkg.title}</h3>
+        <p className="mt-3 max-w-xl line-clamp-2 text-sm leading-relaxed text-white/75 sm:text-base">{pkg.tagline || pkg.overview || pkg.highlights?.[0]}</p>
+        <div className="mt-7 flex items-end justify-between gap-4 border-t border-white/20 pt-5"><div><p className="text-[9px] font-bold uppercase tracking-[0.16em] text-white/55">Starting from</p><p className="mt-1 text-2xl font-extrabold text-white">{pkg.price}</p></div><span className="inline-flex items-center gap-2 rounded-full bg-gold px-4 py-2.5 text-xs font-bold text-primary transition-colors group-hover:bg-gold-light">View itinerary <ArrowUpRight size={15} /></span></div>
+      </div>
+    </Link>
+  );
+}
+
+function CompactPackage({ pkg, index }: { pkg: TourPackage; index: number }) {
+  return (
+    <Link href={`/packages/${pkg.id}`} className="group grid grid-cols-[2.2rem_minmax(0,1fr)_auto] items-center gap-3 border-b border-slate-100 px-5 py-4 transition-colors last:border-b-0 hover:bg-sand/60 sm:grid-cols-[2.5rem_minmax(0,1fr)_auto] sm:gap-4 sm:px-6">
+      <span className="flex h-9 w-9 items-center justify-center rounded-full border border-primary/10 text-xs font-bold text-foreground-light transition-colors group-hover:border-gold group-hover:bg-gold group-hover:text-primary">{String(index).padStart(2, "0")}</span>
+      <div className="min-w-0"><div className="flex items-center gap-2"><span className="text-[9px] font-bold uppercase tracking-[0.15em] text-accent">{pkg.category}</span>{pkg.isPopular && <span className="text-[9px] font-bold uppercase tracking-wider text-gold-dark">Popular</span>}</div><h3 className="mt-1 truncate font-heading text-base font-bold text-primary transition-colors group-hover:text-accent sm:text-lg">{pkg.title}</h3><span className="mt-1 flex items-center gap-1 text-[11px] text-foreground-muted"><Clock3 size={12} />{pkg.duration}</span></div>
+      <div className="flex items-center gap-3"><span className="hidden text-sm font-extrabold text-primary sm:block">{pkg.price}</span><ArrowUpRight size={17} className="text-foreground-light transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" /></div>
+    </Link>
+  );
+}
+
 export const FeaturedPackages: React.FC = () => {
   const { items: packages } = useCollection<TourPackage>("packages");
   const [activeTab, setActiveTab] = useState<CategoryTab>("all");
-  const scrollerRef = useRef<HTMLDivElement>(null);
-
-  const filteredPackages = packages
-    .filter((pkg) => pkg.status !== "draft")
-    .filter((pkg) => matchesCategory(pkg.category, activeTab));
-
-  // Snap back to the first card whenever the category filter changes.
-  useEffect(() => {
-    scrollerRef.current?.scrollTo({ left: 0, behavior: "smooth" });
-  }, [activeTab]);
+  const filteredPackages = packages.filter((pkg) => pkg.status !== "draft").filter((pkg) => matchesCategory(pkg.category, activeTab)).slice(0, 6);
+  const spotlight = filteredPackages[0];
+  const supportingPackages = filteredPackages.slice(1);
 
   return (
-    <section id="international-tours" className="py-16 sm:py-24 bg-sand-bg/40 relative z-10">
-      <Container>
-        {/* Header */}
-        <div className="text-center mb-16 max-w-2xl mx-auto space-y-4">
-          <SectionTitle
-            align="center"
-            badge="Exclusive Offers"
-            title="Featured Tour Packages"
-            description="Hand-crafted holiday plans curated for couples, families, and group travelers."
-          />
-
-          {/* Filter Tabs */}
-          <div className="inline-flex max-w-full flex-wrap justify-center gap-1 p-1 bg-white rounded-3xl sm:rounded-full shadow-soft border border-slate-100/50 mt-6">
-            {CATEGORY_TABS.map((tab) => (
-              <button
-                key={tab.key}
-                onClick={() => setActiveTab(tab.key)}
-                className={`px-4 sm:px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
-                  activeTab === tab.key
-                    ? "bg-primary text-white shadow-md"
-                    : "text-foreground-muted hover:text-primary"
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
+    <section id="international-tours" className="relative z-10 overflow-hidden bg-[#f7f5f1] py-20 sm:py-24">
+      <div className="pointer-events-none absolute -right-40 top-20 h-96 w-96 rounded-full bg-gold/[0.08] blur-3xl" />
+      <Container className="relative">
+        <div className="flex flex-col gap-8 border-b border-primary/10 pb-8 lg:flex-row lg:items-end lg:justify-between">
+          <SectionTitle align="left" badge="The Bandhan collection" title="Journeys worth planning for." description="A considered shortlist of holidays, selected for the way they make you feel." className="max-w-2xl" />
+          <div className="flex max-w-full shrink-0 flex-wrap gap-1 rounded-2xl border border-primary/10 bg-white p-1.5 shadow-soft lg:max-w-[38rem] lg:justify-end">
+            {CATEGORY_TABS.map((tab) => <button key={tab.key} type="button" onClick={() => setActiveTab(tab.key)} className={`rounded-xl px-3.5 py-2.5 text-[10px] font-bold uppercase tracking-[0.12em] transition-all sm:px-4 ${activeTab === tab.key ? "bg-primary text-white shadow-sm" : "text-foreground-muted hover:bg-sand hover:text-primary"}`}>{tab.label}</button>)}
           </div>
         </div>
 
-        {/* Packages Carousel */}
-        <div className="relative">
-          {/* Scroll track */}
-          <div
-            ref={scrollerRef}
-            className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 sm:mx-0 sm:px-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          >
-            {filteredPackages.map((pkg) => (
-              <Link
-                key={pkg.id}
-                data-card
-                href={`/packages/${pkg.id}`}
-                className="group shrink-0 snap-start w-[85%] sm:w-[60%] lg:w-[38%] xl:w-[calc((100%-3rem)/3)] bg-white overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-500 flex flex-col border border-slate-100/50 animate-scale-up"
-              >
-                {/* Image Container */}
-                <div className="relative h-72 sm:h-80 overflow-hidden">
-                  <Image
-                    src={pkg.image}
-                    alt={pkg.title}
-                    fill
-                    sizes="(max-width: 640px) 85vw, (max-width: 1024px) 60vw, 38vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
+        {spotlight ? <div className="mt-10 grid gap-5 lg:grid-cols-[1.15fr_0.85fr]"><SpotlightPackage pkg={spotlight} /><div className="flex flex-col gap-5"><div className="overflow-hidden rounded-[1.75rem] border border-primary/[0.08] bg-white shadow-[0_18px_50px_-32px_rgba(7,32,60,0.35)]"><div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 sm:px-6"><p className="text-[10px] font-bold uppercase tracking-[0.18em] text-accent">More journeys</p><span className="text-[10px] text-foreground-light">{supportingPackages.length} routes</span></div>{supportingPackages.map((pkg, index) => <CompactPackage key={pkg.id} pkg={pkg} index={index + 2} />)}</div><div className="rounded-2xl border border-dashed border-primary/20 bg-white/60 p-5"><p className="text-sm font-semibold text-primary">Want something completely yours?</p><p className="mt-1 text-xs leading-relaxed text-foreground-muted">Tell us your dates, pace and destination. We will shape a trip around you.</p><Link href="/book?type=custom" className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-accent hover:text-accent-dark">Design a custom trip <ArrowRight size={14} /></Link></div></div></div> : <div className="mt-10 rounded-2xl border border-dashed border-primary/15 bg-white p-10 text-center text-sm text-foreground-muted">No published journeys match this collection yet.</div>}
 
-                  {/* Popular Badge */}
-                  {pkg.isPopular && (
-                    <span className="absolute top-4 left-4 px-3 py-1 bg-accent text-white rounded-full text-[10px] font-bold uppercase tracking-wider shadow-md shadow-accent/20">
-                      Popular
-                    </span>
-                  )}
-
-                  {/* Duration Badge */}
-                  <span className="absolute bottom-4 right-4 px-3.5 py-1 bg-primary/90 text-white rounded-full text-xs font-semibold backdrop-blur-md shadow-sm">
-                    {pkg.duration}
-                  </span>
-                </div>
-
-                {/* Package Content */}
-                <div className="p-7 sm:p-8 flex flex-col flex-1">
-                  <h3 className="text-2xl sm:text-[26px] font-heading font-bold text-primary mb-3 group-hover:text-accent transition-colors duration-300 line-clamp-1">
-                    {pkg.title}
-                  </h3>
-
-                  <div className="mb-4">
-                    <SeatsLeft seed={pkg.id} />
-                  </div>
-
-                  {/* Highlights List */}
-                  <ul className="space-y-2.5 mb-6 flex-1">
-                    {(pkg.highlights || []).map((highlight, index) => (
-                      <li key={index} className="flex items-start gap-2.5 text-sm text-foreground-muted">
-                        <svg
-                          className="w-4 h-4 text-accent mt-0.5 flex-shrink-0"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                        <span className="font-sans line-clamp-1">{highlight}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* Footer and Price */}
-                  <div className="mt-auto pt-6 border-t border-slate-100 flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] text-foreground-muted uppercase tracking-wider font-bold block">
-                        Starting price
-                      </span>
-                      <div className="text-2xl font-extrabold text-primary">{pkg.price}</div>
-                    </div>
-
-                    <span className="inline-flex items-center gap-2 px-4 py-2.5 text-xs font-semibold rounded-full bg-primary text-white group-hover:bg-accent transition-colors duration-300">
-                      View Details
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="transition-transform duration-300 group-hover:translate-x-0.5"
-                      >
-                        <line x1="5" y1="12" x2="19" y2="12" />
-                        <polyline points="12 5 19 12 12 19" />
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          {/* Swipe hint (mobile) */}
-          <p className="md:hidden text-center text-xs text-foreground-light mt-1">
-            Swipe to explore more →
-          </p>
-        </div>
-
-        {/* View all packages */}
-        <div className="mt-14 text-center">
-          <Link
-            href="/packages"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border-2 border-primary/15 text-primary text-sm font-bold hover:border-primary hover:bg-primary hover:text-white transition-all duration-300"
-          >
-            View All Tour Packages
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
-          </Link>
-        </div>
+        <div className="mt-10 flex flex-col items-center justify-between gap-4 rounded-2xl border border-primary/10 bg-primary px-6 py-5 text-center sm:flex-row sm:text-left"><p className="text-sm text-white/65">Explore every itinerary or ask our travel designers to create a route from scratch.</p><Link href="/packages" className="inline-flex shrink-0 items-center gap-2 rounded-full bg-gold px-5 py-2.5 text-xs font-bold text-primary transition-colors hover:bg-gold-light">View all journeys <ArrowRight size={15} /></Link></div>
       </Container>
     </section>
   );
