@@ -64,7 +64,7 @@ const AnimatedCounter: React.FC<CounterProps> = ({ value, suffix, prefix = "" })
 export const TrustStatistics: React.FC = () => {
   return (
     <div className="mb-8 w-full">
-      <div className="grid grid-cols-2 overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.025] md:grid-cols-3 lg:grid-cols-5">
+      <div className="grid grid-cols-2 overflow-hidden rounded-2xl border border-white/[0.1] bg-white/[0.045] shadow-[0_24px_70px_-42px_rgba(0,0,0,0.9)] md:grid-cols-3 lg:grid-cols-5">
         {trustStats.map((stat, idx) => {
           const IconComponent = iconMap[stat.icon] || Users;
           return (
@@ -74,9 +74,9 @@ export const TrustStatistics: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.06 }}
-              className="group relative flex min-h-24 flex-col items-center justify-center border-b border-r border-white/[0.07] px-4 py-4 text-center last:border-r-0 lg:border-b-0"
+              className="group relative flex min-h-24 flex-col items-center justify-center border-b border-r border-white/[0.08] px-4 py-4 text-center last:border-r-0 lg:border-b-0"
             >
-              <div className="mb-2 flex items-center gap-2 text-gold/70">
+              <div className="mb-2 flex items-center gap-2 text-gold">
                 <IconComponent className="h-4 w-4" aria-hidden="true" />
                 <AnimatedCounter value={stat.value} suffix={stat.suffix} prefix={stat.prefix} />
               </div>

@@ -26,20 +26,6 @@ export const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({
   const maxStartIndex = Math.max(0, totalSlides - visibleCount);
   const isPaused = isInteracting || Boolean(shouldReduceMotion);
 
-  const nextSlide = useCallback(() => {
-    setCurrentIndex((prev) => {
-      const safeIndex = Math.min(prev, maxStartIndex);
-      return safeIndex >= maxStartIndex ? 0 : safeIndex + 1;
-    });
-  }, [maxStartIndex]);
-
-  const prevSlide = useCallback(() => {
-    setCurrentIndex((prev) => {
-      const safeIndex = Math.min(prev, maxStartIndex);
-      return safeIndex <= 0 ? maxStartIndex : safeIndex - 1;
-    });
-  }, [maxStartIndex]);
-
   useEffect(() => {
     const updateVisibleCount = () => {
       if (window.matchMedia("(min-width: 1024px)").matches) {
@@ -55,6 +41,20 @@ export const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({
     window.addEventListener("resize", updateVisibleCount);
     return () => window.removeEventListener("resize", updateVisibleCount);
   }, []);
+
+  const nextSlide = useCallback(() => {
+    setCurrentIndex((prev) => {
+      const safeIndex = Math.min(prev, maxStartIndex);
+      return safeIndex >= maxStartIndex ? 0 : safeIndex + 1;
+    });
+  }, [maxStartIndex]);
+
+  const prevSlide = useCallback(() => {
+    setCurrentIndex((prev) => {
+      const safeIndex = Math.min(prev, maxStartIndex);
+      return safeIndex <= 0 ? maxStartIndex : safeIndex - 1;
+    });
+  }, [maxStartIndex]);
 
   useEffect(() => {
     if (isPaused || totalSlides <= 1) return;
@@ -118,7 +118,7 @@ export const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({
         <button
           type="button"
           onClick={prevSlide}
-          className="group absolute left-0 top-1/2 z-20 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-[#061625]/75 text-white shadow-[0_18px_45px_-24px_rgba(0,0,0,0.9)] backdrop-blur-xl transition-all hover:border-gold/70 hover:bg-gold hover:text-primary active:scale-95 max-sm:left-4 max-sm:translate-x-0"
+          className="group absolute left-0 top-1/2 z-20 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-[#0b2138] text-white shadow-[0_18px_45px_-24px_rgba(0,0,0,0.9)] transition-all hover:border-gold hover:bg-gold hover:text-primary active:scale-95 max-sm:left-4 max-sm:translate-x-0"
           aria-label="Previous testimonial"
         >
           <ChevronLeft className="h-5 w-5 transition-transform group-hover:-translate-x-0.5" />

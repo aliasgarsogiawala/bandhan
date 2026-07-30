@@ -215,14 +215,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
     { label: "North East", href: "/packages?category=northeast" },
   ];
 
-  const handlePackagesMouseEnter = () => {
-    setIsPackagesOpen(true);
-  };
-
-  const handlePackagesMouseLeave = () => {
-    setIsPackagesOpen(false);
-  };
-
   const togglePackages = () => {
     setIsPackagesOpen((prev) => !prev);
   };
@@ -283,8 +275,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
             <div
               className="relative py-1"
               ref={packagesRef}
-              onMouseEnter={handlePackagesMouseEnter}
-              onMouseLeave={handlePackagesMouseLeave}
             >
               <button
                 onClick={togglePackages}
@@ -317,22 +307,26 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
 
               {/* Dropdown panel */}
               <div
-                className={`absolute left-0 mt-3 w-56 rounded-2xl bg-primary/95 backdrop-blur-md border border-white/10 shadow-premium p-2 transition-all duration-300 origin-top-left ${
+                className="absolute left-0 top-full w-56 pt-3"
+              >
+                <div
+                  className={`rounded-2xl bg-primary/95 backdrop-blur-md border border-white/10 shadow-premium p-2 transition-all duration-300 origin-top-left ${
                   isPackagesOpen
                     ? "opacity-100 scale-100 translate-y-0 visible"
                     : "opacity-0 scale-95 -translate-y-2 invisible pointer-events-none"
                 }`}
-              >
-                {packagesList.map((item) => (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    onClick={() => setIsPackagesOpen(false)}
-                    className="block px-4 py-2.5 rounded-xl text-sm font-medium text-white/85 hover:text-primary hover:bg-gold transition-all duration-200"
-                  >
-                    {item.label}
-                  </a>
-                ))}
+                >
+                  {packagesList.map((item) => (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      onClick={() => setIsPackagesOpen(false)}
+                      className="block px-4 py-2.5 rounded-xl text-sm font-medium text-white/85 hover:text-primary hover:bg-gold transition-all duration-200"
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
 
