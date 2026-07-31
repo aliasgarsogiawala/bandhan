@@ -57,8 +57,6 @@ function serviceDetailsFromInclusions(inclusions: string[]): PackageServiceDetai
   });
 }
 
-const details: Record<string, PackageDetail> = {};
-
 export const getFullPackage = (id: string): FullPackage | undefined => {
   const base = featuredPackages.find((pkg) => pkg.id === id);
   return base ? getFullPackageForPackage(base) : undefined;
@@ -66,26 +64,25 @@ export const getFullPackage = (id: string): FullPackage | undefined => {
 
 /**
  * Converts the compact package card model into the complete itinerary model.
- * Existing seeded packages use the editorial detail data below; packages
- * created in the admin panel carry their own detail fields.
+ * Document-backed catalogue entries and admin-created packages carry their
+ * complete detail fields directly.
  */
 export const getFullPackageForPackage = (pkg: TourPackage): FullPackage => {
-  const detail = details[pkg.id];
   return {
     ...pkg,
-    tagline: pkg.tagline ?? detail?.tagline ?? `${pkg.title} — thoughtfully planned by Bandhan Tours.`,
-    overview: pkg.overview ?? detail?.overview ?? "",
-    heroImage: pkg.heroImage ?? pkg.image ?? detail?.heroImage ?? "",
-    gallery: pkg.gallery?.length ? pkg.gallery : detail?.gallery ?? [{ image: pkg.image, caption: pkg.title }],
-    itinerary: pkg.itinerary?.length ? pkg.itinerary : detail?.itinerary ?? [],
-    inclusions: pkg.inclusions?.length ? pkg.inclusions : detail?.inclusions ?? [],
-    exclusions: pkg.exclusions?.length ? pkg.exclusions : detail?.exclusions ?? [],
-    serviceDetails: pkg.serviceDetails?.length ? pkg.serviceDetails : serviceDetailsFromInclusions(pkg.inclusions?.length ? pkg.inclusions : detail?.inclusions ?? []),
-    bestTime: pkg.bestTime ?? detail?.bestTime ?? "Year-round",
-    startingPoint: pkg.startingPoint ?? detail?.startingPoint ?? "To be confirmed",
-    groupSize: pkg.groupSize ?? detail?.groupSize ?? "2+ guests",
-    themes: pkg.themes?.length ? pkg.themes : detail?.themes ?? [],
-    faqs: pkg.faqs?.length ? pkg.faqs : detail?.faqs ?? [],
+    tagline: pkg.tagline ?? `${pkg.title} — thoughtfully planned by Bandhan Tours.`,
+    overview: pkg.overview ?? "",
+    heroImage: pkg.heroImage ?? pkg.image ?? "",
+    gallery: pkg.gallery?.length ? pkg.gallery : [{ image: pkg.image, caption: pkg.title }],
+    itinerary: pkg.itinerary?.length ? pkg.itinerary : [],
+    inclusions: pkg.inclusions?.length ? pkg.inclusions : [],
+    exclusions: pkg.exclusions?.length ? pkg.exclusions : [],
+    serviceDetails: pkg.serviceDetails?.length ? pkg.serviceDetails : serviceDetailsFromInclusions(pkg.inclusions ?? []),
+    bestTime: pkg.bestTime ?? "Year-round",
+    startingPoint: pkg.startingPoint ?? "To be confirmed",
+    groupSize: pkg.groupSize ?? "2+ guests",
+    themes: pkg.themes ?? [],
+    faqs: pkg.faqs ?? [],
   };
 };
 
@@ -125,7 +122,7 @@ export const getFullPackageForDestination = (destination: Destination): FullPack
 };
 
 export const getAllPackageIds = (): string[] =>
-  featuredPackages.filter((pkg) => details[pkg.id]).map((pkg) => pkg.id);
+  featuredPackages.map((pkg) => pkg.id);
 
 export const getRelatedPackages = (id: string, count = 3): TourPackage[] =>
   featuredPackages.filter((pkg) => pkg.id !== id).slice(0, count);

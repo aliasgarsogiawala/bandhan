@@ -168,6 +168,18 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
               </div>
             ))}
           </div>
+
+          {pkg.brochureUrl && (
+            <a
+              href={pkg.brochureUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-5 inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md transition hover:border-gold hover:bg-gold hover:text-primary"
+            >
+              View original brochure
+              <span aria-hidden="true">↗</span>
+            </a>
+          )}
         </Container>
       </header>
 

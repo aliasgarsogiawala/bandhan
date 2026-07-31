@@ -13,6 +13,7 @@ import type { CollectionKey, Enquiry, WithId } from "./types";
 
 const PREFIX = "bandhan_admin:";
 const SEED_FLAG = `${PREFIX}seeded:v1`;
+const PACKAGE_CATALOGUE_FLAG = `${PREFIX}packages:public-catalogue-v1`;
 
 const sampleEnquiries: Enquiry[] = [
   {
@@ -81,6 +82,13 @@ function subscribe(key: CollectionKey, cb: () => void) {
 
 function ensureSeeded() {
   if (typeof window === "undefined") return;
+  // Replace the outdated browser seed once with the catalogue extracted from
+  // the supplied package documents.
+  if (!localStorage.getItem(PACKAGE_CATALOGUE_FLAG)) {
+    localStorage.setItem(PREFIX + "packages", JSON.stringify(seeds.packages));
+    snapshots.delete("packages");
+    localStorage.setItem(PACKAGE_CATALOGUE_FLAG, "1");
+  }
   if (localStorage.getItem(SEED_FLAG)) return;
   (Object.keys(seeds) as CollectionKey[]).forEach((k) => {
     if (!localStorage.getItem(PREFIX + k)) {

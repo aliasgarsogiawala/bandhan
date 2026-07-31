@@ -93,6 +93,7 @@ export interface TourPackage {
   gallery?: PackageGalleryImage[];
   faqs?: PackageFaq[];
   pricing?: PackagePricing;
+  brochureUrl?: string;
   status?: "draft" | "active";
 }
 
@@ -201,7 +202,7 @@ export const destinations: Destination[] = [
   },
 ];
 
-export const featuredPackages: TourPackage[] = [
+const packageCatalogue: TourPackage[] = [
   {
     id: "bali-island-dreams",
     title: "Bali – The Island of Dreams",
@@ -606,7 +607,7 @@ export const featuredPackages: TourPackage[] = [
     title: "Grand Tour of Europe",
     image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=1200",
     duration: "15 Nights / 16 Days",
-    price: "₹1,90,400",
+    price: "₹4,13,700",
     highlights: ["Eiffel Tower 3rd level & Disneyland Paris", "Jungfraujoch — Top of Europe", "Venice gondola ride", "Vatican Museum & Sistine Chapel"],
     category: "International",
     isPopular: true,
@@ -1224,6 +1225,48 @@ export const featuredPackages: TourPackage[] = [
     exclusions: ["Airfare, airport taxes", "5% GST and 2% TCS, visa fees", "Travel insurance, meals beyond breakfast", "City tax, tips and gratuities"],
   },
 ];
+
+/**
+ * Original package brochures supplied in /public. Keeping this mapping beside
+ * the catalogue makes every public package traceable to its source document.
+ */
+const packageBrochureFiles: Record<string, string> = {
+  "bali-island-dreams": "Bali- The Island of Dreams 6N 7D.pdf",
+  "3-sisters-tour": "3 Sisters Tour.pdf",
+  "4-sisters-tour": "4 Sisters Tour.pdf",
+  "amazing-thailand": "Amazing Thailand 4N 5D.pdf",
+  "andaman-tour": "Andaman Tour for Web.pdf",
+  "andaman-baratang-tour": "Andaman with Baratang Tour_for Web.pdf",
+  "ayodhya-varanasi": "Ayodhya- Varanasi GIT for Web.pdf",
+  "singapore-malaysia-best": "Best of Singapore Malaysia.pdf",
+  "bhutan-tour": "Bhutan 07N08D.pdf",
+  "eastern-europe-highlights": "Eastern Europe Highlights.pdf",
+  "grand-tour-europe": "Grand Tour of Europe.pdf",
+  "kerala-kanyakumari": "Kerala with Kanyakumari.. for Web.pdf",
+  "mesmerizing-vietnam": "Mesmerizing Vietnam  7N 8D.pdf",
+  "rajasthan-marwad": "Rajasthan Marwad_For web.pdf",
+  "singapore-malaysia-thailand": "SMT 9N 10D.pdf",
+  "sampurna-karnataka": "Sampurna Karnataka_for Web.pdf",
+  "sikkim-darjeeling-6n": "Sikkim Darjeeling 06N07D.pdf",
+  "sikkim-darjeeling-9n": "Sikkim Darjeeling 09N10D.pdf",
+  "south-india-temple-tour": "South India Temple Tour for Web.pdf",
+  "special-kerala": "Special Kerala for Web.pdf",
+  "swiss-paris-highlights": "Swiss & Paris Highlights.pdf",
+  "best-of-austria": "Best of Austria - Vienna - Salzburg - Innsbruck – Vienna 7N8D.docx",
+  "classic-italy": "Classic Italy - Milan – Venice – Florence – Rome 6N7D.docx",
+  "london-edinburgh-bliss": "London & Edinburgh Bliss - London & Edinburgh 7N8D.docx",
+  "paris-swiss-delights": "Paris & Swiss Delights - Paris – Zurich 6N7D.docx",
+  "splendid-germany": "Splendid Germany - Munich – Stuttgart – Frankfurt 6N7D.docx",
+};
+
+export const featuredPackages: TourPackage[] = packageCatalogue.map((pkg) => {
+  const brochureFile = packageBrochureFiles[pkg.id];
+  return {
+    ...pkg,
+    status: pkg.status ?? "active",
+    brochureUrl: brochureFile ? `/${encodeURIComponent(brochureFile)}` : undefined,
+  };
+});
 
 export const whyChooseUs: WhyChooseItem[] = [
   {
