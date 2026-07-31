@@ -55,6 +55,9 @@ export type FieldType =
   | "media"
   | "itinerary"
   | "faqs"
+  | "guideExperiences"
+  | "guideRoute"
+  | "guideSeasons"
   | "select"
   | "tags"
   | "boolean";
