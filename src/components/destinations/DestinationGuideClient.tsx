@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/common/Navbar";
 import { Container } from "@/components/ui/Container";
-import type { Destination } from "@/data/mockData";
+import type { Destination, DestinationExperience, DestinationRouteStop, DestinationSeason } from "@/data/mockData";
 import { useCollection } from "@/lib/admin/store";
 import { Reveal } from "./Reveal";
 import {
@@ -38,9 +38,13 @@ type GuideProfile = {
   bestTime: string;
   startingPoint: string;
   overview: string[];
-  experiences: { title: string; description: string }[];
-  route: { label: string; title: string; description: string }[];
-  seasons: { title: string; detail: string }[];
+  characterTitle?: string;
+  planningTitle?: string;
+  planningDescription?: string;
+  planningPoints?: string[];
+  experiences: DestinationExperience[];
+  route: DestinationRouteStop[];
+  seasons: DestinationSeason[];
   notes: string[];
 };
 
@@ -90,6 +94,10 @@ function genericGuide(destination: Destination): GuideProfile {
     duration,
     bestTime,
     startingPoint: destination.startingPoint || "Nearest major airport",
+    characterTitle: destination.characterTitle || `Travel ${destination.name} with room to feel it.`,
+    planningTitle: destination.planningTitle || "Make the guide yours.",
+    planningDescription: destination.planningDescription || "We shape a day-by-day plan around your dates, budget, hotel style and who is travelling.",
+    planningPoints: destination.planningPoints?.length ? destination.planningPoints : ["Private transfers and handpicked stays", "Flexible pacing and optional experiences", "Support from first enquiry to departure"],
     overview: [destination.overview || destination.description, "We tailor the pace, stays and route around the experiences that matter to your group."],
     experiences: highlights.slice(0, 4).map((title) => ({ title, description: `A memorable ${destination.name} experience, fitted naturally into your route.` })),
     route: [{ label: "Days 1 - 2", title: "Arrive and settle in", description: "Start gently with the destination's essential sights and local character." }, { label: "Days 3 - 4", title: "Explore more deeply", description: "Add the experiences, stays and pace that suit the way you travel." }, { label: "Final day", title: "Return at your own pace", description: "Keep the last day relaxed and timed comfortably for your departure." }],
@@ -105,11 +113,18 @@ function prepareGuide(destination: Destination) {
     : profile.experiences;
   return {
     ...profile,
+    characterTitle: destination.characterTitle || profile.characterTitle,
+    planningTitle: destination.planningTitle || profile.planningTitle,
+    planningDescription: destination.planningDescription || profile.planningDescription,
+    planningPoints: destination.planningPoints?.length ? destination.planningPoints : profile.planningPoints,
     duration: destination.duration || profile.duration,
     bestTime: destination.bestTime || profile.bestTime,
     startingPoint: destination.startingPoint || profile.startingPoint,
     overview: destination.overview ? destination.overview.split(/\n\s*\n/).filter(Boolean) : profile.overview,
-    experiences: customHighlights,
+    experiences: destination.experiences?.filter((item) => item.title || item.description).length ? destination.experiences.filter((item) => item.title || item.description) : customHighlights,
+    route: destination.route?.filter((item) => item.title || item.description).length ? destination.route.filter((item) => item.title || item.description) : profile.route,
+    seasons: destination.seasons?.filter((item) => item.title || item.detail).length ? destination.seasons.filter((item) => item.title || item.detail) : profile.seasons,
+    notes: destination.designerNotes?.length ? destination.designerNotes : profile.notes,
     themes: [...new Set([...(destination.themes || []), ...(destination.tag ? [destination.tag] : [])])].slice(0, 5),
     gallery: [...new Set([destination.image, ...(destination.gallery || [])].filter(Boolean))],
   };
@@ -289,7 +304,7 @@ export default function DestinationGuideClient({ id }: { id: string }) {
                 <Reveal>
                   <SectionLabel>The character of the place</SectionLabel>
                   <h2 className="mt-4 max-w-3xl font-heading text-3xl font-extrabold leading-[1.05] text-primary sm:text-5xl">
-                    Travel {destination.name} with room to feel it.
+                    {guide.characterTitle || `Travel ${destination.name} with room to feel it.`}
                   </h2>
                 </Reveal>
 
@@ -324,12 +339,12 @@ export default function DestinationGuideClient({ id }: { id: string }) {
                   <CornerFlourish className="absolute right-3 top-3 h-12 w-12 text-gold/40" />
                   <div className="relative">
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold">Plan with clarity</p>
-                    <h3 className="mt-3 font-heading text-2xl font-bold">Make the guide yours.</h3>
+                    <h3 className="mt-3 font-heading text-2xl font-bold">{guide.planningTitle || "Make the guide yours."}</h3>
                     <p className="mt-3 text-sm leading-relaxed text-slate-300">
-                      We shape a day-by-day plan around your dates, budget, hotel style and who is travelling.
+                      {guide.planningDescription || "We shape a day-by-day plan around your dates, budget, hotel style and who is travelling."}
                     </p>
                     <div className="mt-6 space-y-3 border-t border-white/10 pt-5 text-sm">
-                      {["Private transfers and handpicked stays", "Flexible pacing and optional experiences", "Support from first enquiry to departure"].map((item) => (
+                      {(guide.planningPoints?.length ? guide.planningPoints : ["Private transfers and handpicked stays", "Flexible pacing and optional experiences", "Support from first enquiry to departure"]).map((item) => (
                         <p key={item} className="flex gap-2.5 text-slate-200">
                           <Check className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
                           {item}

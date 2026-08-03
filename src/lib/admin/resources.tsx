@@ -47,10 +47,18 @@ export const destinationsResource: ResourceConfig<Destination> = {
     { name: "tagline", label: "Short description", type: "text", fullWidth: true, placeholder: "A short line shown at the top of the itinerary" },
     { name: "overview", label: "Journey overview", type: "textarea", fullWidth: true, placeholder: "Describe the experience and route." },
     { name: "themes", label: "Themes", type: "tags", fullWidth: true, placeholder: "Himalayas, Monasteries, Tea Estates" },
+    { name: "characterTitle", label: "Character section title", type: "text", fullWidth: true, placeholder: "Travel Kashmir with room to feel it." },
+    { name: "planningTitle", label: "Planning card title", type: "text", placeholder: "Make the guide yours." },
+    { name: "planningDescription", label: "Planning card description", type: "textarea", placeholder: "Explain how Bandhan will shape this destination into a personal trip." },
+    { name: "planningPoints", label: "Planning card benefits", type: "tags", fullWidth: true, placeholder: "Private transfers, Flexible pacing, Travel designer support" },
     { name: "duration", label: "Typical Duration", type: "text", placeholder: "e.g. 6 Nights / 7 Days" },
     { name: "bestTime", label: "Best Time", type: "text", placeholder: "e.g. October – March" },
     { name: "gallery", label: "Destination gallery", type: "media", multiple: true, fullWidth: true },
     { name: "highlights", label: "Highlights", type: "tags", fullWidth: true, placeholder: "Houseboats, mountain views, local food" },
+    { name: "experiences", label: "Signature experiences", type: "guideExperiences", fullWidth: true },
+    { name: "route", label: "Suggested route", type: "guideRoute", fullWidth: true },
+    { name: "seasons", label: "When to go", type: "guideSeasons", fullWidth: true },
+    { name: "designerNotes", label: "Travel designer's notes", type: "tags", fullWidth: true, placeholder: "Keep one flexible day, Combine houseboat and hotel stays" },
     { name: "itinerary", label: "Day-by-day itinerary", type: "itinerary", fullWidth: true },
     { name: "inclusions", label: "Inclusions", type: "tags", fullWidth: true, placeholder: "Hotels, transfers, breakfast" },
     { name: "exclusions", label: "Exclusions", type: "tags", fullWidth: true, placeholder: "Flights, personal expenses" },
@@ -58,7 +66,7 @@ export const destinationsResource: ResourceConfig<Destination> = {
     { name: "status", label: "Publishing status", type: "select", options: [{ value: "draft", label: "Draft — keep hidden" }, { value: "active", label: "Active — show publicly" }] },
     { name: "isFeatured", label: "Feature on homepage", type: "boolean", help: "Show this destination in Popular Destinations" },
   ],
-  empty: { name: "", price: "", tag: "", image: "", description: "", country: "India", region: "", duration: "", bestTime: "", startingPoint: "", groupSize: "2 – 16 guests", tagline: "", overview: "", themes: [], gallery: [], highlights: [], itinerary: [], inclusions: [], exclusions: [], faqs: [], isFeatured: true },
+  empty: { name: "", price: "", tag: "", image: "", description: "", country: "India", region: "", duration: "", bestTime: "", startingPoint: "", groupSize: "2 – 16 guests", tagline: "", overview: "", themes: [], characterTitle: "", planningTitle: "Make the guide yours.", planningDescription: "We shape a day-by-day plan around your dates, budget, hotel style and who is travelling.", planningPoints: ["Private transfers and handpicked stays", "Flexible pacing and optional experiences", "Support from first enquiry to departure"], experiences: [], route: [], seasons: [], designerNotes: [], gallery: [], highlights: [], itinerary: [], inclusions: [], exclusions: [], faqs: [], status: "draft", isFeatured: true },
 };
 
 export const packagesResource: ResourceConfig<TourPackage> = {

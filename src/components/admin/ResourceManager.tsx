@@ -7,7 +7,7 @@ import PageHeader from "./PageHeader";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import MediaPicker from "./MediaPicker";
 import DestinationPreview from "./DestinationPreview";
-import type { ItineraryDay, PackageFaq } from "@/data/mockData";
+import type { DestinationExperience, DestinationRouteStop, DestinationSeason, ItineraryDay, PackageFaq } from "@/data/mockData";
 
 function emptyDraft<T extends WithId>(config: ResourceConfig<T>): Record<string, unknown> {
   return { ...config.empty };
@@ -35,6 +35,23 @@ function FaqField({ value, onChange }: { value: unknown; onChange: (value: Packa
       {faqs.map((faq, index) => <div key={index} className="rounded-xl border border-slate-100 bg-sand/50 p-3 space-y-2"><div className="flex justify-end"><button type="button" onClick={() => onChange(faqs.filter((_, i) => i !== index))} className="text-xs text-foreground-muted hover:text-accent">Remove</button></div><input value={faq.question} onChange={(e) => patch(index, { question: e.target.value })} className={repeatableInput} placeholder="Question" /><textarea rows={2} value={faq.answer} onChange={(e) => patch(index, { answer: e.target.value })} className={repeatableInput} placeholder="Answer" /></div>)}
     </div>
   );
+}
+
+function GuideListField({ kind, value, onChange }: { kind: "experience" | "route" | "season"; value: unknown; onChange: (value: unknown[]) => void }) {
+  const items = Array.isArray(value) ? value as unknown[] : [];
+  const update = (index: number, patch: Record<string, string>) => onChange(items.map((item, i) => i === index ? { ...(item as Record<string, unknown>), ...patch } : item));
+  const add = () => {
+    if (kind === "experience") onChange([...items, { title: "", description: "" } satisfies DestinationExperience]);
+    if (kind === "route") onChange([...items, { label: "Days", title: "", description: "" } satisfies DestinationRouteStop]);
+    if (kind === "season") onChange([...items, { title: "", detail: "" } satisfies DestinationSeason]);
+  };
+  return <div className="space-y-3">
+    <div className="flex items-center justify-between"><span className="text-xs text-foreground-muted">Add clear, traveller-facing content for the public guide.</span><button type="button" onClick={add} className="text-xs font-bold text-accent whitespace-nowrap">+ Add {kind === "experience" ? "experience" : kind === "route" ? "stop" : "season"}</button></div>
+    {items.map((item, index) => {
+      const row = item as Record<string, string>;
+      return <div key={index} className="rounded-xl border border-slate-100 bg-sand/50 p-3 space-y-2"><div className="flex items-center justify-between"><span className="text-xs font-bold text-accent">{String(index + 1).padStart(2, "0")}</span><button type="button" onClick={() => onChange(items.filter((_, i) => i !== index))} className="text-xs text-foreground-muted hover:text-accent">Remove</button></div><div className="grid grid-cols-1 sm:grid-cols-2 gap-2">{kind === "route" && <input value={row.label || ""} onChange={(e) => update(index, { label: e.target.value })} className={repeatableInput} placeholder="Days 1 - 2" />}<input value={row.title || ""} onChange={(e) => update(index, { title: e.target.value })} className={`${repeatableInput} ${kind === "route" ? "sm:col-span-1" : "sm:col-span-2"}`} placeholder={kind === "season" ? "March to May" : kind === "experience" ? "Dal Lake mornings" : "Srinagar"} /></div><textarea rows={2} value={row.description || row.detail || ""} onChange={(e) => update(index, kind === "season" ? { detail: e.target.value } : { description: e.target.value })} className={repeatableInput} placeholder={kind === "season" ? "Describe the weather and travel experience." : "Describe what travellers can expect."} /></div>;
+    })}
+  </div>;
 }
 
 const FormField: React.FC<{
@@ -104,6 +121,11 @@ const FormField: React.FC<{
 
   if (field.type === "faqs") {
     return <FaqField value={value} onChange={(next) => onChange(field.name, next)} />;
+  }
+
+  if (field.type === "guideExperiences" || field.type === "guideRoute" || field.type === "guideSeasons") {
+    const kind = field.type === "guideExperiences" ? "experience" : field.type === "guideRoute" ? "route" : "season";
+    return <GuideListField kind={kind} value={value} onChange={(next) => onChange(field.name, next)} />;
   }
 
   if (field.type === "number") {
@@ -235,9 +257,10 @@ export function ResourceManager<T extends WithId>({ config }: { config: Resource
 
   const destinationSections = [
     { eyebrow: "Start here", title: "Destination basics", description: "The information used on cards, filters, pricing, and the itinerary header.", fields: ["name", "country", "region", "tag", "price", "duration", "bestTime"] },
-    { eyebrow: "Tell the story", title: "Experience & positioning", description: "Give travellers a clear reason to choose this destination.", fields: ["description", "tagline", "overview", "themes", "highlights"] },
+    { eyebrow: "Tell the story", title: "Experience & positioning", description: "Give travellers a clear reason to choose this destination.", fields: ["description", "tagline", "overview", "themes", "characterTitle", "highlights"] },
+    { eyebrow: "Shape the trip", title: "Planning promise", description: "Explain how your travel designer turns the guide into a bookable trip.", fields: ["planningTitle", "planningDescription", "planningPoints"] },
     { eyebrow: "Visual identity", title: "Media gallery", description: "Choose a cover and supporting images from the library or UploadThing.", fields: ["image", "gallery"] },
-    { eyebrow: "Build the route", title: "Travel details & itinerary", description: "Add the information the public itinerary page needs to sell the journey.", fields: ["startingPoint", "groupSize", "itinerary"] },
+    { eyebrow: "Build the route", title: "Travel details & itinerary", description: "Add the information the public itinerary page needs to sell the journey.", fields: ["startingPoint", "groupSize", "experiences", "route", "seasons", "designerNotes", "itinerary"] },
     { eyebrow: "Build confidence", title: "Included, excluded & FAQs", description: "Set expectations before someone submits an enquiry.", fields: ["inclusions", "exclusions", "faqs"] },
     { eyebrow: "Publish", title: "Visibility", description: "Save as a draft while you work, then switch to Active when the destination is ready.", fields: ["status", "isFeatured"] },
   ];

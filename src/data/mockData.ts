@@ -17,11 +17,35 @@ export interface Destination {
   startingPoint?: string;
   groupSize?: string;
   themes?: string[];
+  characterTitle?: string;
+  planningTitle?: string;
+  planningDescription?: string;
+  planningPoints?: string[];
+  experiences?: DestinationExperience[];
+  route?: DestinationRouteStop[];
+  seasons?: DestinationSeason[];
+  designerNotes?: string[];
   itinerary?: ItineraryDay[];
   inclusions?: string[];
   exclusions?: string[];
   faqs?: PackageFaq[];
   status?: "draft" | "active";
+}
+
+export interface DestinationExperience {
+  title: string;
+  description: string;
+}
+
+export interface DestinationRouteStop {
+  label: string;
+  title: string;
+  description: string;
+}
+
+export interface DestinationSeason {
+  title: string;
+  detail: string;
 }
 
 export interface ItineraryDay {
