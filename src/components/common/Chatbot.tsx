@@ -373,6 +373,27 @@ function isGenericQuery(raw: string): boolean {
   return GENERIC_QUERY_WORDS.has(raw.trim().toLowerCase());
 }
 
+/** Filler words stripped out when extracting the "meaningful" part of a full
+ * sentence query (e.g. "what is the price of the europe package" -> "europe"). */
+const STOPWORDS = new Set([
+  "what", "whats", "is", "are", "the", "a", "an", "of", "for", "to", "in", "on",
+  "and", "or", "how", "much", "does", "do", "did", "can", "could", "will", "would",
+  "about", "with", "from", "that", "this", "it", "its", "tell", "me", "give",
+  "show", "have", "has", "need", "needs", "want", "wants", "you", "your", "there",
+]);
+
+/** Pulls out the specific, non-generic words from a query — e.g. "what is
+ * the price of the europe package" -> ["europe"] — so a whole-sentence
+ * question can still be matched against a single destination/package name
+ * embedded in it, instead of only matching queries that ARE just that name. */
+function significantTokens(raw: string): string[] {
+  return raw
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .split(/\s+/)
+    .filter((w) => w.length >= 4 && !STOPWORDS.has(w) && !GENERIC_QUERY_WORDS.has(w));
+}
+
 /** Fuse's normalized score penalises short queries against long titles more
  * than you'd expect (e.g. "bali" vs. "Bali – The Island of Dreams" scores
  * worse than a plain substring check would), so a direct, case-insensitive
@@ -390,6 +411,22 @@ function findBySubstringOrFuzzy<T>(
   if (substringHit) return substringHit;
   const scored = fuzzySearchScored(items, raw, fuzzyKeys, 1);
   return scored.length && scored[0].score <= 0.3 ? scored[0].item : null;
+}
+
+/** All items whose fields contain the given token as a substring — used for
+ * full-sentence queries where the whole-query substring check in
+ * findBySubstringOrFuzzy can never hit (the field is shorter than the
+ * sentence around it). Returns every match, not just the first, since a
+ * broad word like "europe" legitimately matches several packages. */
+function findAllByToken<T>(items: T[], token: string, fields: (item: T) => string[]): T[] {
+  return items.filter((item) => fields(item).some((f) => f.toLowerCase().includes(token)));
+}
+
+function multiPackageAnswer(pkgs: TourPackage[]): BotResponse {
+  return {
+    text: `We have a few packages matching that:\n${listPackages(pkgs, 5)}\n\nPrices run roughly ${priceRange(pkgs)} per person. Want the full itinerary for one of these?`,
+    chips: ["packages", "booking", "custom"],
+  };
 }
 
 /** A confident, specific match (a real package, destination, or article
@@ -416,6 +453,21 @@ function resolveResponse(raw: string, ctx: KnowledgeContext): BotResponse {
       ["name", "description"]
     );
     if (dest) return destinationSummary(dest);
+
+    // Full-sentence questions ("what is the price of the europe package")
+    // never hit the whole-query substring check above, since a title is
+    // shorter than the sentence around it — so pull out the specific word(s)
+    // and match those instead. A single hit gets the full package/destination
+    // answer (price included); several hits get a filtered list rather than
+    // an arbitrary pick.
+    for (const token of significantTokens(raw)) {
+      const pkgMatches = findAllByToken(ctx.packages, token, (p) => [p.title, ...p.highlights]);
+      if (pkgMatches.length === 1) return packageSummary(pkgMatches[0]);
+      if (pkgMatches.length > 1) return multiPackageAnswer(pkgMatches);
+
+      const destMatches = findAllByToken(ctx.destinations, token, (d) => [d.name]);
+      if (destMatches.length === 1) return destinationSummary(destMatches[0]);
+    }
   }
 
   const faq = findFaq(raw);
@@ -447,35 +499,35 @@ const PlaneIcon = ({ className = "" }: { className?: string }) => (
   </svg>
 );
 
-/**
- * Miles himself — a cartoon airplane with a face: wings, tail fin, a spinner
- * nose, two eyes (that blink when `blink` is set), rosy cheeks and a smile.
- */
-const MilesMascot = ({ className = "", blink = false }: { className?: string; blink?: boolean }) => (
+/** Miles' compact travel mark, designed to stay clear at chat-avatar size. */
+const MilesAvatar = ({ className = "" }: { className?: string }) => (
   <svg viewBox="0 0 64 64" className={className} aria-hidden="true">
-    {/* Wings (behind the body) */}
-    <path d="M22 31 L4 40 C1.5 41.2 2.6 45 5.3 44.2 L23 40 Z" fill="#e03232" />
-    <path d="M42 31 L60 40 C62.5 41.2 61.4 45 58.7 44.2 L41 40 Z" fill="#e03232" />
-    {/* Tail fin */}
-    <path d="M27 15 L32 4 L37 15 Z" fill="#FED14F" />
-    {/* Fuselage */}
-    <rect x="18" y="10" width="28" height="44" rx="14" fill="#fe4f4f" />
-    {/* Spinner nose */}
-    <circle cx="32" cy="53" r="5" fill="#FED14F" />
-    {/* Cheeks */}
-    <circle cx="22.5" cy="39" r="2.4" fill="#ff7575" />
-    <circle cx="41.5" cy="39" r="2.4" fill="#ff7575" />
-    {/* Eyes */}
-    <g className={blink ? "miles-eyes" : undefined}>
-      <circle cx="26" cy="30" r="5.4" fill="#ffffff" />
-      <circle cx="38" cy="30" r="5.4" fill="#ffffff" />
-      <circle cx="26.6" cy="31" r="2.6" fill="#07203c" />
-      <circle cx="38.6" cy="31" r="2.6" fill="#07203c" />
-      <circle cx="25.3" cy="29.4" r="0.9" fill="#ffffff" />
-      <circle cx="37.3" cy="29.4" r="0.9" fill="#ffffff" />
-    </g>
-    {/* Smile */}
-    <path d="M25.5 40 Q32 46 38.5 40" fill="none" stroke="#07203c" strokeWidth="2.4" strokeLinecap="round" />
+    <circle cx="32" cy="32" r="30" fill="#ffffff" />
+    <circle cx="32" cy="32" r="27" fill="#07203c" />
+    <path
+      d="M13 38c6.5 6.8 17.2 10.3 28 7.3"
+      fill="none"
+      stroke="#FED14F"
+      strokeWidth="3"
+      strokeLinecap="round"
+      strokeDasharray="1 6"
+    />
+    <path
+      d="M15.5 29.3 49 15.8 38.7 49 30 36.4l-14.5-7.1Z"
+      fill="#ffffff"
+      stroke="#ffffff"
+      strokeWidth="1.5"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M30 36.4 49 15.8 25.5 32.1"
+      fill="none"
+      stroke="#07203c"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <circle cx="13" cy="38" r="3.5" fill="#fe4f4f" stroke="#ffffff" strokeWidth="2" />
   </svg>
 );
 
@@ -526,6 +578,15 @@ export const Chatbot: React.FC = () => {
     if (open) inputRef.current?.focus();
   }, [open]);
 
+  useEffect(() => {
+    if (!open) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [open]);
+
   useEffect(() => () => {
     if (replyTimer.current) clearTimeout(replyTimer.current);
   }, []);
@@ -572,6 +633,16 @@ export const Chatbot: React.FC = () => {
     sendText(input);
   };
 
+  const resetConversation = () => {
+    if (replyTimer.current) clearTimeout(replyTimer.current);
+    setTyping(false);
+    setInput("");
+    setMessages([
+      { id: nextId(), from: "bot", text: GREETING, chips: GREETING_CHIPS },
+    ]);
+    requestAnimationFrame(() => inputRef.current?.focus());
+  };
+
   // Keep the assistant off the admin console.
   if (pathname?.startsWith("/admin")) return null;
 
@@ -579,14 +650,14 @@ export const Chatbot: React.FC = () => {
     <>
       {/* Teaser bubble */}
       {showTeaser && !open && (
-        <div className="fixed bottom-24 right-4 sm:right-6 z-40 max-w-[240px] animate-fade-in-up">
-          <div className="relative bg-white rounded-2xl rounded-br-sm shadow-premium border border-slate-100 px-4 py-3 pr-8">
+        <div className="fixed bottom-24 right-4 z-40 max-w-[280px] animate-fade-in-up sm:right-6">
+          <div className="relative border border-primary/10 bg-white px-4 py-3.5 pr-10 shadow-[0_18px_60px_rgba(7,32,60,0.16)]">
             <button
               onClick={() => {
                 setShowTeaser(false);
                 setTeaserDismissed(true);
               }}
-              className="absolute top-1.5 right-1.5 p-1 text-foreground-light hover:text-primary rounded-full"
+              className="absolute right-2 top-2 p-1 text-foreground-light transition hover:text-primary"
               aria-label="Dismiss"
             >
               <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
@@ -594,11 +665,16 @@ export const Chatbot: React.FC = () => {
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </button>
-            <div className="flex items-center gap-2.5">
-              <MilesMascot className="w-9 h-9 shrink-0 miles-idle" blink />
-              <p className="text-sm text-foreground font-sans leading-snug">
-                Hi! I&apos;m <span className="font-bold text-primary">{BOT_NAME}</span> 👋 Need a hand planning a trip?
-              </p>
+            <div className="flex items-start gap-3">
+              <MilesAvatar className="h-9 w-9 shrink-0" />
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-accent">
+                  Bandhan trip desk
+                </p>
+                <p className="mt-1 text-sm font-semibold leading-snug text-primary">
+                  Need help finding the right tour?
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -608,50 +684,88 @@ export const Chatbot: React.FC = () => {
       {open && (
         <div
           role="dialog"
+          aria-modal="false"
           aria-label={`${BOT_NAME}, travel assistant`}
-          className="fixed z-40 flex flex-col bg-sand-light rounded-3xl shadow-2xl border border-slate-200/70 overflow-hidden animate-scale-up
-            bottom-24 right-4 left-4 h-[68vh] max-h-[560px]
-            sm:left-auto sm:right-6 sm:w-[390px] sm:h-[600px]"
+          className="fixed bottom-20 left-3 right-3 z-40 flex h-[min(720px,calc(100dvh-6rem))] flex-col overflow-hidden border border-primary/10 bg-[#f7f5ef] shadow-[0_30px_90px_rgba(7,32,60,0.26)] animate-scale-up sm:bottom-24 sm:left-auto sm:right-6 sm:w-[420px]"
         >
           {/* Header */}
-          <div className="relative bg-primary text-white px-4 py-3.5 flex items-center gap-3 shrink-0">
-            <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-gold via-accent to-gold opacity-80" />
-            <div className="relative miles-float">
-              <span key={hop} className={hop > 0 ? "miles-hop block" : "block"}>
-                <MilesMascot className="w-11 h-11 drop-shadow" blink />
+          <div className="relative shrink-0 bg-primary px-5 pb-4 pt-5 text-white">
+            <div className="absolute inset-x-0 top-0 h-1 bg-gold" />
+            <div className="flex items-center gap-3">
+              <span
+                key={hop}
+                className={`relative flex h-11 w-11 shrink-0 items-center justify-center border border-white/15 bg-white/10 ${
+                  hop > 0 ? "miles-hop" : ""
+                }`}
+              >
+                <MilesAvatar className="h-9 w-9" />
+                <span className="absolute -bottom-1 -right-1 h-3 w-3 border-2 border-primary bg-emerald-400" />
               </span>
-              <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-400 border-2 border-primary" />
+              <div className="min-w-0 flex-1 leading-tight">
+                <div className="flex items-center gap-2">
+                  <p className="font-heading text-base font-bold">{BOT_NAME}</p>
+                  <span className="border border-emerald-300/30 bg-emerald-400/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-emerald-300">
+                    Online
+                  </span>
+                </div>
+                <p className="mt-1 text-[11px] text-slate-300">
+                  Bandhan Tours · Trip assistant
+                </p>
+              </div>
+              <button
+                onClick={resetConversation}
+                className="p-2 text-white/60 transition hover:bg-white/10 hover:text-white"
+                aria-label="Start a new conversation"
+                title="New conversation"
+              >
+                <svg className="h-4.5 w-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 12a9 9 0 1 0 3-6.7" />
+                  <path d="M3 4v6h6" />
+                </svg>
+              </button>
+              <button
+                onClick={() => setOpen(false)}
+                className="p-2 text-white/60 transition hover:bg-white/10 hover:text-white"
+                aria-label="Close chat"
+              >
+                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
             </div>
-            <div className="leading-tight flex-1 min-w-0">
-              <p className="font-heading font-bold text-sm">{BOT_NAME}</p>
-              <p className="text-[11px] text-slate-300 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                Online · Travel Assistant
-              </p>
-            </div>
-            <button
+          </div>
+
+          <div className="grid shrink-0 grid-cols-2 border-b border-primary/10 bg-white">
+            <Link
+              href="/packages"
               onClick={() => setOpen(false)}
-              className="p-2 text-white/75 hover:text-white hover:bg-white/10 rounded-full transition-colors"
-              aria-label="Close chat"
+              className="border-r border-primary/10 px-4 py-3 text-center text-[10px] font-bold uppercase tracking-[0.14em] text-primary transition hover:bg-gold/20"
             >
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </button>
+              Browse tours
+            </Link>
+            <Link
+              href="/plan-trip"
+              onClick={() => setOpen(false)}
+              className="px-4 py-3 text-center text-[10px] font-bold uppercase tracking-[0.14em] text-primary transition hover:bg-gold/20"
+            >
+              Plan a custom trip
+            </Link>
           </div>
 
           {/* Messages */}
-          <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+          <div ref={scrollRef} className="flex-1 space-y-5 overflow-y-auto px-4 py-5 sm:px-5">
             {messages.map((m) => (
               <div key={m.id} className={`flex flex-col ${m.from === "user" ? "items-end" : "items-start"}`}>
-                <div className={m.from === "user" ? "flex justify-end" : "flex items-end gap-2 max-w-[85%]"}>
-                  {m.from === "bot" && <MilesMascot className="w-7 h-7 shrink-0 mb-0.5" />}
+                <div className={m.from === "user" ? "flex max-w-[84%] justify-end" : "flex max-w-[91%] items-start gap-2.5"}>
+                  {m.from === "bot" && (
+                    <MilesAvatar className="mt-0.5 h-7 w-7 shrink-0" />
+                  )}
                   <div
-                    className={`px-3.5 py-2.5 text-sm leading-relaxed font-sans whitespace-pre-line shadow-soft ${
+                    className={`whitespace-pre-line px-4 py-3 font-sans text-[13px] leading-6 ${
                       m.from === "user"
-                        ? "bg-primary text-white rounded-2xl rounded-tr-sm max-w-[80%]"
-                        : "bg-white text-foreground border border-slate-100 rounded-2xl rounded-tl-sm"
+                        ? "bg-primary text-white shadow-[0_8px_24px_rgba(7,32,60,0.14)]"
+                        : "border border-primary/10 bg-white text-foreground shadow-[0_8px_24px_rgba(7,32,60,0.07)]"
                     }`}
                   >
                     {m.text}
@@ -662,7 +776,8 @@ export const Chatbot: React.FC = () => {
                 {m.from === "bot" && m.link && (
                   <Link
                     href={m.link.href}
-                    className="mt-2.5 ml-9 inline-flex items-center gap-1.5 rounded-full bg-primary px-3.5 py-1.5 text-xs font-bold text-white hover:bg-accent transition-colors duration-200"
+                    onClick={() => setOpen(false)}
+                    className="ml-9 mt-2.5 inline-flex items-center gap-2 border border-primary bg-white px-3.5 py-2 text-[11px] font-bold text-primary transition duration-200 hover:bg-primary hover:text-white"
                   >
                     {m.link.label}
                     <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -674,7 +789,7 @@ export const Chatbot: React.FC = () => {
 
                 {/* Suggestion chips */}
                 {m.from === "bot" && m.chips && m.chips.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mt-2.5 pl-9">
+                  <div className="mt-2.5 flex flex-wrap gap-2 pl-9">
                     {m.chips.map((cid) => {
                       const faq = FAQS[cid];
                       if (!faq) return null;
@@ -683,7 +798,7 @@ export const Chatbot: React.FC = () => {
                           key={cid}
                           onClick={() => sendChip(cid)}
                           disabled={typing}
-                          className="px-3 py-1.5 rounded-full bg-white border border-primary/15 text-primary text-xs font-semibold hover:bg-primary hover:text-white hover:border-primary transition-colors duration-200 disabled:opacity-50"
+                          className="border border-primary/15 bg-white px-3 py-2 text-[11px] font-semibold text-primary transition-colors duration-200 hover:border-primary hover:bg-primary hover:text-white disabled:opacity-50"
                         >
                           {faq.chipLabel}
                         </button>
@@ -696,13 +811,13 @@ export const Chatbot: React.FC = () => {
 
             {/* Typing indicator */}
             {typing && (
-              <div className="flex items-end gap-2">
-                <MilesMascot className="w-7 h-7 shrink-0 miles-float" />
-                <div className="bg-white border border-slate-100 rounded-2xl rounded-tl-sm px-4 py-3 shadow-soft flex items-center gap-1">
+              <div className="flex items-start gap-2.5">
+                <MilesAvatar className="h-7 w-7 shrink-0" />
+                <div className="flex items-center gap-1 border border-primary/10 bg-white px-4 py-3 shadow-[0_8px_24px_rgba(7,32,60,0.07)]">
                   {[0, 1, 2].map((i) => (
                     <span
                       key={i}
-                      className="w-1.5 h-1.5 rounded-full bg-foreground-light animate-bounce"
+                      className="h-1.5 w-1.5 rounded-full bg-primary/45 animate-bounce"
                       style={{ animationDelay: `${i * 0.15}s` }}
                     />
                   ))}
@@ -712,23 +827,28 @@ export const Chatbot: React.FC = () => {
           </div>
 
           {/* Input */}
-          <form onSubmit={handleSubmit} className="shrink-0 border-t border-slate-200/70 bg-white p-3 flex items-center gap-2">
-            <input
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder={`Message ${BOT_NAME}…`}
-              className="flex-1 px-4 py-2.5 rounded-full bg-slate-50 border border-slate-200 text-sm text-primary placeholder:text-foreground-light focus:outline-none focus:border-accent transition-colors"
-              aria-label="Type your message"
-            />
-            <button
-              type="submit"
-              disabled={!input.trim() || typing}
-              className="w-10 h-10 shrink-0 rounded-full bg-accent hover:bg-accent-dark text-white flex items-center justify-center transition-colors disabled:opacity-40 disabled:hover:bg-accent"
-              aria-label="Send message"
-            >
-              <PlaneIcon className="w-4 h-4" />
-            </button>
+          <form onSubmit={handleSubmit} className="shrink-0 border-t border-primary/10 bg-white p-3.5">
+            <div className="flex items-center gap-2 border border-primary/15 bg-slate-50 p-1.5 transition focus-within:border-primary">
+              <input
+                ref={inputRef}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Ask about a destination, price or booking…"
+                className="min-w-0 flex-1 bg-transparent px-2.5 py-2 text-sm text-primary placeholder:text-foreground-light focus:outline-none"
+                aria-label="Type your message"
+              />
+              <button
+                type="submit"
+                disabled={!input.trim() || typing}
+                className="flex h-10 w-10 shrink-0 items-center justify-center bg-accent text-white transition hover:bg-accent-dark disabled:cursor-not-allowed disabled:opacity-35"
+                aria-label="Send message"
+              >
+                <PlaneIcon className="h-4 w-4" />
+              </button>
+            </div>
+            <p className="mt-2 text-center text-[9px] uppercase tracking-[0.13em] text-foreground-light">
+              Instant answers · Human help available
+            </p>
           </form>
         </div>
       )}
@@ -736,22 +856,19 @@ export const Chatbot: React.FC = () => {
       {/* Launcher */}
       <button
         onClick={() => (open ? setOpen(false) : openPanel())}
-        className="fixed bottom-6 right-4 sm:right-6 z-40 w-15 h-15 min-w-14 min-h-14 rounded-full bg-primary text-gold shadow-xl shadow-primary/30 flex items-center justify-center hover:scale-105 active:scale-95 transition-transform duration-300"
+        className="fixed bottom-5 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-gold shadow-[0_14px_40px_rgba(7,32,60,0.28)] transition duration-300 hover:-translate-y-0.5 hover:scale-105 hover:bg-primary-light active:translate-y-0 active:scale-95 sm:bottom-6 sm:right-6"
         aria-label={open ? "Close chat" : `Chat with ${BOT_NAME}`}
         aria-expanded={open}
       >
-        {!open && <span className="absolute inset-0 rounded-full bg-primary/40 animate-ping" style={{ animationDuration: "2.5s" }} />}
         {open ? (
-          <svg className="relative w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg className="relative h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="6 9 12 15 18 9" />
           </svg>
         ) : (
-          <span className="relative miles-idle">
-            <MilesMascot className="w-9 h-9 drop-shadow" blink />
-          </span>
+          <MilesAvatar className="relative h-10 w-10" />
         )}
         {!open && (
-          <span className="absolute top-0 right-0 w-3.5 h-3.5 rounded-full bg-accent border-2 border-primary" />
+          <span className="absolute right-0 top-0 h-3.5 w-3.5 rounded-full border-2 border-primary bg-emerald-400" />
         )}
       </button>
     </>
