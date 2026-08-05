@@ -8,6 +8,19 @@ import type {
 
 export type BookingType = "standard" | "customized";
 
+/**
+ * Who the trip is for, which decides how the booking party is captured:
+ * a `self` booking has one person, `guest` and `client` bookings separate the
+ * lead traveller from whoever is arranging the trip.
+ */
+export type BookedFor = "self" | "guest" | "client";
+
+export const BOOKED_FOR_LABELS: Record<BookedFor, string> = {
+  self: "Booking for themselves",
+  guest: "Booking for someone else",
+  client: "Agent booking for a client",
+};
+
 export type BookingStatus =
   | "new"
   | "reviewing"
@@ -59,9 +72,18 @@ export interface Booking {
   traveller_names: string | null;
   budget: string | null;
   special_requirements: string | null;
+  /** The lead traveller — who the brochure and travel documents are addressed to. */
   contact_name: string;
   contact_email: string;
   contact_phone: string;
+  booked_for: BookedFor;
+  /** Whoever raised the booking, when that isn't the lead traveller. */
+  booker_name: string | null;
+  booker_email: string | null;
+  booker_phone: string | null;
+  booker_relation: string | null;
+  notify_booker: boolean;
+  agent_reference: string | null;
   status: BookingStatus;
   price_amount: string | null;
   payment_status: PaymentStatus;

@@ -282,7 +282,18 @@ export async function renderQuotationBrochurePdf(booking: Booking): Promise<Uint
   coverLabelValue(doc, "Prepared for", booking.contact_name, MARGIN + 14, boxTop + 18, colWidth);
   coverLabelValue(doc, "Travel date", booking.travel_date || "To be confirmed", MARGIN + 14 + colWidth + 10, boxTop + 18, colWidth);
   coverLabelValue(doc, "Travellers", String(booking.travellers_count || 1), MARGIN + 14 + (colWidth + 10) * 2, boxTop + 18, colWidth);
-  coverLabelValue(doc, "Quotation", booking.quotation_number, MARGIN + 14, boxTop + 61, colWidth);
+  // On a trip arranged by someone else, the quotation cell also credits the
+  // booker so the traveller knows who this proposal came from.
+  coverLabelValue(
+    doc,
+    booking.booker_name ? "Quotation · booked by" : "Quotation",
+    booking.booker_name
+      ? `${booking.quotation_number} · ${booking.booker_name}`
+      : booking.quotation_number,
+    MARGIN + 14,
+    boxTop + 61,
+    colWidth
+  );
   coverLabelValue(doc, "Duration", snapshot.duration || booking.duration_label || "Custom", MARGIN + 14 + colWidth + 10, boxTop + 61, colWidth);
   coverLabelValue(doc, "Indicative total", formatMoney(quote.total), MARGIN + 14 + (colWidth + 10) * 2, boxTop + 61, colWidth);
 

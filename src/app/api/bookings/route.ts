@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { isDbConfigured } from "@/lib/db";
 import { getSessionUserId } from "@/lib/auth/session";
+import { findUserById } from "@/lib/auth/users";
 import { createBooking, SoldOutError } from "@/lib/bookings/db";
+import { normalizeParty, PartyError, type PartyContactInput } from "@/lib/bookings/party";
 import type { BookingType } from "@/lib/bookings/types";
 import type {
   BookingPackageSnapshot,
@@ -12,8 +14,6 @@ import type {
   TravellerBreakdown,
 } from "@/lib/bookings/pricing";
 import { totalTravellers } from "@/lib/bookings/pricing";
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 interface CreateBookingBody {
   type?: BookingType;
@@ -35,9 +35,12 @@ interface CreateBookingBody {
   pricingSnapshot?: QuoteSnapshot;
   packageSnapshot?: BookingPackageSnapshot;
   termsAccepted?: boolean;
-  contactName?: string;
-  contactEmail?: string;
-  contactPhone?: string;
+  /** "self" or "guest" — agent journeys go through /api/agent/bookings. */
+  bookedFor?: string;
+  contact?: PartyContactInput;
+  booker?: PartyContactInput;
+  relation?: string;
+  notifyBooker?: boolean;
 }
 
 export async function POST(request: Request) {
@@ -60,13 +63,6 @@ export async function POST(request: Request) {
     body.bookingSource === "destination" || body.bookingSource === "custom"
       ? body.bookingSource
       : "package";
-  const contactName = (body.contactName || "").trim();
-  const contactEmail = (body.contactEmail || "").trim().toLowerCase();
-  const contactPhone = (body.contactPhone || "").trim();
-
-  if (contactName.length < 2) return fail("Please enter your name.");
-  if (!EMAIL_RE.test(contactEmail)) return fail("Please enter a valid email address.");
-  if (contactPhone.length < 6) return fail("Please enter a valid phone number.");
 
   const userId = await getSessionUserId();
 
@@ -75,6 +71,27 @@ export async function POST(request: Request) {
       { ok: false, error: "Please sign in to submit a customized trip request." },
       { status: 401 }
     );
+  }
+
+  // A "booking for myself" from a signed-in customer is stamped with their
+  // account identity rather than whatever the form posted; only the phone is
+  // taken from the form. Booking for someone else keeps the two parties apart.
+  const account = userId ? await findUserById(userId) : null;
+  let party;
+  try {
+    party = normalizeParty(
+      {
+        bookedFor: body.bookedFor,
+        contact: body.contact,
+        booker: body.booker,
+        relation: body.relation,
+        notifyBooker: body.notifyBooker,
+      },
+      { account, allow: ["self", "guest"] }
+    );
+  } catch (error) {
+    if (error instanceof PartyError) return fail(error.message);
+    throw error;
   }
 
   if (type === "customized" && !(body.destination || "").trim()) {
@@ -91,7 +108,9 @@ export async function POST(request: Request) {
   const travellers = sanitizeTravellers(body.travellers, body.travellersCount);
   const travellersCount = totalTravellers(travellers);
   if (travellersCount < 1) return fail("Please add at least one traveller.");
-  if (!body.pricingSnapshot || !Number.isFinite(Number(body.pricingSnapshot.total))) {
+  // Quick seat requests (e.g. a group departure) carry no instant quote — the
+  // agent prices those. A quote that *is* sent must be a real number.
+  if (body.pricingSnapshot && !Number.isFinite(Number(body.pricingSnapshot.total))) {
     return fail("The quotation could not be calculated. Please review your trip details.");
   }
 
@@ -117,9 +136,11 @@ export async function POST(request: Request) {
       pricingSnapshot: body.pricingSnapshot,
       packageSnapshot: body.packageSnapshot,
       termsAccepted: body.termsAccepted,
-      contactName,
-      contactEmail,
-      contactPhone,
+      party,
+      createdNote:
+        party.bookedFor === "guest"
+          ? `Request submitted by ${party.booker?.name} for ${party.contact.name}`
+          : "Request submitted",
     });
     return NextResponse.json({
       ok: true,

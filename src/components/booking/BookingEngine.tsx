@@ -14,8 +14,6 @@ import {
   FileText,
   Mail,
   MapPin,
-  Minus,
-  Plus,
   Send,
   ShieldCheck,
   Sparkles,
@@ -38,10 +36,17 @@ import {
   type SelectedAddon,
   type TravellerBreakdown,
 } from "@/lib/bookings/pricing";
+import { EMAIL_RE } from "@/lib/bookings/party";
 import { saveRecentSearch, useRecentSearches } from "@/lib/recentSearches";
+import Counter from "@/components/booking/Counter";
 import InlineAuthModal from "@/components/booking/InlineAuthModal";
+import TravellerDetailsStep, {
+  emptyPartyDraft,
+  resolveParty,
+  type PartyDraft,
+} from "@/components/booking/TravellerDetailsStep";
 
-const steps = ["Choose trip", "Travel plan", "Travellers", "Your details", "Review"];
+const steps = ["Choose trip", "Travel plan", "Travellers", "Traveller details", "Review"];
 const inputClass =
   "w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-primary outline-none transition focus:border-accent focus:ring-4 focus:ring-accent/10";
 
@@ -51,48 +56,6 @@ interface BookingResult {
   quotationNumber: string;
   token: string;
   brochureUrl: string;
-}
-
-function Counter({
-  label,
-  hint,
-  value,
-  min = 0,
-  onChange,
-}: {
-  label: string;
-  hint: string;
-  value: number;
-  min?: number;
-  onChange: (value: number) => void;
-}) {
-  return (
-    <div className="flex items-center justify-between gap-4 rounded-2xl border border-slate-200 bg-white p-4">
-      <div>
-        <p className="text-sm font-bold text-primary">{label}</p>
-        <p className="mt-0.5 text-xs text-foreground-muted">{hint}</p>
-      </div>
-      <div className="flex items-center gap-3">
-        <button
-          type="button"
-          onClick={() => onChange(Math.max(min, value - 1))}
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-primary hover:border-primary"
-          aria-label={`Remove ${label}`}
-        >
-          <Minus size={15} />
-        </button>
-        <span className="w-5 text-center text-sm font-extrabold text-primary">{value}</span>
-        <button
-          type="button"
-          onClick={() => onChange(Math.min(20, value + 1))}
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-white hover:bg-accent"
-          aria-label={`Add ${label}`}
-        >
-          <Plus size={15} />
-        </button>
-      </div>
-    </div>
-  );
 }
 
 function SummaryCard({
@@ -169,14 +132,8 @@ export default function BookingEngine() {
     tripleRooms: 0,
   });
   const [addonIds, setAddonIds] = useState<string[]>([]);
-  const [contact, setContact] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    travellerNames: "",
-    requirements: "",
-  });
-  const [bookingFor, setBookingFor] = useState<"self" | "other">("self");
+  const [party, setParty] = useState<PartyDraft>(emptyPartyDraft);
+  const [tripNotes, setTripNotes] = useState({ travellerNames: "", requirements: "" });
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -207,9 +164,13 @@ export default function BookingEngine() {
         ? selectedDestination?.duration
         : "") ||
     "6 Nights / 7 Days";
-  const bookingForSelf = Boolean(user) && bookingFor === "self";
-  const contactName = bookingForSelf ? user!.name : contact.name;
-  const contactEmail = bookingForSelf ? user!.email : contact.email;
+  const bookingForSomeoneElse = party.bookedFor === "guest";
+  const resolved = resolveParty(party, user);
+  // Whoever we can actually reach: a traveller booked by someone else may have
+  // given no details of their own, in which case the booker's stand in — the
+  // same fallback the API applies when it saves the booking.
+  const deliveryEmail = resolved.traveller.email || resolved.booker?.email || "";
+  const deliveryPhone = resolved.traveller.phone || resolved.booker?.phone || "";
 
   const snapshot: BookingPackageSnapshot = (() => {
     if (source === "package" && fullPackage) return packageSnapshot(fullPackage);
@@ -297,6 +258,30 @@ export default function BookingEngine() {
     }
   }, [initialCustomDestination, source]);
 
+  const hasPhone = (value: string) => value.replace(/\D/g, "").length >= 8;
+
+  /** Mirrors the server-side rules in lib/bookings/party.ts. */
+  const validateParty = () => {
+    const { traveller, booker } = resolved;
+    if (!bookingForSomeoneElse) {
+      if (traveller.name.trim().length < 2) return "Please enter your full name.";
+      if (!EMAIL_RE.test(traveller.email)) return "Please enter a valid email address.";
+      if (!hasPhone(traveller.phone)) return "Please enter a valid phone number.";
+      return "";
+    }
+    if (traveller.name.trim().length < 2) return "Please enter the lead traveller's name.";
+    if (traveller.email && !EMAIL_RE.test(traveller.email)) {
+      return "Please enter a valid email address for the traveller, or leave it blank.";
+    }
+    if (traveller.phone && !hasPhone(traveller.phone)) {
+      return "Please enter a valid phone number for the traveller, or leave it blank.";
+    }
+    if (!booker || booker.name.trim().length < 2) return "Please enter your name.";
+    if (!EMAIL_RE.test(booker.email)) return "Please enter a valid email address for yourself.";
+    if (!hasPhone(booker.phone)) return "Please enter a valid phone number for yourself.";
+    return "";
+  };
+
   const validateStep = () => {
     if (step === 0) {
       if (source === "package" && !selectedPackage) return "Please select a tour package.";
@@ -318,15 +303,7 @@ export default function BookingEngine() {
         return "Please select at least one room.";
       }
     }
-    if (step === 3) {
-      if (contactName.trim().length < 2) return "Please enter the lead traveller's name.";
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail)) {
-        return "Please enter a valid email address.";
-      }
-      if (contact.phone.replace(/\D/g, "").length < 8) {
-        return "Please enter a valid phone number.";
-      }
-    }
+    if (step === 3) return validateParty();
     if (step === 4 && !termsAccepted) {
       return "Please accept the quotation and cancellation terms.";
     }
@@ -385,12 +362,14 @@ export default function BookingEngine() {
           selectedAddons,
           pricingSnapshot: quote,
           packageSnapshot: { ...snapshot, duration: effectiveDuration },
-          travellerNames: contact.travellerNames,
+          travellerNames: tripNotes.travellerNames,
           budget: source === "custom" ? formatMoney(budgetPerAdult) : undefined,
-          specialRequirements: contact.requirements,
-          contactName,
-          contactEmail,
-          contactPhone: contact.phone,
+          specialRequirements: tripNotes.requirements,
+          bookedFor: party.bookedFor,
+          contact: resolved.traveller,
+          booker: resolved.booker || undefined,
+          relation: bookingForSomeoneElse ? party.relation : undefined,
+          notifyBooker: party.notifyBooker,
           termsAccepted,
         }),
       });
@@ -421,8 +400,8 @@ export default function BookingEngine() {
         body: JSON.stringify({
           token: result.token,
           channel,
-          recipientEmail: contactEmail,
-          recipientPhone: contact.phone,
+          recipientEmail: deliveryEmail,
+          recipientPhone: deliveryPhone,
         }),
       });
       const data = await response.json();
@@ -431,7 +410,7 @@ export default function BookingEngine() {
         window.open(data.shareUrl, "_blank", "noopener,noreferrer");
         setDeliveryMessage("WhatsApp opened with your brochure message ready to send.");
       } else if (data.delivered) {
-        setDeliveryMessage(`Brochure sent successfully to ${contactEmail}.`);
+        setDeliveryMessage(`Brochure sent successfully to ${deliveryEmail}.`);
       } else if (data.mailtoUrl) {
         window.location.assign(data.mailtoUrl);
         setDeliveryMessage(
@@ -827,82 +806,24 @@ export default function BookingEngine() {
 
           {step === 3 ? (
             <div>
-              <h2 className="font-heading text-2xl font-bold text-primary">Lead traveller details</h2>
-              <p className="mt-2 text-sm text-foreground-muted">
-                Your brochure will be personalised with this name and delivered to these details.
-              </p>
-              {source === "custom" && !authLoading && !user ? (
-                <div className="mt-5 rounded-2xl border border-gold/40 bg-gold/10 p-4 text-sm text-primary">
-                  Custom trips are saved to a customer account so our designers can follow up.{" "}
-                  <button
-                    type="button"
-                    onClick={() => setShowAuthModal(true)}
-                    className="font-bold text-accent underline-offset-2 hover:underline"
-                  >
-                    Sign in now
-                  </button>{" "}
-                  or continue — we&apos;ll ask you to sign in when you submit, and everything here stays exactly as you left it.
-                </div>
-              ) : null}
-              {user ? (
-                <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                  {(
-                    [
-                      ["self", "Booking for myself", user.name],
-                      ["other", "Booking for someone else", "A family member, friend or colleague"],
-                    ] as const
-                  ).map(([value, label, hint]) => (
-                    <button
-                      type="button"
-                      key={value}
-                      onClick={() => setBookingFor(value)}
-                      className={`rounded-2xl border p-4 text-left transition ${
-                        bookingFor === value
-                          ? "border-primary bg-primary text-white shadow-lg"
-                          : "border-slate-200 hover:border-primary/30"
-                      }`}
-                    >
-                      <strong className="block text-sm">{label}</strong>
-                      <span className={`mt-1 block text-xs ${bookingFor === value ? "text-slate-300" : "text-foreground-muted"}`}>
-                        {hint}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              ) : null}
+              <TravellerDetailsStep
+                draft={party}
+                onChange={setParty}
+                user={user}
+                authLoading={authLoading}
+                onSignIn={() => setShowAuthModal(true)}
+                requiresAccount={source === "custom"}
+              />
               <div className="mt-7 grid gap-5 sm:grid-cols-2">
-                <label className="space-y-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-primary">Full name</span>
-                  <input
-                    value={contactName}
-                    disabled={bookingForSelf}
-                    onChange={(event) => setContact((current) => ({ ...current, name: event.target.value }))}
-                    className={`${inputClass} ${bookingForSelf ? "cursor-not-allowed bg-slate-50 text-foreground-muted" : ""}`}
-                    placeholder="Lead traveller"
-                  />
-                </label>
-                <label className="space-y-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-primary">Phone</span>
-                  <input type="tel" value={contact.phone} onChange={(event) => setContact((current) => ({ ...current, phone: event.target.value }))} className={inputClass} placeholder="+91 98765 43210" />
-                </label>
                 <label className="space-y-2 sm:col-span-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-primary">Email address</span>
-                  <input
-                    type="email"
-                    value={contactEmail}
-                    disabled={bookingForSelf}
-                    onChange={(event) => setContact((current) => ({ ...current, email: event.target.value }))}
-                    className={`${inputClass} ${bookingForSelf ? "cursor-not-allowed bg-slate-50 text-foreground-muted" : ""}`}
-                    placeholder="name@example.com"
-                  />
-                </label>
-                <label className="space-y-2 sm:col-span-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-primary">Traveller names</span>
-                  <textarea rows={3} value={contact.travellerNames} onChange={(event) => setContact((current) => ({ ...current, travellerNames: event.target.value }))} className={inputClass} placeholder="One traveller per line; names can also be added later." />
+                  <span className="text-xs font-bold uppercase tracking-wider text-primary">
+                    {bookingForSomeoneElse ? "All traveller names" : "Co-traveller names"}
+                  </span>
+                  <textarea rows={3} value={tripNotes.travellerNames} onChange={(event) => setTripNotes((current) => ({ ...current, travellerNames: event.target.value }))} className={inputClass} placeholder="One traveller per line; names can also be added later." />
                 </label>
                 <label className="space-y-2 sm:col-span-2">
                   <span className="text-xs font-bold uppercase tracking-wider text-primary">Preferences and special requests</span>
-                  <textarea rows={4} value={contact.requirements} onChange={(event) => setContact((current) => ({ ...current, requirements: event.target.value }))} className={inputClass} placeholder="Hotel category, meals, accessibility, celebrations, preferred pace..." />
+                  <textarea rows={4} value={tripNotes.requirements} onChange={(event) => setTripNotes((current) => ({ ...current, requirements: event.target.value }))} className={inputClass} placeholder="Hotel category, meals, accessibility, celebrations, preferred pace..." />
                 </label>
               </div>
             </div>
@@ -915,7 +836,47 @@ export default function BookingEngine() {
                 The amount below is an instant estimate. Your agent verifies live inventory before
                 any payment is requested.
               </p>
-              <div className="mt-7 overflow-hidden rounded-2xl border border-slate-200">
+
+              <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                <div className="rounded-2xl border border-slate-200 p-4">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-muted">
+                    Travelling
+                  </span>
+                  <strong className="mt-1 block text-sm text-primary">{resolved.traveller.name}</strong>
+                  <span className="mt-0.5 block text-xs text-foreground-muted">
+                    {deliveryEmail} · {deliveryPhone}
+                  </span>
+                </div>
+                <div className="rounded-2xl border border-slate-200 p-4">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-muted">
+                    Booked by
+                  </span>
+                  {resolved.booker ? (
+                    <>
+                      <strong className="mt-1 block text-sm text-primary">
+                        {resolved.booker.name}
+                        <span className="ml-2 rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-accent">
+                          {party.relation}
+                        </span>
+                      </strong>
+                      <span className="mt-0.5 block text-xs text-foreground-muted">
+                        {resolved.booker.email} · {resolved.booker.phone}
+                      </span>
+                      <span className="mt-1 block text-xs text-foreground-muted">
+                        {party.notifyBooker
+                          ? "Copied on every update."
+                          : "Not copied on traveller updates."}
+                      </span>
+                    </>
+                  ) : (
+                    <strong className="mt-1 block text-sm text-primary">
+                      Yourself — you&apos;re travelling on this booking
+                    </strong>
+                  )}
+                </div>
+              </div>
+
+              <div className="mt-5 overflow-hidden rounded-2xl border border-slate-200">
                 <div className="grid grid-cols-[1fr_auto_auto] gap-4 bg-sand px-4 py-3 text-[10px] font-bold uppercase tracking-wider text-foreground-muted">
                   <span>Item</span><span>Qty</span><span>Amount</span>
                 </div>
@@ -947,9 +908,12 @@ export default function BookingEngine() {
               <label className="mt-6 flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 p-4">
                 <input type="checkbox" checked={termsAccepted} onChange={(event) => setTermsAccepted(event.target.checked)} className="mt-1 h-4 w-4 accent-accent" />
                 <span className="text-xs leading-relaxed text-foreground-muted">
-                  I confirm the traveller information is correct. I understand this is an indicative
-                  quotation subject to live availability, and I accept the booking, amendment and
-                  cancellation terms that will be confirmed before payment.
+                  {bookingForSomeoneElse
+                    ? "I confirm the traveller information is correct and that I have their consent to book on their behalf and share their details. "
+                    : "I confirm the traveller information is correct. "}
+                  I understand this is an indicative quotation subject to live availability, and I
+                  accept the booking, amendment and cancellation terms that will be confirmed
+                  before payment.
                 </span>
               </label>
               <div className="mt-5 flex items-center gap-2 rounded-2xl bg-emerald-50 p-4 text-xs font-medium text-emerald-800">

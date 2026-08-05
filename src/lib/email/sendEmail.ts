@@ -5,6 +5,8 @@ interface Attachment {
 
 export interface SendEmailInput {
   to: string;
+  /** Copied recipients, e.g. whoever booked the trip for the traveller. */
+  cc?: string[];
   subject: string;
   html: string;
   text: string;
@@ -39,6 +41,7 @@ export async function sendTransactionalEmail(
     body: JSON.stringify({
       from: process.env.EMAIL_FROM || "Bandhan Tours <onboarding@resend.dev>",
       to: [input.to],
+      ...(input.cc?.length ? { cc: input.cc } : {}),
       subject: input.subject,
       html: input.html,
       text: input.text,

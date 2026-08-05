@@ -93,6 +93,13 @@ export default function AccountBookingDetailPage() {
                   </div>
                 </div>
 
+                {booking.booked_for !== "self" ? (
+                  <p className="mt-3 inline-flex flex-wrap items-center gap-2 rounded-full bg-accent/10 px-4 py-1.5 text-xs font-semibold text-accent">
+                    Booked for {booking.contact_name}
+                    {booking.booker_relation ? ` · ${booking.booker_relation}` : ""}
+                  </p>
+                ) : null}
+
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
                   <div>
                     <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-muted block">

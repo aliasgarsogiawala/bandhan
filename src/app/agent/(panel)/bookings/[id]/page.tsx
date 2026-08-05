@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { SecondaryButton } from "@/components/ui/SecondaryButton";
+import BookingPartyPanel from "@/components/booking/BookingPartyPanel";
 import {
   BOOKING_STATUS_LABELS,
   BOOKING_STATUS_PIPELINE,
@@ -169,14 +170,6 @@ export default function AgentBookingDetailPage() {
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-5 text-sm">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-muted block">Contact</span>
-            <span className="font-semibold">{booking.contact_name}</span>
-          </div>
-          <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-muted block">Phone / Email</span>
-            <span className="font-semibold">{booking.contact_phone} · {booking.contact_email}</span>
-          </div>
-          <div>
             <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-muted block">Travel Date</span>
             <span className="font-semibold">{booking.travel_date || "TBC"}</span>
           </div>
@@ -227,6 +220,8 @@ export default function AgentBookingDetailPage() {
           )}
         </div>
       </div>
+
+      <BookingPartyPanel booking={booking} />
 
       {/* Actions */}
       <div className="bg-white rounded-2xl border border-slate-100 p-6 space-y-4">

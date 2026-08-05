@@ -91,15 +91,26 @@ export async function POST(request: Request, { params }: RouteParams) {
   }
 
   const recipient = (body.recipientEmail || booking.contact_email).trim().toLowerCase();
+  // Whoever arranged the trip asked to be kept in the loop, so they are copied
+  // on what the traveller receives.
+  const copies =
+    booking.notify_booker && booking.booker_email && booking.booker_email !== recipient
+      ? [booking.booker_email]
+      : undefined;
   const pdf = await renderQuotationBrochurePdf(booking);
   const result = await sendTransactionalEmail({
     to: recipient,
+    cc: copies,
     ...email,
     attachments: [{ filename: fileName, content: Buffer.from(pdf).toString("base64") }],
   });
 
   if (result.delivered) {
-    await addNotification(booking.id, "email", `Quotation brochure sent to ${recipient}.`);
+    await addNotification(
+      booking.id,
+      "email",
+      `Quotation brochure sent to ${recipient}${copies ? ` (copied to ${copies.join(", ")})` : ""}.`
+    );
     await markBrochureSent(booking.id);
     return NextResponse.json({ ok: true, delivered: true, provider: result.provider });
   }

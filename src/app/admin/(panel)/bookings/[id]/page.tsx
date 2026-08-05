@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import BookingPartyPanel from "@/components/booking/BookingPartyPanel";
 import { BOOKING_STATUS_LABELS, BOOKING_STATUS_PIPELINE } from "@/lib/bookings/types";
 import type { BookingDetail } from "@/lib/bookings/types";
 
@@ -40,12 +41,12 @@ export default function AdminBookingDetailPage() {
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-5 text-sm">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-muted block">Contact</span>
-            <span className="font-semibold">{booking.contact_name}</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-muted block">Travel Date</span>
+            <span className="font-semibold">{booking.travel_date || "TBC"}</span>
           </div>
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-muted block">Phone / Email</span>
-            <span className="font-semibold">{booking.contact_phone} · {booking.contact_email}</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-muted block">Travellers</span>
+            <span className="font-semibold">{booking.travellers_count ?? "—"}</span>
           </div>
           <div>
             <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-muted block">Price</span>
@@ -98,6 +99,8 @@ export default function AdminBookingDetailPage() {
           </a>
         </div>
       </div>
+
+      <BookingPartyPanel booking={booking} />
 
       <div className="bg-white rounded-2xl border border-slate-100 p-6">
         <h2 className="text-sm font-bold uppercase tracking-wider text-primary mb-3">Status History</h2>

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { BookingPartyBadge } from "@/components/booking/BookingPartyPanel";
 import { BOOKING_STATUS_LABELS } from "@/lib/bookings/types";
 import type { Booking } from "@/lib/bookings/types";
 
@@ -30,11 +31,19 @@ export default function AgentDashboardPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-heading font-extrabold text-primary">Bookings</h1>
-        <p className="text-sm text-foreground-muted font-sans mt-1">
-          Assigned to you, plus unassigned requests you can pick up.
-        </p>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-heading font-extrabold text-primary">Bookings</h1>
+          <p className="text-sm text-foreground-muted font-sans mt-1">
+            Assigned to you, plus unassigned requests you can pick up.
+          </p>
+        </div>
+        <Link
+          href="/agent/bookings/new"
+          className="rounded-full bg-accent px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-accent-dark"
+        >
+          + Book for a client
+        </Link>
       </div>
 
       {loading ? (
@@ -63,9 +72,18 @@ export default function AgentDashboardPage() {
                   <h2 className="text-base font-heading font-bold text-primary mt-1">
                     {booking.package_title || booking.destination || "Trip Request"}
                   </h2>
-                  <span className="text-xs text-foreground-muted font-sans block mt-1">
-                    {booking.contact_name} · {booking.contact_phone}
+                  <span className="text-xs text-foreground-muted font-sans mt-1 flex flex-wrap items-center gap-2">
+                    <span>
+                      {booking.contact_name} · {booking.contact_phone}
+                    </span>
+                    <BookingPartyBadge bookedFor={booking.booked_for} />
                   </span>
+                  {booking.booker_name ? (
+                    <span className="text-xs text-foreground-muted font-sans block mt-0.5">
+                      Booked by {booking.booker_name}
+                      {booking.booker_relation ? ` · ${booking.booker_relation}` : ""}
+                    </span>
+                  ) : null}
                 </div>
                 <span
                   className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border ${

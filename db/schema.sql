@@ -82,6 +82,23 @@ ALTER TABLE bookings ADD COLUMN IF NOT EXISTS terms_accepted boolean NOT NULL DE
 ALTER TABLE bookings ADD COLUMN IF NOT EXISTS quotation_number text;
 ALTER TABLE bookings ADD COLUMN IF NOT EXISTS quotation_status text NOT NULL DEFAULT 'generated';
 ALTER TABLE bookings ADD COLUMN IF NOT EXISTS brochure_sent_at timestamptz;
+
+-- Who the trip is for. contact_* always describes the LEAD TRAVELLER (the
+-- person the brochure is addressed to); booker_* describes whoever raised and
+-- manages the booking. On a 'self' booking the two are the same person, so
+-- booker_* stays null and readers fall back to contact_*.
+--   self   — the person booking is travelling
+--   guest  — a customer booking for family/friends/colleagues
+--   client — an agent booking on behalf of their client
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS booked_for text NOT NULL DEFAULT 'self';
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS booker_name text;
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS booker_email text;
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS booker_phone text;
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS booker_relation text;
+-- Copy updates to the booker as well as the lead traveller.
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS notify_booker boolean NOT NULL DEFAULT true;
+-- The agent's own reference for this booking, shown only in the agent/admin panels.
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS agent_reference text;
 UPDATE bookings SET access_token = encode(gen_random_bytes(24), 'hex') WHERE access_token IS NULL;
 ALTER TABLE bookings ALTER COLUMN access_token SET DEFAULT encode(gen_random_bytes(24), 'hex');
 ALTER TABLE bookings ALTER COLUMN access_token SET NOT NULL;
@@ -89,6 +106,7 @@ UPDATE bookings SET quotation_number = 'QT-' || replace(booking_code, 'BKG-', ''
 ALTER TABLE bookings ALTER COLUMN quotation_number SET NOT NULL;
 
 CREATE INDEX IF NOT EXISTS bookings_user_id_idx ON bookings (user_id);
+CREATE INDEX IF NOT EXISTS bookings_booked_for_idx ON bookings (booked_for);
 CREATE INDEX IF NOT EXISTS bookings_agent_id_idx ON bookings (agent_id);
 CREATE INDEX IF NOT EXISTS bookings_status_idx ON bookings (status);
 CREATE INDEX IF NOT EXISTS bookings_departure_id_idx ON bookings (departure_id);

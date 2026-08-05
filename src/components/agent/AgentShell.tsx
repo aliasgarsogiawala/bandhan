@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 const agentNav = [
   { label: "Dashboard", href: "/agent" },
+  { label: "Book for a client", href: "/agent/bookings/new" },
 ];
 
 const isActive = (pathname: string, href: string) =>

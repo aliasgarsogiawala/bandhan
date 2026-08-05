@@ -81,9 +81,15 @@ export async function POST(request: Request) {
       travellerNames: body.travellerNames,
       budget: body.budget,
       specialRequirements: body.specialRequirements,
-      contactName,
-      contactEmail,
-      contactPhone,
+      // A walk-in or phone booking is still the customer booking for
+      // themselves — admin is recording it, not travelling.
+      party: {
+        bookedFor: "self",
+        contact: { name: contactName, email: contactEmail, phone: contactPhone },
+        booker: null,
+        relation: null,
+        notifyBooker: true,
+      },
       createdBy: "admin",
       createdNote: "Logged by admin",
     });

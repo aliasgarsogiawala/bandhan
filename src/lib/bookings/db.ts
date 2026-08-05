@@ -12,6 +12,7 @@ import type {
   NotificationChannel,
   PaymentStatus,
 } from "./types";
+import type { BookingParty } from "./party";
 import type {
   BookingPackageSnapshot,
   BookingSource,
@@ -45,6 +46,9 @@ async function uniqueBookingCode(): Promise<string> {
 export interface CreateBookingInput {
   type: BookingType;
   userId?: string | null;
+  /** Agent this booking belongs to, set when an agent raises it for a client. */
+  agentId?: string | null;
+  agentReference?: string | null;
   packageId?: string;
   packageTitle?: string;
   departureId?: string;
@@ -63,9 +67,10 @@ export interface CreateBookingInput {
   pricingSnapshot?: QuoteSnapshot;
   packageSnapshot?: BookingPackageSnapshot;
   termsAccepted?: boolean;
-  contactName: string;
-  contactEmail: string;
-  contactPhone: string;
+  /** Lead traveller and, when the trip was arranged for them, the booker. */
+  party: BookingParty;
+  /** Opening status — agent-raised bookings skip the unassigned 'new' queue. */
+  status?: BookingStatus;
   /** Who logged this request — defaults to 'system' for the public booking forms. */
   createdBy?: string;
   createdNote?: string;
@@ -104,25 +109,32 @@ export async function createBooking(input: CreateBookingInput): Promise<Booking>
   const selectedAddons = JSON.stringify(input.selectedAddons || []);
   const pricingSnapshot = JSON.stringify(input.pricingSnapshot || {});
   const packageSnapshot = JSON.stringify(input.packageSnapshot || {});
+  const { party } = input;
+  const status: BookingStatus = input.status || "new";
   const rows = (await sql`
     INSERT INTO bookings (
-      booking_code, type, user_id, package_id, package_title, departure_id, destination,
+      booking_code, type, user_id, agent_id, package_id, package_title, departure_id, destination,
       travel_date, travellers_count, traveller_names, budget, special_requirements,
       contact_name, contact_email, contact_phone, booking_source, departure_city,
       duration_label, adults, children_with_bed, children_without_bed, infants,
       room_configuration, selected_addons, pricing_snapshot, package_snapshot,
-      terms_accepted, quotation_number, price_amount
+      terms_accepted, quotation_number, price_amount, status, booked_for,
+      booker_name, booker_email, booker_phone, booker_relation, notify_booker, agent_reference
     ) VALUES (
-      ${code}, ${input.type}, ${input.userId || null}, ${input.packageId || null},
+      ${code}, ${input.type}, ${input.userId || null}, ${input.agentId || null},
+      ${input.packageId || null},
       ${packageTitle || null}, ${input.departureId || null}, ${destination || null},
       ${travelDate || null}, ${input.travellersCount ?? null}, ${input.travellerNames || null},
-      ${input.budget || null}, ${input.specialRequirements || null}, ${input.contactName},
-      ${input.contactEmail}, ${input.contactPhone}, ${input.bookingSource || "package"},
+      ${input.budget || null}, ${input.specialRequirements || null}, ${party.contact.name},
+      ${party.contact.email}, ${party.contact.phone}, ${input.bookingSource || "package"},
       ${input.departureCity || null}, ${input.durationLabel || null}, ${travellers.adults},
       ${travellers.childrenWithBed}, ${travellers.childrenWithoutBed}, ${travellers.infants},
       ${JSON.stringify(rooms)}::jsonb, ${selectedAddons}::jsonb, ${pricingSnapshot}::jsonb,
       ${packageSnapshot}::jsonb, ${Boolean(input.termsAccepted)}, ${quotationNumber},
-      ${input.pricingSnapshot?.total ? formatMoney(input.pricingSnapshot.total) : null}
+      ${input.pricingSnapshot?.total ? formatMoney(input.pricingSnapshot.total) : null},
+      ${status}, ${party.bookedFor}, ${party.booker?.name || null},
+      ${party.booker?.email || null}, ${party.booker?.phone || null},
+      ${party.relation || null}, ${party.notifyBooker}, ${input.agentReference || null}
     )
     RETURNING *
   `) as Booking[];
@@ -131,7 +143,7 @@ export async function createBooking(input: CreateBookingInput): Promise<Booking>
   await sql`
     INSERT INTO booking_status_history (booking_id, from_status, to_status, note, changed_by)
     VALUES (
-      ${booking.id}, NULL, 'new',
+      ${booking.id}, NULL, ${status},
       ${input.createdNote || "Request submitted"}, ${input.createdBy || "system"}
     )
   `;

@@ -32,10 +32,59 @@ if (!url) {
 
 const sql = neon(url);
 const schema = readFileSync(join(root, "db", "schema.sql"), "utf8");
-const statements = schema
-  .split(";")
-  .map((s) => s.trim())
-  .filter((s) => s && !s.startsWith("--"));
+
+/**
+ * Splits the schema into statements.
+ *
+ * Comments are stripped first, and only semicolons outside string literals
+ * end a statement. Splitting on a bare ";" is not enough: a semicolon inside
+ * a comment cuts a statement in half, and a comment sitting above a statement
+ * used to make the whole statement look like a comment and be dropped
+ * silently — which is how `CREATE EXTENSION pgcrypto` was never being applied.
+ */
+function splitStatements(source) {
+  let sqlText = "";
+  let inString = false;
+  for (let i = 0; i < source.length; i++) {
+    const char = source[i];
+    if (inString) {
+      sqlText += char;
+      // '' is an escaped quote inside a string, not the end of one.
+      if (char === "'" && source[i + 1] === "'") sqlText += source[++i];
+      else if (char === "'") inString = false;
+      continue;
+    }
+    if (char === "'") {
+      inString = true;
+      sqlText += char;
+      continue;
+    }
+    if (char === "-" && source[i + 1] === "-") {
+      while (i < source.length && source[i] !== "\n") i++;
+      sqlText += "\n";
+      continue;
+    }
+    sqlText += char;
+  }
+
+  const statements = [];
+  let current = "";
+  inString = false;
+  for (let i = 0; i < sqlText.length; i++) {
+    const char = sqlText[i];
+    if (char === "'") inString = !inString;
+    if (char === ";" && !inString) {
+      if (current.trim()) statements.push(current.trim());
+      current = "";
+      continue;
+    }
+    current += char;
+  }
+  if (current.trim()) statements.push(current.trim());
+  return statements;
+}
+
+const statements = splitStatements(schema);
 
 try {
   for (const statement of statements) {

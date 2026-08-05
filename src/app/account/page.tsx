@@ -109,6 +109,12 @@ export default function AccountPage() {
                       <span className="text-xs text-foreground-muted font-sans block mt-1">
                         {booking.travel_date || "Dates to be confirmed"}
                       </span>
+                      {booking.booked_for !== "self" ? (
+                        <span className="text-xs font-semibold text-accent font-sans block mt-1">
+                          For {booking.contact_name}
+                          {booking.booker_relation ? ` · ${booking.booker_relation}` : ""}
+                        </span>
+                      ) : null}
                     </div>
                     <span
                       className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border ${

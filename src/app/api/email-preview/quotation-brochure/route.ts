@@ -33,6 +33,15 @@ const SAMPLE: Booking = {
   contact_name: "Aarav Mehta",
   contact_email: "aarav@example.com",
   contact_phone: "+91 98765 43210",
+  // Previewed as a "booking for someone else" so the brochure is exercised
+  // with a booker attached, not just the simpler self-booking shape.
+  booked_for: "guest",
+  booker_name: "Riya Mehta",
+  booker_email: "riya@example.com",
+  booker_phone: "+91 90000 11122",
+  booker_relation: "Family",
+  notify_booker: true,
+  agent_reference: null,
   status: "new",
   price_amount: "155000",
   payment_status: "pending",
