@@ -203,6 +203,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
     { label: "Home", href: "/" },
     { label: "Group Tours", href: "/#group-departures" },
     { label: "Plan a Custom Trip", href: "/plan-trip" },
+    { label: "Corporate / MICE", href: "/mice" },
     { label: "Blog", href: "/blog" },
     { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },

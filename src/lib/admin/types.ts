@@ -26,7 +26,7 @@ export interface Enquiry {
   guests?: string;
   subject?: string;
   message: string;
-  source: "enquiry-modal" | "contact-page";
+  source: "enquiry-modal" | "contact-page" | "mice-page";
   status: "new" | "contacted" | "closed";
   createdAt: string; // ISO timestamp
 }

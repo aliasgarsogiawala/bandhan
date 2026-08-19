@@ -13,6 +13,12 @@ const statusStyles: Record<Enquiry["status"], string> = {
 
 const statusOrder: Enquiry["status"][] = ["new", "contacted", "closed"];
 
+const sourceLabels: Record<Enquiry["source"], string> = {
+  "contact-page": "Contact page",
+  "enquiry-modal": "Enquiry form",
+  "mice-page": "Corporate / MICE",
+};
+
 function formatDate(iso: string) {
   return new Date(iso).toLocaleString("en-IN", {
     day: "numeric",
@@ -118,7 +124,7 @@ export default function EnquiriesPage() {
                     </td>
                     <td className="px-4 py-3 text-foreground">{e.destination || "—"}</td>
                     <td className="px-4 py-3 text-foreground-muted text-xs">
-                      {e.source === "contact-page" ? "Contact page" : "Enquiry form"}
+                      {sourceLabels[e.source] || e.source}
                     </td>
                     <td className="px-4 py-3 text-foreground-muted whitespace-nowrap text-xs">
                       {formatDate(e.createdAt)}
@@ -193,7 +199,7 @@ export default function EnquiriesPage() {
                   ["Travel Month", open.travelMonth],
                   ["Guests", open.guests],
                   ["Subject", open.subject],
-                  ["Source", open.source === "contact-page" ? "Contact page" : "Enquiry form"],
+                  ["Source", sourceLabels[open.source] || open.source],
                   ["Received", formatDate(open.createdAt)],
                 ]
                   .filter(([, v]) => v)
@@ -208,7 +214,7 @@ export default function EnquiriesPage() {
               {open.message && (
                 <div>
                   <p className="text-xs font-semibold text-foreground-muted uppercase tracking-wide mb-1.5">Message</p>
-                  <p className="text-sm text-foreground bg-sand/60 rounded-xl p-4 leading-relaxed">{open.message}</p>
+                  <p className="text-sm text-foreground bg-sand/60 rounded-xl p-4 leading-relaxed whitespace-pre-line">{open.message}</p>
                 </div>
               )}
 
