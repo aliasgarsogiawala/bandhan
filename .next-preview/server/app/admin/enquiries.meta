@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/(panel)/layout,_N_T_/admin/(panel)/enquiries/layout,_N_T_/admin/(panel)/enquiries/page,_N_T_/admin/enquiries"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/admin/!KHBhbmVsKQ/enquiries/__PAGE__",
+    "/admin/!KHBhbmVsKQ/enquiries",
+    "/admin/!KHBhbmVsKQ",
+    "/admin",
+    "/_index",
+    "/_head"
+  ]
+}

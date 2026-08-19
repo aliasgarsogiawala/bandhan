@@ -23,10 +23,11 @@ export const SecondaryButton: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const variantClasses = {
-    "outline-navy": "border-primary text-primary hover:bg-primary/5 hover:text-primary-dark focus:ring-primary-light",
-    "outline-coral": "border-accent text-accent hover:bg-accent/5 hover:text-accent-dark focus:ring-accent-light",
+    "outline-navy": "border-primary/25 text-primary hover:border-primary hover:bg-primary/5 hover:text-primary-dark hover:shadow-[0_12px_28px_-12px_rgba(7,32,60,0.35)] focus:ring-primary-light",
+    "outline-coral": "border-accent/30 text-accent hover:border-accent hover:bg-accent/5 hover:text-accent-dark hover:shadow-[0_12px_28px_-12px_rgba(254,79,79,0.4)] focus:ring-accent-light",
     ghost: "border-transparent text-primary hover:bg-primary/5 hover:text-primary-dark focus:ring-primary-light",
-    glass: "border-white/30 text-white bg-white/10 backdrop-blur-md hover:bg-white/20 hover:border-white/50 focus:ring-white",
+    glass:
+      "border-white/40 text-white bg-white/12 backdrop-blur-lg shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_8px_24px_-10px_rgba(0,0,0,0.5)] hover:bg-white/20 hover:border-white/60 focus:ring-white",
   };
 
   const sizeClasses = {
@@ -40,7 +41,7 @@ export const SecondaryButton: React.FC<ButtonProps> = ({
   return (
     <button
       disabled={disabled || isLoading}
-      className={`relative inline-flex items-center justify-center gap-2 border font-sans tracking-wide transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed ${variantClasses[variant]} ${sizeClasses[size]} ${widthClass} ${className}`}
+      className={`relative inline-flex items-center justify-center gap-2 border font-sans tracking-wide transition-all duration-300 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 motion-reduce:hover:translate-y-0 ${variantClasses[variant]} ${sizeClasses[size]} ${widthClass} ${className}`}
       {...props}
     >
       {isLoading && (

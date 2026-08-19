@@ -23,9 +23,9 @@ export const PrimaryButton: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const variantClasses = {
-    navy: "bg-primary text-white hover:bg-primary-light hover:shadow-lg focus:ring-primary-light",
-    coral: "bg-accent text-white hover:bg-accent-dark hover:shadow-lg hover:shadow-accent/20 focus:ring-accent-light",
-    gold: "bg-gold text-primary hover:bg-gold-dark hover:shadow-lg focus:ring-gold-dark font-semibold",
+    navy: "bg-primary text-white shadow-[0_8px_22px_-8px_rgba(7,32,60,0.55)] hover:bg-primary-light hover:shadow-[0_16px_34px_-10px_rgba(7,32,60,0.6)] focus:ring-primary-light",
+    coral: "bg-accent text-white shadow-[0_8px_22px_-8px_rgba(254,79,79,0.6)] hover:bg-accent-dark hover:shadow-[0_16px_34px_-10px_rgba(254,79,79,0.65)] focus:ring-accent-light",
+    gold: "bg-gold text-primary font-semibold shadow-[0_8px_22px_-8px_rgba(220,163,17,0.6)] hover:bg-gold-dark hover:shadow-[0_16px_34px_-10px_rgba(220,163,17,0.65)] focus:ring-gold-dark",
   };
 
   const sizeClasses = {
@@ -39,7 +39,7 @@ export const PrimaryButton: React.FC<ButtonProps> = ({
   return (
     <button
       disabled={disabled || isLoading}
-      className={`relative inline-flex items-center justify-center gap-2 border border-transparent font-sans tracking-wide transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed ${variantClasses[variant]} ${sizeClasses[size]} ${widthClass} ${className}`}
+      className={`group/btn relative inline-flex items-center justify-center gap-2 overflow-hidden border border-transparent font-sans tracking-wide transition-all duration-300 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 motion-reduce:hover:translate-y-0 ${variantClasses[variant]} ${sizeClasses[size]} ${widthClass} ${className}`}
       {...props}
     >
       {isLoading && (
@@ -65,9 +65,14 @@ export const PrimaryButton: React.FC<ButtonProps> = ({
         </svg>
       )}
 
-      {!isLoading && leftIcon && <span className="flex-shrink-0">{leftIcon}</span>}
+      {/* Sheen sweep on hover */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 ease-out group-hover/btn:translate-x-full motion-reduce:hidden"
+      />
+      {!isLoading && leftIcon && <span className="relative z-10 flex-shrink-0">{leftIcon}</span>}
       <span className="relative z-10">{children}</span>
-      {!isLoading && rightIcon && <span className="flex-shrink-0">{rightIcon}</span>}
+      {!isLoading && rightIcon && <span className="relative z-10 flex-shrink-0">{rightIcon}</span>}
     </button>
   );
 };

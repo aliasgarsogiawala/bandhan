@@ -45,7 +45,7 @@ export const PopularDestinations: React.FC = () => {
             <StaggerItem key={dest.id} as="article" y={30}>
               <Link
                 href={`/destinations/${encodeURIComponent(dest.id)}`}
-                className="group relative block h-[400px] overflow-hidden rounded-[1.5rem] border border-slate-100 bg-primary shadow-soft transition-all duration-500 hover:shadow-[0_30px_60px_-30px_rgba(7,32,60,0.45)]"
+                className="group relative block h-[430px] overflow-hidden rounded-[1.75rem] bg-primary shadow-soft ring-1 ring-primary/10 transition-all duration-500 ease-out hover:-translate-y-1.5 hover:shadow-lifted hover:ring-gold/30 motion-reduce:hover:translate-y-0"
               >
                 {/* Image */}
                 <Image
@@ -53,31 +53,33 @@ export const PopularDestinations: React.FC = () => {
                   alt={dest.name}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  className="object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-110"
+                  className="object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-[1.08]"
                 />
 
-                {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-primary-dark via-primary/30 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-95" />
+                {/* Cinematic scrim — deep at the base so the type always holds */}
+                <div className="absolute inset-0 bg-gradient-to-t from-primary-dark via-primary-dark/45 via-45% to-transparent transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-primary-dark/0 transition-colors duration-500 group-hover:bg-primary-dark/15" />
 
                 {/* Tag */}
                 {dest.tag && (
-                  <span className="absolute left-4 top-4 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white backdrop-blur-sm">
+                  <span className="absolute left-5 top-5 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.22em] text-white/90 backdrop-blur-md">
                     {dest.tag}
                   </span>
                 )}
 
                 {/* Card Details */}
                 <div className="absolute inset-x-0 bottom-0 flex flex-col justify-end p-6 text-white">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold">
+                  <span className="flex items-center gap-2.5 text-[9px] font-semibold uppercase tracking-[0.26em] text-gold">
+                    <span className="h-px w-5 bg-gold/50 transition-all duration-500 group-hover:w-8" aria-hidden="true" />
                     From {dest.price}
                   </span>
-                  <h3 className="mt-1.5 font-heading text-2xl font-bold tracking-tight transition-colors duration-300 group-hover:text-gold">
+                  <h3 className="mt-2 font-display text-[1.9rem] font-normal leading-[1.1] tracking-[-0.01em] transition-colors duration-300 group-hover:text-gold">
                     {dest.name}
                   </h3>
-                  <p className="mt-2 max-h-0 overflow-hidden text-xs leading-relaxed text-slate-200 opacity-0 transition-all duration-500 group-hover:max-h-24 group-hover:opacity-100">
+                  <p className="mt-2 max-h-0 overflow-hidden text-xs leading-relaxed text-slate-200/90 opacity-0 transition-all duration-500 group-hover:max-h-24 group-hover:opacity-100">
                     {dest.description}
                   </p>
-                  <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-gold opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                  <span className="mt-3.5 inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-gold opacity-0 transition-opacity duration-500 group-hover:opacity-100">
                     Plan this destination
                     <ArrowRight size={12} className="transition-transform duration-300 group-hover:translate-x-1" />
                   </span>

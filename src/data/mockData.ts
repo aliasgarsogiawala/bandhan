@@ -491,7 +491,7 @@ const packageCatalogue: TourPackage[] = [
     themes: ["Spiritual", "Heritage"],
     gallery: [
       { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1200", caption: "Temples of Ayodhya and Varanasi" },
-      { image: "https://images.unsplash.com/photo-1477587458883-471a5ed94245?auto=format&fit=crop&q=80&w=1200", caption: "Ghats of the Ganga" },
+      { image: "https://images.unsplash.com/photo-1561361058-c24cecae35ca?auto=format&fit=crop&q=80&w=1200", caption: "Ghats of the Ganga" },
     ],
     itinerary: [
       { day: 1, title: "Lucknow Arrival — Ayodhya Sightseeing", description: "Drive to Ayodhya for Shri Ram Janmabhoomi Mandir, Hanuman Garhi, Kanak Bhawan, Ramkot and Nageshwarnath Temple.", meals: "Lunch, Dinner", stay: "Ayodhya" },
@@ -755,7 +755,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "rajasthan-marwad",
     title: "Rajasthan Marwad",
-    image: "https://images.unsplash.com/photo-1477587458883-471a5ed94245?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1524230507669-5ff97982bb5e?auto=format&fit=crop&q=80&w=1200",
     duration: "7 Nights / 8 Days",
     price: "₹34,999",
     highlights: ["Sam Sand Dunes desert safari", "Jaisalmer Fort & Patwon Ki Haveli", "Mehrangarh Fort, Jodhpur", "Khatu Shyam Ji Temple darshan"],
@@ -763,13 +763,13 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Temples, forts and the Thar Desert across Bikaner, Jaisalmer and Jodhpur.",
     overview:
       "From temple darshans at Khatu Shyam Ji and Salasar Balaji through Bikaner's Junagarh Fort to a desert safari and camel ride at the Sam Sand Dunes, ending among Jodhpur's Blue City and Mehrangarh Fort.",
-    heroImage: "https://images.unsplash.com/photo-1477587458883-471a5ed94245?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1524230507669-5ff97982bb5e?auto=format&fit=crop&q=80&w=2000",
     bestTime: "October to March",
     startingPoint: "Jaipur Airport",
     groupSize: "2+ guests",
     themes: ["Heritage", "Desert", "Culture"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1477587458883-471a5ed94245?auto=format&fit=crop&q=80&w=1200", caption: "Forts of Rajasthan" },
+      { image: "https://images.unsplash.com/photo-1524230507669-5ff97982bb5e?auto=format&fit=crop&q=80&w=1200", caption: "Forts of Rajasthan" },
       { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1200", caption: "Sam Sand Dunes desert safari" },
     ],
     itinerary: [
@@ -849,7 +849,7 @@ const packageCatalogue: TourPackage[] = [
     themes: ["Heritage", "Coastal", "Culture"],
     gallery: [
       { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1200", caption: "Hampi's ancient ruins" },
-      { image: "https://images.unsplash.com/photo-1477587458883-471a5ed94245?auto=format&fit=crop&q=80&w=1200", caption: "Temples and coastline of Karnataka" },
+      { image: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80&w=1200", caption: "Temples and coastline of Karnataka" },
     ],
     itinerary: [
       { day: 1, title: "Arrival at Hubli", description: "City orientation tour and a sunset visit to Unkal Lake.", meals: "Dinner", stay: "Hubli" },
@@ -947,7 +947,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "south-india-temple-tour",
     title: "South India Temple Tour",
-    image: "https://images.unsplash.com/photo-1477587458883-471a5ed94245?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80&w=1200",
     duration: "5 Nights / 6 Days",
     price: "₹28,599",
     highlights: ["Meenakshi Amman Temple, Madurai", "Dhanushkodi — Ghost Town of India", "Triveni Sangam sunset, Kanyakumari", "Padmanabhaswamy Temple VIP darshan"],
@@ -955,13 +955,13 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Madurai to Kanyakumari through Tamil Nadu and Kerala's most sacred temples.",
     overview:
       "A temple pilgrimage from Madurai's Meenakshi Amman Temple across the Pamban Bridge to Rameshwaram, the abandoned town of Dhanushkodi, and Kanyakumari's Triveni Sangam, finishing at Trivandrum's Padmanabhaswamy Temple.",
-    heroImage: "https://images.unsplash.com/photo-1477587458883-471a5ed94245?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80&w=2000",
     bestTime: "October to March",
     startingPoint: "Madurai",
     groupSize: "2+ guests",
     themes: ["Spiritual", "Heritage"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1477587458883-471a5ed94245?auto=format&fit=crop&q=80&w=1200", caption: "Temples of Tamil Nadu" },
+      { image: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80&w=1200", caption: "Temples of Tamil Nadu" },
       { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1200", caption: "Kanyakumari's coastline" },
     ],
     itinerary: [
@@ -1113,7 +1113,7 @@ const packageCatalogue: TourPackage[] = [
     themes: ["Heritage", "City", "Scenic"],
     gallery: [
       { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1200", caption: "Canals of Venice" },
-      { image: "https://images.unsplash.com/photo-1477587458883-471a5ed94245?auto=format&fit=crop&q=80&w=1200", caption: "Ancient Rome" },
+      { image: "https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&q=80&w=1200", caption: "Ancient Rome" },
     ],
     itinerary: [
       { day: 1, title: "Arrival in Milan", description: "Private transfer and hotel check-in, leisure evening.", meals: "—", stay: "Milan" },

@@ -21,7 +21,7 @@ const departureVisuals = [
   {
     keywords: ["kashmir", "srinagar", "gulmarg"],
     image:
-      "https://images.unsplash.com/photo-1566837430541-11d2798e27c1?auto=format&fit=crop&q=85&w=1200",
+      "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&q=85&w=1200",
     label: "Valleys & mountain views",
   },
   {

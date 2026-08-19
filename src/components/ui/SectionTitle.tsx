@@ -36,13 +36,13 @@ export const SectionTitle: React.FC<SectionTitleProps> = ({
       className={`flex flex-col max-w-3xl ${alignmentClasses[align]} ${className}`}
     >
       {eyebrow && (
-        <span className="inline-flex items-center gap-2.5 text-[0.7rem] font-bold uppercase tracking-[0.24em] text-accent mb-4">
-          <span className="h-px w-7 bg-accent/60" aria-hidden="true" />
+        <span className="inline-flex items-center gap-3 text-[0.66rem] font-semibold uppercase tracking-[0.3em] text-accent mb-5">
+          <span className="h-px w-8 bg-accent/50" aria-hidden="true" />
           {eyebrow}
         </span>
       )}
 
-      <h2 className="font-heading font-extrabold text-3xl sm:text-4xl md:text-[2.9rem] text-primary leading-[1.08] tracking-tight">
+      <h2 className="font-display font-normal text-4xl sm:text-5xl md:text-[3.4rem] text-primary leading-[1.06] tracking-[-0.01em]">
         {title}
       </h2>
 

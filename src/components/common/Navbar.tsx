@@ -211,9 +211,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
 
   const packagesList = [
     { label: "All Packages", href: "/packages" },
+    { label: "North East", href: "/packages?category=north-east" },
     { label: "Domestic", href: "/packages?category=domestic" },
     { label: "International", href: "/packages?category=international" },
-    { label: "North East", href: "/packages?category=northeast" },
   ];
 
   const togglePackages = () => {
@@ -231,7 +231,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 w-full z-45 transition-all duration-500 ${
+        className={`fixed top-0 left-0 w-full z-[45] transition-all duration-500 ${
           isScrolled
             ? "bg-primary/95 backdrop-blur-md py-4 shadow-lg border-b border-primary-light/30"
             : "bg-transparent py-6"
@@ -311,7 +311,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
                 className="absolute left-0 top-full w-56 pt-3"
               >
                 <div
-                  className={`rounded-2xl bg-primary/95 backdrop-blur-md border border-white/10 shadow-premium p-2 transition-all duration-300 origin-top-left ${
+                  className={`overflow-hidden rounded-2xl border border-white/10 bg-primary-dark/98 p-1.5 shadow-[0_24px_60px_-12px_rgba(3,16,32,0.65)] ring-1 ring-inset ring-white/5 backdrop-blur-xl transition-all duration-300 origin-top-left ${
                   isPackagesOpen
                     ? "opacity-100 scale-100 translate-y-0 visible"
                     : "opacity-0 scale-95 -translate-y-2 invisible pointer-events-none"
@@ -322,9 +322,25 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
                       key={item.label}
                       href={item.href}
                       onClick={() => setIsPackagesOpen(false)}
-                      className="block px-4 py-2.5 rounded-xl text-sm font-medium text-white/85 hover:text-primary hover:bg-gold transition-all duration-200"
+                      className="group/item relative flex items-center justify-between gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-white/80 transition-all duration-200 hover:bg-white/[0.07] hover:text-gold"
                     >
-                      {item.label}
+                      <span className="relative">
+                        <span className="absolute -left-3 top-1/2 h-1 w-1 -translate-y-1/2 rounded-full bg-gold opacity-0 transition-opacity duration-200 group-hover/item:opacity-100" />
+                        {item.label}
+                      </span>
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="-translate-x-1 opacity-0 transition-all duration-200 group-hover/item:translate-x-0 group-hover/item:opacity-100"
+                      >
+                        <polyline points="9 18 15 12 9 6" />
+                      </svg>
                     </a>
                   ))}
                 </div>

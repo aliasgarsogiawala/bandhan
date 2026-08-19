@@ -84,7 +84,7 @@ export const testimonialData: TestimonialItem[] = [
       "Unforgettable Kashmir tour organized by Bandhan Tours! Much credit goes to Tour Manager Mr. Subhodh Bhise & Ms. Kalyani. Gulmarg, Pahalgam & Dal Lake houseboat were superb.",
     profileImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
     tripImages: [
-      "https://images.unsplash.com/photo-1566837430541-11d2798e27c1?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&q=80&w=800",
       "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=80&w=800",
     ],
     travelMonth: "Apr, 2025",
@@ -107,7 +107,7 @@ export const testimonialData: TestimonialItem[] = [
     profileImage: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200",
     tripImages: [
       "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1566837430541-11d2798e27c1?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&q=80&w=800",
     ],
     travelMonth: "Apr, 2025",
     isVerified: true,
@@ -128,8 +128,8 @@ export const testimonialData: TestimonialItem[] = [
       "हंपी व बदामी कर्नाटक सहलीचा भरपूर धमाल करत आनंद लुटला! टूर गाईड प्रविण जाधव यांनी आम्हा ज्येष्ठ नागरिकांची मुलांप्रमाणे काळजी घेतली. धन्यवाद बंधन टूर्स!",
     profileImage: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200",
     tripImages: [
-      "https://images.unsplash.com/photo-1600100397660-3d611847858d?auto=format&fit=crop&q=80&w=800",
       "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=80&w=800",
     ],
     travelMonth: "Oct, 2025",
     isVerified: true,
@@ -194,7 +194,7 @@ export const testimonialData: TestimonialItem[] = [
       "बंधन टूर्स सोबत ३६ फॅमिली मेंबर्स चा भव्य ग्रुप! अतिशय सुंदर नियोजन, उत्तम हॉटेल व्यवस्था व जेवण. पुन्हा बंधन टूर्स सोबतच ट्रीप करणार!",
     profileImage: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
     tripImages: [
-      "https://images.unsplash.com/photo-1477587458883-471a5ed94245?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&q=80&w=800",
     ],
     travelMonth: "Mar, 2025",
     isVerified: true,
@@ -215,7 +215,7 @@ export const testimonialData: TestimonialItem[] = [
       "Second successful tour with Bandhan! Tour Manager Rishi guided us exceptionally, helped with photo reels, medical care and delicious food.",
     profileImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
     tripImages: [
-      "https://images.unsplash.com/photo-1566837430541-11d2798e27c1?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&q=80&w=800",
     ],
     travelMonth: "Mar, 2025",
     isVerified: true,
@@ -278,7 +278,7 @@ export const testimonialData: TestimonialItem[] = [
       "सीनियर सिटीझन्स ची आई-वडिलांप्रमाणे देखभाल! ऐतिहासिक स्थळांची उत्कृष्ट माहिती, सुखरूप प्रवास व चविष्ट जेवण. सातारा कडून बंधन टूर्स ला धन्यवाद!",
     profileImage: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200",
     tripImages: [
-      "https://images.unsplash.com/photo-1600100397660-3d611847858d?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80&w=800",
     ],
     travelMonth: "Oct, 2025",
     isVerified: true,
@@ -383,7 +383,7 @@ export const testimonialData: TestimonialItem[] = [
       "ज्येष्ठ नागरिकांची आई-वडिलांसारखी काळजी! घाई न करता सुंदर माहिती दिली आणि जेवण अप्रतिम होते. पूजा मॅडम व प्रवीण सरांना थँक्यू!",
     profileImage: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200",
     tripImages: [
-      "https://images.unsplash.com/photo-1600100397660-3d611847858d?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80&w=800",
     ],
     travelMonth: "Oct, 2025",
     isVerified: true,
@@ -404,7 +404,7 @@ export const testimonialData: TestimonialItem[] = [
       "Truly professional! No trouble from start to end of our Kashmir trip. Excellent hotel stay and food service.",
     profileImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
     tripImages: [
-      "https://images.unsplash.com/photo-1566837430541-11d2798e27c1?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&q=80&w=800",
     ],
     travelMonth: "Apr, 2025",
     isVerified: true,
@@ -425,7 +425,7 @@ export const testimonialData: TestimonialItem[] = [
       "पहिलीच फॅमिली ट्रीप खूपच आनंददायी ठरली! योग्य नियोजनामुळे सर्व प्रेक्षणीय स्थळे वेळेत पाहायला मिळाली.",
     profileImage: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200",
     tripImages: [
-      "https://images.unsplash.com/photo-1477587458883-471a5ed94245?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&q=80&w=800",
     ],
     travelMonth: "May, 2025",
     isVerified: true,

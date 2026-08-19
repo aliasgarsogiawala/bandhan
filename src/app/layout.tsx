@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Poppins, Noto_Sans_Devanagari } from "next/font/google";
+import { Inter, Poppins, Cormorant_Garamond, Noto_Sans_Devanagari } from "next/font/google";
 import "@/styles/globals.css";
 import Chatbot from "@/components/common/Chatbot";
 import { siteUrl } from "@/lib/siteConfig";
@@ -16,6 +16,15 @@ const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
+  display: "swap",
+});
+
+/** Display serif for marketing headlines. Admin/agent panels stay on Poppins. */
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -40,7 +49,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${poppins.variable} ${devanagari.variable} h-full antialiased`}
+      className={`${inter.variable} ${poppins.variable} ${cormorant.variable} ${devanagari.variable} h-full antialiased`}
     >
       <body
         suppressHydrationWarning

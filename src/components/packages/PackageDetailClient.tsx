@@ -146,7 +146,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
             ))}
           </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-heading font-extrabold text-white leading-tight max-w-4xl">
+          <h1 className="text-4xl sm:text-5xl lg:text-[4.25rem] font-display font-light text-white leading-[1.06] tracking-[-0.015em] max-w-4xl">
             {pkg.title}
           </h1>
           <p className="mt-4 text-base sm:text-xl text-slate-200 font-sans max-w-2xl leading-relaxed">
@@ -214,7 +214,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                 <span className="text-xs font-bold uppercase tracking-widest text-accent">
                   Overview
                 </span>
-                <h2 className="mt-2 text-2xl sm:text-3xl font-heading font-extrabold text-primary">
+                <h2 className="mt-2 text-3xl sm:text-4xl font-display font-normal text-primary tracking-[-0.01em]">
                   The Journey at a Glance
                 </h2>
                 <p className="mt-4 text-foreground-muted font-sans leading-relaxed text-sm sm:text-base">
@@ -243,7 +243,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                 <span className="text-xs font-bold uppercase tracking-widest text-accent">
                   Day by Day
                 </span>
-                <h2 className="mt-2 text-2xl sm:text-3xl font-heading font-extrabold text-primary">
+                <h2 className="mt-2 text-3xl sm:text-4xl font-display font-normal text-primary tracking-[-0.01em]">
                   Detailed Itinerary
                 </h2>
 
@@ -334,7 +334,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                 <span className="text-xs font-bold uppercase tracking-widest text-accent">
                   The Fine Print, Upfront
                 </span>
-                <h2 className="mt-2 text-2xl sm:text-3xl font-heading font-extrabold text-primary">
+                <h2 className="mt-2 text-3xl sm:text-4xl font-display font-normal text-primary tracking-[-0.01em]">
                   What&apos;s Included
                 </h2>
 
@@ -386,7 +386,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                 <span className="text-xs font-bold uppercase tracking-widest text-accent">
                   Postcards From the Route
                 </span>
-                <h2 className="mt-2 text-2xl sm:text-3xl font-heading font-extrabold text-primary">
+                <h2 className="mt-2 text-3xl sm:text-4xl font-display font-normal text-primary tracking-[-0.01em]">
                   Trip Gallery
                 </h2>
 
@@ -421,7 +421,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                 <span className="text-xs font-bold uppercase tracking-widest text-accent">
                   Good to Know
                 </span>
-                <h2 className="mt-2 text-2xl sm:text-3xl font-heading font-extrabold text-primary">
+                <h2 className="mt-2 text-3xl sm:text-4xl font-display font-normal text-primary tracking-[-0.01em]">
                   Frequently Asked Questions
                 </h2>
 
@@ -594,7 +594,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                   <span className="text-xs font-bold uppercase tracking-widest text-accent">
                     Keep Exploring
                   </span>
-                  <h2 className="mt-2 text-2xl sm:text-3xl font-heading font-extrabold text-primary">
+                  <h2 className="mt-2 text-3xl sm:text-4xl font-display font-normal text-primary tracking-[-0.01em]">
                     You May Also Like
                   </h2>
                 </div>

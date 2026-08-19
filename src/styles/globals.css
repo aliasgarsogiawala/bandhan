@@ -28,10 +28,14 @@ html {
 
   --font-sans: var(--font-inter), var(--font-devanagari), ui-sans-serif, system-ui, sans-serif;
   --font-heading: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-cormorant), ui-serif, Georgia, "Times New Roman", serif;
 
-  --shadow-soft: 0 4px 30px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.01);
-  --shadow-premium: 0 10px 40px -10px rgba(7, 32, 60, 0.08), 0 1px 2px rgba(7, 32, 60, 0.02);
-  --shadow-glass: 0 8px 32px 0 rgba(7, 32, 60, 0.05);
+  /* Layered elevation — a tight contact shadow plus a wide ambient one, so
+     surfaces read as lifted off the page rather than merely tinted. */
+  --shadow-soft: 0 1px 2px rgba(7, 32, 60, 0.04), 0 6px 16px -6px rgba(7, 32, 60, 0.10), 0 18px 40px -20px rgba(7, 32, 60, 0.12);
+  --shadow-premium: 0 1px 2px rgba(7, 32, 60, 0.05), 0 10px 24px -10px rgba(7, 32, 60, 0.14), 0 28px 60px -28px rgba(7, 32, 60, 0.20);
+  --shadow-glass: 0 2px 6px rgba(7, 32, 60, 0.05), 0 12px 40px -12px rgba(7, 32, 60, 0.16);
+  --shadow-lifted: 0 2px 4px rgba(7, 32, 60, 0.06), 0 18px 36px -14px rgba(7, 32, 60, 0.20), 0 40px 80px -36px rgba(7, 32, 60, 0.26);
 
   --radius-xl: 1rem;
   --radius-2xl: 1.5rem;

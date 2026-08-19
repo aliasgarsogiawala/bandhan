@@ -8,6 +8,17 @@ import { SecondaryButton } from "@/components/ui/SecondaryButton";
 import { useRecentSearches } from "@/lib/recentSearches";
 import { useCollection } from "@/lib/admin/store";
 import { fuzzySearch } from "@/lib/fuzzySearch";
+import {
+  BUDGET_RANGES,
+  DURATION_RANGES,
+  bestTimeCoversMonth,
+  budgetRange,
+  durationRange,
+  monthNumber,
+  parseDurationDays,
+  parsePrice,
+  travelMonthOptions,
+} from "@/lib/tripSearch";
 import type { Destination, TourPackage } from "@/data/mockData";
 
 export interface HeroSearch {
@@ -22,28 +33,7 @@ interface HeroProps {
   onPlanTripClick: () => void;
 }
 
-const parsePrice = (price: string) => Number(price.replace(/[^0-9]/g, "")) || 0;
-const parseDays = (value: string) => {
-  const numbers = value.match(/\d+/g)?.map(Number) ?? [];
-  return numbers.length ? Math.max(...numbers) : 0;
-};
-
-const matchesBudget = (price: string, budget: string) => {
-  const amount = parsePrice(price);
-  if (!budget) return true;
-  if (budget === "25000") return amount < 30000;
-  if (budget === "45000") return amount >= 30000 && amount < 60000;
-  if (budget === "90000") return amount >= 60000 && amount < 120000;
-  return amount >= 120000;
-};
-
-const matchesDuration = (value: string, duration: string) => {
-  const days = parseDays(value);
-  if (!duration) return true;
-  if (duration === "3-5 Days") return days >= 3 && days <= 5;
-  if (duration === "6-9 Days") return days >= 6 && days <= 9;
-  return days >= 10;
-};
+const TRAVEL_MONTHS = travelMonthOptions();
 
 export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) => {
   const [destination, setDestination] = useState("");
@@ -57,56 +47,79 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    const travelMonthLabel = travelMonth
-      ? new Intl.DateTimeFormat("en-IN", { month: "long", year: "numeric" }).format(new Date(`${travelMonth}-01T00:00:00`))
-      : "";
-    const budgetLabel = budget
-      ? { "25000": "under ₹30k", "45000": "₹30k – ₹60k", "90000": "₹60k – ₹1.2L", "150000": "over ₹1.2L" }[budget]
-      : "";
-    const searchDescription = [
-      destination.trim(),
-      travelMonthLabel ? `in ${travelMonthLabel}` : "",
-      duration ? `for ${duration}` : "",
-      budgetLabel ? `with budget ${budgetLabel}` : "",
-    ]
-      .filter(Boolean)
-      .join(", ");
-    const searchLabel = searchDescription || destination || "Any Destination";
-
-    saveRecentSearch({
-      label: searchLabel,
-      destination: destination.trim() || searchLabel,
-    });
-
     const query = destination.trim();
-    const packageMatches = fuzzySearch(
+    const monthLabel = TRAVEL_MONTHS.find((m) => m.value === travelMonth)?.label ?? "";
+    const budgetLabel = budget ? budgetRange(budget).label : "";
+    const durationLabel = duration ? durationRange(duration).label : "";
+    const searchLabel =
+      [
+        query,
+        monthLabel ? `in ${monthLabel}` : "",
+        durationLabel ? `for ${durationLabel.toLowerCase()}` : "",
+        budgetLabel ? `at ${budgetLabel.toLowerCase()}` : "",
+      ]
+        .filter(Boolean)
+        .join(", ") || "Any destination";
+
+    saveRecentSearch({ label: searchLabel, destination: query || searchLabel });
+
+    // Every control narrows the result set — month is matched against each
+    // package's `bestTime` season rather than being collected and ignored.
+    const month = monthNumber(travelMonth);
+    const withinBudget = budgetRange(budget).test;
+    const withinDuration = durationRange(duration).test;
+
+    const matches = fuzzySearch(
       packages.filter((pkg) => pkg.status !== "draft"),
       query,
       ["title", "category", "tagline", "overview", "highlights", "themes"]
-    ).filter((pkg) => matchesBudget(pkg.price, budget) && matchesDuration(pkg.duration, duration));
+    ).filter(
+      (pkg) =>
+        withinBudget(parsePrice(pkg.price)) &&
+        withinDuration(parseDurationDays(pkg.duration)) &&
+        bestTimeCoversMonth(pkg.bestTime, month)
+    );
 
-    if (packageMatches[0]) {
+    const filtersApplied = Boolean(travelMonth || duration || budget);
+
+    // One confident match for a typed destination goes straight to that tour.
+    // Anything broader belongs on the packages page, where the applied filters
+    // stay visible and adjustable instead of collapsing to a single result.
+    if (matches.length === 1 && query) {
       setSearchError("");
-      onSearchSubmit(`/packages/${encodeURIComponent(packageMatches[0].id)}`);
+      onSearchSubmit(`/packages/${encodeURIComponent(matches[0].id)}`);
       return;
     }
 
-    const destinationMatches = fuzzySearch(
+    if (matches.length > 0) {
+      setSearchError("");
+      const params = new URLSearchParams();
+      if (query) params.set("search", query);
+      if (travelMonth) params.set("month", travelMonth);
+      if (duration) params.set("duration", duration);
+      if (budget) params.set("budget", budget);
+      onSearchSubmit(`/packages${params.size ? `?${params}` : ""}`);
+      return;
+    }
+
+    // No package fits. A destination page is still a useful landing spot when
+    // the traveller named somewhere we cover.
+    const destinationMatch = fuzzySearch(
       destinations.filter((item) => item.status !== "draft"),
       query,
       ["name", "country", "region", "tag", "description", "highlights"]
-    );
+    )[0];
 
-    if (destinationMatches[0] && !budget && !duration) {
+    if (destinationMatch && !filtersApplied) {
       setSearchError("");
-      onSearchSubmit(`/destinations/${encodeURIComponent(destinationMatches[0].id)}`);
+      onSearchSubmit(`/destinations/${encodeURIComponent(destinationMatch.id)}`);
       return;
     }
 
     setSearchError(
-      budget || duration
-        ? "No trip matches that destination and your selected filters. Try a wider budget or duration."
-        : "Trip not found. Try another destination or browse all available tours."
+      filtersApplied
+        ? "No tour matches all of those filters yet. Try a wider budget, duration or month."
+        : "No tour matches that destination. Try another spelling, or browse the full catalogue."
     );
   };
 
@@ -129,17 +142,20 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
       <div className="relative z-10 w-full pt-28 pb-16 sm:pt-24 sm:pb-20">
         <Container className="flex flex-col items-center text-center text-white">
           {/* Badge */}
-          <span className="px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-gold text-xs font-semibold uppercase tracking-widest mb-6 inline-block animate-fade-in">
+          <span className="mb-8 inline-flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.34em] text-gold animate-fade-in">
+            <span className="h-px w-8 bg-gold/50" aria-hidden="true" />
             Where Colours Come Alive
+            <span className="h-px w-8 bg-gold/50" aria-hidden="true" />
           </span>
 
           {/* Headline */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight max-w-4xl tracking-tight text-gold drop-shadow-md font-heading animate-fade-in-up">
-            Explore Beyond Boundaries
+          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-light mb-7 leading-[1.05] max-w-4xl tracking-[-0.015em] text-white [text-shadow:0_2px_24px_rgba(3,16,32,0.45)] animate-fade-in-up">
+            Explore Beyond{" "}
+            <em className="not-italic font-medium text-gold">Boundaries</em>
           </h1>
 
           {/* Subheading */}
-          <p className="text-base sm:text-lg md:text-xl text-slate-200 mb-10 max-w-2xl font-light leading-relaxed animate-fade-in-up">
+          <p className="text-base sm:text-lg text-slate-200/90 mb-11 max-w-xl font-light leading-relaxed tracking-wide animate-fade-in-up">
             Discover unforgettable domestic and international journeys custom-tailored for the discerning modern traveler.
           </p>
 
@@ -187,7 +203,6 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
                 </label>
                 <input
                   type="text"
-                  required
                   value={destination}
                   onChange={(e) => {
                     setDestination(e.target.value);
@@ -209,11 +224,9 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
                   className="bg-transparent text-white outline-none font-medium text-sm w-full border-none focus:ring-0 [&>option]:bg-primary [&>option]:text-white"
                 >
                   <option value="">Any Month</option>
-                  <option value="2026-08">August 2026</option>
-                  <option value="2026-09">September 2026</option>
-                  <option value="2026-10">October 2026</option>
-                  <option value="2026-11">November 2026</option>
-                  <option value="2026-12">December 2026</option>
+                  {TRAVEL_MONTHS.map((m) => (
+                    <option key={m.value} value={m.value}>{m.label}</option>
+                  ))}
                 </select>
               </div>
 
@@ -227,10 +240,9 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
                   onChange={(e) => setDuration(e.target.value)}
                   className="bg-transparent text-white outline-none font-medium text-sm w-full border-none focus:ring-0 [&>option]:bg-primary [&>option]:text-white"
                 >
-                  <option value="">Any Duration</option>
-                  <option value="3-5 Days">Short (3-5 Days)</option>
-                  <option value="6-9 Days">Medium (6-9 Days)</option>
-                  <option value="10+ Days">Long (10+ Days)</option>
+                  {DURATION_RANGES.map((r) => (
+                    <option key={r.key} value={r.key === "all" ? "" : r.key}>{r.label}</option>
+                  ))}
                 </select>
               </div>
 
@@ -244,11 +256,9 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
                   onChange={(e) => setBudget(e.target.value)}
                   className="bg-transparent text-white outline-none font-medium text-sm w-full border-none focus:ring-0 [&>option]:bg-primary [&>option]:text-white"
                 >
-                  <option value="">Any Budget</option>
-                  <option value="25000">Under ₹30k</option>
-                  <option value="45000">₹30k – ₹60k</option>
-                  <option value="90000">₹60k – ₹1.2L</option>
-                  <option value="150000">Over ₹1.2L</option>
+                  {BUDGET_RANGES.map((r) => (
+                    <option key={r.key} value={r.key === "all" ? "" : r.key}>{r.label}</option>
+                  ))}
                 </select>
               </div>
 

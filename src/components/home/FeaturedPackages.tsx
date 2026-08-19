@@ -21,7 +21,7 @@ function SpotlightPackage({ pkg }: { pkg: TourPackage }) {
       </div>
       <div className="absolute inset-x-6 bottom-6 text-white sm:inset-x-8 sm:bottom-8">
         <div className="flex flex-wrap items-center gap-3 text-xs font-semibold text-white/75"><span className="uppercase tracking-[0.16em] text-gold">{pkg.category}</span><span className="h-1 w-1 rounded-full bg-white/40" /><span className="flex items-center gap-1.5"><Clock3 size={13} />{pkg.duration}</span></div>
-        <h3 className="mt-3 max-w-xl font-heading text-3xl font-bold leading-tight sm:text-4xl">{pkg.title}</h3>
+        <h3 className="mt-3 max-w-xl font-display text-4xl font-normal leading-[1.08] tracking-[-0.01em] sm:text-[2.75rem]">{pkg.title}</h3>
         <p className="mt-3 max-w-xl line-clamp-2 text-sm leading-relaxed text-white/75 sm:text-base">{pkg.tagline || pkg.overview || pkg.highlights?.[0]}</p>
         <div className="mt-7 flex items-end justify-between gap-4 border-t border-white/20 pt-5"><div><p className="text-[9px] font-bold uppercase tracking-[0.16em] text-white/55">Starting from</p><p className="mt-1 text-2xl font-extrabold text-white">{pkg.price}</p></div><span className="inline-flex items-center gap-2 rounded-full bg-gold px-4 py-2.5 text-xs font-bold text-primary transition-colors group-hover:bg-gold-light">View itinerary <ArrowUpRight size={15} /></span></div>
       </div>
@@ -33,7 +33,7 @@ function CompactPackage({ pkg, index }: { pkg: TourPackage; index: number }) {
   return (
     <Link href={`/packages/${pkg.id}`} className="group grid grid-cols-[2.2rem_minmax(0,1fr)_auto] items-center gap-3 border-b border-slate-100 px-5 py-4 transition-colors last:border-b-0 hover:bg-sand/60 sm:grid-cols-[2.5rem_minmax(0,1fr)_auto] sm:gap-4 sm:px-6">
       <span className="flex h-9 w-9 items-center justify-center rounded-full border border-primary/10 text-xs font-bold text-foreground-light transition-colors group-hover:border-gold group-hover:bg-gold group-hover:text-primary">{String(index).padStart(2, "0")}</span>
-      <div className="min-w-0"><div className="flex items-center gap-2"><span className="text-[9px] font-bold uppercase tracking-[0.15em] text-accent">{pkg.category}</span>{pkg.isPopular && <span className="text-[9px] font-bold uppercase tracking-wider text-gold-dark">Popular</span>}</div><h3 className="mt-1 truncate font-heading text-base font-bold text-primary transition-colors group-hover:text-accent sm:text-lg">{pkg.title}</h3><span className="mt-1 flex items-center gap-1 text-[11px] text-foreground-muted"><Clock3 size={12} />{pkg.duration}</span></div>
+      <div className="min-w-0"><div className="flex items-center gap-2"><span className="text-[9px] font-bold uppercase tracking-[0.15em] text-accent">{pkg.category}</span>{pkg.isPopular && <span className="text-[9px] font-bold uppercase tracking-wider text-gold-dark">Popular</span>}</div><h3 className="mt-1 truncate font-display text-lg font-medium text-primary transition-colors group-hover:text-accent sm:text-xl">{pkg.title}</h3><span className="mt-1 flex items-center gap-1 text-[11px] text-foreground-muted"><Clock3 size={12} />{pkg.duration}</span></div>
       <div className="flex items-center gap-3"><span className="hidden text-sm font-extrabold text-primary sm:block">{pkg.price}</span><ArrowUpRight size={17} className="text-foreground-light transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" /></div>
     </Link>
   );

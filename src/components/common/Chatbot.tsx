@@ -8,6 +8,7 @@ import type { TourPackage, Destination } from "@/data/mockData";
 import type { BlogPost } from "@/lib/admin/types";
 import { fuzzySearchScored } from "@/lib/fuzzySearch";
 import { formatMoney, parseMoney } from "@/lib/bookings/pricing";
+import { contactEnquiryHref } from "@/lib/enquiryLink";
 
 /**
  * Miles — Bandhan Tours' corner FAQ assistant.
@@ -39,11 +40,33 @@ interface Faq {
 interface BotResponse {
   text: string;
   chips?: string[];
-  link?: { label: string; href: string };
+  actions?: { label: string; href: string }[];
+  packageId?: string;
 }
 
 function resolveAnswer(faq: Faq, ctx: KnowledgeContext): string {
   return typeof faq.answer === "function" ? faq.answer(ctx) : faq.answer;
+}
+
+function faqResponse(faq: Faq, ctx: KnowledgeContext): BotResponse {
+  const response: BotResponse = { text: resolveAnswer(faq, ctx), chips: faq.followups };
+  if (faq.id === "contact") {
+    response.actions = [
+      { label: "WhatsApp", href: "https://wa.me/919830012345" },
+      { label: "Call now", href: "tel:+919830012345" },
+      { label: "Send an enquiry", href: contactEnquiryHref() },
+    ];
+  } else if (faq.id === "booking") {
+    response.actions = [
+      { label: "Start booking", href: "/book" },
+      { label: "Send an enquiry", href: contactEnquiryHref() },
+    ];
+  } else if (faq.id === "custom") {
+    response.actions = [{ label: "Plan a custom trip", href: "/plan-trip" }];
+  } else if (faq.id === "reviews") {
+    response.actions = [{ label: "Read guest reviews", href: "/testimonials" }];
+  }
+  return response;
 }
 
 function priceRange(pkgs: TourPackage[]): string {
@@ -56,6 +79,12 @@ function priceRange(pkgs: TourPackage[]): string {
 
 function listPackages(pkgs: TourPackage[], limit = 4): string {
   return pkgs.slice(0, limit).map((p) => `• ${p.title} (${p.duration}) — ${p.price}`).join("\n");
+}
+
+function listDetails(items: string[], emptyMessage: string, limit = 6): string {
+  if (!items.length) return emptyMessage;
+  const visible = items.slice(0, limit).map((item) => `• ${item}`).join("\n");
+  return `${visible}${items.length > limit ? `\n• …and ${items.length - limit} more on the package page` : ""}`;
 }
 
 function categoryAnswer(label: string, pkgs: TourPackage[]): string {
@@ -75,8 +104,12 @@ function packageSummary(pkg: TourPackage): BotResponse {
     text: `${pkg.title} — ${pkg.duration}, from ${pkg.price} per person.\n${tagline}${
       topHighlights ? `Highlights: ${topHighlights}.` : ""
     }${extras.length ? `\n${extras.join(" ")}` : ""}`,
-    link: { label: `View full ${pkg.title} itinerary`, href: `/packages/${pkg.id}` },
+    actions: [
+      { label: "View full itinerary", href: `/packages/${pkg.id}` },
+      { label: "Enquire about this tour", href: contactEnquiryHref(pkg.title) },
+    ],
     chips: ["packages", "booking", "custom"],
+    packageId: pkg.id,
   };
 }
 
@@ -86,7 +119,10 @@ function destinationSummary(dest: Destination): BotResponse {
   if (dest.duration) extras.push(`Typical trip length: ${dest.duration}.`);
   return {
     text: `${dest.name} — ${dest.description}\nStarting from ${dest.price} per person.${extras.length ? ` ${extras.join(" ")}` : ""}`,
-    link: { label: `Explore ${dest.name}`, href: `/destinations/${dest.id}` },
+    actions: [
+      { label: `Explore ${dest.name}`, href: `/destinations/${dest.id}` },
+      { label: "Plan this trip", href: contactEnquiryHref(dest.name) },
+    ],
     chips: ["packages", "booking", "custom"],
   };
 }
@@ -94,7 +130,7 @@ function destinationSummary(dest: Destination): BotResponse {
 function postSummary(post: BlogPost): BotResponse {
   return {
     text: `We've actually written about that: "${post.title}". ${post.excerpt}`,
-    link: { label: "Read the full article", href: `/blog/${post.slug || post.id}` },
+    actions: [{ label: "Read the full article", href: `/blog/${post.slug || post.id}` }],
     chips: ["packages", "contact"],
   };
 }
@@ -149,7 +185,7 @@ const FAQS: Record<string, Faq> = {
     chipLabel: "How to book",
     keywords: ["book", "booking", "reserve", "reservation", "enquire", "enquiry", "inquiry", "signup", "register"],
     answer:
-      "Booking is simple: send an enquiry (the “Enquire Now” button, the Contact page, or right here) and a travel designer replies within 24 hours with a tailored itinerary and quote. When you're happy, a small advance confirms your seats — no payment needed just to enquire!",
+      "Booking is simple: choose a package or build a custom trip, add traveller details, and submit the request. No payment is collected at that stage. A Bandhan agent first verifies live pricing and availability, then sends the confirmed quotation and booking terms for your approval.",
     followups: ["payment", "cancellation", "contact"],
   },
   payment: {
@@ -157,7 +193,7 @@ const FAQS: Record<string, Faq> = {
     chipLabel: "Payment & advance",
     keywords: ["payment", "pay", "advance", "deposit", "installment", "emi", "upi", "card", "money"],
     answer:
-      "You can get a full itinerary with zero advance. To confirm a booking, a partial advance secures your spot and the balance is due before departure. We accept UPI, bank transfer, and major cards. Have a specific trip in mind?",
+      "There is no payment just to submit a request. After an agent verifies availability, your quotation shows the exact booking advance and remaining balance. Payment instructions and accepted methods are shared with the confirmed quotation, so please do not send money against an unverified price.",
     followups: ["booking", "cancellation", "contact"],
   },
   cancellation: {
@@ -165,8 +201,32 @@ const FAQS: Record<string, Faq> = {
     chipLabel: "Cancellation policy",
     keywords: ["cancel", "cancellation", "refund", "reschedule", "postpone"],
     answer:
-      "Cancellation terms depend on the package and how close to departure you are — earlier cancellations earn higher refunds, and free date changes are often possible on custom trips. Share your booking and our team will walk you through the exact terms.",
+      "Cancellation, amendment, refund and date-change charges vary by package, supplier and departure date. Your exact terms are provided with the confirmed quotation before payment. If you already have a booking, contact the team with your booking reference so they can check the terms that apply to it.",
     followups: ["contact", "booking"],
+  },
+  inclusions: {
+    id: "inclusions",
+    chipLabel: "What's included?",
+    keywords: ["include", "included", "inclusion", "inclusions", "covered", "come with"],
+    answer:
+      "Inclusions are package-specific. They can cover hotels, meals, transfers, sightseeing, guides, permits, insurance, visas or flights, but you should never assume every item is bundled. Name a package or destination and I'll read its published inclusions for you.",
+    followups: ["flights", "hotels", "visa", "packages"],
+  },
+  exclusions: {
+    id: "exclusions",
+    chipLabel: "What's not included?",
+    keywords: ["exclude", "excluded", "exclusion", "exclusions", "not included", "extra cost", "pay extra", "additional charge"],
+    answer:
+      "Exclusions vary by tour and often include items such as airfare, taxes, visa fees, insurance, tips or personal expenses. Name the package and I'll show its actual published exclusions; the final quotation remains the source of truth before payment.",
+    followups: ["packages", "price", "payment"],
+  },
+  policies: {
+    id: "policies",
+    chipLabel: "Travel policies",
+    keywords: ["policy", "policies", "terms", "condition", "conditions", "rules", "amendment"],
+    answer:
+      "Key policy points: prices and inventory are subject to live agent verification; no payment is taken when you submit a request; package inclusions and exclusions vary; and booking, amendment and cancellation terms are confirmed before payment. Visa, passport, permit and insurance requirements depend on the itinerary and traveller. For a binding answer, use the terms on your confirmed quotation.",
+    followups: ["cancellation", "visa", "payment", "contact"],
   },
   group: {
     id: "group",
@@ -201,7 +261,7 @@ const FAQS: Record<string, Faq> = {
     chipLabel: "Talk to a human",
     keywords: ["contact", "phone", "call", "email", "whatsapp", "reach", "talk", "human", "agent", "number", "speak", "support"],
     answer:
-      "You can reach our team directly:\n📞  +91 98300 12345\n✉️  info@bandhantours.com\n💬  WhatsApp: wa.me/919830012345\nWe reply within 24 hours. Prefer we call you? Drop your details on the Contact page.",
+      "You can reach our Kolkata travel desk directly:\n📞 +91 98300 12345 / +91 33 2464 1234\n✉️ info@bandhantours.com\n💬 WhatsApp: +91 98300 12345\nTypical enquiry response time is within 24 hours.",
     followups: ["hours", "location", "booking"],
   },
   location: {
@@ -225,7 +285,7 @@ const FAQS: Record<string, Faq> = {
     chipLabel: "About Bandhan",
     keywords: ["about", "who", "experience", "years", "trust", "company", "reliable", "safe", "legit"],
     answer:
-      "Bandhan Tours has crafted group and custom journeys for 15+ years, with 5,000+ happy travellers and 24×7 on-tour support. Our mission: help you explore the true colours of every destination, stress-free.",
+      "Bandhan Tours is a Kolkata-based travel company offering domestic, North East, international, group and custom journeys. You can explore the published itineraries, read guest testimonials, or speak with the travel desk before making a booking decision.",
     followups: ["packages", "group", "contact"],
   },
   thanks: {
@@ -249,9 +309,9 @@ const FAQS: Record<string, Faq> = {
     answer: (ctx) => {
       const withVisa = ctx.packages.filter((p) => p.category === "International" && p.inclusions?.some((i) => /visa/i.test(i)));
       const note = withVisa.length
-        ? `Most of our international packages (like ${withVisa[0].title}) include visa assistance or a full visa-inclusive fare — it's listed right in that package's inclusions.`
+        ? `Some published packages, including ${withVisa[0].title}, list visa support or visa charges in their inclusions.`
         : "Visa requirements depend on your destination and nationality.";
-      return `${note} Our team handles the paperwork end-to-end for international trips — just make sure your passport has 6+ months' validity. Which country are you travelling to?`;
+      return `${note} Other packages list visa fees as an exclusion, so name the exact tour and I'll check. Passport validity, documents, processing time and approval are governed by the destination's authorities; Bandhan can assist but cannot guarantee a visa.`;
     },
     followups: ["international", "flights", "contact"],
   },
@@ -260,7 +320,7 @@ const FAQS: Record<string, Faq> = {
     chipLabel: "Flights included?",
     keywords: ["flight", "flights", "airfare", "air ticket", "airline"],
     answer:
-      "Some packages are flight-inclusive and some are land-only (flights booked separately) — it's always listed in that package's inclusions/exclusions tab. Tell me the destination and I'll check whether flights are bundled in.",
+      "Some packages include flights and others are land-only. Name the exact package or destination and I'll check the published inclusions and exclusions instead of guessing.",
     followups: ["packages", "visa", "price"],
   },
   hotels: {
@@ -268,7 +328,7 @@ const FAQS: Record<string, Faq> = {
     chipLabel: "Hotels & meals",
     keywords: ["hotel", "hotels", "stay", "accommodation", "resort", "meal", "meals", "breakfast", "food", "cuisine"],
     answer:
-      "Stays are handpicked 3★–5★ hotels or resorts depending on the package category, and most itineraries include daily breakfast (many include all meals). Exact hotel names and meal plans are listed on each package's inclusion tab — want me to check a specific trip?",
+      "Hotel category, room basis and meal plan differ by package. The package page and day-by-day itinerary show what is currently published; final hotel names remain subject to the confirmed quotation and availability. Name a tour and I'll check its details.",
     followups: ["packages", "price", "custom"],
   },
   honeymoon: {
@@ -300,7 +360,7 @@ const FAQS: Record<string, Faq> = {
     chipLabel: "Is it safe?",
     keywords: ["safe", "safety", "secure", "insurance", "emergency", "risk"],
     answer:
-      "Every tour includes 24×7 on-trip support from our team, and we can add travel insurance covering medical emergencies, trip delays, and baggage loss for a small fee. For North East India and high-altitude routes we also handle permits so nothing catches you off guard.",
+      "Support, insurance and permit coverage differ by package. Check the exact inclusions before booking, follow current government and local guidance, and disclose medical or mobility needs during enquiry. For an emergency on an active trip, use the contact details in your confirmed travel documents.",
     followups: ["about", "contact", "booking"],
   },
   permits: {
@@ -308,7 +368,7 @@ const FAQS: Record<string, Faq> = {
     chipLabel: "Permits (NE/Andaman)",
     keywords: ["permit", "permits", "ilp", "inner line permit", "restricted area"],
     answer:
-      "Some North East India destinations (like Arunachal Pradesh, parts of Sikkim, Nagaland and Mizoram) and Andaman need an Inner Line Permit or restricted-area permit — we arrange all of that for you as part of the package, you just need to share ID proof in advance.",
+      "Some North East and restricted-area itineraries require permits, and the rules can differ for Indian and foreign nationals. Several published Bandhan packages list permits as included, but this is package-specific. Share nationality and the exact route with the team early so current requirements can be verified.",
     followups: ["northeast", "domestic", "contact"],
   },
   reviews: {
@@ -316,20 +376,36 @@ const FAQS: Record<string, Faq> = {
     chipLabel: "Reviews & reputation",
     keywords: ["review", "reviews", "rating", "ratings", "testimonial", "testimonials", "feedback"],
     answer:
-      "We're rated highly by 5,000+ travellers — you'll find real trip stories and ratings on our Testimonials page. Happy to share a couple of highlights if you tell me which destination you're considering.",
+      "You can read guest stories and ratings on our Testimonials page. For the clearest picture, compare recent reviews for the kind of trip and destination you're considering.",
     followups: ["about", "packages", "contact"],
+  },
+  insurance: {
+    id: "insurance",
+    chipLabel: "Travel insurance",
+    keywords: ["insurance", "insured", "medical cover", "travel cover"],
+    answer:
+      "Travel insurance is included in some tours and excluded from others. Coverage limits, age eligibility and medical conditions depend on the policy. Name a package and I'll check whether insurance appears in its published inclusions or exclusions; always review the actual policy wording before travel.",
+    followups: ["safety", "packages", "contact"],
+  },
+  baggage: {
+    id: "baggage",
+    chipLabel: "Baggage allowance",
+    keywords: ["baggage", "luggage", "suitcase", "check-in", "cabin bag", "weight allowance"],
+    answer:
+      "Baggage allowance depends on the airline, fare and any internal transfers in your itinerary. If a published package states an allowance, I can show it; otherwise the confirmed airline ticket and quotation are the source of truth.",
+    followups: ["flights", "packages", "contact"],
   },
 };
 
 const FAQ_LIST = Object.values(FAQS);
 
 const FALLBACK_ANSWER =
-  "I'm still learning, so I didn't quite catch that. I can help with packages, bookings, pricing, group tours, and contact details — or you can reach a real travel designer directly.";
-const FALLBACK_CHIPS = ["packages", "booking", "contact"];
+  "I couldn't match that confidently, and I don't want to guess. I can check destinations, itineraries, prices, visas, inclusions, exclusions, cancellations and travel policies from the published information — or connect you with a travel designer.";
+const FALLBACK_CHIPS = ["packages", "policies", "contact"];
 
 const GREETING =
-  "Hi there! I'm Miles ✈️ your travel buddy at Bandhan Tours. Ask me about packages, bookings, pricing, or anything trip-related!";
-const GREETING_CHIPS = ["packages", "booking", "price", "contact"];
+  "Hi! I'm Miles ✈️, Bandhan Tours' travel assistant. Ask me about destinations, visas, package inclusions or exclusions, cancellations, travel policies, pricing, or booking.";
+const GREETING_CHIPS = ["packages", "inclusions", "visa", "cancellation"];
 
 /** Keyword match: short tokens need a whole-word hit, longer ones match as substrings. */
 function findFaq(raw: string): Faq | null {
@@ -426,6 +502,156 @@ function multiPackageAnswer(pkgs: TourPackage[]): BotResponse {
   return {
     text: `We have a few packages matching that:\n${listPackages(pkgs, 5)}\n\nPrices run roughly ${priceRange(pkgs)} per person. Want the full itinerary for one of these?`,
     chips: ["packages", "booking", "custom"],
+    actions: [{ label: "Compare all packages", href: "/packages" }],
+  };
+}
+
+type PackageQuestion =
+  | "inclusions"
+  | "exclusions"
+  | "flights"
+  | "visa"
+  | "hotel"
+  | "meals"
+  | "insurance"
+  | "baggage"
+  | "cancellation"
+  | "price"
+  | "itinerary";
+
+function detectPackageQuestions(raw: string): PackageQuestion[] {
+  const text = raw.toLowerCase();
+  if (/cancel|refund|reschedul|postpone|amend/.test(text)) return ["cancellation"];
+
+  const serviceQuestions: PackageQuestion[] = [];
+  if (/\bflight|airfare|air ticket|airline/.test(text)) serviceQuestions.push("flights");
+  if (/\bvisa|passport|immigration/.test(text)) serviceQuestions.push("visa");
+  if (/\bhotel|accommodation|resort|room|stay\b/.test(text)) serviceQuestions.push("hotel");
+  if (/\bmeal|breakfast|lunch|dinner|food\b/.test(text)) serviceQuestions.push("meals");
+  if (/insurance|medical cover|travel cover/.test(text)) serviceQuestions.push("insurance");
+  if (/baggage|luggage|suitcase|check-in|cabin bag/.test(text)) serviceQuestions.push("baggage");
+  if (serviceQuestions.length) return serviceQuestions;
+
+  if (/not included|exclude|exclusion|extra cost|pay extra|additional charge/.test(text)) return ["exclusions"];
+  if (/include|inclusion|covered|come with/.test(text)) return ["inclusions"];
+  if (/\bprice|pricing|cost|budget|how much|rate\b/.test(text)) return ["price"];
+  if (/itinerary|day by day|route|places|sightseeing/.test(text)) return ["itinerary"];
+  return [];
+}
+
+const PACKAGE_DETAIL_PATTERNS: Record<Exclude<PackageQuestion, "inclusions" | "exclusions" | "cancellation" | "price" | "itinerary">, RegExp> = {
+  flights: /flight|airfare|air ticket|airport|airline/i,
+  visa: /visa|passport|immigration|permit/i,
+  hotel: /hotel|accommodation|resort|room|stay/i,
+  meals: /meal|breakfast|lunch|dinner|food|restaurant/i,
+  insurance: /insurance|medical cover|travel cover/i,
+  baggage: /baggage|luggage|suitcase|check-in|cabin bag|\bkg\b/i,
+};
+
+function packageActions(pkg: TourPackage): BotResponse["actions"] {
+  return [
+    { label: "View package details", href: `/packages/${pkg.id}` },
+    { label: "Enquire about this tour", href: contactEnquiryHref(pkg.title) },
+  ];
+}
+
+function packageServiceDetail(pkg: TourPackage, question: Exclude<PackageQuestion, "inclusions" | "exclusions" | "cancellation" | "price" | "itinerary">): string {
+  const inclusions = pkg.inclusions ?? [];
+  const exclusions = pkg.exclusions ?? [];
+  const pattern = PACKAGE_DETAIL_PATTERNS[question];
+  const included = inclusions.filter((item) => pattern.test(item));
+  const excluded = exclusions.filter((item) => pattern.test(item));
+  const label = question === "hotel" ? "hotel/accommodation" : question;
+  if (!included.length && !excluded.length) {
+    return `${label}: I couldn't find a published entry. Please verify it in the confirmed quotation.`;
+  }
+  const sections: string[] = [];
+  if (included.length) sections.push(`Listed as included:\n${listDetails(included, "")}`);
+  if (excluded.length) sections.push(`Listed as excluded:\n${listDetails(excluded, "")}`);
+  return `${label}:\n${sections.join("\n\n")}`;
+}
+
+function packageQuestionAnswer(pkg: TourPackage, question: PackageQuestion): BotResponse {
+  const inclusions = pkg.inclusions ?? [];
+  const exclusions = pkg.exclusions ?? [];
+  const common: Pick<BotResponse, "actions" | "packageId"> = {
+    actions: packageActions(pkg),
+    packageId: pkg.id,
+  };
+
+  if (question === "inclusions") {
+    return {
+      ...common,
+      text: `${pkg.title} currently lists these inclusions:\n${listDetails(inclusions, "No detailed inclusions are published yet. Please request the confirmed quotation.")}\n\nPlease check the final quotation before payment, as availability can change.`,
+      chips: ["exclusions", "booking", "policies"],
+    };
+  }
+  if (question === "exclusions") {
+    return {
+      ...common,
+      text: `${pkg.title} currently lists these exclusions:\n${listDetails(exclusions, "No detailed exclusions are published yet. Please request the confirmed quotation.")}\n\nAnything not explicitly included should be verified with the travel desk.`,
+      chips: ["inclusions", "price", "policies"],
+    };
+  }
+  if (question === "price") {
+    return {
+      ...common,
+      text: `${pkg.title} is published from ${pkg.price} per person for ${pkg.duration}. The final total depends on dates, traveller mix, room occupancy, add-ons, taxes and live availability; an agent confirms it before payment.`,
+      chips: ["inclusions", "exclusions", "booking"],
+    };
+  }
+  if (question === "itinerary") {
+    const days = (pkg.itinerary ?? []).slice(0, 5).map((day) => `• Day ${day.day}: ${day.title}`);
+    return {
+      ...common,
+      text: days.length
+        ? `${pkg.title} is a ${pkg.duration} journey. Here's the opening route:\n${days.join("\n")}${(pkg.itinerary?.length ?? 0) > 5 ? "\n• …open the package for the complete day-by-day plan" : ""}`
+        : `${pkg.title} runs for ${pkg.duration}. Its detailed day-by-day itinerary is available on the package page.`,
+      chips: ["inclusions", "exclusions", "booking"],
+    };
+  }
+  if (question === "cancellation") {
+    return {
+      ...common,
+      text: `Cancellation and amendment charges for ${pkg.title} depend on the confirmed departure, suppliers and timing. They are not stated in the public package data, so I won't invent a percentage. The exact terms will be included with your confirmed quotation before payment.`,
+      chips: ["policies", "contact", "booking"],
+    };
+  }
+
+  return {
+    ...common,
+    text: `${pkg.title} — ${packageServiceDetail(pkg, question)}\n\nThe final confirmed quotation takes priority if supplier terms change.`,
+    chips: ["inclusions", "exclusions", "contact"],
+  };
+}
+
+function packageQuestionsAnswer(pkg: TourPackage, questions: PackageQuestion[]): BotResponse {
+  if (questions.length <= 1) return packageQuestionAnswer(pkg, questions[0] ?? "itinerary");
+  const serviceQuestions = questions.filter(
+    (question): question is Exclude<PackageQuestion, "inclusions" | "exclusions" | "cancellation" | "price" | "itinerary"> =>
+      question in PACKAGE_DETAIL_PATTERNS
+  );
+  if (serviceQuestions.length !== questions.length) return packageQuestionAnswer(pkg, questions[0]);
+  return {
+    text: `${pkg.title} — published package details:\n\n${serviceQuestions
+      .map((question) => packageServiceDetail(pkg, question))
+      .join("\n\n")}\n\nThe final confirmed quotation takes priority if supplier terms change.`,
+    actions: packageActions(pkg),
+    packageId: pkg.id,
+    chips: ["inclusions", "exclusions", "contact"],
+  };
+}
+
+function answerPublishedPackageFaq(pkg: TourPackage, raw: string): BotResponse | null {
+  const faqs = pkg.faqs ?? [];
+  if (!faqs.length) return null;
+  const matched = findBySubstringOrFuzzy(faqs, raw, (faq) => [faq.question], ["question"]);
+  if (!matched) return null;
+  return {
+    text: `${pkg.title}: ${matched.answer}`,
+    actions: packageActions(pkg),
+    packageId: pkg.id,
+    chips: ["inclusions", "exclusions", "contact"],
   };
 }
 
@@ -434,8 +660,9 @@ function multiPackageAnswer(pkgs: TourPackage[]): BotResponse {
  * the actual Bali package instead of the generic "international tours"
  * blurb, and "goa" or "kashmir" (which have no full package yet) still
  * answer from the featured-destinations data instead of falling through. */
-function resolveResponse(raw: string, ctx: KnowledgeContext): BotResponse {
+export function resolveResponse(raw: string, ctx: KnowledgeContext, activePackage?: TourPackage | null): BotResponse {
   const generic = isGenericQuery(raw);
+  const packageQuestions = detectPackageQuestions(raw);
 
   if (!generic) {
     const pkg = findBySubstringOrFuzzy(
@@ -444,7 +671,11 @@ function resolveResponse(raw: string, ctx: KnowledgeContext): BotResponse {
       (p) => [p.title, ...p.highlights],
       ["title", "highlights"]
     );
-    if (pkg) return packageSummary(pkg);
+    if (pkg) {
+      const publishedFaq = answerPublishedPackageFaq(pkg, raw);
+      if (publishedFaq) return publishedFaq;
+      return packageQuestions.length ? packageQuestionsAnswer(pkg, packageQuestions) : packageSummary(pkg);
+    }
 
     const dest = findBySubstringOrFuzzy(
       ctx.destinations,
@@ -462,7 +693,12 @@ function resolveResponse(raw: string, ctx: KnowledgeContext): BotResponse {
     // an arbitrary pick.
     for (const token of significantTokens(raw)) {
       const pkgMatches = findAllByToken(ctx.packages, token, (p) => [p.title, ...p.highlights]);
-      if (pkgMatches.length === 1) return packageSummary(pkgMatches[0]);
+      if (pkgMatches.length === 1) {
+        const matchedPackage = pkgMatches[0];
+        const publishedFaq = answerPublishedPackageFaq(matchedPackage, raw);
+        if (publishedFaq) return publishedFaq;
+        return packageQuestions.length ? packageQuestionsAnswer(matchedPackage, packageQuestions) : packageSummary(matchedPackage);
+      }
       if (pkgMatches.length > 1) return multiPackageAnswer(pkgMatches);
 
       const destMatches = findAllByToken(ctx.destinations, token, (d) => [d.name]);
@@ -470,9 +706,16 @@ function resolveResponse(raw: string, ctx: KnowledgeContext): BotResponse {
     }
   }
 
+  // Follow-up questions such as “Are flights included?” inherit the last
+  // package the customer discussed, which makes the assistant conversational
+  // without sending any personal data to a third-party AI service.
+  if (activePackage && packageQuestions.length) {
+    return packageQuestionsAnswer(activePackage, packageQuestions);
+  }
+
   const faq = findFaq(raw);
   if (faq) {
-    return { text: resolveAnswer(faq, ctx), chips: faq.followups };
+    return faqResponse(faq, ctx);
   }
 
   if (!generic) {
@@ -488,7 +731,7 @@ interface Message {
   from: "bot" | "user";
   text: string;
   chips?: string[]; // faq ids
-  link?: { label: string; href: string };
+  actions?: BotResponse["actions"];
 }
 
 /** A paper-plane glyph — used on the send button. */
@@ -531,9 +774,6 @@ const MilesAvatar = ({ className = "" }: { className?: string }) => (
   </svg>
 );
 
-let messageSeq = 0;
-const nextId = () => ++messageSeq;
-
 export const Chatbot: React.FC = () => {
   const pathname = usePathname();
   const { items: allPackages } = useCollection<TourPackage>("packages");
@@ -549,7 +789,7 @@ export const Chatbot: React.FC = () => {
   );
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { id: nextId(), from: "bot", text: GREETING, chips: GREETING_CHIPS },
+    { id: 1, from: "bot", text: GREETING, chips: GREETING_CHIPS },
   ]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
@@ -559,7 +799,10 @@ export const Chatbot: React.FC = () => {
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const launcherRef = useRef<HTMLButtonElement>(null);
   const replyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const messageSeq = useRef(1);
+  const activePackageId = useRef<string | null>(null);
 
   // Nudge the user with a teaser bubble a few seconds in, once, if unopened.
   useEffect(() => {
@@ -581,7 +824,10 @@ export const Chatbot: React.FC = () => {
   useEffect(() => {
     if (!open) return;
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") {
+        setOpen(false);
+        requestAnimationFrame(() => launcherRef.current?.focus());
+      }
     };
     window.addEventListener("keydown", closeOnEscape);
     return () => window.removeEventListener("keydown", closeOnEscape);
@@ -597,19 +843,26 @@ export const Chatbot: React.FC = () => {
     setTeaserDismissed(true);
   };
 
+  const closePanel = () => {
+    setOpen(false);
+    requestAnimationFrame(() => launcherRef.current?.focus());
+  };
+
   // Generate the id up front so the state updater stays pure (React may invoke
-  // updaters more than once; calling nextId() inside one would collide ids).
+  // updaters more than once; allocating from a ref keeps ids deterministic.
   const appendMessage = (msg: Omit<Message, "id">) => {
-    const id = nextId();
+    const id = ++messageSeq.current;
     setMessages((prev) => [...prev, { id, ...msg }]);
   };
 
   const pushBotReply = (response: BotResponse) => {
     setTyping(true);
     replyTimer.current = setTimeout(() => {
+      replyTimer.current = null;
       setTyping(false);
       setHop((h) => h + 1);
-      appendMessage({ from: "bot", text: response.text, chips: response.chips, link: response.link });
+      if (response.packageId) activePackageId.current = response.packageId;
+      appendMessage({ from: "bot", text: response.text, chips: response.chips, actions: response.actions });
     }, 650);
   };
 
@@ -618,14 +871,15 @@ export const Chatbot: React.FC = () => {
     if (!text || typing) return;
     appendMessage({ from: "user", text });
     setInput("");
-    pushBotReply(resolveResponse(text, knowledge));
+    const activePackage = knowledge.packages.find((pkg) => pkg.id === activePackageId.current);
+    pushBotReply(resolveResponse(text, knowledge, activePackage));
   };
 
   const sendChip = (faqId: string) => {
     const faq = FAQS[faqId];
     if (!faq || typing) return;
     appendMessage({ from: "user", text: faq.chipLabel });
-    pushBotReply({ text: resolveAnswer(faq, knowledge), chips: faq.followups });
+    pushBotReply(faqResponse(faq, knowledge));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -637,14 +891,16 @@ export const Chatbot: React.FC = () => {
     if (replyTimer.current) clearTimeout(replyTimer.current);
     setTyping(false);
     setInput("");
+    activePackageId.current = null;
+    messageSeq.current += 1;
     setMessages([
-      { id: nextId(), from: "bot", text: GREETING, chips: GREETING_CHIPS },
+      { id: messageSeq.current, from: "bot", text: GREETING, chips: GREETING_CHIPS },
     ]);
     requestAnimationFrame(() => inputRef.current?.focus());
   };
 
   // Keep the assistant off the admin console.
-  if (pathname?.startsWith("/admin")) return null;
+  if (pathname?.startsWith("/admin") || pathname?.startsWith("/agent")) return null;
 
   return (
     <>
@@ -658,14 +914,15 @@ export const Chatbot: React.FC = () => {
                 setTeaserDismissed(true);
               }}
               className="absolute right-2 top-2 p-1 text-foreground-light transition hover:text-primary"
-              aria-label="Dismiss"
+              aria-label="Dismiss chat suggestion"
+              type="button"
             >
               <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                 <line x1="18" y1="6" x2="6" y2="18" />
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </button>
-            <div className="flex items-start gap-3">
+            <button type="button" onClick={openPanel} className="flex items-start gap-3 text-left">
               <MilesAvatar className="h-9 w-9 shrink-0" />
               <div>
                 <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-accent">
@@ -675,7 +932,7 @@ export const Chatbot: React.FC = () => {
                   Need help finding the right tour?
                 </p>
               </div>
-            </div>
+            </button>
           </div>
         </div>
       )}
@@ -683,6 +940,7 @@ export const Chatbot: React.FC = () => {
       {/* Chat panel */}
       {open && (
         <div
+          id="bandhan-chat-panel"
           role="dialog"
           aria-modal="false"
           aria-label={`${BOT_NAME}, travel assistant`}
@@ -717,6 +975,7 @@ export const Chatbot: React.FC = () => {
                 className="p-2 text-white/60 transition hover:bg-white/10 hover:text-white"
                 aria-label="Start a new conversation"
                 title="New conversation"
+                type="button"
               >
                 <svg className="h-4.5 w-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M3 12a9 9 0 1 0 3-6.7" />
@@ -724,9 +983,10 @@ export const Chatbot: React.FC = () => {
                 </svg>
               </button>
               <button
-                onClick={() => setOpen(false)}
+                onClick={closePanel}
                 className="p-2 text-white/60 transition hover:bg-white/10 hover:text-white"
                 aria-label="Close chat"
+                type="button"
               >
                 <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round">
                   <line x1="18" y1="6" x2="6" y2="18" />
@@ -754,7 +1014,14 @@ export const Chatbot: React.FC = () => {
           </div>
 
           {/* Messages */}
-          <div ref={scrollRef} className="flex-1 space-y-5 overflow-y-auto px-4 py-5 sm:px-5">
+          <div
+            ref={scrollRef}
+            role="log"
+            aria-live="polite"
+            aria-relevant="additions"
+            aria-label="Conversation with Miles"
+            className="flex-1 space-y-5 overflow-y-auto px-4 py-5 sm:px-5"
+          >
             {messages.map((m) => (
               <div key={m.id} className={`flex flex-col ${m.from === "user" ? "items-end" : "items-start"}`}>
                 <div className={m.from === "user" ? "flex max-w-[84%] justify-end" : "flex max-w-[91%] items-start gap-2.5"}>
@@ -772,19 +1039,26 @@ export const Chatbot: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Deep link to the real package/article page */}
-                {m.from === "bot" && m.link && (
-                  <Link
-                    href={m.link.href}
-                    onClick={() => setOpen(false)}
-                    className="ml-9 mt-2.5 inline-flex items-center gap-2 border border-primary bg-white px-3.5 py-2 text-[11px] font-bold text-primary transition duration-200 hover:bg-primary hover:text-white"
-                  >
-                    {m.link.label}
-                    <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="5" y1="12" x2="19" y2="12" />
-                      <polyline points="12 5 19 12 12 19" />
-                    </svg>
-                  </Link>
+                {/* Useful next actions: real details, enquiry, phone or WhatsApp. */}
+                {m.from === "bot" && m.actions && m.actions.length > 0 && (
+                  <div className="ml-9 mt-2.5 flex flex-wrap gap-2">
+                    {m.actions.map((action) => (
+                      <Link
+                        key={`${m.id}-${action.href}`}
+                        href={action.href}
+                        onClick={() => setOpen(false)}
+                        target={action.href.startsWith("http") ? "_blank" : undefined}
+                        rel={action.href.startsWith("http") ? "noreferrer" : undefined}
+                        className="inline-flex items-center gap-2 border border-primary bg-white px-3.5 py-2 text-[11px] font-bold text-primary transition duration-200 hover:bg-primary hover:text-white"
+                      >
+                        {action.label}
+                        <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <line x1="5" y1="12" x2="19" y2="12" />
+                          <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                      </Link>
+                    ))}
+                  </div>
                 )}
 
                 {/* Suggestion chips */}
@@ -798,6 +1072,7 @@ export const Chatbot: React.FC = () => {
                           key={cid}
                           onClick={() => sendChip(cid)}
                           disabled={typing}
+                          type="button"
                           className="border border-primary/15 bg-white px-3 py-2 text-[11px] font-semibold text-primary transition-colors duration-200 hover:border-primary hover:bg-primary hover:text-white disabled:opacity-50"
                         >
                           {faq.chipLabel}
@@ -811,7 +1086,8 @@ export const Chatbot: React.FC = () => {
 
             {/* Typing indicator */}
             {typing && (
-              <div className="flex items-start gap-2.5">
+              <div className="flex items-start gap-2.5" role="status" aria-label="Miles is typing">
+                <span className="sr-only">Miles is typing</span>
                 <MilesAvatar className="h-7 w-7 shrink-0" />
                 <div className="flex items-center gap-1 border border-primary/10 bg-white px-4 py-3 shadow-[0_8px_24px_rgba(7,32,60,0.07)]">
                   {[0, 1, 2].map((i) => (
@@ -836,6 +1112,8 @@ export const Chatbot: React.FC = () => {
                 placeholder="Ask about a destination, price or booking…"
                 className="min-w-0 flex-1 bg-transparent px-2.5 py-2 text-sm text-primary placeholder:text-foreground-light focus:outline-none"
                 aria-label="Type your message"
+                autoComplete="off"
+                maxLength={500}
               />
               <button
                 type="submit"
@@ -847,7 +1125,7 @@ export const Chatbot: React.FC = () => {
               </button>
             </div>
             <p className="mt-2 text-center text-[9px] uppercase tracking-[0.13em] text-foreground-light">
-              Instant answers · Human help available
+              Published information · Human help available
             </p>
           </form>
         </div>
@@ -855,10 +1133,13 @@ export const Chatbot: React.FC = () => {
 
       {/* Launcher */}
       <button
+        ref={launcherRef}
         onClick={() => (open ? setOpen(false) : openPanel())}
         className="fixed bottom-5 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-gold shadow-[0_14px_40px_rgba(7,32,60,0.28)] transition duration-300 hover:-translate-y-0.5 hover:scale-105 hover:bg-primary-light active:translate-y-0 active:scale-95 sm:bottom-6 sm:right-6"
         aria-label={open ? "Close chat" : `Chat with ${BOT_NAME}`}
         aria-expanded={open}
+        aria-controls="bandhan-chat-panel"
+        type="button"
       >
         {open ? (
           <svg className="relative h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

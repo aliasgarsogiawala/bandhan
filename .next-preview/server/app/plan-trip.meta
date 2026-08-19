@@ -1,0 +1,17 @@
+{
+  "status": 307,
+  "headers": {
+    "location": "/book?type=custom",
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/plan-trip/layout,_N_T_/plan-trip/page,_N_T_/plan-trip"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/plan-trip/__PAGE__",
+    "/plan-trip",
+    "/_index",
+    "/_head"
+  ]
+}

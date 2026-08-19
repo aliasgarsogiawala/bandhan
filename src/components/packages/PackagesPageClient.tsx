@@ -14,45 +14,27 @@ import { getFullPackageForPackage } from "@/data/packageDetails";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
 import { useCollection } from "@/lib/admin/store";
 import { fuzzySearch } from "@/lib/fuzzySearch";
+import {
+  CATEGORY_TABS as TABS,
+  matchesCategory,
+  parseCategoryParam,
+  type CategoryTab,
+} from "@/lib/packageCategory";
+import {
+  BUDGET_RANGES,
+  DURATION_RANGES,
+  bestTimeCoversMonth,
+  budgetRange,
+  durationRange,
+  monthNumber,
+  parseDurationDays,
+  parsePrice,
+  travelMonthOptions,
+  type BudgetKey,
+  type DurationKey,
+} from "@/lib/tripSearch";
 
-type CategoryTab = "all" | "domestic" | "international" | "northeast";
-
-const TABS: { key: CategoryTab; label: string }[] = [
-  { key: "all", label: "All Packages" },
-  { key: "domestic", label: "Domestic Tours" },
-  { key: "international", label: "International" },
-  { key: "northeast", label: "North East" },
-];
-
-type BudgetKey = "all" | "under-30k" | "30k-60k" | "60k-1l" | "above-1l";
-
-const BUDGET_RANGES: { key: BudgetKey; label: string; test: (price: number) => boolean }[] = [
-  { key: "all", label: "Any Budget", test: () => true },
-  { key: "under-30k", label: "Under ₹30,000", test: (p) => p < 30000 },
-  { key: "30k-60k", label: "₹30,000 – ₹60,000", test: (p) => p >= 30000 && p < 60000 },
-  { key: "60k-1l", label: "₹60,000 – ₹1,00,000", test: (p) => p >= 60000 && p < 100000 },
-  { key: "above-1l", label: "Above ₹1,00,000", test: (p) => p >= 100000 },
-];
-
-type DurationKey = "all" | "up-to-7" | "8-10" | "11-plus";
-
-const DURATION_RANGES: { key: DurationKey; label: string; test: (days: number) => boolean }[] = [
-  { key: "all", label: "Any Duration", test: () => true },
-  { key: "up-to-7", label: "Up to 7 Days", test: (d) => d <= 7 },
-  { key: "8-10", label: "8 – 10 Days", test: (d) => d >= 8 && d <= 10 },
-  { key: "11-plus", label: "11+ Days", test: (d) => d >= 11 },
-];
-
-// "₹34,500" -> 34500
-function parsePrice(price: string): number {
-  return Number(price.replace(/[^0-9]/g, "")) || 0;
-}
-
-// "9 Nights / 10 Days" -> 10 (the larger of the two numbers found)
-function parseDurationDays(duration: string): number {
-  const numbers = duration.match(/\d+/g)?.map(Number) ?? [];
-  return numbers.length ? Math.max(...numbers) : 0;
-}
+const TRAVEL_MONTHS = travelMonthOptions();
 
 export const PackagesPageClient: React.FC = () => {
   const { items: packages } = useCollection<TourPackage>("packages");
@@ -60,26 +42,23 @@ export const PackagesPageClient: React.FC = () => {
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get("category");
 
-  const getInitialTab = (): CategoryTab => {
-    if (!initialCategory) return "all";
-    const cat = initialCategory.toLowerCase();
-    if (cat === "domestic") return "domestic";
-    if (cat === "international") return "international";
-    if (cat === "northeast" || cat === "north-east" || cat === "north east") return "northeast";
-    return "all";
-  };
-
-  const [activeTab, setActiveTab] = useState<CategoryTab>(getInitialTab());
-  const [budget, setBudget] = useState<BudgetKey>("all");
-  const [duration, setDuration] = useState<DurationKey>("all");
+  const [activeTab, setActiveTab] = useState<CategoryTab>(() => parseCategoryParam(initialCategory));
+  const [budget, setBudget] = useState<BudgetKey>(
+    () => budgetRange(searchParams.get("budget")).key
+  );
+  const [duration, setDuration] = useState<DurationKey>(
+    () => durationRange(searchParams.get("duration")).key
+  );
+  const [month, setMonth] = useState(() => searchParams.get("month") ?? "");
   const [query, setQuery] = useState(searchParams.get("search") || "");
 
   const handleEnquire = (destination: string = "") => {
     router.push(contactEnquiryHref(destination));
   };
 
-  const budgetRange = BUDGET_RANGES.find((r) => r.key === budget) ?? BUDGET_RANGES[0];
-  const durationRange = DURATION_RANGES.find((r) => r.key === duration) ?? DURATION_RANGES[0];
+  const withinBudget = budgetRange(budget).test;
+  const withinDuration = durationRange(duration).test;
+  const monthFilter = monthNumber(month);
 
   const searchedPackages = fuzzySearch(packages, query, [
     "title",
@@ -92,21 +71,10 @@ export const PackagesPageClient: React.FC = () => {
 
   const filteredPackages = searchedPackages
     .filter((pkg) => pkg.status !== "draft")
-    .filter((pkg) => {
-      if (activeTab === "all") return true;
-      if (activeTab === "northeast") {
-        return (
-          pkg.title.toLowerCase().includes("northeast") ||
-          pkg.title.toLowerCase().includes("sikkim") ||
-          pkg.highlights.some(
-            (h) => h.toLowerCase().includes("northeast") || h.toLowerCase().includes("sikkim")
-          )
-        );
-      }
-      return pkg.category.toLowerCase() === activeTab;
-    })
-    .filter((pkg) => budgetRange.test(parsePrice(pkg.price)))
-    .filter((pkg) => durationRange.test(parseDurationDays(pkg.duration)));
+    .filter((pkg) => matchesCategory(pkg.category, activeTab))
+    .filter((pkg) => withinBudget(parsePrice(pkg.price)))
+    .filter((pkg) => withinDuration(parseDurationDays(pkg.duration)))
+    .filter((pkg) => bestTimeCoversMonth(pkg.bestTime, monthFilter));
 
   return (
     <div className="min-h-screen bg-sand flex flex-col overflow-x-hidden">
@@ -135,7 +103,7 @@ export const PackagesPageClient: React.FC = () => {
             <span className="mx-2">/</span>
             <span className="text-gold">Tour Packages</span>
           </nav>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-extrabold text-white leading-tight">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-display font-light text-white leading-[1.05] tracking-[-0.015em]">
             Journeys Worth <span className="text-gold">Packing For</span>
           </h1>
           <p className="mt-4 max-w-2xl text-base sm:text-lg text-slate-300 font-sans leading-relaxed">
@@ -223,6 +191,41 @@ export const PackagesPageClient: React.FC = () => {
                 </option>
               ))}
             </select>
+
+            <label className="sr-only" htmlFor="month-filter">
+              Filter by travel month
+            </label>
+            <select
+              id="month-filter"
+              value={month}
+              onChange={(e) => setMonth(e.target.value)}
+              className="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-white/10 backdrop-blur-md border border-white/15 text-white/90 focus:outline-none focus:ring-2 focus:ring-gold cursor-pointer"
+            >
+              <option value="" className="text-primary">
+                Any Month
+              </option>
+              {TRAVEL_MONTHS.map((m) => (
+                <option key={m.value} value={m.value} className="text-primary">
+                  {m.label}
+                </option>
+              ))}
+            </select>
+
+            {(budget !== "all" || duration !== "all" || month || query) && (
+              <button
+                type="button"
+                onClick={() => {
+                  setBudget("all");
+                  setDuration("all");
+                  setMonth("");
+                  setQuery("");
+                }}
+                className="inline-flex items-center gap-1.5 rounded-full border border-white/15 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/70 transition-colors hover:border-gold/50 hover:text-gold"
+              >
+                <X size={13} />
+                Clear filters
+              </button>
+            )}
           </div>
         </Container>
       </header>
@@ -248,7 +251,7 @@ export const PackagesPageClient: React.FC = () => {
                 <ScrollReveal key={pkg.id} delay={(index % 3) * 100}>
                   <Link
                     href={`/packages/${pkg.id}`}
-                    className="group bg-white rounded-3xl overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-500 flex flex-col h-full border border-slate-100/50"
+                    className="group bg-white rounded-3xl overflow-hidden shadow-soft hover:shadow-lifted hover:-translate-y-1.5 transition-all duration-500 ease-out flex flex-col h-full border border-slate-200/70 hover:border-slate-200 motion-reduce:hover:translate-y-0"
                   >
                     <div className="relative h-64 overflow-hidden">
                       <Image
@@ -274,7 +277,7 @@ export const PackagesPageClient: React.FC = () => {
                     </div>
 
                     <div className="p-6 sm:p-8 flex flex-col flex-1">
-                      <h2 className="text-xl sm:text-2xl font-heading font-bold text-primary mb-2 group-hover:text-accent transition-colors duration-300">
+                      <h2 className="text-2xl sm:text-[1.7rem] font-display font-normal leading-[1.15] tracking-[-0.01em] text-primary mb-2.5 group-hover:text-accent transition-colors duration-300">
                         {pkg.title}
                       </h2>
 
