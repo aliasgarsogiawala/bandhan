@@ -3,25 +3,21 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
-  BadgeCheck,
   Building2,
   Bus,
   CalendarCheck,
   Check,
   ChevronDown,
-  CircleDot,
   ClipboardList,
   FileCheck2,
-  Gift,
-  Headset,
+  Headphones,
   MapPin,
   Plane,
   Presentation,
   Receipt,
   ShieldCheck,
-  Sparkles,
-  UtensilsCrossed,
   Users,
+  UtensilsCrossed,
 } from "lucide-react";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
@@ -33,196 +29,166 @@ import MiceEnquiryForm from "@/components/mice/MiceEnquiryForm";
 export const metadata: Metadata = {
   title: "Corporate & MICE Travel | Bandhan Tours",
   description:
-    "Meetings, incentives, conferences and exhibitions planned end to end by Bandhan Tours — venue sourcing, group air travel, visas, delegate management and on-ground event teams across India and abroad.",
+    "End-to-end meetings, incentives, conferences and exhibitions management by Bandhan Tours, including travel, venues, delegate operations and on-site delivery.",
   alternates: { canonical: "/mice" },
 };
 
-const stats = [
-  { value: "2013", label: "Planning group travel since" },
-  { value: "25K+", label: "Travellers served" },
-  { value: "03", label: "Offices across India" },
-  { value: "A–Z", label: "One accountable team" },
+const companyFacts = [
+  { value: "Since 2013", label: "Group travel planning" },
+  { value: "3 offices", label: "Thane, Pune and Guwahati" },
+  { value: "India + global", label: "Domestic and international programmes" },
+  { value: "One team", label: "From proposal to reconciliation" },
 ];
 
-const pillars = [
+const programmeTypes = [
   {
-    letter: "M",
+    number: "01",
     title: "Meetings",
-    eyebrow: "Think clearly",
-    copy: "Leadership offsites, sales reviews, training programmes and board meets—held somewhere that helps people focus, then run to the minute.",
-    items: ["Residential offsites", "Sales & review meets", "Board & AGM travel"],
-    style: "bg-[#FFE7D7] text-primary",
-    accent: "text-accent",
+    copy: "Structured travel and venue support for leadership teams, sales reviews, training programmes and board meetings.",
+    examples: ["Residential offsites", "Annual reviews", "Training programmes"],
   },
   {
-    letter: "I",
+    number: "02",
     title: "Incentives",
-    eyebrow: "Reward brilliantly",
-    copy: "Trips your top performers talk about all year, designed around surprise, recognition and shared moments—not a copied sightseeing list.",
-    items: ["Top-performer trips", "Channel-partner rewards", "Family incentives"],
-    style: "bg-gold text-primary",
-    accent: "text-primary/45",
+    copy: "Reward travel designed around recognition, hospitality and destination experiences for employees and channel partners.",
+    examples: ["Performance rewards", "Partner programmes", "Family incentives"],
   },
   {
-    letter: "C",
+    number: "03",
     title: "Conferences",
-    eyebrow: "Gather at scale",
-    copy: "Multi-day conventions, dealer meets and product launches with delegate logistics, session flow and hospitality managed as one system.",
-    items: ["Annual conventions", "Product launches", "Speaker & guest travel"],
-    style: "bg-primary text-white",
-    accent: "text-gold",
+    copy: "Coordinated delivery for conventions, dealer meetings and product launches with multiple delegate movements and sessions.",
+    examples: ["Annual conventions", "Dealer meets", "Product launches"],
   },
   {
-    letter: "E",
+    number: "04",
     title: "Exhibitions",
-    eyebrow: "Show up ready",
-    copy: "Trade-fair travel for teams and buyer delegations: badges, stay near the venue, visas and transfers timed to hall hours.",
-    items: ["Trade-fair delegations", "Buyer-seller meets", "Stand crew travel"],
-    style: "bg-accent text-white",
-    accent: "text-white/55",
+    copy: "Travel, accommodation and ground support for exhibiting teams, hosted buyers and trade-fair delegations.",
+    examples: ["Trade-fair travel", "Hosted buyers", "Stand crew logistics"],
   },
 ];
 
-const capabilities = [
-  {
-    icon: Building2,
-    title: "Venue intelligence",
-    copy: "Shortlists with capacities, room dimensions, rates, hold dates and site inspections before you commit.",
-    featured: true,
-  },
+const capabilityGroups = [
   {
     icon: Plane,
-    title: "Group air",
-    copy: "Group fares, name-change windows, staggered arrivals and a single rebooking desk.",
-  },
-  {
-    icon: Bus,
-    title: "Movement control",
-    copy: "Airport batches, coach fleets, VIP vehicles and live driver coordination.",
-  },
-  {
-    icon: FileCheck2,
-    title: "Visas & documents",
-    copy: "Bulk filings, invitation letters, forex, insurance and delegate-level tracking.",
-  },
-  {
-    icon: UtensilsCrossed,
-    title: "Food & hospitality",
-    copy: "Session breaks, dietary preferences, theme dinners and awards-night catering.",
+    title: "Travel and accommodation",
+    copy: "Commercially sound group movement with a single view of every traveller.",
+    items: [
+      "Group airfares and booking controls",
+      "Venue and hotel sourcing",
+      "Rooming lists and accommodation management",
+      "Visa, insurance and documentation support",
+      "Airport transfers and coach operations",
+    ],
   },
   {
     icon: Presentation,
-    title: "Stage & production",
-    copy: "AV, stage sets, screens, brand environments, signage and run-of-show scripting.",
-    featured: true,
+    title: "Event and hospitality",
+    copy: "The physical event environment, planned around the programme objective and brand.",
+    items: [
+      "Meeting rooms and seating plans",
+      "AV, stage and production coordination",
+      "Branding, signage and delegate kits",
+      "Menus, dietary requirements and banquets",
+      "Team activities and destination experiences",
+    ],
   },
   {
     icon: ClipboardList,
-    title: "Delegate desk",
-    copy: "Registration, rooming charts, kits, badges and a live manifest your team can access.",
-  },
-  {
-    icon: Gift,
-    title: "Gifting & experiences",
-    copy: "Activities matched to group energy, thoughtful moments and beautifully branded keepsakes.",
-  },
-  {
-    icon: Headset,
-    title: "On-ground command",
-    copy: "Bandhan managers travel with the group: one escalation number, start to finish.",
+    title: "Delegate operations",
+    copy: "Detailed pre-event preparation and accountable on-site management.",
+    items: [
+      "Registration and delegate communication",
+      "Live manifests and arrival tracking",
+      "VIP and speaker handling",
+      "On-site help desk and escalation support",
+      "Post-event reconciliation and reporting",
+    ],
   },
 ];
 
-const reasons = [
+const managementControls = [
   {
-    icon: BadgeCheck,
-    title: "One owner, no hand-offs",
-    copy: "A single programme lead carries the context from your first brief through the closing report.",
+    icon: Users,
+    title: "Single-point ownership",
+    copy: "One programme manager maintains context, approvals and accountability from the first brief onward.",
   },
   {
     icon: Receipt,
-    title: "Finance-ready clarity",
-    copy: "Itemised proposals, GST-compliant invoices and a clean reconciliation against the approved budget.",
+    title: "Budget transparency",
+    copy: "Itemised proposals, defined payment milestones and a closing reconciliation against approved costs.",
   },
   {
     icon: ShieldCheck,
-    title: "Vetted on the ground",
-    copy: "Hotels, coaches and partners checked for your actual dates, route and delegate profile.",
+    title: "Duty of care",
+    copy: "Vetted suppliers, delegate records and escalation plans appropriate to the destination and group profile.",
   },
   {
-    icon: CalendarCheck,
-    title: "Built to absorb change",
-    copy: "Rooming, transport and F&B plans that can flex when delegate counts move late.",
+    icon: FileCheck2,
+    title: "Operational reporting",
+    copy: "Rooming, travel and service trackers that give internal stakeholders a clear programme status.",
   },
 ];
 
-const destinations = [
-  {
-    place: "Goa",
-    country: "India",
-    use: "Offsites · Awards nights",
-    image: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&q=85&w=1600",
-    tone: "from-[#f47951]",
-  },
-  {
-    place: "Dubai",
-    country: "UAE",
-    use: "Conventions · Exhibitions",
-    image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=85&w=1600",
-    tone: "from-[#16446b]",
-  },
-  {
-    place: "Bali",
-    country: "Indonesia",
-    use: "Incentives · Leadership retreats",
-    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=85&w=1600",
-    tone: "from-[#17493f]",
-  },
-];
-
-const destinationIdeas = [
-  "Udaipur & Jaipur",
-  "Kerala",
-  "Northeast India",
-  "Singapore",
-  "Thailand",
-  "Vietnam",
-  "Sri Lanka",
-  "Malaysia",
-];
+const serviceIcons = [Building2, Plane, Bus, FileCheck2, UtensilsCrossed, Headphones];
 
 const process = [
-  { step: "01", title: "Decode the brief", copy: "Objective, people, dates, energy and budget. One sharp call is enough to start." },
-  { step: "02", title: "Design the possibilities", copy: "Destination and venue routes, an experience idea and transparent per-delegate costing." },
-  { step: "03", title: "Inspect & lock", copy: "Site visits where they matter, then contracts, inventory holds and a practical payment schedule." },
-  { step: "04", title: "Run the room", copy: "Our team travels with the group and delivers against one live manifest and run-of-show." },
-  { step: "05", title: "Close the loop", copy: "Final reconciliation, feedback and operating notes that make the next edition even better." },
+  {
+    step: "01",
+    title: "Brief and objectives",
+    copy: "We establish the programme purpose, delegate profile, dates, location preferences and budget parameters.",
+  },
+  {
+    step: "02",
+    title: "Options and costing",
+    copy: "You receive a considered shortlist of destinations, venues and programme formats with itemised indicative costs.",
+  },
+  {
+    step: "03",
+    title: "Contract and planning",
+    copy: "Once approved, we secure inventory, confirm suppliers and build the working timeline, rooming and movement plans.",
+  },
+  {
+    step: "04",
+    title: "Delegate readiness",
+    copy: "Registration, documentation, communications and final manifests are checked before the group travels.",
+  },
+  {
+    step: "05",
+    title: "Delivery and close-out",
+    copy: "Our on-site team manages the programme, followed by supplier settlement and final cost reconciliation.",
+  },
 ];
 
 const faqs = [
   {
-    question: "What group sizes can Bandhan Tours manage?",
-    answer: "From focused leadership offsites to large dealer conventions. Once we know the delegate count, purpose and city tier, we recommend the right venue model—including split hotels when a single property would compromise the experience.",
+    question: "What size of corporate group can Bandhan Tours manage?",
+    answer:
+      "We plan focused leadership groups as well as larger conventions and dealer programmes. The operating team, venue plan and transport structure are scaled to the delegate count and programme complexity.",
   },
   {
-    question: "How quickly will we receive a proposal?",
-    answer: "Our corporate desk reviews new briefs within one working day. A costed proposal normally follows in two to three working days, depending on the number of destinations, venues and live inventory checks involved.",
+    question: "How long does a MICE proposal take?",
+    answer:
+      "The corporate desk acknowledges a brief within one working day. A costed proposal usually takes two to three working days, depending on the number of live hotel, air and supplier quotations required.",
   },
   {
-    question: "Can you manage visas for the whole international group?",
-    answer: "Yes. We coordinate bulk filings, invitation and sponsorship letters, travel insurance and forex, with a delegate-level tracker so your team always knows what is pending and why.",
+    question: "Can you manage international group visas?",
+    answer:
+      "Yes. We coordinate application requirements, invitation and sponsorship documents, insurance and submission tracking. Final approval remains with the relevant embassy or consulate.",
   },
   {
-    question: "Will a Bandhan manager be present at the event?",
-    answer: "For MICE programmes, our event managers travel with the group and remain on the ground through delivery. The exact team size is planned against delegate count, complexity and programme spread.",
+    question: "Will Bandhan Tours have a team at the event?",
+    answer:
+      "Yes. For managed MICE programmes, the required number of Bandhan representatives travels with the group or is positioned on site based on delegate count and programme spread.",
   },
   {
-    question: "Can you work with our existing agency or booked venue?",
-    answer: "Absolutely. We can own travel, rooming, transport, visas and delegate hospitality while coordinating tightly with your production agency or the venue team already in place.",
+    question: "Can you work with an event agency or venue we already use?",
+    answer:
+      "Yes. We can take responsibility for travel, accommodation, visas and delegate logistics while coordinating with your appointed production agency, venue or internal events team.",
   },
   {
-    question: "What information do you need to begin?",
-    answer: "An approximate delegate count, rough dates, event type and budget band are enough for a first conversation. The form below captures the useful details without forcing you to finish the entire RFP first.",
+    question: "What is required to start a proposal?",
+    answer:
+      "An approximate delegate count, event type, preferred travel window and budget range are enough to begin. A complete RFP can follow once the initial direction is agreed.",
   },
 ];
 
@@ -233,103 +199,81 @@ export default function MicePage() {
       <MiceHero />
 
       <main>
-        <section id="story" className="relative overflow-hidden bg-sand-light py-20 sm:py-28 lg:py-36">
-          <div className="absolute -right-28 top-20 h-80 w-80 rounded-full bg-gold/20 blur-3xl" aria-hidden="true" />
-          <Container className="relative">
-            <div className="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-20">
-              <ScrollReveal>
-                <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-accent">
-                  <CircleDot size={13} aria-hidden="true" /> The real brief
-                </span>
-                <h2 className="mt-5 font-heading text-4xl font-extrabold leading-[1.02] tracking-[-0.045em] text-primary sm:text-5xl lg:text-6xl">
-                  The stage is one moment. The journey is every moment around it.
-                </h2>
-                <p className="mt-7 max-w-xl text-base leading-8 text-foreground-muted">
-                  Corporate programmes rarely fail on the big idea. They fail in the
-                  gaps: a flight that lands after the opening session, a rooming list
-                  that never quite matches, a visa still pending two days out.
+        <section className="border-b border-primary/10 py-20 sm:py-24 lg:py-28">
+          <Container>
+            <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+              <ScrollReveal className="lg:col-span-5">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">
+                  An integrated approach
                 </p>
+                <h2 className="mt-4 font-heading text-3xl font-bold leading-tight tracking-[-0.025em] text-primary sm:text-4xl">
+                  One partner for the event and every journey around it.
+                </h2>
               </ScrollReveal>
-
-              <ScrollReveal className="lg:pt-14">
-                <div className="relative overflow-hidden rounded-[2rem] bg-primary p-6 text-white shadow-lifted sm:p-9">
-                  <div className="mice-grid absolute inset-0 opacity-20" aria-hidden="true" />
-                  <div className="relative flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-5">
-                    <div>
-                      <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-gold">Event control room</span>
-                      <h3 className="mt-2 font-heading text-2xl font-bold">Everyone arrives ready.</h3>
-                    </div>
-                    <span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-wider text-emerald-300">All systems green</span>
-                  </div>
-
-                  <div className="relative mt-6 space-y-3">
-                    {[
-                      ["T−30", "Venue, rooms and air inventory locked", "240 / 240"],
-                      ["T−14", "Visas and delegate documentation", "238 / 240"],
-                      ["T−01", "Arrival manifest and transport cells", "Ready"],
-                      ["LIVE", "One command channel on the ground", "Active"],
-                    ].map(([time, task, state], index) => (
-                      <div key={time} className="grid grid-cols-[3.4rem_1fr] gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.045] p-4 sm:grid-cols-[4rem_1fr_auto] sm:items-center">
-                        <span className={`font-heading text-sm font-extrabold ${index === 3 ? "text-emerald-300" : "text-gold"}`}>{time}</span>
-                        <span className="text-sm font-semibold text-white/80">{task}</span>
-                        <span className="col-start-2 text-xs font-bold text-white/45 sm:col-start-auto">{state}</span>
-                      </div>
-                    ))}
-                  </div>
+              <ScrollReveal className="lg:col-span-7">
+                <div className="space-y-5 text-base leading-8 text-foreground-muted">
+                  <p>
+                    A successful corporate programme depends on more than the
+                    meeting room. Flights, visas, hotel inventory, delegate
+                    communications, transfers and production must operate against
+                    one plan.
+                  </p>
+                  <p>
+                    Bandhan Tours combines travel-management discipline with
+                    event-delivery support. Your organisation has one programme
+                    lead, one agreed scope and a clear line of accountability from
+                    approval through final reconciliation.
+                  </p>
                 </div>
               </ScrollReveal>
             </div>
 
-            <dl className="mt-16 grid grid-cols-2 gap-px overflow-hidden rounded-3xl bg-primary/10 sm:grid-cols-4 lg:mt-24">
-              {stats.map((stat) => (
-                <div key={stat.label} className="bg-white/70 px-5 py-7 backdrop-blur-sm sm:px-7 sm:py-8">
-                  <dt className="sr-only">{stat.label}</dt>
-                  <dd>
-                    <strong className="block font-heading text-3xl font-extrabold tracking-tight text-primary sm:text-4xl">{stat.value}</strong>
-                    <span className="mt-2 block max-w-32 text-xs font-medium leading-5 text-foreground-muted">{stat.label}</span>
-                  </dd>
+            <dl className="mt-14 grid grid-cols-2 border-l border-t border-primary/15 lg:grid-cols-4">
+              {companyFacts.map((fact) => (
+                <div key={fact.label} className="border-b border-r border-primary/15 p-5 sm:p-7">
+                  <dt className="text-xs leading-5 text-foreground-muted">{fact.label}</dt>
+                  <dd className="mt-2 font-heading text-xl font-bold text-primary sm:text-2xl">{fact.value}</dd>
                 </div>
               ))}
             </dl>
           </Container>
         </section>
 
-        <section className="bg-white py-20 sm:py-28 lg:py-36">
+        <section className="bg-[#f5f5f2] py-20 sm:py-24 lg:py-28">
           <Container>
             <ScrollReveal>
-              <div className="grid gap-7 lg:grid-cols-[1fr_0.8fr] lg:items-end">
-                <div>
-                  <span className="text-xs font-bold uppercase tracking-[0.22em] text-accent">Four formats. Infinite energy.</span>
-                  <h2 className="mt-5 max-w-3xl font-heading text-4xl font-extrabold tracking-[-0.04em] text-primary sm:text-6xl">M·I·C·E, without the corporate beige.</h2>
-                </div>
-                <p className="max-w-xl text-base leading-8 text-foreground-muted lg:justify-self-end">
-                  Each programme has a different job to do. We begin with that job,
-                  then build the destination, flow and hospitality around it.
+              <div className="max-w-3xl">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">
+                  Meetings, incentives, conferences and exhibitions
+                </p>
+                <h2 className="mt-4 font-heading text-3xl font-bold tracking-[-0.025em] text-primary sm:text-4xl">
+                  Different formats. The same standard of control.
+                </h2>
+                <p className="mt-5 text-base leading-8 text-foreground-muted">
+                  Each format has a different purpose and operating requirement.
+                  The programme is planned accordingly rather than adapted from a
+                  standard tour itinerary.
                 </p>
               </div>
             </ScrollReveal>
 
-            <div className="mt-14 grid gap-4 md:grid-cols-2">
-              {pillars.map((pillar, index) => (
-                <ScrollReveal key={pillar.letter} delay={index * 55}>
-                  <article className={`group relative min-h-[430px] overflow-hidden rounded-[2rem] p-7 transition-transform duration-500 hover:-translate-y-1 sm:p-10 ${pillar.style}`}>
-                    <span className={`pointer-events-none absolute -bottom-14 -right-3 select-none font-heading text-[15rem] font-extrabold leading-none tracking-[-0.12em] opacity-15 ${pillar.accent}`} aria-hidden="true">{pillar.letter}</span>
-                    <div className="relative flex h-full min-h-[370px] flex-col">
-                      <span className={`text-xs font-bold uppercase tracking-[0.2em] ${pillar.accent}`}>{pillar.eyebrow}</span>
-                      <div className="mt-7 flex items-baseline gap-4">
-                        <span className={`font-heading text-5xl font-extrabold ${pillar.accent}`}>{pillar.letter}</span>
-                        <h3 className="font-heading text-3xl font-extrabold tracking-tight sm:text-4xl">{pillar.title}</h3>
-                      </div>
-                      <p className="mt-6 max-w-md text-sm leading-7 opacity-75 sm:text-base">{pillar.copy}</p>
-                      <ul className="mt-auto space-y-3 border-t border-current/15 pt-6">
-                        {pillar.items.map((item) => (
-                          <li key={item} className="flex items-center gap-3 text-sm font-semibold">
-                            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-current/30"><Check size={11} aria-hidden="true" /></span>
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
+            <div className="mt-12 grid border-l border-t border-primary/15 md:grid-cols-2">
+              {programmeTypes.map((programme) => (
+                <ScrollReveal key={programme.title}>
+                  <article className="h-full border-b border-r border-primary/15 bg-white p-7 sm:p-9">
+                    <div className="flex items-center justify-between gap-4">
+                      <h3 className="font-heading text-2xl font-bold text-primary">{programme.title}</h3>
+                      <span className="text-xs font-bold text-accent">{programme.number}</span>
                     </div>
+                    <p className="mt-5 text-sm leading-7 text-foreground-muted">{programme.copy}</p>
+                    <ul className="mt-7 space-y-3 border-t border-primary/10 pt-5">
+                      {programme.examples.map((example) => (
+                        <li key={example} className="flex items-center gap-3 text-sm font-medium text-primary/80">
+                          <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
+                          {example}
+                        </li>
+                      ))}
+                    </ul>
                   </article>
                 </ScrollReveal>
               ))}
@@ -337,35 +281,39 @@ export default function MicePage() {
           </Container>
         </section>
 
-        <section id="capabilities" className="surface-grain relative overflow-hidden bg-ink-deep py-20 text-white sm:py-28 lg:py-36">
-          <div className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-gold/45 to-transparent" aria-hidden="true" />
-          <Container className="relative">
+        <section id="capabilities" className="scroll-mt-24 bg-primary py-20 text-white sm:py-24 lg:py-28">
+          <Container>
             <ScrollReveal>
               <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
                 <div>
-                  <span className="text-xs font-bold uppercase tracking-[0.22em] text-gold">One operating system</span>
-                  <h2 className="mt-5 max-w-3xl font-heading text-4xl font-extrabold tracking-[-0.045em] sm:text-6xl">Everything talks to everything.</h2>
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-gold">Scope of services</p>
+                  <h2 className="mt-4 font-heading text-3xl font-bold tracking-[-0.025em] sm:text-4xl">
+                    The complete operating scope, under one team.
+                  </h2>
                 </div>
-                <p className="max-w-xl text-base leading-8 text-white/55 lg:justify-self-end">
-                  Travel, hospitality, production and people live in one plan—so a
-                  delayed arrival changes the coach, the rooming desk and the welcome,
-                  not your blood pressure.
+                <p className="max-w-xl text-base leading-8 text-white/65 lg:justify-self-end">
+                  We agree responsibilities at proposal stage so your team knows
+                  exactly what Bandhan owns, what requires approval and which
+                  information is still outstanding.
                 </p>
               </div>
             </ScrollReveal>
 
-            <div className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {capabilities.map((item, index) => (
-                <ScrollReveal key={item.title} delay={index * 35} className={item.featured ? "sm:col-span-2 lg:col-span-1" : ""}>
-                  <article className={`group h-full min-h-[260px] rounded-[1.75rem] border p-7 transition duration-300 hover:-translate-y-1 hover:border-gold/35 ${item.featured ? "border-gold/20 bg-[linear-gradient(145deg,rgba(254,209,79,0.16),rgba(255,255,255,0.04))]" : "border-white/[0.08] bg-white/[0.045]"}`}>
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.06] text-gold transition group-hover:rotate-3 group-hover:bg-gold group-hover:text-primary">
-                      <item.icon size={22} aria-hidden="true" />
-                    </div>
-                    <h3 className="mt-8 font-heading text-xl font-bold">{item.title}</h3>
-                    <p className="mt-3 text-sm leading-7 text-white/55">{item.copy}</p>
-                    <span className="mt-7 flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-white/30">
-                      Integrated by Bandhan <span className="h-px w-8 bg-gold/45" aria-hidden="true" />
-                    </span>
+            <div className="mt-12 grid gap-px overflow-hidden border border-white/15 bg-white/15 lg:grid-cols-3">
+              {capabilityGroups.map((group) => (
+                <ScrollReveal key={group.title} className="bg-primary">
+                  <article className="h-full p-7 sm:p-8">
+                    <group.icon size={24} className="text-gold" aria-hidden="true" />
+                    <h3 className="mt-6 font-heading text-xl font-bold">{group.title}</h3>
+                    <p className="mt-3 min-h-14 text-sm leading-7 text-white/60">{group.copy}</p>
+                    <ul className="mt-7 space-y-4 border-t border-white/15 pt-6">
+                      {group.items.map((item) => (
+                        <li key={item} className="flex gap-3 text-sm leading-6 text-white/80">
+                          <Check size={15} className="mt-1 shrink-0 text-gold" aria-hidden="true" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
                   </article>
                 </ScrollReveal>
               ))}
@@ -373,105 +321,119 @@ export default function MicePage() {
           </Container>
         </section>
 
-        <section className="overflow-hidden bg-[#F4EEE6] py-20 sm:py-28 lg:py-36">
+        <section className="border-b border-primary/10 py-20 sm:py-24 lg:py-28">
           <Container>
-            <div className="grid gap-6 lg:grid-cols-12">
-              <ScrollReveal className="relative min-h-[480px] overflow-hidden rounded-[2rem] lg:col-span-5 lg:min-h-[700px]">
+            <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-stretch lg:gap-16">
+              <ScrollReveal className="relative min-h-[420px] overflow-hidden rounded-xl lg:min-h-[620px]">
                 <Image
                   src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=85&w=2000"
-                  alt="Delegates networking during a conference break"
+                  alt="Corporate delegates speaking during a conference networking session"
                   fill
-                  sizes="(max-width: 1024px) 100vw, 42vw"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink-deep/90 via-transparent to-transparent" />
-                <div className="absolute inset-x-7 bottom-7 text-white sm:inset-x-9 sm:bottom-9">
-                  <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold">The promise</span>
-                  <p className="mt-3 max-w-sm font-heading text-2xl font-bold leading-tight sm:text-3xl">Your people feel the experience. You see the control.</p>
-                </div>
               </ScrollReveal>
 
-              <ScrollReveal delay={80} className="lg:col-span-7">
-                <div className="relative h-full overflow-hidden rounded-[2rem] bg-white p-7 sm:p-10 lg:p-14">
-                  <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-accent/10 blur-3xl" aria-hidden="true" />
-                  <span className="relative text-xs font-bold uppercase tracking-[0.22em] text-accent">Why corporate teams stay with us</span>
-                  <h2 className="relative mt-5 max-w-2xl font-heading text-4xl font-extrabold tracking-[-0.04em] text-primary sm:text-5xl">Built for the people who have to answer for every detail.</h2>
+              <ScrollReveal className="lg:py-4">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">Programme governance</p>
+                <h2 className="mt-4 max-w-xl font-heading text-3xl font-bold tracking-[-0.025em] text-primary sm:text-4xl">
+                  Clear control for the teams responsible for delivery.
+                </h2>
+                <p className="mt-5 max-w-xl text-base leading-8 text-foreground-muted">
+                  Corporate travel needs a creative experience for delegates and
+                  disciplined management for HR, procurement and finance. The
+                  operating model supports both.
+                </p>
 
-                  <div className="relative mt-10 grid gap-px overflow-hidden rounded-2xl bg-slate-200 sm:grid-cols-2">
-                    {reasons.map((reason) => (
-                      <article key={reason.title} className="bg-white p-5 sm:p-6">
-                        <reason.icon size={21} className="text-accent" aria-hidden="true" />
-                        <h3 className="mt-5 font-heading text-lg font-bold text-primary">{reason.title}</h3>
-                        <p className="mt-2 text-sm leading-7 text-foreground-muted">{reason.copy}</p>
-                      </article>
-                    ))}
-                  </div>
-
-                  <div className="relative mt-10 flex flex-col gap-4 border-t border-slate-200 pt-7 sm:flex-row sm:items-center sm:justify-between">
-                    <p className="max-w-md text-sm leading-6 text-foreground-muted">Thane head office · Pune corporate office · Guwahati branch for Northeast programmes</p>
-                    <a href="#enquiry" className="inline-flex shrink-0 items-center gap-2 text-sm font-bold text-primary transition hover:text-accent">Start the brief <ArrowRight size={16} aria-hidden="true" /></a>
-                  </div>
+                <div className="mt-9 border-t border-primary/15">
+                  {managementControls.map((control) => (
+                    <article key={control.title} className="flex gap-4 border-b border-primary/15 py-6">
+                      <control.icon size={21} className="mt-1 shrink-0 text-accent" aria-hidden="true" />
+                      <div>
+                        <h3 className="font-heading text-lg font-bold text-primary">{control.title}</h3>
+                        <p className="mt-2 text-sm leading-7 text-foreground-muted">{control.copy}</p>
+                      </div>
+                    </article>
+                  ))}
                 </div>
               </ScrollReveal>
             </div>
           </Container>
         </section>
 
-        <section className="bg-white py-20 sm:py-28 lg:py-36">
+        <section className="bg-[#f5f5f2] py-20 sm:py-24 lg:py-28">
+          <Container>
+            <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+              <ScrollReveal className="lg:col-span-5">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">Destination planning</p>
+                <h2 className="mt-4 font-heading text-3xl font-bold tracking-[-0.025em] text-primary sm:text-4xl">
+                  Selected for the objective, access and budget.
+                </h2>
+                <p className="mt-5 text-base leading-8 text-foreground-muted">
+                  Destination recommendations consider air access, hotel inventory,
+                  seasonality, visa requirements, ground movement and the experience
+                  the programme needs to create.
+                </p>
+                <div className="mt-8 flex items-start gap-3 rounded-lg border border-primary/15 bg-white p-5">
+                  <MapPin size={20} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
+                  <p className="text-sm leading-7 text-foreground-muted">
+                    Our Guwahati branch provides local support for Northeast India
+                    programmes, alongside the Thane and Pune teams.
+                  </p>
+                </div>
+              </ScrollReveal>
+
+              <ScrollReveal className="lg:col-span-7">
+                <div className="grid gap-6 sm:grid-cols-2">
+                  {[
+                    {
+                      heading: "Within India",
+                      destinations: ["Goa", "Udaipur and Jaipur", "Kerala", "Northeast India", "Rishikesh and Mussoorie", "Mumbai, Pune and Delhi NCR"],
+                    },
+                    {
+                      heading: "International",
+                      destinations: ["Dubai and Abu Dhabi", "Singapore and Malaysia", "Thailand", "Bali", "Vietnam", "Sri Lanka"],
+                    },
+                  ].map((group) => (
+                    <div key={group.heading} className="border-t-2 border-primary bg-white px-6 py-7">
+                      <h3 className="font-heading text-lg font-bold text-primary">{group.heading}</h3>
+                      <ul className="mt-5 divide-y divide-primary/10">
+                        {group.destinations.map((destination, index) => {
+                          const DestinationIcon = serviceIcons[index % serviceIcons.length];
+                          return (
+                            <li key={destination} className="flex items-center gap-3 py-3 text-sm text-foreground-muted">
+                              <DestinationIcon size={15} className="shrink-0 text-accent" aria-hidden="true" />
+                              {destination}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </ScrollReveal>
+            </div>
+          </Container>
+        </section>
+
+        <section className="border-b border-primary/10 py-20 sm:py-24 lg:py-28">
           <Container>
             <ScrollReveal>
-              <div className="grid gap-8 lg:grid-cols-[1fr_0.7fr] lg:items-end">
-                <div>
-                  <span className="text-xs font-bold uppercase tracking-[0.22em] text-accent">Choose for purpose, not popularity</span>
-                  <h2 className="mt-5 max-w-3xl font-heading text-4xl font-extrabold tracking-[-0.04em] text-primary sm:text-6xl">The right place changes the room.</h2>
-                </div>
-                <p className="max-w-lg text-base leading-8 text-foreground-muted lg:justify-self-end">We shortlist against access, inventory, season, energy and budget—then shape an experience that belongs there.</p>
+              <div className="max-w-3xl">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">Programme process</p>
+                <h2 className="mt-4 font-heading text-3xl font-bold tracking-[-0.025em] text-primary sm:text-4xl">
+                  A defined route from brief to close-out.
+                </h2>
               </div>
             </ScrollReveal>
 
-            <div className="mt-14 grid gap-4 lg:grid-cols-3">
-              {destinations.map((destination, index) => (
-                <ScrollReveal key={destination.place} delay={index * 65}>
-                  <article className="group relative min-h-[470px] overflow-hidden rounded-[2rem] bg-primary">
-                    <Image src={destination.image} alt={`${destination.place} MICE travel inspiration`} fill sizes="(max-width: 1024px) 100vw, 33vw" className="object-cover transition duration-700 group-hover:scale-105" />
-                    <div className={`absolute inset-0 bg-gradient-to-t ${destination.tone} via-transparent to-transparent opacity-90`} />
-                    <div className="absolute inset-0 flex flex-col justify-between p-7 text-white sm:p-8">
-                      <span className="flex w-fit items-center gap-2 rounded-full border border-white/20 bg-black/15 px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.16em] backdrop-blur-md"><MapPin size={12} aria-hidden="true" /> {destination.country}</span>
-                      <div>
-                        <h3 className="font-heading text-4xl font-extrabold tracking-tight sm:text-5xl">{destination.place}</h3>
-                        <p className="mt-2 text-sm font-semibold text-white/80">{destination.use}</p>
-                      </div>
-                    </div>
-                  </article>
-                </ScrollReveal>
-              ))}
-            </div>
-
-            <div className="mt-5 flex flex-wrap gap-2">
-              {destinationIdeas.map((destination) => (
-                <span key={destination} className="rounded-full border border-slate-200 bg-sand-light px-4 py-2 text-xs font-semibold text-primary">{destination}</span>
-              ))}
-              <span className="rounded-full bg-primary px-4 py-2 text-xs font-bold text-white">+ Wherever the brief leads</span>
-            </div>
-          </Container>
-        </section>
-
-        <section className="relative overflow-hidden bg-accent py-20 text-white sm:py-28 lg:py-36">
-          <div className="pointer-events-none absolute -right-10 -top-14 font-heading text-[16rem] font-extrabold leading-none text-white/[0.07] sm:text-[24rem]" aria-hidden="true">05</div>
-          <Container className="relative">
-            <ScrollReveal>
-              <span className="text-xs font-bold uppercase tracking-[0.22em] text-white/65">From spark to showtime</span>
-              <h2 className="mt-5 max-w-4xl font-heading text-4xl font-extrabold tracking-[-0.045em] sm:text-6xl">A process with momentum—and no mystery.</h2>
-            </ScrollReveal>
-
-            <div className="mt-14 border-t border-white/25">
-              {process.map((item, index) => (
-                <ScrollReveal key={item.step} delay={index * 45}>
-                  <article className="group grid gap-3 border-b border-white/25 py-7 sm:grid-cols-[5rem_0.8fr_1.2fr_auto] sm:items-center sm:gap-6 sm:py-8">
-                    <span className="font-heading text-sm font-extrabold text-gold">{item.step}</span>
-                    <h3 className="font-heading text-xl font-bold sm:text-2xl">{item.title}</h3>
-                    <p className="max-w-2xl text-sm leading-7 text-white/70">{item.copy}</p>
-                    <span className="hidden h-9 w-9 items-center justify-center rounded-full border border-white/25 transition group-hover:bg-white group-hover:text-accent sm:flex"><ArrowRight size={15} aria-hidden="true" /></span>
+            <div className="mt-12 border-t border-primary/20">
+              {process.map((item) => (
+                <ScrollReveal key={item.step}>
+                  <article className="grid gap-3 border-b border-primary/20 py-6 sm:grid-cols-[4rem_0.8fr_1.4fr] sm:items-start sm:gap-8 sm:py-8">
+                    <span className="text-xs font-bold text-accent">{item.step}</span>
+                    <h3 className="font-heading text-lg font-bold text-primary">{item.title}</h3>
+                    <p className="max-w-2xl text-sm leading-7 text-foreground-muted">{item.copy}</p>
                   </article>
                 </ScrollReveal>
               ))}
@@ -479,61 +441,63 @@ export default function MicePage() {
           </Container>
         </section>
 
-        <section id="enquiry" className="scroll-mt-20 overflow-hidden bg-ink-deep py-20 text-white sm:py-28 lg:py-36">
+        <section id="enquiry" className="scroll-mt-24 bg-[#f5f5f2] py-20 sm:py-24 lg:py-28">
           <Container>
             <div className="grid gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:items-start lg:gap-16">
               <ScrollReveal className="lg:sticky lg:top-28">
-                <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-gold"><Sparkles size={13} aria-hidden="true" /> The first move</span>
-                <h2 className="mt-5 font-heading text-4xl font-extrabold leading-[1.02] tracking-[-0.045em] sm:text-6xl">Give us the rough brief. We&apos;ll make it real.</h2>
-                <p className="mt-6 max-w-lg text-base leading-8 text-white/55">Delegate count, rough dates and a budget band are enough. We will come back with destination logic, venue routes and an initial cost frame.</p>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">Request a proposal</p>
+                <h2 className="mt-4 font-heading text-3xl font-bold leading-tight tracking-[-0.025em] text-primary sm:text-4xl">
+                  Share the requirement with our corporate desk.
+                </h2>
+                <p className="mt-5 text-base leading-8 text-foreground-muted">
+                  An approximate delegate count, travel window and budget range are
+                  enough for an initial assessment. We will contact you to clarify
+                  the programme before preparing options.
+                </p>
 
-                <ul className="mt-9 space-y-4 border-t border-white/10 pt-7">
-                  {[
-                    [Users, "Reviewed by the corporate desk—not a generic inbox."],
-                    [CalendarCheck, "A human response within one working day."],
-                    [Receipt, "Transparent, itemised, GST-compliant costing."],
-                  ].map(([Icon, copy]) => {
-                    const ItemIcon = Icon as typeof Users;
-                    return (
-                      <li key={String(copy)} className="flex gap-3 text-sm leading-6 text-white/65">
-                        <ItemIcon size={18} className="mt-0.5 shrink-0 text-gold" aria-hidden="true" />
-                        <span>{String(copy)}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
+                <div className="mt-8 space-y-4 border-t border-primary/15 pt-7 text-sm">
+                  <div className="flex gap-3">
+                    <CalendarCheck size={18} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
+                    <p className="leading-6 text-foreground-muted">Initial response within one working day.</p>
+                  </div>
+                  <div className="flex gap-3">
+                    <Receipt size={18} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
+                    <p className="leading-6 text-foreground-muted">Itemised proposal with clearly stated inclusions.</p>
+                  </div>
+                </div>
 
-                <div className="mt-9 rounded-2xl border border-white/10 bg-white/[0.04] p-5">
-                  <span className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-white/35">Need the fast lane?</span>
-                  <a href="tel:+919830012345" className="mt-2 block font-heading text-xl font-bold text-white transition hover:text-gold">+91 98300 12345</a>
-                  <a href="mailto:info@bandhantours.com" className="mt-1 block text-sm text-white/55 transition hover:text-gold">info@bandhantours.com</a>
+                <div className="mt-8 border-t border-primary/15 pt-7">
+                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-foreground-light">Corporate desk</p>
+                  <a href="tel:+919422332610" className="mt-3 block font-heading text-xl font-bold text-primary hover:text-accent">+91 94223 32610</a>
+                  <a href="mailto:info@bandhantours.com" className="mt-1 block text-sm text-foreground-muted hover:text-accent">info@bandhantours.com</a>
                 </div>
               </ScrollReveal>
 
-              <ScrollReveal delay={70}>
+              <ScrollReveal>
                 <MiceEnquiryForm />
               </ScrollReveal>
             </div>
           </Container>
         </section>
 
-        <section className="bg-sand-light py-20 sm:py-28 lg:py-32">
+        <section className="py-20 sm:py-24 lg:py-28">
           <Container>
-            <div className="grid gap-12 lg:grid-cols-[0.65fr_1.35fr] lg:gap-20">
+            <div className="grid gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20">
               <ScrollReveal>
-                <span className="text-xs font-bold uppercase tracking-[0.22em] text-accent">Before you brief us</span>
-                <h2 className="mt-5 font-heading text-4xl font-extrabold tracking-[-0.04em] text-primary sm:text-5xl">The useful questions, answered.</h2>
-                <p className="mt-5 text-sm leading-7 text-foreground-muted">Still deciding what you need? That is exactly when the first conversation is most useful.</p>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">Frequently asked questions</p>
+                <h2 className="mt-4 font-heading text-3xl font-bold tracking-[-0.025em] text-primary sm:text-4xl">
+                  Practical information before you begin.
+                </h2>
               </ScrollReveal>
 
               <div className="border-t border-primary/15">
                 {faqs.map((faq) => (
                   <details key={faq.question} className="group border-b border-primary/15">
-                    <summary className="flex cursor-pointer list-none items-center justify-between gap-5 py-6 text-left font-heading text-base font-bold text-primary marker:content-none sm:text-lg">
+                    <summary className="flex cursor-pointer list-none items-center justify-between gap-5 py-6 text-left font-heading text-base font-semibold text-primary marker:content-none">
                       {faq.question}
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-primary/15 transition group-open:rotate-180 group-open:bg-primary group-open:text-white"><ChevronDown size={17} aria-hidden="true" /></span>
+                      <ChevronDown size={18} className="shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" />
                     </summary>
-                    <p className="max-w-2xl pb-7 pr-12 text-sm leading-7 text-foreground-muted">{faq.answer}</p>
+                    <p className="max-w-2xl pb-7 pr-10 text-sm leading-7 text-foreground-muted">{faq.answer}</p>
                   </details>
                 ))}
               </div>
@@ -541,17 +505,22 @@ export default function MicePage() {
           </Container>
         </section>
 
-        <section className="relative overflow-hidden bg-gold py-20 sm:py-24">
-          <div className="mice-grid absolute inset-0 opacity-25" aria-hidden="true" />
-          <Container className="relative">
-            <div className="grid gap-9 lg:grid-cols-[1fr_auto] lg:items-center">
+        <section className="bg-primary py-16 text-white sm:py-20">
+          <Container>
+            <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
-                <span className="text-xs font-bold uppercase tracking-[0.22em] text-primary/55">Your next programme</span>
-                <h2 className="mt-4 max-w-4xl font-heading text-4xl font-extrabold tracking-[-0.05em] text-primary sm:text-6xl">Let&apos;s make the one they remember.</h2>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-gold">Corporate meetings and events</p>
+                <h2 className="mt-3 max-w-3xl font-heading text-3xl font-bold sm:text-4xl">
+                  Start with the objective. We will build the programme around it.
+                </h2>
               </div>
-              <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
-                <a href="#enquiry" className="inline-flex min-h-13 items-center justify-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-primary-light">Build an event brief <ArrowRight size={16} aria-hidden="true" /></a>
-                <Link href="/contact" className="inline-flex min-h-13 items-center justify-center rounded-full border border-primary/30 px-7 py-3.5 text-sm font-bold text-primary transition hover:border-primary hover:bg-white/35">Talk to the team</Link>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <a href="#enquiry" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-accent-dark">
+                  Request a proposal <ArrowRight size={16} aria-hidden="true" />
+                </a>
+                <Link href="/contact" className="inline-flex min-h-12 items-center justify-center rounded-lg border border-white/30 px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-white hover:text-primary">
+                  Contact Bandhan Tours
+                </Link>
               </div>
             </div>
           </Container>

@@ -180,7 +180,7 @@ CREATE INDEX IF NOT EXISTS site_content_collection_idx
 CREATE TABLE IF NOT EXISTS booking_payments (
   id                  uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   booking_id          uuid NOT NULL REFERENCES bookings(id) ON DELETE CASCADE,
-  provider            text NOT NULL DEFAULT 'stripe',
+  provider            text NOT NULL DEFAULT 'razorpay',
   provider_session_id text NOT NULL UNIQUE,
   provider_payment_id text,
   amount_minor        int NOT NULL,
@@ -191,6 +191,7 @@ CREATE TABLE IF NOT EXISTS booking_payments (
 );
 
 CREATE INDEX IF NOT EXISTS booking_payments_booking_id_idx ON booking_payments (booking_id);
+ALTER TABLE booking_payments ALTER COLUMN provider SET DEFAULT 'razorpay';
 
 INSERT INTO group_departures (destination, date, duration, price, seats_left, total_seats, status)
 SELECT * FROM (VALUES

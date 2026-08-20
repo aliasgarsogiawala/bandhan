@@ -74,6 +74,53 @@ interface NavbarProps {
   onEnquiryClick?: () => void;
 }
 
+const PACKAGE_GROUPS = [
+  {
+    heading: "Northeast India",
+    items: [
+      "Assam & Meghalaya",
+      "Arunachal Pradesh",
+      "Nagaland, Manipur, Mizoram & Tripura",
+      "Glimpse of 7 Sisters",
+      "Sikkim & Darjeeling",
+    ],
+  },
+  {
+    heading: "Domestic",
+    items: [
+      "Kashmir",
+      "Andaman",
+      "Kerala",
+      "Rajasthan",
+      "Madhya Pradesh",
+      "Uttar Pradesh",
+      "Karnataka",
+      "Gujarat",
+      "Tamil Nadu",
+    ],
+  },
+  {
+    heading: "International",
+    items: [
+      "European Wonders",
+      "Southeast Asia",
+      "Thailand",
+      "Vietnam",
+      "Bali",
+      "Dubai",
+      "Sri Lanka",
+      "Bhutan",
+      "Nepal",
+    ],
+  },
+].map((group) => ({
+  ...group,
+  items: group.items.map((label) => ({
+    label,
+    href: `/packages?search=${encodeURIComponent(label)}`,
+  })),
+}));
+
 export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -91,7 +138,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
   const router = useRouter();
   const pathname = usePathname();
   const solidAtTop =
-    pathname === "/destinations" || pathname === "/book" || pathname?.startsWith("/account");
+    pathname === "/destinations" ||
+    pathname === "/book" ||
+    pathname === "/mice" ||
+    pathname?.startsWith("/account");
   const openEnquiry = onEnquiryClick || (() => router.push("/contact"));
   const { items: recentSearches, saveRecentSearch, clearRecentSearches } = useRecentSearches();
   const suggestions = useSearchSuggestions(searchQuery);
@@ -219,17 +269,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
     { label: "Contact", href: "/contact" },
   ];
 
-  const packagesList = [
-    { label: "All Packages", href: "/packages" },
-    { label: "North East", href: "/packages?category=north-east" },
-    { label: "Domestic", href: "/packages?category=domestic" },
-    { label: "International", href: "/packages?category=international" },
-  ];
-
-  const togglePackages = () => {
-    setIsPackagesOpen((prev) => !prev);
-  };
-
   const toggleProfile = () => {
     setIsProfileOpen((prev) => !prev);
   };
@@ -284,11 +323,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
 
             {/* Packages Dropdown Trigger & Menu */}
             <div
-              className="relative py-1"
+              className="group/packages relative py-1"
               ref={packagesRef}
+              onKeyDown={(event) => {
+                if (event.key === "Escape") {
+                  setIsPackagesOpen(false);
+                }
+              }}
             >
               <button
-                onClick={togglePackages}
+                onClick={() => setIsPackagesOpen((open) => !open)}
                 aria-expanded={isPackagesOpen}
                 aria-haspopup="true"
                 className={`flex items-center gap-1.5 text-sm font-medium tracking-wide transition-colors duration-300 focus:outline-none relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-gold after:transition-all after:duration-300 ${
@@ -316,43 +360,67 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
                 </svg>
               </button>
 
-              {/* Dropdown panel */}
+              {/* Destination mega menu — grouped to match the live Bandhan navigation. */}
               <div
-                className="absolute left-0 top-full w-56 pt-3"
+                className="absolute left-[-10.5rem] top-full w-[min(1120px,calc(100vw-3rem))] pt-4"
               >
                 <div
-                  className={`overflow-hidden rounded-2xl border border-white/10 bg-primary-dark/98 p-1.5 shadow-[0_24px_60px_-12px_rgba(3,16,32,0.65)] ring-1 ring-inset ring-white/5 backdrop-blur-xl transition-all duration-300 origin-top-left ${
+                  className={`overflow-hidden rounded-b-3xl rounded-t-md border border-slate-200 border-r-4 border-r-accent bg-white shadow-[0_26px_70px_-22px_rgba(3,16,32,0.35)] transition-all duration-300 origin-top-left ${
                   isPackagesOpen
-                    ? "opacity-100 scale-100 translate-y-0 visible"
-                    : "opacity-0 scale-95 -translate-y-2 invisible pointer-events-none"
+                    ? "opacity-100 translate-y-0 visible"
+                    : "pointer-events-none invisible -translate-y-2 opacity-0 group-hover/packages:pointer-events-auto group-hover/packages:visible group-hover/packages:translate-y-0 group-hover/packages:opacity-100 group-focus-within/packages:pointer-events-auto group-focus-within/packages:visible group-focus-within/packages:translate-y-0 group-focus-within/packages:opacity-100"
                 }`}
                 >
-                  {packagesList.map((item) => (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      onClick={() => setIsPackagesOpen(false)}
-                      className="group/item relative flex items-center justify-between gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-white/80 transition-all duration-200 hover:bg-white/[0.07] hover:text-gold"
-                    >
-                      <span className="relative">
-                        <span className="absolute -left-3 top-1/2 h-1 w-1 -translate-y-1/2 rounded-full bg-gold opacity-0 transition-opacity duration-200 group-hover/item:opacity-100" />
-                        {item.label}
-                      </span>
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="-translate-x-1 opacity-0 transition-all duration-200 group-hover/item:translate-x-0 group-hover/item:opacity-100"
+                  <div className="grid grid-cols-3 px-7 py-8">
+                    {PACKAGE_GROUPS.map((group, groupIndex) => (
+                      <section
+                        key={group.heading}
+                        className={`min-w-0 px-7 ${groupIndex === 0 ? "pl-1" : "border-l border-slate-200"}`}
+                        aria-labelledby={`desktop-package-group-${groupIndex}`}
                       >
-                        <polyline points="9 18 15 12 9 6" />
-                      </svg>
-                    </a>
-                  ))}
+                        <h3
+                          id={`desktop-package-group-${groupIndex}`}
+                          className="font-heading text-base font-bold text-primary"
+                        >
+                          {group.heading}
+                        </h3>
+                        <ul className="mt-4 space-y-0.5">
+                          {group.items.map((item) => (
+                            <li key={item.label}>
+                              <Link
+                                href={item.href}
+                                onClick={() => {
+                                  setIsPackagesOpen(false);
+                                }}
+                                className="group/item flex min-h-9 items-center justify-between gap-3 rounded-lg px-2 py-1.5 text-sm font-medium text-foreground-muted transition-colors hover:bg-sand-light hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                              >
+                                <span>{item.label}</span>
+                                <ArrowRight
+                                  size={13}
+                                  className="shrink-0 -translate-x-1 opacity-0 transition-all group-hover/item:translate-x-0 group-hover/item:opacity-100"
+                                  aria-hidden="true"
+                                />
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </section>
+                    ))}
+                  </div>
+                  <div className="flex items-center justify-between gap-6 border-t border-slate-200 bg-sand-light px-8 py-4">
+                    <p className="text-xs font-medium text-foreground-muted">
+                      Not sure where to begin? Browse the complete collection.
+                    </p>
+                    <Link
+                      href="/packages"
+                      onClick={() => {
+                        setIsPackagesOpen(false);
+                      }}
+                      className="inline-flex items-center gap-2 text-sm font-bold text-primary transition-colors hover:text-accent"
+                    >
+                      View all packages <ArrowRight size={15} aria-hidden="true" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -869,22 +937,47 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
 
               <div
                 id="mobile-package-links"
-                className={`flex flex-col overflow-hidden transition-all duration-300 ${
+                className={`overflow-hidden transition-all duration-300 ${
                   isMobilePackagesOpen
-                    ? "max-h-[300px] opacity-100"
+                    ? "max-h-[1600px] opacity-100"
                     : "max-h-0 opacity-0 pointer-events-none"
                 }`}
               >
-                {packagesList.map((item) => (
-                  <a
-                    key={item.label}
-                    href={item.href}
+                <div className="mx-3 mt-2 rounded-2xl border border-white/10 bg-white/[0.05] px-4 py-4">
+                  {PACKAGE_GROUPS.map((group, groupIndex) => (
+                    <section
+                      key={group.heading}
+                      className={groupIndex > 0 ? "mt-5 border-t border-white/10 pt-5" : ""}
+                      aria-labelledby={`mobile-package-group-${groupIndex}`}
+                    >
+                      <h3
+                        id={`mobile-package-group-${groupIndex}`}
+                        className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-gold"
+                      >
+                        {group.heading}
+                      </h3>
+                      <div className="mt-2 grid grid-cols-2 gap-x-2">
+                        {group.items.map((item) => (
+                          <Link
+                            key={item.label}
+                            href={item.href}
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="flex min-h-10 items-center rounded-lg px-2 py-2 text-sm font-medium leading-5 text-white/75 transition-colors hover:bg-white/[0.07] hover:text-gold"
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </section>
+                  ))}
+                  <Link
+                    href="/packages"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex min-h-11 items-center rounded-xl px-8 text-base font-semibold text-white/70 transition-colors duration-300 hover:bg-white/[0.06] hover:text-gold"
+                    className="mt-5 flex min-h-11 items-center justify-between rounded-lg bg-gold px-4 text-sm font-bold text-primary"
                   >
-                    {item.label}
-                  </a>
-                ))}
+                    View all packages <ArrowRight size={15} aria-hidden="true" />
+                  </Link>
+                </div>
               </div>
             </div>
 

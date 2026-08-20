@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { getSessionUserId } from "@/lib/auth/session";
 import { getBookingById, updateStatus } from "@/lib/bookings/db";
 import { parseMoney } from "@/lib/bookings/pricing";
-import { recordCheckout } from "@/lib/payments/db";
-import { getStripe } from "@/lib/payments/stripe";
+import { recordPaymentOrder } from "@/lib/payments/db";
+import { getRazorpay, getRazorpayKeyId } from "@/lib/payments/razorpay";
 
 export const runtime = "nodejs";
 
@@ -30,38 +30,36 @@ export async function POST(request: Request, { params }: RouteParams) {
   }
 
   try {
-    const origin = new URL(request.url).origin;
-    const stripe = getStripe();
-    const session = await stripe.checkout.sessions.create({
-      mode: "payment",
-      customer_email: booking.contact_email,
-      client_reference_id: booking.id,
-      metadata: { bookingId: booking.id, bookingCode: booking.booking_code },
-      line_items: [
-        {
-          quantity: 1,
-          price_data: {
-            currency: "inr",
-            unit_amount: amountMinor,
-            product_data: {
-              name: `Booking advance · ${booking.booking_code}`,
-              description: booking.package_title || booking.destination || "Bandhan Tours booking",
-            },
-          },
-        },
-      ],
-      success_url: `${origin}/account/bookings/${booking.id}?payment=success`,
-      cancel_url: `${origin}/account/bookings/${booking.id}?payment=cancelled`,
+    const order = await getRazorpay().orders.create({
+      amount: amountMinor,
+      currency: "INR",
+      receipt: `${booking.booking_code}-${Date.now().toString(36)}`.slice(0, 40),
+      notes: { bookingId: booking.id, bookingCode: booking.booking_code },
     });
-    if (!session.url) throw new Error("Stripe did not return a checkout URL.");
-    await recordCheckout({ bookingId: booking.id, sessionId: session.id, amountMinor, currency: "inr" });
+    await recordPaymentOrder({ bookingId: booking.id, orderId: order.id, amountMinor, currency: "inr" });
     if (booking.status !== "payment_pending") {
       await updateStatus(booking.id, "payment_pending", "customer", "Online checkout started");
     }
-    return NextResponse.json({ ok: true, url: session.url });
+    return NextResponse.json({
+      ok: true,
+      checkout: {
+        keyId: getRazorpayKeyId(),
+        orderId: order.id,
+        amount: amountMinor,
+        currency: "INR",
+        bookingId: booking.id,
+        bookingCode: booking.booking_code,
+        description: booking.package_title || booking.destination || "Bandhan Tours booking advance",
+        prefill: {
+          name: booking.contact_name,
+          email: booking.contact_email,
+          contact: booking.contact_phone,
+        },
+      },
+    });
   } catch (error) {
     console.error("create checkout error:", error);
-    const message = error instanceof Error && error.message.includes("STRIPE_SECRET_KEY")
+    const message = error instanceof Error && error.message.includes("Razorpay API keys")
       ? "Online payments are not configured yet."
       : "Could not start secure checkout.";
     return NextResponse.json({ ok: false, error: message }, { status: 503 });

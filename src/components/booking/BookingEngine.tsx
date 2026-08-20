@@ -71,8 +71,8 @@ function SummaryCard({
   duration?: string;
 }) {
   return (
-    <div className="overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-soft">
-      <div className="relative h-44 bg-primary">
+    <div className="overflow-hidden rounded-[1.75rem] border border-slate-200/70 bg-white shadow-soft">
+      <div className="relative h-36 bg-primary sm:h-44">
         {image ? (
           <Image
             src={image}
@@ -613,20 +613,38 @@ export default function BookingEngine() {
 
   return (
     <div className="mx-auto max-w-7xl">
-      <div className="mb-8">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">
-          Digital booking engine
-        </p>
-        <h1 className="mt-2 font-heading text-3xl font-extrabold text-primary sm:text-5xl">
-          Build your holiday proposal
-        </h1>
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-foreground-muted sm:text-base">
-          Configure your trip, see an instant indicative price and leave with a polished
-          quotation and personalised brochure.
-        </p>
+      <div className="mb-7 grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-accent">
+            Plan · Price · Personalise
+          </p>
+          <h1 className="mt-2 max-w-3xl font-heading text-3xl font-extrabold leading-[1.05] text-primary sm:text-5xl">
+            Build your holiday proposal
+          </h1>
+          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-foreground-muted sm:text-base">
+            Shape the trip in five simple steps and get an instant estimate, quotation and
+            personalised brochure—without paying anything today.
+          </p>
+        </div>
+        <div className="grid grid-cols-3 gap-2 lg:w-[390px]">
+          {[
+            [ShieldCheck, "No payment", "until verified"],
+            [ReceiptText, "Instant quote", "clear pricing"],
+            [BookOpen, "Trip brochure", "made for you"],
+          ].map(([Icon, title, detail]) => {
+            const FeatureIcon = Icon as typeof ShieldCheck;
+            return (
+              <div key={String(title)} className="rounded-2xl border border-white/80 bg-white/75 p-3 shadow-sm backdrop-blur">
+                <FeatureIcon size={16} className="text-accent" />
+                <strong className="mt-2 block text-[11px] text-primary sm:text-xs">{String(title)}</strong>
+                <span className="mt-0.5 hidden text-[10px] text-foreground-muted sm:block">{String(detail)}</span>
+              </div>
+            );
+          })}
+        </div>
       </div>
 
-      <div className="mb-6 rounded-2xl border border-slate-100 bg-white p-2 shadow-soft">
+      <div className="mb-5 rounded-2xl border border-slate-200/70 bg-white/90 p-2 shadow-soft backdrop-blur">
         <div className="flex items-center justify-between gap-3 px-2 pb-2 pt-1 sm:hidden">
           <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-accent">
             Step {step + 1} of {steps.length}
@@ -663,7 +681,7 @@ export default function BookingEngine() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-        <section className="rounded-[2rem] border border-slate-100 bg-white p-5 shadow-premium sm:p-8">
+        <section className="self-start rounded-[1.75rem] border border-slate-200/70 bg-white p-5 shadow-premium sm:p-8">
           {error ? (
             <div className="mb-6 rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
               {error}
@@ -1011,7 +1029,7 @@ export default function BookingEngine() {
             </div>
           ) : null}
 
-          <div className="mt-8 flex items-center justify-between border-t border-slate-100 pt-6">
+          <div className="mt-8 flex items-center justify-between gap-3 border-t border-slate-100 pt-6">
             <button
               type="button"
               onClick={() => {
@@ -1019,16 +1037,16 @@ export default function BookingEngine() {
                 setStep((value) => Math.max(0, value - 1));
               }}
               disabled={step === 0}
-              className="inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-bold text-primary disabled:invisible"
+              className="inline-flex min-h-12 items-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-bold text-primary transition hover:bg-sand disabled:invisible"
             >
               <ArrowLeft size={16} /> Back
             </button>
             {step < 4 ? (
-              <button type="button" onClick={next} className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-bold text-white hover:bg-accent">
+              <button type="button" onClick={next} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-3 text-sm font-bold text-white shadow-lg shadow-primary/10 transition hover:-translate-y-0.5 hover:bg-accent">
                 Continue <ArrowRight size={16} />
               </button>
             ) : (
-              <button type="button" onClick={() => submit()} disabled={submitting} className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-bold text-white hover:bg-accent-dark disabled:opacity-50">
+              <button type="button" onClick={() => submit()} disabled={submitting} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-accent px-7 py-3 text-sm font-bold text-white shadow-lg shadow-accent/15 transition hover:-translate-y-0.5 hover:bg-accent-dark disabled:opacity-50">
                 {submitting ? "Creating proposal..." : "Create quotation & brochure"} <FileText size={16} />
               </button>
             )}
@@ -1037,7 +1055,8 @@ export default function BookingEngine() {
 
         <aside className="space-y-5 lg:sticky lg:top-24 lg:self-start">
           <SummaryCard snapshot={snapshot} image={selectedImage} duration={effectiveDuration} />
-          <div className="rounded-3xl bg-primary p-6 text-white shadow-xl">
+          <div className="overflow-hidden rounded-[1.75rem] bg-primary text-white shadow-xl">
+            <div className="p-6">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold uppercase tracking-wider text-slate-300">Live estimate</span>
               <Users size={17} className="text-gold" />
@@ -1046,10 +1065,14 @@ export default function BookingEngine() {
             <p className="mt-1 text-xs text-slate-300">
               for {travellerCount} traveller{travellerCount === 1 ? "" : "s"}
             </p>
-            <div className="mt-5 border-t border-white/10 pt-5 text-xs text-slate-300">
+            <div className="mt-5 space-y-3 border-t border-white/10 pt-5 text-xs text-slate-300">
               <div className="flex justify-between"><span>Advance estimate</span><strong className="text-gold">{formatMoney(quote.depositAmount)}</strong></div>
-              <p className="mt-4 leading-relaxed">Final availability and supplier rates are verified by your travel consultant.</p>
+              <div className="flex justify-between"><span>Room plan</span><strong className="text-white">{rooms.singleRooms + rooms.doubleRooms + rooms.tripleRooms} room{rooms.singleRooms + rooms.doubleRooms + rooms.tripleRooms === 1 ? "" : "s"}</strong></div>
             </div>
+            </div>
+            <p className="border-t border-white/10 bg-white/5 px-6 py-4 text-[11px] leading-relaxed text-slate-300">
+              No payment now. Your travel consultant verifies live availability and supplier rates first.
+            </p>
           </div>
         </aside>
       </div>
