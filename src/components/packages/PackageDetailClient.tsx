@@ -7,7 +7,9 @@ import { useRouter } from "next/navigation";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import { Container } from "@/components/ui/Container";
+import { Expand } from "lucide-react";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { Lightbox } from "@/components/ui/Lightbox";
 import type { TourPackage } from "@/data/mockData";
 import type { FullPackage } from "@/data/packageDetails";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
@@ -85,6 +87,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
   const router = useRouter();
   const [openDay, setOpenDay] = useState<number | null>(1);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [galleryIndex, setGalleryIndex] = useState<number | null>(null);
 
   const enquire = () => router.push(contactEnquiryHref(pkg.title));
 
@@ -392,9 +395,12 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
 
                 <div className="mt-8 grid grid-cols-2 gap-4 auto-rows-[160px] sm:auto-rows-[200px]">
                   {pkg.gallery.map((item, index) => (
-                    <div
+                    <button
                       key={item.image + index}
-                      className={`group relative rounded-3xl overflow-hidden ${
+                      type="button"
+                      onClick={() => setGalleryIndex(index)}
+                      aria-label={`View ${item.caption}, enlarged`}
+                      className={`group relative block cursor-zoom-in overflow-hidden rounded-3xl transition duration-300 hover:ring-2 hover:ring-gold/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
                         index === 0 ? "col-span-2 row-span-2 sm:col-span-1" : ""
                       }`}
                     >
@@ -403,17 +409,30 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                         alt={item.caption}
                         fill
                         sizes="(max-width: 768px) 100vw, 50vw"
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.06]"
                       />
-                      <div className="absolute inset-0 bg-ink-deep/50 opacity-100 transition-opacity duration-500 sm:opacity-0 sm:group-hover:opacity-100" />
-                      <span className="absolute bottom-4 left-4 right-4 translate-y-0 text-sm font-semibold text-white opacity-100 transition-all duration-500 sm:translate-y-2 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100">
+                      <div className="absolute inset-0 bg-ink-deep/50 opacity-100 transition-opacity duration-300 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-visible:opacity-100" />
+                      <span
+                        aria-hidden="true"
+                        className="pointer-events-none absolute right-3 top-3 hidden h-10 w-10 items-center justify-center rounded-full bg-gold text-primary opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 sm:flex"
+                      >
+                        <Expand size={17} />
+                      </span>
+                      <span className="absolute bottom-4 left-4 right-4 text-left text-sm font-semibold text-white opacity-100 transition-all duration-300 sm:translate-y-2 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100 sm:group-focus-visible:translate-y-0 sm:group-focus-visible:opacity-100">
                         {item.caption}
                       </span>
-                    </div>
+                    </button>
                   ))}
                 </div>
               </section>
             </ScrollReveal>
+
+            <Lightbox
+              slides={(pkg.gallery ?? []).map((item) => ({ image: item.image, caption: item.caption }))}
+              index={galleryIndex}
+              onClose={() => setGalleryIndex(null)}
+              onNavigate={setGalleryIndex}
+            />
 
             {/* FAQs */}
             <ScrollReveal>
