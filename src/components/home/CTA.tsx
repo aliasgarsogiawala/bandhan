@@ -16,31 +16,20 @@ export const CTA: React.FC<CTAProps> = ({ onStartPlanningClick }) => {
       id="special-packages"
       image="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=90&w=3200"
       overlay={65}
-      className="py-28 sm:py-36 lg:py-44"
+      className="py-24 sm:py-32 lg:py-40"
     >
-      <Container className="relative z-10">
-        <div className="max-w-2xl space-y-7 text-white">
-          <span className="inline-flex items-center gap-2.5 text-[0.7rem] font-bold uppercase tracking-[0.28em] text-gold">
-            <span className="h-px w-7 bg-gold/60" aria-hidden="true" />
-            Tailor-Made Trips
-          </span>
-          <h2 className="font-heading text-4xl font-extrabold leading-[1.05] text-white sm:text-5xl lg:text-[3.5rem]">
-            Ready For Your Next Adventure?
+      <Container>
+        <div className="max-w-2xl text-white">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-gold">Tailor-made trips</p>
+          <h2 className="mt-4 font-heading text-4xl font-bold leading-tight tracking-[-0.03em] sm:text-5xl">
+            Have a trip in mind? Let&apos;s make it practical.
           </h2>
-          <p className="max-w-xl font-sans text-base font-light leading-relaxed text-slate-200 sm:text-lg">
-            Let us design a custom itinerary specifically configured for your group, dates, and choices. Tell us where you want to go and we will do the rest.
+          <p className="mt-5 max-w-xl text-base leading-7 text-white/75 sm:text-lg">
+            Tell us the destination, dates, and pace you prefer. We&apos;ll return with a clear route and honest pricing.
           </p>
-          <div className="pt-3">
-            <PrimaryButton
-              variant="coral"
-              size="lg"
-              onClick={onStartPlanningClick}
-              className="shadow-lg shadow-accent/20 transition-transform duration-300 hover:scale-[1.02]"
-              rightIcon={<ArrowRight size={18} />}
-            >
-              Start Planning
-            </PrimaryButton>
-          </div>
+          <PrimaryButton variant="coral" size="md" onClick={onStartPlanningClick} className="mt-8 !rounded-lg" rightIcon={<ArrowRight size={18} />}>
+            Start planning
+          </PrimaryButton>
         </div>
       </Container>
     </ParallaxBand>

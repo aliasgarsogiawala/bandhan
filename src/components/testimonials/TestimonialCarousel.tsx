@@ -133,7 +133,7 @@ export const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({
           <ChevronRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
         </button>
 
-        <div className="overflow-hidden rounded-[1.5rem]">
+        <div className="overflow-hidden rounded-[8px]">
           <AnimatePresence initial={false} mode="popLayout">
             <motion.div
               key={visibleCount}

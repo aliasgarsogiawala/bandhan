@@ -23,7 +23,7 @@ export default function Home() {
   const handleSearch = (href: string) => router.push(href);
 
   return (
-    <div className="min-h-screen flex flex-col overflow-x-hidden bg-white selection:bg-accent/20 selection:text-accent-dark">
+    <div className="home-page min-h-screen flex flex-col overflow-x-hidden bg-sand-light selection:bg-accent/20 selection:text-accent-dark">
       {/* 1. Transparent Sticky Navbar */}
       <Navbar onEnquiryClick={() => handleEnquire("")} />
 

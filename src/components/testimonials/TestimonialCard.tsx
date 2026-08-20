@@ -40,7 +40,7 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
 
   return (
     <article
-      className="group relative flex h-full min-h-[420px] flex-col overflow-hidden rounded-[1.75rem] border border-gold/25 bg-[#0b2138] shadow-[0_28px_80px_-54px_rgba(0,0,0,0.95)]"
+      className="group relative flex h-full min-h-[420px] flex-col overflow-hidden rounded-[8px] border border-gold/25 bg-[#0b2138] shadow-[0_28px_80px_-54px_rgba(0,0,0,0.95)]"
     >
       <div className="pointer-events-none absolute inset-x-8 top-0 z-20 h-px bg-gold/40" />
 

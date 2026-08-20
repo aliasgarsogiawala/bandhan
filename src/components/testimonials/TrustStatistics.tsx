@@ -64,7 +64,7 @@ const AnimatedCounter: React.FC<CounterProps> = ({ value, suffix, prefix = "" })
 export const TrustStatistics: React.FC = () => {
   return (
     <div className="mb-8 w-full">
-      <div className="grid grid-cols-2 overflow-hidden rounded-2xl border border-white/[0.1] bg-white/[0.045] shadow-[0_24px_70px_-42px_rgba(0,0,0,0.9)] md:grid-cols-3 lg:grid-cols-5">
+      <div className="grid grid-cols-2 overflow-hidden rounded-[8px] border border-white/[0.1] bg-white/[0.045] shadow-[0_24px_70px_-42px_rgba(0,0,0,0.9)] md:grid-cols-3 lg:grid-cols-5">
         {trustStats.map((stat, idx) => {
           const IconComponent = iconMap[stat.icon] || Users;
           return (

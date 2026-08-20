@@ -7,7 +7,6 @@ import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { Stagger, StaggerItem } from "@/components/ui/Stagger";
-import { ContourPattern } from "./HomeDecor";
 import BookingModal from "@/components/packages/BookingModal";
 import type { DepartureStatus, GroupDeparture } from "@/lib/departures/types";
 
@@ -112,21 +111,19 @@ export const GroupDepartures: React.FC = () => {
   return (
     <section
       id="group-departures"
-      className="relative z-10 overflow-hidden bg-sand-light py-20 sm:py-28"
+      className="relative z-10 bg-sand-light py-16 sm:py-24"
     >
-      <ContourPattern className="pointer-events-none absolute inset-0 h-full w-full text-primary/[0.025]" />
-
       <Container>
-        <div className="mb-12 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mb-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionTitle
             align="left"
-            badge="Travel Together"
-            title="Upcoming Group Departures"
-            description="Pick your next story. Fixed dates, thoughtfully planned itineraries, and a wonderful group to share the journey with."
+            badge="Fixed-date tours"
+            title="Travel together, without the planning"
+            description="Confirmed dates, clear availability, and an itinerary managed from start to finish."
             className="max-w-3xl"
           />
-          <div className="hidden items-center gap-3 rounded-2xl border border-primary/10 bg-sand-bg px-5 py-4 text-primary shadow-soft lg:flex">
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gold/25 text-primary">
+          <div className="hidden items-center gap-3 border-l border-primary/15 pl-5 text-primary lg:flex">
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-white text-primary">
               <CheckCircle2 size={20} strokeWidth={2.25} />
             </span>
             <div>
@@ -136,7 +133,7 @@ export const GroupDepartures: React.FC = () => {
           </div>
         </div>
 
-        <Stagger className="grid gap-5 md:grid-cols-2 xl:grid-cols-4" stagger={0.08}>
+        <Stagger className="grid gap-5 md:grid-cols-2 xl:grid-cols-4" stagger={0.05}>
           {groupDepartures.map((departure) => {
             const soldOut = departure.seats_left <= 0;
             const totalSeats = Math.max(departure.total_seats, 1);
@@ -150,7 +147,7 @@ export const GroupDepartures: React.FC = () => {
 
             return (
               <StaggerItem key={departure.id} as="article" y={28}>
-                <div className="group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-slate-100 bg-white shadow-soft transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_30px_60px_-30px_rgba(7,32,60,0.35)]">
+                <div className="group flex h-full flex-col overflow-hidden rounded-lg border border-primary/10 bg-white transition-colors hover:border-primary/25">
                   <div className="relative h-44 overflow-hidden sm:h-48">
                     <Image
                       src={visual.image}
@@ -159,7 +156,7 @@ export const GroupDepartures: React.FC = () => {
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-ink-deep/55" />
+                    <div className="absolute inset-0 bg-ink-deep/45" />
 
                     <span
                       className={`absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.12em] ${status.badge}`}
@@ -180,11 +177,9 @@ export const GroupDepartures: React.FC = () => {
                   </div>
 
                   <div className="flex flex-1 flex-col p-5">
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="flex items-center gap-2 rounded-xl bg-sand-bg px-2.5 py-2.5">
-                        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white text-accent shadow-sm">
-                          <CalendarDays size={14} strokeWidth={2.25} />
-                        </span>
+                    <div className="grid grid-cols-2 gap-4 border-b border-primary/10 pb-4">
+                      <div className="flex items-center gap-2">
+                        <CalendarDays size={15} className="shrink-0 text-accent" />
                         <div className="min-w-0">
                           <span className="block text-[8px] font-bold uppercase tracking-[0.1em] text-foreground-light">
                             Departure
@@ -195,10 +190,8 @@ export const GroupDepartures: React.FC = () => {
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-2 rounded-xl bg-sand-bg px-2.5 py-2.5">
-                        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white text-accent shadow-sm">
-                          <Clock3 size={14} strokeWidth={2.25} />
-                        </span>
+                      <div className="flex items-center gap-2">
+                        <Clock3 size={15} className="shrink-0 text-accent" />
                         <div className="min-w-0">
                           <span className="block text-[8px] font-bold uppercase tracking-[0.1em] text-foreground-light">
                             Duration
@@ -251,7 +244,7 @@ export const GroupDepartures: React.FC = () => {
                         disabled={soldOut}
                         onClick={() => setSelected(departure)}
                         rightIcon={!soldOut ? <ArrowRight size={16} /> : undefined}
-                        className="shrink-0"
+                        className="shrink-0 !rounded-lg"
                       >
                         {soldOut ? "Sold Out" : "Book Now"}
                       </PrimaryButton>

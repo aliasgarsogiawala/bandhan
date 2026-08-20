@@ -16,6 +16,10 @@ body {
   overflow-wrap: anywhere;
 }
 
+::selection {
+  background: rgba(254, 209, 79, 0.32);
+}
+
 a,
 button,
 input,

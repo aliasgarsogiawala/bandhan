@@ -1,13 +1,6 @@
 import React from "react";
 
-/**
- * Layout primitives that used to drive sequenced scroll reveals.
- *
- * The motion is gone by design — sections now paint as solid, finished blocks
- * rather than assembling themselves as you scroll. The components remain as
- * plain elements so the existing markup keeps its semantic grouping (and its
- * `as` choices: ul/li, article, section) without every call site changing.
- */
+/** Layout primitives with CSS-powered, progressively enhanced scroll motion. */
 
 type Tag = "div" | "ul" | "ol" | "section";
 type ItemTag = "div" | "li" | "article" | "span";
@@ -24,7 +17,7 @@ interface StaggerProps {
 
 export function Stagger({ children, className = "", as = "div" }: StaggerProps) {
   const Tag = as;
-  return <Tag className={className}>{children}</Tag>;
+  return <Tag className={`scroll-stagger ${className}`}>{children}</Tag>;
 }
 
 interface StaggerItemProps {
@@ -37,12 +30,12 @@ interface StaggerItemProps {
 
 export function StaggerItem({ children, className = "", as = "div" }: StaggerItemProps) {
   const Tag = as;
-  return <Tag className={className}>{children}</Tag>;
+  return <Tag className={`scroll-reveal ${className}`}>{children}</Tag>;
 }
 
 export function FadeIn({ children, className = "", as = "div" }: StaggerProps & { y?: number }) {
   const Tag = as;
-  return <Tag className={className}>{children}</Tag>;
+  return <Tag className={`scroll-reveal ${className}`}>{children}</Tag>;
 }
 
 export default Stagger;

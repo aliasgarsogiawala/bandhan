@@ -280,13 +280,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 w-full z-[45] transition-all duration-500 ${
-          isScrolled || solidAtTop
-            ? "bg-primary/95 py-3 shadow-lg border-b border-primary-light/30 backdrop-blur-md lg:py-4"
-            : "bg-transparent py-4 lg:py-6"
-        }`}
+        className="fixed left-0 top-0 z-[45] w-full px-3 sm:px-4"
       >
-        <Container className="flex items-center justify-between">
+        <Container
+          clean
+          className={`mt-3 flex max-w-[92rem] items-center justify-between rounded-xl border px-4 py-3 transition-all duration-300 sm:px-5 ${
+            isScrolled || solidAtTop
+              ? "border-white/10 bg-primary/95 shadow-[0_14px_40px_-22px_rgba(3,12,23,0.8)] backdrop-blur-xl"
+              : "border-white/15 bg-ink-deep/40 shadow-[0_14px_40px_-26px_rgba(3,12,23,0.75)] backdrop-blur-md"
+          }`}
+        >
           {/* Logo */}
           <Link
             href="/"
@@ -303,16 +306,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
               width={150}
               height={55}
               priority
-              className="h-10 w-auto object-contain transition-all duration-300 sm:h-[45px]"
+              className="h-9 w-auto object-contain transition-all duration-300 sm:h-10"
             />
           </Link>
 
           {/* Desktop Navigation */}
-          <div
-            className={`hidden lg:flex items-center transition-all duration-300 ${
-              isSearchOpen ? "gap-4 -translate-x-4" : "gap-8"
-            }`}
-          >
+          <div className="hidden items-center gap-4 xl:flex 2xl:gap-7">
             {/* Home Link */}
             <Link
               href="/"
@@ -438,12 +437,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
           </div>
 
           {/* Call to action & account */}
-          <div className="hidden lg:flex items-center gap-4 shrink-0">
+          <div className="hidden shrink-0 items-center gap-3 xl:flex 2xl:gap-4">
             {/* Quick search */}
             <div className="relative flex items-center" ref={searchRef}>
               <div
-                className={`overflow-hidden transition-all duration-300 ${
-                  isSearchOpen ? "w-64 opacity-100 mr-1" : "w-0 opacity-0"
+                className={`absolute right-0 top-[calc(100%+1rem)] w-80 origin-top-right rounded-lg border border-white/10 bg-primary/98 p-2 shadow-premium backdrop-blur-xl transition-all duration-200 ${
+                  isSearchOpen
+                    ? "visible translate-y-0 scale-100 opacity-100"
+                    : "invisible pointer-events-none -translate-y-2 scale-95 opacity-0"
                 }`}
               >
                 <form
@@ -482,7 +483,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
                     aria-expanded={isSearchOpen}
                     aria-autocomplete="list"
                     aria-controls="desktop-search-suggestions"
-                    className="w-full rounded-full bg-white/10 border border-white/15 px-4 py-2 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-gold"
+                    className="min-h-11 w-full rounded-xl border border-white/15 bg-white/10 px-4 py-2 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-gold"
                   />
                 </form>
               </div>
@@ -504,7 +505,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
               {/* Search dropdown: live suggestions or recent searches */}
               <div
                 id="desktop-search-suggestions"
-                className={`absolute right-0 top-full mt-3 w-80 max-h-[28rem] overflow-y-auto rounded-2xl bg-primary/95 backdrop-blur-md border border-white/10 shadow-premium p-2 transition-all duration-300 origin-top-right ${
+                className={`absolute right-0 top-[calc(100%+4.75rem)] w-80 max-h-[28rem] origin-top-right overflow-y-auto rounded-lg border border-white/10 bg-primary/98 p-2 shadow-premium backdrop-blur-xl transition-all duration-200 ${
                   isSearchOpen && (searchQuery.trim() || recentSearches.length > 0)
                     ? "opacity-100 scale-100 translate-y-0 visible"
                     : "opacity-0 scale-95 -translate-y-2 invisible pointer-events-none"
@@ -676,14 +677,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
               variant="coral"
               size="sm"
               onClick={openEnquiry}
-              className="hover:scale-105 duration-300 shrink-0"
+              className="shrink-0 !rounded-lg"
             >
               Enquire Now
             </PrimaryButton>
           </div>
 
           {/* Mobile Actions Container (Avatar & Hamburger) */}
-          <div className="flex lg:hidden items-center gap-3 relative z-50">
+          <div className="relative z-50 flex items-center gap-3 xl:hidden">
             {user && (
               <div className="relative" ref={mobileProfileRef}>
                 <button
@@ -792,7 +793,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
         <div
           id="mobile-navigation"
           aria-hidden={!isMobileMenuOpen}
-          className={`fixed inset-0 z-40 flex h-[100dvh] flex-col overflow-hidden bg-primary/98 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(5.5rem,calc(4.5rem+env(safe-area-inset-top)))] transition-all duration-300 ease-out lg:hidden ${
+          className={`fixed inset-0 z-40 flex h-[100dvh] flex-col overflow-hidden bg-primary/98 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(5.5rem,calc(4.5rem+env(safe-area-inset-top)))] transition-all duration-300 ease-out xl:hidden ${
             isMobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
           }`}
         >

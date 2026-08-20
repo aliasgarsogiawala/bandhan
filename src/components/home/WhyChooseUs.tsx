@@ -50,60 +50,39 @@ export const WhyChooseUs: React.FC = () => {
   };
 
   return (
-    <section id="why-choose-us" className="surface-grain edge-hairline-top relative z-10 overflow-hidden bg-ink py-20 sm:py-28">
-      <Container className="relative">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
-          {/* Left Text details */}
-          <div className="space-y-7 lg:col-span-5">
+    <section id="why-choose-us" className="relative z-10 bg-white py-16 sm:py-24">
+      <Container>
+        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+          <div>
             <SectionTitle
               align="left"
-              badge="Why Choose Us"
-              title="We Guide You Across Every Detail"
-              description="For over 15 years, Bandhan Tours has been leading domestic & international getaways. We believe that traveling is about exploring the true colors of life. Our group tours, family packages, and custom getaways ensure stress-free bookings, professional drivers, hand-picked hotels, and unique memories."
+              badge="Why Bandhan"
+              title="Good planning should feel invisible"
+              description="We take care of the decisions that make a trip work: sensible routes, reliable stays, clear pricing, and help when you need it."
               className="max-w-xl"
-              tone="dark"
             />
-
-            {/* Quiet figures with hairline dividers */}
-            <div className="flex items-center gap-8 border-t border-white/15 pt-7">
+            <div className="mt-8 flex items-center gap-7 border-t border-primary/10 pt-6">
               <div>
-                <span className="font-heading text-5xl font-extrabold text-white">98%</span>
-                <span className="mt-1 block text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-slate-400">
-                  Customer Satisfaction
-                </span>
+                <span className="font-heading text-3xl font-bold text-primary">15+</span>
+                <span className="mt-1 block text-xs text-foreground-muted">years planning travel</span>
               </div>
-              <div className="h-12 w-px bg-white/15" />
+              <div className="h-10 w-px bg-primary/10" />
               <div>
-                <span className="font-heading text-5xl font-extrabold text-white">120+</span>
-                <span className="mt-1 block text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-slate-400">
-                  Unique Destinations
-                </span>
+                <span className="font-heading text-3xl font-bold text-primary">120+</span>
+                <span className="mt-1 block text-xs text-foreground-muted">destinations covered</span>
               </div>
             </div>
           </div>
 
-          {/* Right Metrics Grid */}
-          <Stagger className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:col-span-7" stagger={0.09}>
+          <Stagger className="grid border-t border-primary/10 sm:grid-cols-2" stagger={0.05}>
             {whyChooseUs.map((item) => (
-              <StaggerItem key={item.id} as="div" y={26}>
-                <div className="group h-full rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-8 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-gold/30 hover:bg-white/[0.07] motion-reduce:hover:translate-y-0">
-                  {/* Icon Wrapper */}
-                  <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-gold/15 text-gold transition-colors duration-500 group-hover:bg-gold group-hover:text-primary">
+              <StaggerItem key={item.id} as="div" y={16}>
+                <div className="h-full border-b border-primary/10 px-0 py-7 sm:px-6 sm:odd:border-r">
+                  <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-lg bg-sand text-primary">
                     {renderIcon(item.iconName)}
                   </div>
-
-                  {/* Stat Number */}
-                  <span className="mb-1.5 block text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
-                    {item.stat}
-                  </span>
-
-                  {/* Title */}
-                  <h4 className="mb-3 font-heading text-2xl font-bold text-white">{item.title}</h4>
-
-                  {/* Description */}
-                  <p className="font-sans text-sm leading-relaxed text-slate-300/85">
-                    {item.description}
-                  </p>
+                  <h3 className="font-heading text-lg font-bold text-primary">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-foreground-muted">{item.description}</p>
                 </div>
               </StaggerItem>
             ))}

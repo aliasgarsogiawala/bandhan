@@ -7,7 +7,6 @@ import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { Stagger, StaggerItem } from "@/components/ui/Stagger";
-import { CompassMark } from "./HomeDecor";
 import type { Destination } from "@/data/mockData";
 import { useCollection } from "@/lib/admin/store";
 
@@ -18,73 +17,43 @@ export const PopularDestinations: React.FC = () => {
     .slice(0, 8);
 
   return (
-    <section id="domestic-tours" className="surface-grain edge-hairline-top relative z-10 overflow-hidden bg-ink py-20 sm:py-28">
-      <CompassMark className="pointer-events-none absolute -right-16 top-10 h-72 w-72 text-white/[0.035]" />
-      {/* Soft brand glows so the ink field has depth rather than reading flat. */}
+    <section id="domestic-tours" className="relative z-10 bg-white py-16 sm:py-24">
       <Container>
-        {/* Header */}
-        <div className="mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SectionTitle
             align="left"
-            badge="Top Rated Locations"
-            title="Popular Destinations"
-            description="Explore our hand-picked domestic and international gateways curated for unforgettable memories."
+            badge="Where to go"
+            title="Destinations travellers return to"
+            description="A short list of places we know well, with routes designed around the best of each region."
             className="max-w-2xl"
-            tone="dark"
           />
           <Link
             href="/destinations"
-            className="group inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-white/20 px-5 py-3 text-sm font-bold text-white/85 transition-all duration-300 hover:border-gold hover:bg-gold hover:text-primary md:self-end"
+            className="group inline-flex shrink-0 items-center gap-2 self-start text-sm font-bold text-primary transition-colors hover:text-accent md:self-end"
           >
             Explore all destinations
             <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </div>
 
-        {/* Destination Cards Grid */}
-        <Stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" stagger={0.07}>
+        <Stagger className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4" stagger={0.05}>
           {destinations.map((dest) => (
             <StaggerItem key={dest.id} as="article" y={30}>
               <Link
                 href={`/destinations/${encodeURIComponent(dest.id)}`}
-                className="group relative block h-[360px] overflow-hidden rounded-[1.75rem] bg-primary shadow-lifted ring-1 ring-white/10 transition-all duration-500 ease-out hover:-translate-y-1.5 hover:shadow-lifted hover:ring-gold/30 motion-reduce:hover:translate-y-0 sm:h-[430px]"
+                className="group block overflow-hidden rounded-lg border border-primary/10 bg-white transition-colors hover:border-primary/25"
               >
-                {/* Image */}
-                <Image
-                  src={dest.image}
-                  alt={dest.name}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  className="object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-[1.08]"
-                />
-
-                {/* Cinematic scrim — deep at the base so the type always holds */}
-                <div className="absolute inset-0 bg-ink-deep/45 transition-opacity duration-500" />
-                <div className="absolute inset-0 bg-primary-dark/0 transition-colors duration-500 group-hover:bg-primary-dark/15" />
-
-                {/* Tag */}
-                {dest.tag && (
-                  <span className="absolute left-5 top-5 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.22em] text-white/90 backdrop-blur-md">
-                    {dest.tag}
-                  </span>
-                )}
-
-                {/* Card Details */}
-                <div className="absolute inset-x-0 bottom-0 flex flex-col justify-end p-6 text-white">
-                  <span className="flex items-center gap-2.5 text-[9px] font-semibold uppercase tracking-[0.26em] text-gold">
-                    <span className="h-px w-5 bg-gold/50 transition-all duration-500 group-hover:w-8" aria-hidden="true" />
-                    From {dest.price}
-                  </span>
-                  <h3 className="mt-2 font-heading text-[1.9rem] font-extrabold leading-[1.1] tracking-[-0.01em] transition-colors duration-300 group-hover:text-gold">
-                    {dest.name}
-                  </h3>
-                  <p className="mt-2 max-h-24 overflow-hidden text-xs leading-relaxed text-slate-200/90 opacity-100 transition-all duration-500 sm:max-h-0 sm:opacity-0 sm:group-hover:max-h-24 sm:group-hover:opacity-100">
-                    {dest.description}
-                  </p>
-                  <span className="mt-3.5 inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-gold opacity-100 transition-opacity duration-500 sm:opacity-0 sm:group-hover:opacity-100">
-                    Plan this destination
-                    <ArrowRight size={12} className="transition-transform duration-300 group-hover:translate-x-1" />
-                  </span>
+                <div className="relative aspect-[4/3] overflow-hidden bg-sand">
+                  <Image src={dest.image} alt={dest.name} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+                  {dest.tag && <span className="absolute left-3 top-3 rounded-md bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary shadow-sm">{dest.tag}</span>}
+                </div>
+                <div className="p-5">
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="font-heading text-xl font-bold text-primary">{dest.name}</h3>
+                    <ArrowRight size={17} className="mt-1 shrink-0 text-accent transition-transform group-hover:translate-x-1" />
+                  </div>
+                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-foreground-muted">{dest.description}</p>
+                  <p className="mt-4 text-xs font-bold uppercase tracking-[0.1em] text-primary/55">From {dest.price}</p>
                 </div>
               </Link>
             </StaggerItem>

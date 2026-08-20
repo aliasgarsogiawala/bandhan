@@ -40,18 +40,17 @@ export const SectionTitle: React.FC<SectionTitleProps> = ({
       className={`flex flex-col max-w-3xl ${alignmentClasses[align]} ${className}`}
     >
       {eyebrow && (
-        <span className={`mb-4 inline-flex max-w-full items-center gap-2 text-[0.64rem] font-semibold uppercase tracking-[0.22em] sm:mb-5 sm:gap-3 sm:tracking-[0.3em] ${isDark ? "text-gold" : "text-accent"}`}>
-          <span className={`h-px w-6 shrink-0 sm:w-8 ${isDark ? "bg-gold/50" : "bg-accent/50"}`} aria-hidden="true" />
+        <span className={`mb-3 inline-flex max-w-full text-xs font-bold uppercase tracking-[0.16em] sm:mb-4 ${isDark ? "text-gold" : "text-accent"}`}>
           {eyebrow}
         </span>
       )}
 
-      <h2 className={`font-heading text-3xl font-extrabold leading-[1.08] tracking-[-0.01em] min-[380px]:text-4xl sm:text-5xl md:text-[3.4rem] md:leading-[1.06] ${isDark ? "text-white" : "text-primary"}`}>
+      <h2 className={`max-w-2xl font-heading text-3xl font-bold leading-[1.12] tracking-[-0.025em] sm:text-4xl lg:text-[2.75rem] ${isDark ? "text-white" : "text-primary"}`}>
         {title}
       </h2>
 
       {description && (
-        <p className={`mt-4 max-w-2xl font-sans text-sm leading-relaxed sm:mt-5 sm:text-lg ${isDark ? "text-slate-300/85" : "text-foreground-muted"} ${textAlignmentClasses[align]}`}>
+        <p className={`mt-4 max-w-2xl font-sans text-sm leading-7 sm:text-base ${isDark ? "text-slate-300/85" : "text-foreground-muted"} ${textAlignmentClasses[align]}`}>
           {description}
         </p>
       )}

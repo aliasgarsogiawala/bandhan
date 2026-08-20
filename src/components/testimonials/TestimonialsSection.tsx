@@ -106,7 +106,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ classN
             initial={{ opacity: 0, x: 18 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="relative overflow-hidden rounded-[1.75rem] border border-gold/30 bg-ink-soft p-5 shadow-[0_30px_80px_-36px_rgba(0,0,0,0.9)] sm:p-6"
+            className="relative overflow-hidden rounded-[8px] border border-gold/30 bg-ink-soft p-5 shadow-[0_30px_80px_-36px_rgba(0,0,0,0.9)] sm:p-6"
           >
             <div className="absolute -right-12 -top-12 h-36 w-36 rounded-full border border-gold/10" />
             <div className="relative">
@@ -152,7 +152,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ classN
           <TestimonialCarousel testimonials={testimonials} onReadMore={handleOpenReviewModal} />
         </div>
 
-        <div className="mt-10 flex flex-col items-center justify-between gap-5 rounded-3xl border border-gold/20 bg-ink-soft px-6 py-6 shadow-[0_24px_70px_-42px_rgba(0,0,0,0.9)] sm:flex-row sm:px-8 sm:text-left">
+        <div className="mt-10 flex flex-col items-center justify-between gap-5 rounded-[8px] border border-gold/20 bg-ink-soft px-6 py-6 shadow-[0_24px_70px_-42px_rgba(0,0,0,0.9)] sm:flex-row sm:px-8 sm:text-left">
           <div>
             <h3 className="font-heading text-xl font-semibold text-white">Every journey has a story.</h3>
             <p className="mt-1.5 text-sm text-white/45">Share yours and inspire the next traveller.</p>
