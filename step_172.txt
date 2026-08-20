@@ -1,1 +1,0 @@
-{"step_index":175,"source":"MODEL","type":"PLANNER_RESPONSE","status":"DONE","created_at":"2026-07-25T11:31:24Z","tool_calls":[{"name":"view_file","args":{"AbsolutePath":"c:\\Users\\admin\\Desktop\\bandhan_new\\reviews.md","EndLine":100,"StartLine":1,"toolAction":"Viewing reviews.md lines 1-100","toolSummary":"Viewing reviews.md lines 1-100"}}]}
