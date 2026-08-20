@@ -28,8 +28,8 @@ const SERVICES = [
 ] as const;
 
 const inputClass =
-  "w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-2.5 text-sm font-medium text-primary transition-colors focus:border-accent focus:outline-none";
-const labelClass = "text-xs font-semibold uppercase tracking-wide text-primary";
+  "w-full min-w-0 rounded-2xl border border-primary/10 bg-white px-4 py-3.5 text-base font-medium text-primary outline-none transition placeholder:text-slate-400 hover:border-primary/20 focus:border-accent focus:ring-4 focus:ring-accent/10";
+const labelClass = "text-[0.68rem] font-bold uppercase tracking-[0.14em] text-primary/65";
 
 const emptyForm = {
   company: "",
@@ -121,8 +121,8 @@ export default function MiceEnquiryForm() {
 
   if (submitted) {
     return (
-      <div className="rounded-3xl border border-slate-100 bg-white p-8 shadow-premium sm:p-10">
-        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+      <div className="rounded-[2rem] border border-white/15 bg-sand-light p-7 text-primary shadow-[0_30px_80px_-35px_rgba(0,0,0,0.8)] sm:p-10">
+        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">
           <Check size={30} strokeWidth={3} />
         </div>
         <h3 className="mt-6 font-heading text-2xl font-bold text-primary">
@@ -136,8 +136,8 @@ export default function MiceEnquiryForm() {
         <ul className="mt-7 space-y-3 border-t border-slate-100 pt-6 text-sm text-foreground-muted">
           <li>
             Need to move faster? Call{" "}
-            <a href="tel:+919830012345" className="font-bold text-primary">
-              +91 98300 12345
+            <a href="tel:+919422332610" className="font-bold text-primary">
+              +91 94223 32610
             </a>
           </li>
           <li>
@@ -159,9 +159,31 @@ export default function MiceEnquiryForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-3xl border border-slate-100 bg-white p-6 shadow-premium sm:p-8"
+      className="rounded-[2rem] border border-white/15 bg-sand-light p-5 text-primary shadow-[0_30px_90px_-35px_rgba(0,0,0,0.85)] sm:p-8 lg:p-10"
     >
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="mb-8 flex flex-col gap-5 border-b border-primary/10 pb-7 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-accent">
+            Proposal request
+          </span>
+          <h3 className="mt-2 font-heading text-2xl font-extrabold tracking-tight text-primary sm:text-3xl">
+            Build the brief
+          </h3>
+        </div>
+        <div className="flex items-center gap-2" aria-label="Three parts: contact, programme, preferences">
+          {["Contact", "Programme", "Preferences"].map((step, index) => (
+            <div key={step} className="flex items-center gap-2">
+              {index > 0 && <span className="h-px w-3 bg-primary/15" aria-hidden="true" />}
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-[0.62rem] font-bold text-white">
+                {index + 1}
+              </span>
+              <span className="sr-only">{step}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="grid gap-5 sm:grid-cols-2">
         <label className="space-y-1.5 sm:col-span-2">
           <span className={labelClass}>Company name</span>
           <input
@@ -171,6 +193,7 @@ export default function MiceEnquiryForm() {
             value={form.company}
             onChange={handleChange}
             placeholder="Registered company or brand name"
+            autoComplete="organization"
             className={inputClass}
           />
         </label>
@@ -184,6 +207,7 @@ export default function MiceEnquiryForm() {
             value={form.name}
             onChange={handleChange}
             placeholder="Your full name"
+            autoComplete="name"
             className={inputClass}
           />
         </label>
@@ -209,6 +233,7 @@ export default function MiceEnquiryForm() {
             value={form.email}
             onChange={handleChange}
             placeholder="name@company.com"
+            autoComplete="email"
             className={inputClass}
           />
         </label>
@@ -222,6 +247,8 @@ export default function MiceEnquiryForm() {
             value={form.phone}
             onChange={handleChange}
             placeholder="+91 98765 43210"
+            autoComplete="tel"
+            inputMode="tel"
             className={inputClass}
           />
         </label>
@@ -307,7 +334,7 @@ export default function MiceEnquiryForm() {
         </label>
       </div>
 
-      <fieldset className="mt-7 border-t border-slate-100 pt-6">
+      <fieldset className="mt-8 rounded-2xl border border-primary/10 bg-white/55 p-4 sm:p-5">
         <legend className={labelClass}>What should we handle?</legend>
         <div className="mt-4 flex flex-wrap gap-2">
           {SERVICES.map((service) => {
@@ -324,7 +351,7 @@ export default function MiceEnquiryForm() {
                   className={`block rounded-full border px-3.5 py-2 text-xs font-semibold transition peer-focus-visible:ring-2 peer-focus-visible:ring-accent peer-focus-visible:ring-offset-2 ${
                     checked
                       ? "border-accent bg-accent text-white"
-                      : "border-slate-200 text-foreground-muted hover:border-accent/40"
+                      : "border-primary/10 bg-white text-foreground-muted hover:border-accent/40"
                   }`}
                 >
                   {service}
@@ -335,7 +362,7 @@ export default function MiceEnquiryForm() {
         </div>
       </fieldset>
 
-      <label className="mt-7 block space-y-1.5">
+      <label className="mt-8 block space-y-1.5">
         <span className={labelClass}>Your brief</span>
         <textarea
           name="message"
@@ -347,14 +374,14 @@ export default function MiceEnquiryForm() {
         />
       </label>
 
-      <div className="mt-7 flex flex-col gap-3 border-t border-slate-100 pt-6 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-xs leading-relaxed text-foreground-light">
-          We use these details only to prepare your proposal.
+      <div className="mt-8 flex flex-col gap-4 border-t border-primary/10 pt-7 sm:flex-row sm:items-center sm:justify-between">
+        <p className="max-w-xs text-xs leading-relaxed text-foreground-muted">
+          Your details stay with the corporate desk and are used only to prepare this proposal.
         </p>
-        <div>
+        <div className="sm:text-right">
           {submitError && <p className="mb-2 max-w-sm text-sm font-semibold text-red-600">{submitError}</p>}
-          <PrimaryButton type="submit" variant="coral" size="md" isLoading={submitting}>
-            Send the brief
+          <PrimaryButton type="submit" variant="coral" size="lg" isLoading={submitting} className="w-full sm:w-auto">
+            Send to corporate desk
           </PrimaryButton>
         </div>
       </div>

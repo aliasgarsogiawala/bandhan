@@ -134,7 +134,7 @@ function ContactContent() {
             <PrimaryButton variant="coral" size="lg" onClick={scrollToForm} className="w-full sm:w-auto">
               Start an Enquiry
             </PrimaryButton>
-            <a href="https://wa.me/919830012345" target="_blank" rel="noreferrer" className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/25 bg-white/10 px-6 py-3 text-sm font-bold text-white backdrop-blur transition hover:bg-white/20 sm:w-auto">
+            <a href="https://wa.me/919422332610" target="_blank" rel="noreferrer" className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/25 bg-white/10 px-6 py-3 text-sm font-bold text-white backdrop-blur transition hover:bg-white/20 sm:w-auto">
               WhatsApp Us
             </a>
           </div>
@@ -164,8 +164,8 @@ function ContactContent() {
                   <div className="flex items-center gap-2 text-xs font-semibold text-emerald-700"><span className="h-2 w-2 bg-emerald-500" /> Travel desk open today</div>
                   <h3 className="mt-8 font-heading text-2xl font-bold sm:text-3xl">Choose how we talk.</h3>
                   <div className="mt-7 divide-y divide-slate-200 border-y border-slate-200">
-                    <a href="https://wa.me/919830012345" target="_blank" rel="noreferrer" className="group flex items-center justify-between gap-4 py-5"><div><span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Fastest</span><p className="mt-1 text-lg font-bold">WhatsApp our team</p></div><span className="text-2xl text-accent transition-transform group-hover:translate-x-1">→</span></a>
-                    <a href="tel:+919830012345" className="group flex items-center justify-between gap-4 py-5"><div><span className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground-light">Speak directly</span><p className="mt-1 text-lg font-bold">+91 98300 12345</p></div><span className="text-2xl text-accent transition-transform group-hover:translate-x-1">→</span></a>
+                    <a href="https://wa.me/919422332610" target="_blank" rel="noreferrer" className="group flex items-center justify-between gap-4 py-5"><div><span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Fastest</span><p className="mt-1 text-lg font-bold">WhatsApp our team</p></div><span className="text-2xl text-accent transition-transform group-hover:translate-x-1">→</span></a>
+                    <a href="tel:+919422332610" className="group flex items-center justify-between gap-4 py-5"><div><span className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground-light">Speak directly</span><p className="mt-1 text-lg font-bold">+91 94223 32610</p></div><span className="text-2xl text-accent transition-transform group-hover:translate-x-1">→</span></a>
                     <a href="mailto:info@bandhantours.com" className="group flex items-center justify-between gap-4 py-5"><div><span className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground-light">Write to us</span><p className="mt-1 text-lg font-bold">info@bandhantours.com</p></div><span className="text-2xl text-accent transition-transform group-hover:translate-x-1">→</span></a>
                   </div>
                 </div>
@@ -175,11 +175,11 @@ function ContactContent() {
 
             <ScrollReveal delay={100}>
               <div className="relative min-h-[420px] overflow-hidden border border-slate-200 bg-sand sm:min-h-[520px]">
-                <iframe title="Bandhan Tours Office Location" src="https://www.google.com/maps?q=122%20Rash%20Behari%20Avenue%2C%20Kolkata%2C%20West%20Bengal%2C%20India&output=embed" className="absolute inset-0 h-full w-full border-0 grayscale-[0.15]" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+                <iframe title="Bandhan Tours Office Location" src="https://www.google.com/maps?q=226%2C%20Lodha%20Supremus%20Tower%202%2C%20Road%20No.%2022%2C%20Wagle%20Industrial%20Estate%2C%20Thane%20West%2C%20Maharashtra%20400604&output=embed" className="absolute inset-0 h-full w-full border-0 grayscale-[0.15]" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
                 <div className="absolute bottom-0 right-0 w-[calc(100%-2rem)] border-l-4 border-gold bg-primary p-5 shadow-2xl sm:w-[72%] sm:p-6">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold">Bandhan Tours · Kolkata</span>
-                  <p className="mt-2 max-w-xl font-heading text-lg font-bold leading-snug text-white sm:text-xl">122, Rash Behari Avenue, 2nd Floor<br />Kolkata – 700029, West Bengal</p>
-                  <a href="https://www.google.com/maps/search/?api=1&query=122+Rash+Behari+Avenue+Kolkata" target="_blank" rel="noreferrer" className="mt-4 inline-flex text-sm font-bold text-gold hover:text-white">Open directions →</a>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold">Bandhan Tours · Thane</span>
+                  <p className="mt-2 max-w-xl font-heading text-lg font-bold leading-snug text-white sm:text-xl">226, Lodha Supremus Tower 2, Road No. 22<br />Wagle Industrial Estate, Thane West – 400604</p>
+                  <a href="https://www.google.com/maps/search/?api=1&query=Lodha+Supremus+Tower+2+Wagle+Industrial+Estate+Thane+West+400604" target="_blank" rel="noreferrer" className="mt-4 inline-flex text-sm font-bold text-gold hover:text-white">Open directions →</a>
                 </div>
               </div>
             </ScrollReveal>
@@ -211,7 +211,7 @@ function ContactContent() {
             {/* Phone */}
             <ScrollReveal delay={0} className="sm:col-span-1 h-full">
               <a
-                href="tel:+919830012345"
+                href="tel:+919422332610"
                 className="group h-full flex flex-col justify-between p-7 rounded-3xl bg-sand/60 border border-slate-100 hover:bg-primary hover:text-white transition-all duration-500 shadow-soft hover:shadow-xl hover:-translate-y-1"
               >
                 <div className="w-12 h-12 rounded-2xl bg-accent/10 group-hover:bg-white/10 text-accent group-hover:text-gold flex items-center justify-center transition-colors duration-500 shadow-inner">
@@ -224,7 +224,7 @@ function ContactContent() {
                     Call Us
                   </h4>
                   <p className="text-sm text-foreground-muted group-hover:text-slate-300 transition-colors duration-300">
-                    +91 98300 12345
+                    +91 94223 32610
                   </p>
                 </div>
               </a>
@@ -258,7 +258,7 @@ function ContactContent() {
             {/* WhatsApp - accent tile */}
             <ScrollReveal delay={160} className="sm:col-span-1 h-full">
               <a
-                href="https://wa.me/919830012345"
+                href="https://wa.me/919422332610"
                 target="_blank"
                 rel="noreferrer"
                 className="group h-full flex flex-col justify-between p-7 rounded-3xl bg-accent text-white hover:bg-accent-dark transition-all duration-500 shadow-soft hover:shadow-xl hover:-translate-y-1"
@@ -298,7 +298,7 @@ function ContactContent() {
               <div className="h-full rounded-3xl overflow-hidden border border-slate-100 shadow-soft relative min-h-[280px]">
                 <iframe
                   title="Bandhan Tours Office Location"
-                  src="https://www.google.com/maps?q=122%20Rash%20Behari%20Avenue%2C%20Kolkata%2C%20West%20Bengal%2C%20India&output=embed"
+                  src="https://www.google.com/maps?q=226%2C%20Lodha%20Supremus%20Tower%202%2C%20Road%20No.%2022%2C%20Wagle%20Industrial%20Estate%2C%20Thane%20West%2C%20Maharashtra%20400604&output=embed"
                   className="absolute inset-0 w-full h-full border-0"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
@@ -320,7 +320,7 @@ function ContactContent() {
                 <div>
                   <h4 className="text-lg font-bold font-heading mb-1">Visit Us</h4>
                   <p className="text-sm text-slate-300 leading-relaxed">
-                    122, Rash Behari Avenue, 2nd Floor, Kolkata - 700029, West Bengal, India
+                    226, Lodha Supremus Tower 2, Road No. 22, Wagle Industrial Estate, Thane West – 400604
                   </p>
                 </div>
               </div>

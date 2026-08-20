@@ -191,8 +191,8 @@ export function validateChatInput(raw: string): ValidatedInput {
 
 function isSafeActionHref(href: string): boolean {
   if (/^\/(?:packages|destinations|blog|book|plan-trip|contact|testimonials)(?:[/?#]|$)/.test(href)) return true;
-  if (href === "https://wa.me/919830012345") return true;
-  if (href === "tel:+919830012345") return true;
+  if (href === "https://wa.me/919422332610") return true;
+  if (href === "tel:+919422332610") return true;
   return false;
 }
 
@@ -219,8 +219,8 @@ function faqResponse(faq: Faq, ctx: KnowledgeContext): BotResponse {
   const response: BotResponse = { text: resolveAnswer(faq, ctx), chips: faq.followups };
   if (faq.id === "contact") {
     response.actions = [
-      { label: "WhatsApp", href: "https://wa.me/919830012345" },
-      { label: "Call now", href: "tel:+919830012345" },
+      { label: "WhatsApp", href: "https://wa.me/919422332610" },
+      { label: "Call now", href: "tel:+919422332610" },
       { label: "Send an enquiry", href: contactEnquiryHref() },
     ];
   } else if (faq.id === "booking") {
@@ -360,7 +360,7 @@ const FAQS: Record<string, Faq> = {
     chipLabel: "Payment & advance",
     keywords: ["payment", "pay", "advance", "deposit", "installment", "emi", "upi", "card", "money"],
     answer:
-      "There is no payment just to submit a request. After an agent verifies availability, your quotation shows the exact booking advance and remaining balance. Payment instructions and accepted methods are shared with the confirmed quotation, so please do not send money against an unverified price.",
+      "There is no payment just to submit a request. After an agent verifies availability, your quotation shows the exact booking advance and remaining balance. Approved bookings can be paid securely through Razorpay using UPI, cards, netbanking or wallets. Please do not send money against an unverified price.",
     followups: ["booking", "cancellation", "contact"],
   },
   cancellation: {
@@ -428,7 +428,7 @@ const FAQS: Record<string, Faq> = {
     chipLabel: "Talk to a human",
     keywords: ["contact", "phone", "call", "email", "whatsapp", "reach", "talk", "human", "agent", "number", "speak", "support"],
     answer:
-      "You can reach our Kolkata travel desk directly:\n📞 +91 98300 12345 / +91 33 2464 1234\n✉️ info@bandhantours.com\n💬 WhatsApp: +91 98300 12345\nTypical enquiry response time is within 24 hours.",
+      "You can reach our Thane travel desk directly:\n📞 +91 94223 32610\n✉️ info@bandhantours.com\n💬 WhatsApp: +91 94223 32610\nTypical enquiry response time is within 24 hours.",
     followups: ["hours", "location", "booking"],
   },
   location: {
@@ -436,7 +436,7 @@ const FAQS: Record<string, Faq> = {
     chipLabel: "Office location",
     keywords: ["office", "location", "address", "visit", "branch", "kolkata"],
     answer:
-      "We're based in Kolkata: 122, Rash Behari Avenue, 2nd Floor, Kolkata – 700029, West Bengal. Pop by during working hours, or reach us online anytime.",
+      "We're based in Thane: 226, Lodha Supremus Tower 2, Road No. 22, Wagle Industrial Estate, Thane West – 400604. Pop by during working hours, or reach us online anytime.",
     followups: ["hours", "contact"],
   },
   hours: {
@@ -452,7 +452,7 @@ const FAQS: Record<string, Faq> = {
     chipLabel: "About Bandhan",
     keywords: ["about", "who", "experience", "years", "trust", "company", "reliable", "safe", "legit"],
     answer:
-      "Bandhan Tours is a Kolkata-based travel company offering domestic, North East, international, group and custom journeys. You can explore the published itineraries, read guest testimonials, or speak with the travel desk before making a booking decision.",
+      "Bandhan Tours is a Thane-based travel company offering domestic, North East, international, group and custom journeys. You can explore the published itineraries, read guest testimonials, or speak with the travel desk before making a booking decision.",
     followups: ["packages", "group", "contact"],
   },
   thanks: {
@@ -1174,7 +1174,7 @@ export const Chatbot: React.FC = () => {
   return (
     <>
       {/* Teaser bubble */}
-      {showTeaser && !open && (
+      {showTeaser && !open && pathname !== "/book" && !pathname?.startsWith("/account/bookings/") && (
         <div className="fixed bottom-[calc(5rem+env(safe-area-inset-bottom))] left-3 right-3 z-40 lg:bottom-24 lg:left-auto lg:right-6 lg:max-w-[280px]">
           <div className="relative border border-primary/10 bg-white px-4 py-3.5 pr-12 shadow-[0_18px_60px_rgba(7,32,60,0.16)]">
             <button
