@@ -28,6 +28,14 @@ textarea {
   touch-action: manipulation;
 }
 
+:where(a[href], button:not(:disabled), select, input[type="date"], input[type="checkbox"], input[type="radio"], [role="button"]):not([aria-disabled="true"]) {
+  cursor: pointer;
+}
+
+:where(button:disabled, [aria-disabled="true"]) {
+  cursor: not-allowed;
+}
+
 @media (max-width: 767px) {
   /* iOS zooms focused controls rendered below 16px. Keeping form controls at
      the platform-friendly size prevents the entire layout from jumping. */

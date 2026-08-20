@@ -7,9 +7,9 @@ import { Container } from "@/components/ui/Container";
 export default function BookPage() {
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top_right,rgba(247,185,70,0.12),transparent_30%),linear-gradient(180deg,#f7f3eb_0%,#f3efe7_100%)]">
-      <div className="fixed inset-x-0 top-0 z-30 h-20 bg-primary" aria-hidden="true" />
+      <div className="pointer-events-none fixed inset-x-0 top-0 z-30 h-20 bg-primary" aria-hidden="true" />
       <Navbar />
-      <main className="pb-16 pt-24 sm:pb-24 sm:pt-32">
+      <main className="relative z-10 pb-16 pt-24 sm:pb-24 sm:pt-32">
         <Container>
           <Suspense
             fallback={

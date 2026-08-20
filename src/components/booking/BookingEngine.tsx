@@ -51,7 +51,15 @@ import PdfPreviewModal from "@/components/ui/PdfPreviewModal";
 
 const steps = ["Choose trip", "Travel plan", "Travellers", "Traveller details", "Review"];
 const inputClass =
-  "w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-primary outline-none transition focus:border-accent focus:ring-4 focus:ring-accent/10";
+  "relative z-10 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-primary outline-none transition focus:border-accent focus:ring-4 focus:ring-accent/10";
+
+const openNativeDatePicker = (event: React.MouseEvent<HTMLInputElement>) => {
+  try {
+    event.currentTarget.showPicker?.();
+  } catch {
+    // Browsers without programmatic picker support still use the native input.
+  }
+};
 
 interface BookingResult {
   id: string;
@@ -620,7 +628,7 @@ export default function BookingEngine() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl">
+    <div className="relative isolate mx-auto max-w-7xl pointer-events-auto">
       <div className="mb-7 grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
         <div>
           <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-accent">
@@ -689,7 +697,7 @@ export default function BookingEngine() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-        <section className="self-start rounded-[1.75rem] border border-slate-200/70 bg-white p-5 shadow-premium sm:p-8">
+        <section className="relative z-10 self-start rounded-[1.75rem] border border-slate-200/70 bg-white p-5 shadow-premium sm:p-8">
           {error ? (
             <div className="mb-6 rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
               {error}
@@ -844,7 +852,13 @@ export default function BookingEngine() {
                   <span className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary">
                     <CalendarDays size={15} /> Travel date
                   </span>
-                  <input type="date" value={travelDate} onChange={(event) => setTravelDate(event.target.value)} className={inputClass} />
+                  <input
+                    type="date"
+                    value={travelDate}
+                    onChange={(event) => setTravelDate(event.target.value)}
+                    onClick={openNativeDatePicker}
+                    className={`${inputClass} cursor-pointer`}
+                  />
                 </label>
                 <label className="space-y-2">
                   <span className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary">
