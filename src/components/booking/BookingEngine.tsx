@@ -74,7 +74,14 @@ function SummaryCard({
     <div className="overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-soft">
       <div className="relative h-44 bg-primary">
         {image ? (
-          <Image src={image} alt={snapshot.title} fill className="object-cover" sizes="420px" />
+          <Image
+            src={image}
+            alt={snapshot.title}
+            fill
+            loading="eager"
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 420px"
+          />
         ) : null}
         <div className="absolute inset-0 bg-ink-deep/50" />
         <div className="absolute bottom-0 p-5 text-white">
