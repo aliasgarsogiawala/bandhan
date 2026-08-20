@@ -78,48 +78,39 @@ const PACKAGE_GROUPS = [
   {
     heading: "Northeast India",
     items: [
-      "Assam & Meghalaya",
-      "Arunachal Pradesh",
-      "Nagaland, Manipur, Mizoram & Tripura",
-      "Glimpse of 7 Sisters",
-      "Sikkim & Darjeeling",
+      { label: "Assam, Meghalaya & Arunachal", href: "/packages/3-sisters-tour" },
+      { label: "Nagaland, Manipur, Tripura & Mizoram", href: "/packages/4-sisters-tour" },
+      { label: "Sikkim & Darjeeling — 7 Days", href: "/packages/sikkim-darjeeling-6n" },
+      { label: "Sikkim, Lachung & Darjeeling — 10 Days", href: "/packages/sikkim-darjeeling-9n" },
     ],
   },
   {
     heading: "Domestic",
     items: [
-      "Kashmir",
-      "Andaman",
-      "Kerala",
-      "Rajasthan",
-      "Madhya Pradesh",
-      "Uttar Pradesh",
-      "Karnataka",
-      "Gujarat",
-      "Tamil Nadu",
+      { label: "Andaman Tour", href: "/packages/andaman-tour" },
+      { label: "Andaman with Baratang", href: "/packages/andaman-baratang-tour" },
+      { label: "Ayodhya & Varanasi", href: "/packages/ayodhya-varanasi" },
+      { label: "Kerala & Kanyakumari", href: "/packages/kerala-kanyakumari" },
+      { label: "Rajasthan Marwad", href: "/packages/rajasthan-marwad" },
+      { label: "Sampurna Karnataka", href: "/packages/sampurna-karnataka" },
+      { label: "South India Temple Tour", href: "/packages/south-india-temple-tour" },
+      { label: "Special Kerala", href: "/packages/special-kerala" },
     ],
   },
   {
     heading: "International",
     items: [
-      "European Wonders",
-      "Southeast Asia",
-      "Thailand",
-      "Vietnam",
-      "Bali",
-      "Dubai",
-      "Sri Lanka",
-      "Bhutan",
-      "Nepal",
+      { label: "Bali — Island of Dreams", href: "/packages/bali-island-dreams" },
+      { label: "Amazing Thailand", href: "/packages/amazing-thailand" },
+      { label: "Singapore, Malaysia & Thailand", href: "/packages/singapore-malaysia-thailand" },
+      { label: "Mesmerizing Vietnam", href: "/packages/mesmerizing-vietnam" },
+      { label: "Bhutan Tour", href: "/packages/bhutan-tour" },
+      { label: "Best of Europe", href: "/packages/best-of-europe-2027" },
+      { label: "Japan Autumn Delights", href: "/packages/japan-autumn-delights" },
+      { label: "Scandinavia & Northern Lights", href: "/packages/scandinavia-northern-lights" },
     ],
   },
-].map((group) => ({
-  ...group,
-  items: group.items.map((label) => ({
-    label,
-    href: `/packages?search=${encodeURIComponent(label)}`,
-  })),
-}));
+];
 
 export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -322,7 +313,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
 
             {/* Packages Dropdown Trigger & Menu */}
             <div
-              className="group/packages relative py-1"
+              className="relative py-1"
               ref={packagesRef}
               onKeyDown={(event) => {
                 if (event.key === "Escape") {
@@ -367,7 +358,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
                   className={`overflow-hidden rounded-b-3xl rounded-t-md border border-slate-200 border-r-4 border-r-accent bg-white shadow-[0_26px_70px_-22px_rgba(3,16,32,0.35)] transition-all duration-300 origin-top-left ${
                   isPackagesOpen
                     ? "opacity-100 translate-y-0 visible"
-                    : "pointer-events-none invisible -translate-y-2 opacity-0 group-hover/packages:pointer-events-auto group-hover/packages:visible group-hover/packages:translate-y-0 group-hover/packages:opacity-100 group-focus-within/packages:pointer-events-auto group-focus-within/packages:visible group-focus-within/packages:translate-y-0 group-focus-within/packages:opacity-100"
+                    : "pointer-events-none invisible -translate-y-2 opacity-0"
                 }`}
                 >
                   <div className="grid grid-cols-3 px-7 py-8">
