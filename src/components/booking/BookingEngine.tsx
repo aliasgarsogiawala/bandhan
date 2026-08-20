@@ -47,6 +47,7 @@ import TravellerDetailsStep, {
   resolveParty,
   type PartyDraft,
 } from "@/components/booking/TravellerDetailsStep";
+import PdfPreviewModal from "@/components/ui/PdfPreviewModal";
 
 const steps = ["Choose trip", "Travel plan", "Travellers", "Traveller details", "Review"];
 const inputClass =
@@ -150,6 +151,7 @@ export default function BookingEngine() {
   const [deliveryMessage, setDeliveryMessage] = useState("");
   const [sending, setSending] = useState<"email" | "whatsapp" | null>(null);
   const [result, setResult] = useState<BookingResult | null>(null);
+  const [brochurePreviewOpen, setBrochurePreviewOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const { items: recentSearches, clearRecentSearches } = useRecentSearches();
 
@@ -507,14 +509,13 @@ export default function BookingEngine() {
                     Your party, itinerary, highlights, inclusions, pricing and next steps in one keepsake.
                   </p>
                   <div className="mt-5 grid grid-cols-2 gap-2">
-                    <a
-                      href={result.brochureUrl}
-                      target="_blank"
-                      rel="noreferrer"
+                    <button
+                      type="button"
+                      onClick={() => setBrochurePreviewOpen(true)}
                       className="flex min-h-11 items-center justify-center gap-1.5 rounded-full bg-primary px-3 text-xs font-bold text-white transition hover:bg-accent"
                     >
                       <FileText size={15} /> Preview
-                    </a>
+                    </button>
                     <a
                       href={`${result.brochureUrl}&download=1`}
                       className="flex min-h-11 items-center justify-center gap-1.5 rounded-full border border-primary/15 bg-white/70 px-3 text-xs font-bold text-primary transition hover:border-accent hover:text-accent"
@@ -607,6 +608,13 @@ export default function BookingEngine() {
             </div>
           </div>
         </div>
+        <PdfPreviewModal
+          isOpen={brochurePreviewOpen}
+          title={`${snapshot.title} brochure`}
+          url={result.brochureUrl}
+          downloadUrl={`${result.brochureUrl}&download=1`}
+          onClose={() => setBrochurePreviewOpen(false)}
+        />
       </div>
     );
   }

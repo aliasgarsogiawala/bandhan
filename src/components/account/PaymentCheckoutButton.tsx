@@ -38,6 +38,8 @@ export function PaymentCheckoutButton({ booking }: { booking: BookingDetail }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [testOverride, setTestOverride] = useState(false);
+  const testModeAvailable = process.env.NODE_ENV !== "production";
   if (booking.payment_status === "received" || !["approved", "payment_pending"].includes(booking.status)) return null;
   const amount = booking.pricing_snapshot?.depositAmount || parseMoney(booking.price_amount);
 
@@ -54,6 +56,10 @@ export function PaymentCheckoutButton({ booking }: { booking: BookingDetail }) {
   }
 
   async function checkout() {
+    if (testModeAvailable && testOverride) {
+      window.location.assign(`/account/bookings/${booking.id}/confirmation?test=1`);
+      return;
+    }
     setBusy(true);
     setError("");
     try {
@@ -112,10 +118,31 @@ export function PaymentCheckoutButton({ booking }: { booking: BookingDetail }) {
               Complete payment using UPI, cards, netbanking or wallets. Confirmation is applied only after server-side verification.
             </p>
           </div>
-          <button type="button" onClick={() => void checkout()} disabled={busy || success || !scriptReady || amount <= 0} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-3 text-sm font-bold text-white shadow-lg shadow-primary/15 transition hover:-translate-y-0.5 hover:bg-primary/90 disabled:translate-y-0 disabled:opacity-50">
-            {success ? <><ShieldCheck size={18} /> Verified</> : busy ? <><LockKeyhole size={17} /> Processing…</> : <><CreditCard size={18} /> Pay with Razorpay</>}
+          <button
+            type="button"
+            onClick={() => void checkout()}
+            disabled={busy || success || (!testOverride && (!scriptReady || amount <= 0))}
+            className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-[6px] px-6 py-3 text-sm font-bold text-white shadow-lg transition hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-50 ${testOverride ? "bg-amber-700 shadow-amber-700/15 hover:bg-amber-800" : "bg-primary shadow-primary/15 hover:bg-primary/90"}`}
+          >
+            {success ? <><ShieldCheck size={18} /> Verified</> : busy ? <><LockKeyhole size={17} /> Processing…</> : testOverride ? <><ShieldCheck size={18} /> Preview final confirmation</> : <><CreditCard size={18} /> Pay with Razorpay</>}
           </button>
         </div>
+        {testModeAvailable ? (
+          <div className="border-t border-amber-200 bg-amber-50 px-5 py-4 sm:px-6">
+            <label className="flex cursor-pointer items-start gap-3 text-left">
+              <input
+                type="checkbox"
+                checked={testOverride}
+                onChange={(event) => setTestOverride(event.target.checked)}
+                className="mt-0.5 h-4 w-4 accent-amber-700"
+              />
+              <span>
+                <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-amber-800">Test payment override</span>
+                <span className="mt-1 block text-xs leading-relaxed text-amber-800/80">Skip Razorpay and preview the final confirmation. No payment is collected and the booking record is not changed.</span>
+              </span>
+            </label>
+          </div>
+        ) : null}
         <div className="flex flex-wrap items-center justify-between gap-2 border-t border-emerald-100 bg-white/70 px-5 py-3 text-[11px] text-foreground-muted sm:px-6">
           <span>Booking {booking.booking_code}</span>
           <span className="inline-flex items-center gap-1.5"><LockKeyhole size={12} /> Payment details are handled by Razorpay</span>

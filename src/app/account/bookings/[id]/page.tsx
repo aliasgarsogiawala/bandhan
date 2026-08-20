@@ -14,6 +14,7 @@ import {
 import type { BookingDetail } from "@/lib/bookings/types";
 import { BookingTravellerEditor } from "@/components/account/BookingTravellerEditor";
 import { PaymentCheckoutButton } from "@/components/account/PaymentCheckoutButton";
+import PdfPreviewModal from "@/components/ui/PdfPreviewModal";
 
 const DOC_LABELS: Record<string, string> = {
   quotation: "Quotation",
@@ -29,6 +30,7 @@ export default function AccountBookingDetailPage() {
   const [booking, setBooking] = useState<BookingDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [brochurePreviewOpen, setBrochurePreviewOpen] = useState(false);
 
   useEffect(() => {
     fetch(`/api/bookings/${params.id}`, { cache: "no-store" })
@@ -92,13 +94,13 @@ export default function AccountBookingDetailPage() {
                     >
                       Quotation PDF →
                     </Link>
-                    <Link
-                      href={`/api/bookings/${booking.id}/brochure`}
-                      target="_blank"
-                      className="text-xs font-bold uppercase tracking-wider text-accent hover:text-accent-dark whitespace-nowrap"
+                    <button
+                      type="button"
+                      onClick={() => setBrochurePreviewOpen(true)}
+                      className="whitespace-nowrap text-xs font-bold uppercase tracking-wider text-accent hover:text-accent-dark"
                     >
-                      Trip Brochure →
-                    </Link>
+                      Preview Brochure →
+                    </button>
                   </div>
                 </div>
 
@@ -202,7 +204,7 @@ export default function AccountBookingDetailPage() {
                       Party details, itinerary, inclusions and trip estimate.
                     </p>
                     <div className="mt-4 flex gap-3 text-xs font-bold">
-                      <a href={`/api/bookings/${booking.id}/brochure`} target="_blank" rel="noreferrer" className="text-accent">Preview</a>
+                      <button type="button" onClick={() => setBrochurePreviewOpen(true)} className="text-accent">Preview</button>
                       <a href={`/api/bookings/${booking.id}/brochure?download=1`} className="text-primary">Download</a>
                     </div>
                   </div>
@@ -255,6 +257,16 @@ export default function AccountBookingDetailPage() {
           )}
         </Container>
       </main>
+
+      {booking ? (
+        <PdfPreviewModal
+          isOpen={brochurePreviewOpen}
+          title={`${booking.package_title || booking.destination || "Trip"} brochure`}
+          url={`/api/bookings/${booking.id}/brochure`}
+          downloadUrl={`/api/bookings/${booking.id}/brochure?download=1`}
+          onClose={() => setBrochurePreviewOpen(false)}
+        />
+      ) : null}
 
       <Footer />
     </div>

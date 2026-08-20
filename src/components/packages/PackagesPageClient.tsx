@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { CalendarClock, Search, X } from "lucide-react";
+import { ArrowUpRight, CalendarClock, MapPin, Search, X } from "lucide-react";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import { Container } from "@/components/ui/Container";
@@ -103,7 +103,7 @@ export const PackagesPageClient: React.FC = () => {
     .filter((pkg) => bestTimeCoversMonth(pkg.bestTime, monthFilter));
 
   return (
-    <div className="min-h-screen bg-sand flex flex-col overflow-x-hidden">
+    <div className="package-catalogue min-h-screen bg-sand-light flex flex-col overflow-x-hidden">
       <Navbar onEnquiryClick={() => handleEnquire("")} />
 
       {/* Page hero */}
@@ -137,7 +137,7 @@ export const PackagesPageClient: React.FC = () => {
           </p>
 
           {/* Search box */}
-          <div className="relative mt-8 max-w-md">
+          <div className="relative mt-8 max-w-xl">
             <label className="sr-only" htmlFor="package-search">
               Search packages
             </label>
@@ -151,7 +151,7 @@ export const PackagesPageClient: React.FC = () => {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search by destination, title or theme…"
-              className="min-h-12 w-full rounded-full border border-white/15 bg-white/10 py-3 pl-11 pr-10 text-base text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-gold sm:text-sm"
+              className="min-h-12 w-full rounded-[8px] border border-white/20 bg-ink-deep/35 py-3 pl-11 pr-10 text-base text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-gold sm:text-sm"
             />
             {query && (
               <button
@@ -166,12 +166,12 @@ export const PackagesPageClient: React.FC = () => {
           </div>
 
           {/* Filter tabs */}
-          <div className="inline-flex max-w-full flex-wrap gap-1 p-1 bg-white/10 backdrop-blur-md rounded-3xl sm:rounded-full border border-white/15 mt-4">
+          <div className="inline-flex max-w-full flex-wrap gap-1 rounded-[8px] border border-white/15 bg-white/10 p-1 backdrop-blur-md mt-4">
             {TABS.map((tab) => (
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
-                className={`min-h-11 rounded-full px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all duration-300 sm:px-6 ${
+                className={`min-h-11 rounded-[5px] px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all duration-300 sm:px-6 ${
                   activeTab === tab.key
                     ? "bg-gold text-primary shadow-md"
                     : "text-white/70 hover:text-white"
@@ -191,7 +191,7 @@ export const PackagesPageClient: React.FC = () => {
               id="budget-filter"
               value={budget}
               onChange={(e) => setBudget(e.target.value as BudgetKey)}
-              className="min-h-11 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/90 backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
+              className="min-h-11 rounded-[6px] border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/90 backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
             >
               {BUDGET_RANGES.map((range) => (
                 <option key={range.key} value={range.key} className="text-primary">
@@ -207,7 +207,7 @@ export const PackagesPageClient: React.FC = () => {
               id="duration-filter"
               value={duration}
               onChange={(e) => setDuration(e.target.value as DurationKey)}
-              className="min-h-11 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/90 backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
+              className="min-h-11 rounded-[6px] border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/90 backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
             >
               {DURATION_RANGES.map((range) => (
                 <option key={range.key} value={range.key} className="text-primary">
@@ -223,7 +223,7 @@ export const PackagesPageClient: React.FC = () => {
               id="month-filter"
               value={month}
               onChange={(e) => setMonth(e.target.value)}
-              className="min-h-11 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/90 backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
+              className="min-h-11 rounded-[6px] border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/90 backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
             >
               <option value="" className="text-primary">
                 Any Month
@@ -244,7 +244,7 @@ export const PackagesPageClient: React.FC = () => {
                   setMonth("");
                   setQuery("");
                 }}
-                className="inline-flex items-center gap-1.5 rounded-full border border-white/15 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/70 transition-colors hover:border-gold/50 hover:text-gold"
+                className="inline-flex items-center gap-1.5 rounded-[6px] border border-white/15 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/70 transition-colors hover:border-gold/50 hover:text-gold"
               >
                 <X size={13} />
                 Clear filters
@@ -268,7 +268,7 @@ export const PackagesPageClient: React.FC = () => {
       </header>
 
       {/* Packages grid */}
-      <main className="flex-1 py-16 sm:py-20 bg-sand-bg/40">
+      <main className="flex-1 bg-sand-light py-14 sm:py-20">
         <Container>
           {filteredPackages.length === 0 && (
             <div className="text-center py-16">
@@ -280,7 +280,16 @@ export const PackagesPageClient: React.FC = () => {
               </p>
             </div>
           )}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredPackages.length > 0 && (
+            <div className="mb-7 flex items-end justify-between gap-4 border-b border-primary/10 pb-5">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-accent">Curated journeys</p>
+                <h2 className="mt-1 font-heading text-2xl font-bold text-primary">{filteredPackages.length} trips ready to explore</h2>
+              </div>
+              <p className="hidden max-w-sm text-right text-xs leading-relaxed text-foreground-muted sm:block">Choose a route, then tailor the dates, stays and pace with our trip designers.</p>
+            </div>
+          )}
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
             {filteredPackages.map((pkg, index) => {
               const detail = getFullPackageForPackage(pkg);
               const image = pkg.image || "/logo.svg";
@@ -288,9 +297,9 @@ export const PackagesPageClient: React.FC = () => {
                 <ScrollReveal key={pkg.id} delay={(index % 3) * 100}>
                   <Link
                     href={`/packages/${pkg.id}`}
-                    className="group bg-white rounded-3xl overflow-hidden shadow-soft hover:shadow-lifted hover:-translate-y-1.5 transition-all duration-500 ease-out flex flex-col h-full border border-slate-200/70 hover:border-slate-200 motion-reduce:hover:translate-y-0"
+                    className="group flex h-full flex-col overflow-hidden rounded-[8px] border border-primary/10 bg-white shadow-soft transition-all duration-500 ease-out hover:-translate-y-1 hover:border-gold/45 hover:shadow-lifted motion-reduce:hover:translate-y-0"
                   >
-                    <div className="relative h-64 overflow-hidden">
+                    <div className="relative h-60 overflow-hidden">
                       <Image
                         src={image}
                         alt={pkg.title}
@@ -301,20 +310,20 @@ export const PackagesPageClient: React.FC = () => {
                       <div className="absolute inset-0 bg-ink-deep/45" />
 
                       {pkg.isPopular && (
-                        <span className="absolute top-4 left-4 px-3 py-1 bg-accent text-white rounded-full text-[10px] font-bold uppercase tracking-wider shadow-md shadow-accent/20">
+                        <span className="absolute top-4 left-4 rounded-[4px] bg-accent px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-md shadow-accent/20">
                           Popular
                         </span>
                       )}
-                      <span className="absolute top-4 right-4 px-3 py-1 bg-white/90 text-primary rounded-full text-[10px] font-bold uppercase tracking-wider backdrop-blur-md">
+                      <span className="absolute top-4 right-4 rounded-[4px] bg-white/90 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary backdrop-blur-md">
                         {pkg.category}
                       </span>
-                      <span className="absolute bottom-4 right-4 px-3.5 py-1 bg-primary/90 text-white rounded-full text-xs font-semibold backdrop-blur-md shadow-sm">
+                      <span className="absolute bottom-4 right-4 rounded-[4px] bg-primary/90 px-3.5 py-1 text-xs font-semibold text-white shadow-sm backdrop-blur-md">
                         {pkg.duration}
                       </span>
                     </div>
 
-                    <div className="p-6 sm:p-8 flex flex-col flex-1">
-                      <h2 className="text-2xl sm:text-[1.7rem] font-heading font-extrabold leading-[1.15] tracking-[-0.01em] text-primary mb-2.5 group-hover:text-accent transition-colors duration-300">
+                    <div className="flex flex-1 flex-col p-6">
+                      <h2 className="mb-2.5 font-heading text-2xl font-extrabold leading-[1.15] tracking-[-0.01em] text-primary transition-colors duration-300 group-hover:text-accent">
                         {pkg.title}
                       </h2>
 
@@ -322,12 +331,19 @@ export const PackagesPageClient: React.FC = () => {
                         {detail?.tagline || pkg.tagline || "Plan a custom journey around this destination."}
                       </p>
 
+                      {detail?.startingPoint && (
+                        <p className="mb-4 flex items-center gap-2 text-xs font-semibold text-foreground-muted">
+                          <MapPin size={14} className="shrink-0 text-accent" />
+                          Starts from {detail.startingPoint}
+                        </p>
+                      )}
+
                       {(detail?.themes || pkg.themes || []).length > 0 && (
                         <div className="flex flex-wrap gap-2 mb-6">
                           {(detail?.themes || pkg.themes || []).slice(0, 3).map((theme) => (
                             <span
                               key={theme}
-                              className="px-2.5 py-1 bg-sand-dark text-primary/80 rounded-full text-[10px] font-bold uppercase tracking-wider"
+                              className="rounded-[4px] bg-sand-dark px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary/80"
                             >
                               {theme}
                             </span>
@@ -344,23 +360,9 @@ export const PackagesPageClient: React.FC = () => {
                             {pkg.price}
                           </div>
                         </div>
-                        <span className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-full bg-primary text-white group-hover:bg-accent transition-colors duration-300">
-                          View Itinerary
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="14"
-                            height="14"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="transition-transform duration-300 group-hover:translate-x-0.5"
-                          >
-                            <line x1="5" y1="12" x2="19" y2="12" />
-                            <polyline points="12 5 19 12 12 19" />
-                          </svg>
+                        <span className="inline-flex items-center gap-2 rounded-[5px] bg-primary px-4 py-2 text-xs font-semibold text-white transition-colors duration-300 group-hover:bg-accent">
+                          View itinerary
+                          <ArrowUpRight size={14} className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                         </span>
                       </div>
                     </div>
@@ -372,7 +374,7 @@ export const PackagesPageClient: React.FC = () => {
 
           {/* Custom trip CTA */}
           <ScrollReveal className="mt-16">
-            <div className="relative bg-primary rounded-3xl px-8 py-12 sm:px-12 text-center overflow-hidden">
+            <div className="relative overflow-hidden rounded-[8px] bg-primary px-8 py-12 text-center sm:px-12">
               <div className="relative">
                 <h2 className="text-2xl sm:text-3xl font-heading font-extrabold text-white">
                   Didn&apos;t find your dream route?
@@ -384,7 +386,7 @@ export const PackagesPageClient: React.FC = () => {
                 </p>
                 <button
                   onClick={() => router.push("/book?type=custom")}
-                  className="mt-6 inline-flex items-center gap-2 px-8 py-3.5 bg-accent text-white rounded-full text-sm font-bold hover:bg-accent-dark hover:shadow-lg hover:shadow-accent/20 transition-all duration-300"
+                  className="mt-6 inline-flex items-center gap-2 rounded-[5px] bg-accent px-8 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:bg-accent-dark hover:shadow-lg hover:shadow-accent/20"
                 >
                   Build a Custom Trip
                 </button>

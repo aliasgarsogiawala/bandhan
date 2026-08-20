@@ -7,13 +7,12 @@ import { useRouter } from "next/navigation";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import { Container } from "@/components/ui/Container";
-import { Expand } from "lucide-react";
+import { ArrowRight, CalendarDays, Clock3, Download, Expand, MapPin, Users } from "lucide-react";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { Lightbox } from "@/components/ui/Lightbox";
 import type { TourPackage } from "@/data/mockData";
 import type { FullPackage } from "@/data/packageDetails";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
-import { ViewingNow, SeatsLeft, RecentlyBooked, Countdown, endOfToday } from "@/components/ui/Urgency";
 import { SecondaryButton } from "@/components/ui/SecondaryButton";
 import PackageServiceDetails from "./PackageServiceDetails";
 
@@ -21,14 +20,6 @@ interface PackageDetailClientProps {
   pkg: FullPackage;
   relatedPackages: TourPackage[];
 }
-
-const SECTION_LINKS = [
-  { id: "overview", label: "Overview" },
-  { id: "itinerary", label: "Itinerary" },
-  { id: "inclusions", label: "What's Included" },
-  { id: "gallery", label: "Gallery" },
-  { id: "faqs", label: "FAQs" },
-];
 
 const CheckIcon = ({ className = "" }: { className?: string }) => (
   <svg
@@ -85,25 +76,35 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
   relatedPackages,
 }) => {
   const router = useRouter();
-  const [openDay, setOpenDay] = useState<number | null>(1);
+  const [openDay, setOpenDay] = useState<number | null>(() => pkg.itinerary[0]?.day ?? null);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [galleryIndex, setGalleryIndex] = useState<number | null>(null);
 
   const enquire = () => router.push(contactEnquiryHref(pkg.title));
 
   const quickFacts = [
-    { label: "Duration", value: pkg.duration },
-    { label: "Best Time", value: pkg.bestTime },
-    { label: "Starts From", value: pkg.startingPoint },
-    { label: "Group Size", value: pkg.groupSize },
+    { label: "Duration", value: pkg.duration, icon: Clock3 },
+    { label: "Best Time", value: pkg.bestTime, icon: CalendarDays },
+    { label: "Starts From", value: pkg.startingPoint, icon: MapPin },
+    { label: "Group Size", value: pkg.groupSize, icon: Users },
   ];
+  const sectionLinks = [
+    { id: "overview", label: "Overview" },
+    ...(pkg.itinerary.length ? [{ id: "itinerary", label: "Itinerary" }] : []),
+    { id: "inclusions", label: "What's Included" },
+    ...(pkg.gallery.length ? [{ id: "gallery", label: "Gallery" }] : []),
+    ...(pkg.faqs.length ? [{ id: "faqs", label: "FAQs" }] : []),
+  ];
+  const sidebarHighlights = pkg.inclusions.length
+    ? pkg.inclusions.slice(0, 4)
+    : ["Itinerary tailored to your dates", "Hand-picked stays and transfers", "On-trip assistance from our team"];
 
   return (
-    <div className="min-h-screen bg-sand flex flex-col overflow-x-hidden">
+    <div className="package-detail min-h-screen bg-sand-light flex flex-col overflow-x-hidden">
       <Navbar onEnquiryClick={enquire} />
 
       {/* Immersive hero */}
-      <header className="relative flex min-h-[100svh] items-end pt-28 sm:h-[78vh] sm:min-h-[540px] sm:pt-0">
+      <header className="relative flex min-h-[72svh] items-end pt-28 sm:h-[72vh] sm:min-h-[580px] sm:max-h-[760px] sm:pt-0">
         <Image
           src={pkg.heroImage}
           alt={pkg.title}
@@ -114,7 +115,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
         />
         <div className="absolute inset-0 bg-ink-deep/60" />
 
-        <Container className="relative pb-10 sm:pb-20">
+        <Container className="relative pb-9 sm:pb-14">
           <nav
             className="text-xs font-semibold uppercase tracking-wider text-white/70 mb-5"
             aria-label="Breadcrumb"
@@ -149,27 +150,26 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
             ))}
           </div>
 
-          <h1 className="max-w-4xl font-heading text-3xl font-extrabold leading-[1.06] tracking-[-0.015em] text-white min-[380px]:text-4xl sm:text-5xl lg:text-[4.25rem]">
+          <h1 className="max-w-5xl break-words font-heading text-3xl font-extrabold leading-[1.04] tracking-[-0.02em] text-white min-[380px]:text-4xl sm:text-5xl lg:text-[4rem]">
             {pkg.title}
           </h1>
           <p className="mt-4 max-w-2xl font-sans text-sm leading-relaxed text-slate-200 sm:text-xl">
             {pkg.tagline}
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
-            {quickFacts.map((fact) => (
+          <div className="mt-8 grid max-w-4xl grid-cols-2 overflow-hidden rounded-[8px] border border-white/15 bg-ink-deep/45 backdrop-blur-md sm:grid-cols-4">
+            {quickFacts.map((fact) => {
+              const Icon = fact.icon;
+              return (
               <div
                 key={fact.label}
-                className="max-w-full rounded-2xl border border-white/15 bg-white/10 px-4 py-2.5 backdrop-blur-md"
+                className="min-w-0 border-b border-r border-white/10 px-4 py-3 last:border-r-0 sm:border-b-0"
               >
-                <span className="block text-[10px] font-bold uppercase tracking-wider text-gold">
-                  {fact.label}
-                </span>
-                <span className="block text-sm font-semibold text-white mt-0.5">
-                  {fact.value}
-                </span>
+                <span className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-gold"><Icon size={12} />{fact.label}</span>
+                <span className="mt-1 block truncate text-sm font-semibold text-white">{fact.value}</span>
               </div>
-            ))}
+              );
+            })}
           </div>
 
           {pkg.brochureUrl && (
@@ -177,40 +177,41 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
               href={pkg.brochureUrl}
               target="_blank"
               rel="noreferrer"
-              className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-full border border-white/30 bg-white/10 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md transition hover:border-gold hover:bg-gold hover:text-primary"
+              className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-[5px] border border-white/30 bg-white/10 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md transition hover:border-gold hover:bg-gold hover:text-primary"
             >
-              View original brochure
-              <span aria-hidden="true">↗</span>
+              <Download size={15} /> View original brochure
             </a>
           )}
         </Container>
       </header>
 
       {/* Sticky in-page section nav */}
-      <div className="sticky top-16 z-30 border-b border-slate-200/60 bg-blur-glass shadow-soft sm:top-[76px]">
-        <Container className="flex items-center gap-1 overflow-x-auto py-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {SECTION_LINKS.map((section) => (
+      <div className="sticky top-16 z-30 border-b border-primary/10 bg-white/95 shadow-soft backdrop-blur-xl sm:top-[76px]">
+        <Container className="flex items-center gap-2 py-2.5">
+          <nav className="flex min-w-0 flex-1 items-center gap-1 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="Package sections">
+          {sectionLinks.map((section) => (
             <a
               key={section.id}
               href={`#${section.id}`}
-              className="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-foreground-muted hover:text-primary hover:bg-sand-dark whitespace-nowrap transition-colors duration-300"
+              className="whitespace-nowrap rounded-[4px] px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-foreground-muted transition-colors duration-300 hover:bg-sand-dark hover:text-primary sm:px-4 sm:text-xs"
             >
               {section.label}
             </a>
           ))}
+          </nav>
           <Link
             href={`/book?type=package&id=${encodeURIComponent(pkg.id)}`}
-            className="ml-auto hidden sm:inline-flex px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-accent text-white hover:bg-accent-dark transition-colors duration-300 whitespace-nowrap"
+            className="ml-auto inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-[5px] bg-accent px-4 py-2.5 text-[10px] font-bold uppercase tracking-wider text-white transition-colors duration-300 hover:bg-accent-dark sm:px-5 sm:text-xs"
           >
-            Book Now
+            Book Now <ArrowRight size={14} />
           </Link>
         </Container>
       </div>
 
-      <main className="flex-1 py-14 sm:py-20">
-        <Container className="grid grid-cols-1 lg:grid-cols-[1fr_370px] gap-10 lg:gap-14 items-start">
+      <main className="flex-1 py-12 sm:py-16">
+        <Container className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-12">
           {/* ——— Main column ——— */}
-          <div className="space-y-16 min-w-0">
+          <div className="min-w-0 space-y-14 sm:space-y-16">
             {/* Overview */}
             <ScrollReveal>
               <section id="overview" className="scroll-mt-28">
@@ -220,15 +221,15 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                 <h2 className="mt-2 text-3xl sm:text-4xl font-heading font-extrabold text-primary tracking-[-0.01em]">
                   The Journey at a Glance
                 </h2>
-                <p className="mt-4 text-foreground-muted font-sans leading-relaxed text-sm sm:text-base">
-                  {pkg.overview}
+                <p className="mt-4 max-w-4xl whitespace-pre-line text-sm leading-relaxed text-foreground-muted sm:text-base sm:leading-7">
+                  {pkg.overview || pkg.tagline}
                 </p>
 
-                <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {pkg.highlights.length > 0 && <div className="mt-8 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
                   {pkg.highlights.map((highlight) => (
                     <div
                       key={highlight}
-                      className="flex items-center gap-3 px-4 py-3 bg-white rounded-2xl border border-slate-100/80 shadow-soft"
+                      className="flex items-start gap-3 rounded-[6px] border border-primary/10 bg-white px-4 py-3 shadow-soft"
                     >
                       <CheckIcon className="text-accent" />
                       <span className="text-sm font-semibold text-primary">
@@ -236,11 +237,12 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                       </span>
                     </div>
                   ))}
-                </div>
+                </div>}
               </section>
             </ScrollReveal>
 
             {/* Itinerary timeline */}
+            {pkg.itinerary.length > 0 && (
             <ScrollReveal>
               <section id="itinerary" className="scroll-mt-28">
                 <span className="text-xs font-bold uppercase tracking-widest text-accent">
@@ -250,10 +252,10 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                   Detailed Itinerary
                 </h2>
 
-                <div className="mt-8 relative">
+                <div className="relative mt-8">
                   {/* Timeline spine */}
                   <div
-                    className="absolute left-[21px] top-4 bottom-4 w-px bg-slate-200"
+                    className="absolute bottom-4 left-[19px] top-4 w-px bg-primary/15"
                     aria-hidden="true"
                   />
 
@@ -261,10 +263,10 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                     {pkg.itinerary.map((day) => {
                       const isOpen = openDay === day.day;
                       return (
-                        <div key={day.day} className="relative pl-14">
+                        <div key={day.day} className="relative pl-[3.25rem] sm:pl-[3.75rem]">
                           {/* Day marker */}
                           <span
-                            className={`absolute left-0 top-2.5 w-[43px] h-[43px] rounded-full flex-center text-xs font-extrabold border-4 border-sand transition-colors duration-300 ${
+                            className={`absolute left-0 top-3 flex h-10 w-10 items-center justify-center rounded-[6px] border-4 border-sand-light text-xs font-extrabold transition-colors duration-300 ${
                               isOpen
                                 ? "bg-accent text-white"
                                 : "bg-white text-primary shadow-soft"
@@ -275,7 +277,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                           </span>
 
                           <div
-                            className={`bg-white rounded-2xl border transition-all duration-300 ${
+                            className={`rounded-[8px] border bg-white transition-all duration-300 ${
                               isOpen
                                 ? "border-accent/30 shadow-premium"
                                 : "border-slate-100/80 shadow-soft"
@@ -284,7 +286,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                             <button
                               onClick={() => setOpenDay(isOpen ? null : day.day)}
                               aria-expanded={isOpen}
-                              className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left"
+                              className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left sm:px-6 sm:py-5"
                             >
                               <div>
                                 <span className="block text-[10px] font-bold uppercase tracking-wider text-accent">
@@ -305,16 +307,16 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                               }`}
                             >
                               <div className="overflow-hidden">
-                                <div className="px-5 pb-5 pt-1 border-t border-slate-100">
-                                  <p className="text-sm text-foreground-muted font-sans leading-relaxed pt-3">
+                                <div className="border-t border-primary/10 px-5 pb-5 pt-1 sm:px-6">
+                                  <p className="whitespace-pre-line break-words pt-3 text-sm leading-7 text-foreground-muted">
                                     {day.description}
                                   </p>
                                   <div className="mt-4 flex flex-wrap gap-2">
-                                    <span className="px-3 py-1 bg-sand-dark rounded-full text-[10px] font-bold uppercase tracking-wider text-primary/80">
+                                    <span className="rounded-[4px] bg-sand-dark px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary/80">
                                       Meals: {day.meals}
                                     </span>
                                     {day.stay && (
-                                      <span className="px-3 py-1 bg-sand-dark rounded-full text-[10px] font-bold uppercase tracking-wider text-primary/80">
+                                      <span className="rounded-[4px] bg-sand-dark px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary/80">
                                         Overnight: {day.stay}
                                       </span>
                                     )}
@@ -330,6 +332,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                 </div>
               </section>
             </ScrollReveal>
+            )}
 
             {/* Inclusions / Exclusions */}
             <ScrollReveal>
@@ -343,8 +346,8 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
 
                 <PackageServiceDetails details={pkg.serviceDetails} />
 
-                <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="bg-white rounded-3xl border border-slate-100/80 shadow-soft p-6 sm:p-8">
+                {(pkg.inclusions.length > 0 || pkg.exclusions.length > 0) && <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2">
+                  {pkg.inclusions.length > 0 && <div className="rounded-[8px] border border-primary/10 bg-white p-6 shadow-soft sm:p-7">
                     <h3 className="text-base font-heading font-bold text-primary flex items-center gap-2 mb-5">
                       <CheckIcon className="text-emerald-500 w-5 h-5" />
                       Inclusions
@@ -360,9 +363,9 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                         </li>
                       ))}
                     </ul>
-                  </div>
+                  </div>}
 
-                  <div className="bg-white rounded-3xl border border-slate-100/80 shadow-soft p-6 sm:p-8">
+                  {pkg.exclusions.length > 0 && <div className="rounded-[8px] border border-primary/10 bg-white p-6 shadow-soft sm:p-7">
                     <h3 className="text-base font-heading font-bold text-primary flex items-center gap-2 mb-5">
                       <CrossIcon className="text-accent w-5 h-5" />
                       Exclusions
@@ -378,13 +381,13 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                         </li>
                       ))}
                     </ul>
-                  </div>
-                </div>
+                  </div>}
+                </div>}
               </section>
             </ScrollReveal>
 
             {/* Gallery */}
-            <ScrollReveal>
+            {pkg.gallery.length > 0 && <ScrollReveal>
               <section id="gallery" className="scroll-mt-28">
                 <span className="text-xs font-bold uppercase tracking-widest text-accent">
                   Postcards From the Route
@@ -393,14 +396,14 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                   Trip Gallery
                 </h2>
 
-                <div className="mt-8 grid grid-cols-2 gap-4 auto-rows-[160px] sm:auto-rows-[200px]">
+                <div className="mt-8 grid auto-rows-[160px] grid-cols-2 gap-3 sm:auto-rows-[200px]">
                   {pkg.gallery.map((item, index) => (
                     <button
                       key={item.image + index}
                       type="button"
                       onClick={() => setGalleryIndex(index)}
                       aria-label={`View ${item.caption}, enlarged`}
-                      className={`group relative block cursor-zoom-in overflow-hidden rounded-3xl transition duration-300 hover:ring-2 hover:ring-gold/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
+                      className={`group relative block cursor-zoom-in overflow-hidden rounded-[6px] transition duration-300 hover:ring-2 hover:ring-gold/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
                         index === 0 ? "col-span-2 row-span-2 sm:col-span-1" : ""
                       }`}
                     >
@@ -425,7 +428,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                   ))}
                 </div>
               </section>
-            </ScrollReveal>
+            </ScrollReveal>}
 
             <Lightbox
               slides={(pkg.gallery ?? []).map((item) => ({ image: item.image, caption: item.caption }))}
@@ -435,7 +438,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
             />
 
             {/* FAQs */}
-            <ScrollReveal>
+            {pkg.faqs.length > 0 && <ScrollReveal>
               <section id="faqs" className="scroll-mt-28">
                 <span className="text-xs font-bold uppercase tracking-widest text-accent">
                   Good to Know
@@ -450,7 +453,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                     return (
                       <div
                         key={faq.question}
-                        className={`bg-white rounded-2xl border transition-all duration-300 ${
+                        className={`rounded-[8px] border bg-white transition-all duration-300 ${
                           isOpen
                             ? "border-accent/30 shadow-premium"
                             : "border-slate-100/80 shadow-soft"
@@ -484,13 +487,13 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                   })}
                 </div>
               </section>
-            </ScrollReveal>
+            </ScrollReveal>}
           </div>
 
           {/* ——— Sticky booking sidebar ——— */}
-          <aside className="lg:sticky lg:top-24 space-y-6">
-            <div className="bg-white rounded-3xl shadow-premium border border-slate-100/80 overflow-hidden">
-              <div className="bg-primary px-6 py-6 text-white relative overflow-hidden">
+          <aside className="space-y-5 lg:sticky lg:top-28">
+            <div className="overflow-hidden rounded-[8px] border border-primary/10 bg-white shadow-premium">
+              <div className="relative overflow-hidden bg-primary px-6 py-6 text-white">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-gold block">
                   Starting From
                 </span>
@@ -505,39 +508,29 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                 </span>
               </div>
 
-              <div className="p-6 space-y-5">
-                {/* Urgency / scarcity */}
-                <div className="rounded-2xl bg-sand-dark/50 border border-slate-100 p-4 space-y-3">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <SeatsLeft seed={pkg.id} />
-                    <RecentlyBooked seed={pkg.id} />
-                  </div>
-                  <ViewingNow seed={pkg.id} className="text-xs text-foreground-muted" />
-                  <div className="flex items-center justify-between pt-3 border-t border-slate-200/70">
-                    <span className="text-xs font-bold uppercase tracking-wider text-primary">
-                      Offer ends in
-                    </span>
-                    <Countdown target={endOfToday()} className="text-accent text-base" />
-                  </div>
+              <div className="space-y-5 p-6">
+                <div className="rounded-[6px] border border-gold/35 bg-gold/10 p-4">
+                  <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">Make this trip yours</p>
+                  <p className="mt-1.5 text-xs leading-relaxed text-foreground-muted">Dates, hotels, room type and daily pace can be adjusted before you book.</p>
                 </div>
 
                 <ul className="space-y-2.5">
-                  {pkg.inclusions.slice(0, 4).map((item) => (
+                  {sidebarHighlights.map((item) => (
                     <li
                       key={item}
                       className="flex items-start gap-2.5 text-xs text-foreground-muted font-sans"
                     >
                       <CheckIcon className="text-emerald-500 mt-0.5" />
-                      <span className="line-clamp-1">{item}</span>
+                      <span className="line-clamp-2">{item}</span>
                     </li>
                   ))}
                 </ul>
 
                 <Link
                   href={`/book?type=package&id=${encodeURIComponent(pkg.id)}`}
-                  className="inline-flex w-full items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-bold text-white transition hover:bg-accent-dark"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-[5px] bg-accent px-6 py-3 text-sm font-bold text-white transition hover:bg-accent-dark"
                 >
-                  Book Now
+                  Book Now <ArrowRight size={16} />
                 </Link>
 
                 <SecondaryButton
@@ -545,13 +538,14 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                   size="md"
                   fullWidth
                   onClick={enquire}
+                  className="rounded-[5px]"
                 >
                   Enquire About This Tour
                 </SecondaryButton>
 
                 <a
-                  href="tel:+919876543210"
-                  className="flex items-center justify-center gap-2 w-full px-6 py-3 rounded-full border-2 border-primary/15 text-primary text-sm font-semibold hover:border-primary hover:bg-primary hover:text-white transition-all duration-300"
+                  href="tel:+919422332610"
+                  className="flex w-full items-center justify-center gap-2 rounded-[5px] border border-primary/20 px-6 py-3 text-sm font-semibold text-primary transition-all duration-300 hover:border-primary hover:bg-primary hover:text-white"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -578,7 +572,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
             </div>
 
             {/* Trust card */}
-            <div className="bg-sand-dark/60 rounded-3xl p-6 border border-slate-100/60">
+            <div className="rounded-[8px] border border-primary/10 bg-sand-dark/60 p-6">
               <h3 className="text-sm font-heading font-bold text-primary mb-4">
                 Why book with Bandhan?
               </h3>
@@ -641,7 +635,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                   <Link
                     key={related.id}
                     href={`/packages/${related.id}`}
-                    className="group relative h-64 rounded-3xl overflow-hidden shadow-soft hover:shadow-xl transition-all duration-500"
+                    className="group relative h-64 overflow-hidden rounded-[8px] shadow-soft transition-all duration-500 hover:-translate-y-1 hover:shadow-xl motion-reduce:hover:translate-y-0"
                   >
                     <Image
                       src={related.image}
