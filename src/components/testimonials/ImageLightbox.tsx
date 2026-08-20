@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
@@ -37,13 +38,13 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
   );
 
   useEffect(() => {
+    if (!isOpen) return;
+    const previousOverflow = document.body.style.overflow;
     window.addEventListener("keydown", handleKeyDown);
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    }
+    document.body.style.overflow = "hidden";
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = previousOverflow;
     };
   }, [isOpen, handleKeyDown]);
 
@@ -51,13 +52,13 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
 
   const currentImage = images[currentIndex] || images[0];
 
-  return (
+  return createPortal(
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-xl p-4 sm:p-8"
+        className="fixed inset-0 z-[80] flex items-center justify-center bg-black/95 backdrop-blur-xl p-4 sm:p-8"
         onClick={onClose}
       >
         {/* Close button */}
@@ -121,7 +122,8 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
           )}
         </div>
       </motion.div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 };
 

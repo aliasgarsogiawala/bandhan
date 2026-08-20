@@ -45,7 +45,7 @@ export default function MiceHero() {
     <header className="relative flex min-h-[680px] items-end overflow-hidden bg-primary pt-36">
       <div ref={imageRef} className="absolute -inset-y-12 inset-x-0 will-change-transform">
         <Image
-          src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=85&w=2200"
+          src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&q=90&w=3200"
           alt="Delegates seated at a corporate conference"
           fill
           priority
@@ -69,16 +69,16 @@ export default function MiceHero() {
             and exhibition travel across India and abroad — venue to visa,
             arrival to reporting, managed by one accountable team.
           </p>
-          <div className="mt-9 flex flex-wrap gap-3">
+          <div className="mt-9 flex w-full max-w-sm flex-col gap-3 sm:max-w-none sm:flex-row sm:flex-wrap">
             <a
               href="#enquiry"
-              className="inline-flex items-center justify-center rounded-full bg-accent px-7 py-3.5 text-sm font-bold text-white transition hover:bg-accent-dark"
+              className="inline-flex min-h-12 items-center justify-center rounded-full bg-accent px-7 py-3.5 text-sm font-bold text-white transition hover:bg-accent-dark"
             >
               Request a proposal
             </a>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center rounded-full border border-white/40 px-7 py-3.5 text-sm font-bold text-white transition hover:bg-white hover:text-primary"
+              className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/40 px-7 py-3.5 text-center text-sm font-bold text-white transition hover:bg-white hover:text-primary"
             >
               Talk to our corporate desk
             </Link>

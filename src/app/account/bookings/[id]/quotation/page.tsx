@@ -6,5 +6,5 @@ export default async function BookingQuotationPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  redirect(`/api/bookings/${id}/brochure`);
+  redirect(`/api/bookings/${id}/quotation`);
 }

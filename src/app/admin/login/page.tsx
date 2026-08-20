@@ -91,7 +91,7 @@ export default function AdminLoginPage() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-primary">
       <Image
-        src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=2200"
+        src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=90&w=3200"
         alt="The Taj Mahal at sunrise"
         fill
         priority

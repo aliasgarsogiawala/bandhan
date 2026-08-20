@@ -352,7 +352,7 @@ export default function MicePage() {
             <div className="grid gap-6 lg:grid-cols-12">
               <ScrollReveal className="relative min-h-[420px] overflow-hidden lg:col-span-5 lg:min-h-[560px]">
                 <Image
-                  src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=85&w=1400"
+                  src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=85&w=2000"
                   alt="Delegates networking during a conference break"
                   fill
                   sizes="(max-width: 1024px) 100vw, 42vw"

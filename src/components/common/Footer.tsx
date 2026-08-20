@@ -19,11 +19,11 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer id="footer" className="bg-slate-950 text-slate-400 pt-20 pb-8 border-t border-slate-900 relative z-10">
-      <Container className="space-y-16">
+    <footer id="footer" className="relative z-10 border-t border-slate-900 bg-slate-950 pb-[max(2rem,env(safe-area-inset-bottom))] pt-14 text-slate-400 sm:pt-20">
+      <Container className="space-y-12 sm:space-y-16">
         
         {/* Footer Top Links Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-12">
           
           {/* Company Brand Column */}
           <div className="space-y-6">
@@ -43,7 +43,7 @@ export const Footer: React.FC = () => {
                 href="https://www.facebook.com/bandhantours1222"
                 target="_blank"
                 rel="noreferrer"
-                className="w-10 h-10 rounded-full bg-slate-900 hover:bg-accent text-white flex items-center justify-center transition-colors duration-300"
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-900 text-white transition-colors duration-300 hover:bg-accent"
                 aria-label="Facebook"
               >
                 <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
@@ -54,7 +54,7 @@ export const Footer: React.FC = () => {
                 href="https://www.instagram.com/bandhantours"
                 target="_blank"
                 rel="noreferrer"
-                className="w-10 h-10 rounded-full bg-slate-900 hover:bg-accent text-white flex items-center justify-center transition-colors duration-300"
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-900 text-white transition-colors duration-300 hover:bg-accent"
                 aria-label="Instagram"
               >
                 <svg className="w-5 h-5 stroke-[2] stroke-current fill-none" viewBox="0 0 24 24">
@@ -67,7 +67,7 @@ export const Footer: React.FC = () => {
                 href="https://www.linkedin.com/company/82365776/admin"
                 target="_blank"
                 rel="noreferrer"
-                className="w-10 h-10 rounded-full bg-slate-900 hover:bg-accent text-white flex items-center justify-center transition-colors duration-300"
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-900 text-white transition-colors duration-300 hover:bg-accent"
                 aria-label="LinkedIn"
               >
                 <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
@@ -84,7 +84,7 @@ export const Footer: React.FC = () => {
             <h4 className="text-white font-heading font-bold text-base uppercase tracking-wider">
               Quick Links
             </h4>
-            <ul className="space-y-3 font-sans text-sm">
+            <ul className="font-sans text-sm [&_a]:inline-flex [&_a]:min-h-10 [&_a]:items-center">
               <li>
                 <Link href="/" className="hover:text-gold transition-colors duration-300">Home</Link>
               </li>
@@ -153,11 +153,11 @@ export const Footer: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Your Email"
-                className="bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-accent w-full"
+                className="min-h-12 w-full rounded-xl border border-slate-800 bg-slate-900 px-4 py-2.5 text-base text-white placeholder:text-slate-500 focus:border-accent focus:outline-none lg:text-xs"
               />
               <button
                 type="submit"
-                className="bg-accent hover:bg-accent-dark text-white rounded-xl px-4 py-2.5 flex items-center justify-center transition-colors duration-300"
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent text-white transition-colors duration-300 hover:bg-accent-dark"
                 aria-label="Subscribe"
               >
                 <svg className="w-4 h-4 fill-none stroke-[2] stroke-current" viewBox="0 0 24 24">
@@ -176,11 +176,11 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Divider & Copyright */}
-        <div className="pt-8 border-t border-slate-900/50 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 font-sans gap-4">
+        <div className="flex flex-col items-start justify-between gap-3 border-t border-slate-900/50 pt-8 font-sans text-xs text-slate-500 sm:flex-row sm:items-center sm:gap-4">
           <p>© {new Date().getFullYear()} Bandhan Tours. All Rights Reserved.</p>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-gold transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-gold transition-colors">Terms of Service</a>
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
+            <a href="#" className="inline-flex min-h-10 items-center transition-colors hover:text-gold">Privacy Policy</a>
+            <a href="#" className="inline-flex min-h-10 items-center transition-colors hover:text-gold">Terms of Service</a>
           </div>
         </div>
 

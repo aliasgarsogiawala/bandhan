@@ -112,7 +112,7 @@ function ContactContent() {
       {/* Hero */}
       <section className="relative w-full pt-40 pb-24 sm:pt-48 sm:pb-28 overflow-hidden bg-primary">
         <Image
-          src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=2000"
+          src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=90&w=3200"
           alt=""
           fill
           priority
@@ -124,17 +124,17 @@ function ContactContent() {
           <span className="px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-gold text-xs font-semibold uppercase tracking-widest mb-6 inline-block animate-fade-in">
             We&apos;d Love To Hear From You
           </span>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 leading-tight max-w-3xl tracking-tight text-gold drop-shadow-md font-heading animate-fade-in-up">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold mb-6 leading-[1.05] max-w-3xl tracking-[-0.015em] text-white [text-shadow:0_2px_24px_rgba(3,16,32,0.45)] font-heading animate-fade-in-up">
             Let&apos;s Plan Your Next Adventure
           </h1>
           <p className="text-base sm:text-lg text-slate-200 max-w-2xl font-light leading-relaxed mb-10 animate-fade-in-up">
             Have a question about a package, group booking, or a custom itinerary? Our travel designers are just a message away.
           </p>
-          <div className="flex flex-wrap justify-center gap-3 animate-fade-in-up">
-            <PrimaryButton variant="coral" size="lg" onClick={scrollToForm}>
+          <div className="flex w-full max-w-xs flex-col justify-center gap-3 animate-fade-in-up sm:w-auto sm:max-w-none sm:flex-row sm:flex-wrap">
+            <PrimaryButton variant="coral" size="lg" onClick={scrollToForm} className="w-full sm:w-auto">
               Start an Enquiry
             </PrimaryButton>
-            <a href="https://wa.me/919830012345" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-full border border-white/25 bg-white/10 px-6 py-3 text-sm font-bold text-white backdrop-blur transition hover:bg-white/20">
+            <a href="https://wa.me/919830012345" target="_blank" rel="noreferrer" className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/25 bg-white/10 px-6 py-3 text-sm font-bold text-white backdrop-blur transition hover:bg-white/20 sm:w-auto">
               WhatsApp Us
             </a>
           </div>
@@ -174,7 +174,7 @@ function ContactContent() {
             </ScrollReveal>
 
             <ScrollReveal delay={100}>
-              <div className="relative min-h-[520px] overflow-hidden border border-slate-200 bg-sand">
+              <div className="relative min-h-[420px] overflow-hidden border border-slate-200 bg-sand sm:min-h-[520px]">
                 <iframe title="Bandhan Tours Office Location" src="https://www.google.com/maps?q=122%20Rash%20Behari%20Avenue%2C%20Kolkata%2C%20West%20Bengal%2C%20India&output=embed" className="absolute inset-0 h-full w-full border-0 grayscale-[0.15]" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
                 <div className="absolute bottom-0 right-0 w-[calc(100%-2rem)] border-l-4 border-gold bg-primary p-5 shadow-2xl sm:w-[72%] sm:p-6">
                   <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold">Bandhan Tours · Kolkata</span>

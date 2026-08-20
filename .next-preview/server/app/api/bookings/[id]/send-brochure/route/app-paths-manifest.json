@@ -1,3 +1,0 @@
-{
-  "/api/bookings/[id]/send-brochure/route": "app/api/bookings/[id]/send-brochure/route.js"
-}

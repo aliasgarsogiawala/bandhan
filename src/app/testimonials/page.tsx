@@ -2,6 +2,8 @@ import React from "react";
 import Image from "next/image";
 import type { Metadata } from "next";
 import TestimonialsSection from "@/components/testimonials/TestimonialsSection";
+import Navbar from "@/components/common/Navbar";
+import Footer from "@/components/common/Footer";
 
 export const metadata: Metadata = {
   title: "Guest Testimonials & Reviews | Bandhan Tours",
@@ -11,11 +13,13 @@ export const metadata: Metadata = {
 
 export default function TestimonialsPage() {
   return (
-    <main className="min-h-screen bg-slate-950">
+    <div className="min-h-screen overflow-x-hidden bg-slate-950">
+      <Navbar />
+      <main>
       {/* Top Page Banner */}
-      <div className="relative overflow-hidden border-b border-white/10 py-12 pt-24 text-center">
+      <div className="relative overflow-hidden border-b border-white/10 pb-12 pt-32 text-center sm:pt-36">
         <Image
-          src="https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=80&w=2000"
+          src="https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=90&w=3200"
           alt=""
           fill
           priority
@@ -37,6 +41,8 @@ export default function TestimonialsPage() {
 
       {/* Main Section */}
       <TestimonialsSection />
-    </main>
+      </main>
+      <Footer />
+    </div>
   );
 }

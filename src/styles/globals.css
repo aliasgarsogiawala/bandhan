@@ -2,6 +2,34 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+body {
+  min-width: 320px;
+  overflow-wrap: anywhere;
+}
+
+a,
+button,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+
+@media (max-width: 767px) {
+  /* iOS zooms focused controls rendered below 16px. Keeping form controls at
+     the platform-friendly size prevents the entire layout from jumping. */
+  :where(input, select, textarea) {
+    font-size: 16px !important;
+  }
 }
 
 @theme {
@@ -17,10 +45,19 @@ html {
   --color-gold-light: #FFE082;
   --color-gold-dark: #DCA311;
 
-  --color-sand: #FBF9F6;
-  --color-sand-light: #FCFAF8;
-  --color-sand-dark: #F2EFEB;
-  --color-sand-bg: #FAF7F2;
+  /* Warm stone rather than white. The old neutrals sat within 2% of #fff, so
+     "light" sections read as blank paper; these carry enough pigment to feel
+     like a surface without competing with the artwork. */
+  --color-sand: #F3EFE9;
+  --color-sand-light: #F8F5F1;
+  --color-sand-dark: #E6E0D6;
+  --color-sand-bg: #EFEAE2;
+
+  /* Dark section surfaces. `ink` is the workhorse for full-bleed dark bands,
+     `ink-deep` anchors the page ends, and `ink-soft` lifts cards off both. */
+  --color-ink: #061625;
+  --color-ink-deep: #030C17;
+  --color-ink-soft: #0C2237;
 
   --color-foreground: #1E252D;
   --color-foreground-muted: #5F6C7D;
@@ -28,7 +65,6 @@ html {
 
   --font-sans: var(--font-inter), var(--font-devanagari), ui-sans-serif, system-ui, sans-serif;
   --font-heading: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-cormorant), ui-serif, Georgia, "Times New Roman", serif;
 
   /* Layered elevation — a tight contact shadow plus a wide ambient one, so
      surfaces read as lifted off the page rather than merely tinted. */
@@ -80,6 +116,38 @@ html {
   to { stroke-dashoffset: 0; }
 }
 
+/* The assistant enters as a bottom sheet on touch-sized screens and as a
+   compact floating window on desktop. Keeping this animation outside the
+   generic scale utility prevents a full-screen phone UI from visually zooming. */
+@keyframes chatbot-sheet-in {
+  from { opacity: 0; transform: translate3d(0, 18px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes chatbot-window-in {
+  from { opacity: 0; transform: translate3d(0, 10px, 0) scale(0.98); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+
+.chatbot-panel-enter {
+  animation: chatbot-sheet-in 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.chatbot-scrollbar-none {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.chatbot-scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .chatbot-panel-enter {
+    animation-name: chatbot-window-in;
+  }
+}
+
 /* Scroll reveal */
 .reveal {
   opacity: 0;
@@ -116,4 +184,5 @@ html {
   .reveal { opacity: 1; transform: none; transition: none; }
   .draw-path { animation: none; stroke-dashoffset: 0; }
   .animate-float, .animate-float-slow { animation: none; }
+  .chatbot-panel-enter { animation: none; }
 }

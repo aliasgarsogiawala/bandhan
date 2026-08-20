@@ -15,44 +15,44 @@ const departureVisuals = [
   {
     keywords: ["ladakh", "leh"],
     image:
-      "https://images.unsplash.com/photo-1536295243470-d7cba4efab7b?auto=format&fit=crop&q=85&w=1200",
+      "https://images.unsplash.com/photo-1536295243470-d7cba4efab7b?auto=format&fit=crop&q=85&w=1800",
     label: "High-altitude adventure",
   },
   {
     keywords: ["kashmir", "srinagar", "gulmarg"],
     image:
-      "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&q=85&w=1200",
+      "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&q=85&w=1800",
     label: "Valleys & mountain views",
   },
   {
     keywords: ["sikkim", "northeast", "darjeeling"],
     image:
-      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1200",
+      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800",
     label: "Himalayan discovery",
   },
   {
     keywords: ["europe", "paris", "switzerland", "italy"],
     image:
-      "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1200",
+      "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
     label: "Iconic cities & culture",
   },
   {
     keywords: ["kerala", "munnar", "alleppey"],
     image:
-      "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1200",
+      "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1800",
     label: "Backwaters & slow travel",
   },
   {
     keywords: ["goa"],
     image:
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=1200",
+      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=1800",
     label: "A sunny coastal escape",
   },
 ];
 
 const fallbackVisual = {
   image:
-    "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=85&w=1200",
+    "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=85&w=1800",
   label: "Curated group experience",
 };
 

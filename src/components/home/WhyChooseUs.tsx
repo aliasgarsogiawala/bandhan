@@ -48,8 +48,10 @@ export const WhyChooseUs: React.FC = () => {
   };
 
   return (
-    <section id="why-choose-us" className="relative z-10 bg-sand-bg/50 py-20 sm:py-28">
-      <Container>
+    <section id="why-choose-us" className="relative z-10 overflow-hidden bg-ink py-20 sm:py-28">
+      <div className="pointer-events-none absolute -left-40 bottom-0 h-[440px] w-[440px] rounded-full bg-primary-light/18 blur-[150px]" aria-hidden="true" />
+      <div className="pointer-events-none absolute -right-32 top-0 h-[360px] w-[360px] rounded-full bg-gold/[0.06] blur-[130px]" aria-hidden="true" />
+      <Container className="relative">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
           {/* Left Text details */}
           <div className="space-y-7 lg:col-span-5">
@@ -59,20 +61,21 @@ export const WhyChooseUs: React.FC = () => {
               title="We Guide You Across Every Detail"
               description="For over 15 years, Bandhan Tours has been leading domestic & international getaways. We believe that traveling is about exploring the true colors of life. Our group tours, family packages, and custom getaways ensure stress-free bookings, professional drivers, hand-picked hotels, and unique memories."
               className="max-w-xl"
+              tone="dark"
             />
 
             {/* Quiet figures with hairline dividers */}
-            <div className="flex items-center gap-8 border-t border-slate-200 pt-7">
+            <div className="flex items-center gap-8 border-t border-white/15 pt-7">
               <div>
-                <span className="font-heading text-4xl font-extrabold text-primary">98%</span>
-                <span className="mt-1 block text-xs font-bold uppercase tracking-wider text-foreground-muted">
+                <span className="font-heading text-5xl font-extrabold text-white">98%</span>
+                <span className="mt-1 block text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-slate-400">
                   Customer Satisfaction
                 </span>
               </div>
-              <div className="h-12 w-px bg-slate-200" />
+              <div className="h-12 w-px bg-white/15" />
               <div>
-                <span className="font-heading text-4xl font-extrabold text-primary">120+</span>
-                <span className="mt-1 block text-xs font-bold uppercase tracking-wider text-foreground-muted">
+                <span className="font-heading text-5xl font-extrabold text-white">120+</span>
+                <span className="mt-1 block text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-slate-400">
                   Unique Destinations
                 </span>
               </div>
@@ -83,22 +86,22 @@ export const WhyChooseUs: React.FC = () => {
           <Stagger className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:col-span-7" stagger={0.09}>
             {whyChooseUs.map((item) => (
               <StaggerItem key={item.id} as="div" y={26}>
-                <div className="group h-full rounded-[1.5rem] border border-slate-100 bg-white p-8 shadow-soft transition-all duration-500 hover:-translate-y-1 hover:border-primary/15 hover:shadow-[0_24px_55px_-30px_rgba(7,32,60,0.3)]">
+                <div className="group h-full rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-8 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-gold/30 hover:bg-white/[0.07] motion-reduce:hover:translate-y-0">
                   {/* Icon Wrapper */}
-                  <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-gold/12 text-gold-dark transition-colors duration-500 group-hover:bg-gold group-hover:text-primary">
+                  <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-gold/15 text-gold transition-colors duration-500 group-hover:bg-gold group-hover:text-primary">
                     {renderIcon(item.iconName)}
                   </div>
 
                   {/* Stat Number */}
-                  <span className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-accent">
+                  <span className="mb-1.5 block text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">
                     {item.stat}
                   </span>
 
                   {/* Title */}
-                  <h4 className="mb-3 font-heading text-xl font-bold text-primary">{item.title}</h4>
+                  <h4 className="mb-3 font-heading text-2xl font-bold text-white">{item.title}</h4>
 
                   {/* Description */}
-                  <p className="font-sans text-sm leading-relaxed text-foreground-muted">
+                  <p className="font-sans text-sm leading-relaxed text-slate-300/85">
                     {item.description}
                   </p>
                 </div>

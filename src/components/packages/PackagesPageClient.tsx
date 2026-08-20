@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Search, X } from "lucide-react";
+import { CalendarClock, Search, X } from "lucide-react";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import { Container } from "@/components/ui/Container";
@@ -29,6 +29,7 @@ import {
   monthNumber,
   parseDurationDays,
   parsePrice,
+  resolveTravelMonth,
   travelMonthOptions,
   type BudgetKey,
   type DurationKey,
@@ -49,8 +50,33 @@ export const PackagesPageClient: React.FC = () => {
   const [duration, setDuration] = useState<DurationKey>(
     () => durationRange(searchParams.get("duration")).key
   );
-  const [month, setMonth] = useState(() => searchParams.get("month") ?? "");
+  // A link may carry a month that has since passed. Carry it forward to the
+  // same month next year rather than dropping the filter, and remember that we
+  // did so, so the change can be surfaced instead of silently applied.
+  const [resolvedMonth] = useState(() =>
+    resolveTravelMonth(searchParams.get("month"), TRAVEL_MONTHS)
+  );
+  const [month, setMonth] = useState(resolvedMonth.value);
+  const monthWasRolledForward = resolvedMonth.rolledForward && month === resolvedMonth.value;
   const [query, setQuery] = useState(searchParams.get("search") || "");
+
+  // Keep the address bar in step with the visible filters, so the link a
+  // traveller copies or bookmarks reproduces what they are actually looking at.
+  // `replace` rather than `push` — adjusting a filter should not stack up
+  // history entries to back out of.
+  const filterQuery = React.useMemo(() => {
+    const params = new URLSearchParams();
+    if (query.trim()) params.set("search", query.trim());
+    if (activeTab !== "all") params.set("category", activeTab);
+    if (month) params.set("month", month);
+    if (duration !== "all") params.set("duration", duration);
+    if (budget !== "all") params.set("budget", budget);
+    return params.toString();
+  }, [query, activeTab, month, duration, budget]);
+
+  React.useEffect(() => {
+    router.replace(`/packages${filterQuery ? `?${filterQuery}` : ""}`, { scroll: false });
+  }, [filterQuery, router]);
 
   const handleEnquire = (destination: string = "") => {
     router.push(contactEnquiryHref(destination));
@@ -84,7 +110,7 @@ export const PackagesPageClient: React.FC = () => {
       <header className="relative bg-primary pt-32 pb-16 sm:pt-36 sm:pb-20 overflow-hidden">
         {/* Background image */}
         <Image
-          src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=80&w=2000"
+          src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=90&w=3200"
           alt=""
           fill
           priority
@@ -103,7 +129,7 @@ export const PackagesPageClient: React.FC = () => {
             <span className="mx-2">/</span>
             <span className="text-gold">Tour Packages</span>
           </nav>
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-display font-light text-white leading-[1.05] tracking-[-0.015em]">
+          <h1 className="font-heading text-4xl font-extrabold leading-[1.05] tracking-[-0.015em] text-white min-[380px]:text-5xl sm:text-6xl md:text-7xl">
             Journeys Worth <span className="text-gold">Packing For</span>
           </h1>
           <p className="mt-4 max-w-2xl text-base sm:text-lg text-slate-300 font-sans leading-relaxed">
@@ -127,7 +153,7 @@ export const PackagesPageClient: React.FC = () => {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search by destination, title or theme…"
-              className="w-full rounded-full bg-white/10 backdrop-blur-md border border-white/15 pl-11 pr-10 py-3 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-gold"
+              className="min-h-12 w-full rounded-full border border-white/15 bg-white/10 py-3 pl-11 pr-10 text-base text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-gold sm:text-sm"
             />
             {query && (
               <button
@@ -147,7 +173,7 @@ export const PackagesPageClient: React.FC = () => {
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
-                className={`px-4 sm:px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
+                className={`min-h-11 rounded-full px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all duration-300 sm:px-6 ${
                   activeTab === tab.key
                     ? "bg-gold text-primary shadow-md"
                     : "text-white/70 hover:text-white"
@@ -167,7 +193,7 @@ export const PackagesPageClient: React.FC = () => {
               id="budget-filter"
               value={budget}
               onChange={(e) => setBudget(e.target.value as BudgetKey)}
-              className="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-white/10 backdrop-blur-md border border-white/15 text-white/90 focus:outline-none focus:ring-2 focus:ring-gold cursor-pointer"
+              className="min-h-11 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/90 backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
             >
               {BUDGET_RANGES.map((range) => (
                 <option key={range.key} value={range.key} className="text-primary">
@@ -183,7 +209,7 @@ export const PackagesPageClient: React.FC = () => {
               id="duration-filter"
               value={duration}
               onChange={(e) => setDuration(e.target.value as DurationKey)}
-              className="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-white/10 backdrop-blur-md border border-white/15 text-white/90 focus:outline-none focus:ring-2 focus:ring-gold cursor-pointer"
+              className="min-h-11 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/90 backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
             >
               {DURATION_RANGES.map((range) => (
                 <option key={range.key} value={range.key} className="text-primary">
@@ -199,7 +225,7 @@ export const PackagesPageClient: React.FC = () => {
               id="month-filter"
               value={month}
               onChange={(e) => setMonth(e.target.value)}
-              className="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-white/10 backdrop-blur-md border border-white/15 text-white/90 focus:outline-none focus:ring-2 focus:ring-gold cursor-pointer"
+              className="min-h-11 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/90 backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
             >
               <option value="" className="text-primary">
                 Any Month
@@ -227,6 +253,19 @@ export const PackagesPageClient: React.FC = () => {
               </button>
             )}
           </div>
+
+          {monthWasRolledForward && (
+            <p className="mt-3 flex items-center gap-2 text-xs text-white/70" role="status">
+              <CalendarClock size={14} className="shrink-0 text-gold" />
+              <span>
+                {resolvedMonth.requestedLabel ?? "That travel month"} has passed — showing{" "}
+                <span className="font-semibold text-gold">
+                  {TRAVEL_MONTHS.find((m) => m.value === month)?.label}
+                </span>{" "}
+                instead.
+              </span>
+            </p>
+          )}
         </Container>
       </header>
 
@@ -277,7 +316,7 @@ export const PackagesPageClient: React.FC = () => {
                     </div>
 
                     <div className="p-6 sm:p-8 flex flex-col flex-1">
-                      <h2 className="text-2xl sm:text-[1.7rem] font-display font-normal leading-[1.15] tracking-[-0.01em] text-primary mb-2.5 group-hover:text-accent transition-colors duration-300">
+                      <h2 className="text-2xl sm:text-[1.7rem] font-heading font-extrabold leading-[1.15] tracking-[-0.01em] text-primary mb-2.5 group-hover:text-accent transition-colors duration-300">
                         {pkg.title}
                       </h2>
 

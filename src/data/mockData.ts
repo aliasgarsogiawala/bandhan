@@ -163,7 +163,7 @@ export const destinations: Destination[] = [
   {
     id: "kashmir",
     name: "Kashmir",
-    image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1400",
     price: "₹34,500",
     description: "Heaven on Earth - experience pristine lakes, snow-capped peaks, and houseboats.",
     tag: "Romantic",
@@ -171,7 +171,7 @@ export const destinations: Destination[] = [
   {
     id: "kerala",
     name: "Kerala",
-    image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1400",
     price: "₹28,000",
     description: "God's Own Country - drift through green backwaters and spice plantations.",
     tag: "Nature",
@@ -179,7 +179,7 @@ export const destinations: Destination[] = [
   {
     id: "goa",
     name: "Goa",
-    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=1400",
     price: "₹18,500",
     description: "Sun-drenched beaches, historical churches, and vibrant coastal night life.",
     tag: "Beach",
@@ -187,7 +187,7 @@ export const destinations: Destination[] = [
   {
     id: "bali",
     name: "Bali",
-    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=85&w=1400",
     price: "₹65,000",
     description: "Tropical paradise loaded with cultural heritage, temples, and reefs.",
     tag: "Exotic",
@@ -195,7 +195,7 @@ export const destinations: Destination[] = [
   {
     id: "dubai",
     name: "Dubai",
-    image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=85&w=1400",
     price: "₹78,000",
     description: "Sleek architecture, futuristic malls, and thrilling desert adventures.",
     tag: "Luxury",
@@ -203,7 +203,7 @@ export const destinations: Destination[] = [
   {
     id: "thailand",
     name: "Thailand",
-    image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=85&w=1400",
     price: "₹48,500",
     description: "Fascinating Buddhist temples, exotic street food, and islands.",
     tag: "Adventure",
@@ -211,7 +211,7 @@ export const destinations: Destination[] = [
   {
     id: "europe",
     name: "Europe",
-    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1400",
     price: "₹1,85,000",
     description: "Timeless history, iconic architectural marvels, and diverse cultures.",
     tag: "Heritage",
@@ -219,7 +219,7 @@ export const destinations: Destination[] = [
   {
     id: "singapore",
     name: "Singapore",
-    image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=85&w=1400",
     price: "₹82,000",
     description: "Ultra-modern garden city featuring advanced technology and luxury lifestyles.",
     tag: "Modern",
@@ -230,7 +230,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "bali-island-dreams",
     title: "Bali – The Island of Dreams",
-    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=85&w=1800",
     duration: "6 Nights / 7 Days",
     price: "₹61,900",
     highlights: ["Nusa Penida speedboat island tour", "Uluwatu Temple sunset & Kecak Dance", "Bali Swing & jungle experiences", "Tanjung Benoa water sports"],
@@ -239,14 +239,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Temples, jungle swings and speedboat islands across Kuta, Ubud and Nusa Penida.",
     overview:
       "Six nights across Kuta and Ubud combine Bali's signature temples and volcano viewpoints with a full-day speedboat tour of Nusa Penida's Kelingking Beach, Broken Beach and Crystal Bay.",
-    heroImage: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&q=90&w=3200",
     bestTime: "April to October",
     startingPoint: "Ngurah Rai International Airport, Denpasar",
     groupSize: "Min 25 pax for quoted rate",
     themes: ["Beach", "Culture", "Adventure"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=1200", caption: "Kuta and Ubud, Bali" },
-      { image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=80&w=1200", caption: "Island-hopping to Nusa Penida" },
+      { image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=85&w=1800", caption: "Kuta and Ubud, Bali" },
+      { image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800", caption: "Island-hopping to Nusa Penida" },
     ],
     itinerary: [
       { day: 1, title: "Arrival in Bali", description: "Welcome with a traditional Balinese garland at the airport, private transfer to Kuta, and a leisure evening.", meals: "Lunch, Dinner", stay: "Kuta" },
@@ -278,7 +278,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "3-sisters-tour",
     title: "3 Sisters Tour — Assam, Meghalaya & Arunachal Pradesh",
-    image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800",
     duration: "11 Nights / 12 Days",
     price: "₹57,000",
     highlights: ["Kaziranga elephant & jeep safari", "Living Root Bridge, Mawlynnong", "Tawang Monastery & Bumla Pass", "Sela Pass & Nathula border region"],
@@ -287,14 +287,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Assam's tea gardens, Meghalaya's living bridges and Arunachal's Himalayan passes in one grand loop.",
     overview:
       "A comprehensive 12-day loop through Assam, Meghalaya and Arunachal Pradesh — from Kamakhya Temple and Kaziranga's rhinos to the cleanest village in Asia and the high-altitude monastery town of Tawang near the China border.",
-    heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=90&w=3200",
     bestTime: "September to December",
     startingPoint: "Guwahati Airport",
     groupSize: "2+ guests",
     themes: ["Mountains", "Culture", "Wildlife"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=80&w=1200", caption: "Himalayan foothills of Arunachal Pradesh" },
-      { image: "https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?auto=format&fit=crop&q=80&w=1200", caption: "Misty mornings in Meghalaya" },
+      { image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800", caption: "Himalayan foothills of Arunachal Pradesh" },
+      { image: "https://images.unsplash.com/photo-1609920658906-8223bd289001?auto=format&fit=crop&q=85&w=1800", caption: "Misty mornings in Meghalaya" },
     ],
     itinerary: [
       { day: 1, title: "Arrival Guwahati", description: "Airport welcome, transfer to hotel, and a Mukh Darshan visit to Maa Kamakhya Devi Temple.", meals: "—", stay: "Guwahati" },
@@ -323,7 +323,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "4-sisters-tour",
     title: "4 Sisters Tour — Nagaland, Manipur, Tripura & Mizoram",
-    image: "https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&q=85&w=1800",
     duration: "9 Nights / 10 Days",
     price: "₹59,999",
     highlights: ["Kohima War Cemetery", "Loktak Lake, Imphal", "Neermahal & Unakoti rock carvings", "Aizawl's Solomon's Temple & Sky Walk"],
@@ -331,14 +331,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "The four lesser-travelled sister states — Nagaland, Manipur, Tripura and Mizoram — in one circuit.",
     overview:
       "A 10-day journey through India's least-visited corner: WWII history in Kohima, the floating Loktak Lake in Imphal, the lake palace of Neermahal in Tripura, and Mizoram's hill capital Aizawl.",
-    heroImage: "https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&q=90&w=3200",
     bestTime: "September to December",
     startingPoint: "Dimapur Airport",
     groupSize: "2+ guests",
     themes: ["Culture", "Heritage", "Off the beaten path"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?auto=format&fit=crop&q=80&w=1200", caption: "Hills of Nagaland and Manipur" },
-      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1200", caption: "Heritage sites of Tripura" },
+      { image: "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&q=85&w=1800", caption: "Hills of Nagaland and Manipur" },
+      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Heritage sites of Tripura" },
     ],
     itinerary: [
       { day: 1, title: "Dimapur to Kohima", description: "Arrival at Dimapur with meet-and-greet assistance, then transfer to Kohima.", meals: "—", stay: "Kohima" },
@@ -363,7 +363,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "amazing-thailand",
     title: "Amazing Thailand — Pattaya & Bangkok",
-    image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=85&w=1800",
     duration: "4 Nights / 5 Days",
     price: "₹34,900",
     highlights: ["Alcazar Cabaret Show, Pattaya", "Coral Island speedboat tour", "Golden & Marble Buddha temples", "Safari World & Marine Park"],
@@ -371,14 +371,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "A quick, vibrant escape through Pattaya's nightlife and Bangkok's temples and safari parks.",
     overview:
       "A short but full getaway pairing Pattaya's beaches, water sports and famous Alcazar Cabaret Show with Bangkok's gilded temples, jewellery galleries and a full day at Safari World.",
-    heroImage: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=90&w=3200",
     bestTime: "November to February",
     startingPoint: "Bangkok Airport",
     groupSize: "Min 25 pax for quoted rate",
     themes: ["Beach", "City", "Family"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=80&w=1200", caption: "Pattaya coastline" },
-      { image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=80&w=1200", caption: "Coral Island day trip" },
+      { image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=85&w=1800", caption: "Pattaya coastline" },
+      { image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800", caption: "Coral Island day trip" },
     ],
     itinerary: [
       { day: 1, title: "Arrival — Transfer to Pattaya", description: "Arrive in Bangkok and transfer to Pattaya; evening at the famous Alcazar Cabaret Show.", meals: "Lunch, Dinner", stay: "Pattaya" },
@@ -400,7 +400,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "andaman-tour",
     title: "Andaman Tour",
-    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=1800",
     duration: "5 Nights / 6 Days",
     price: "₹33,499",
     highlights: ["Cellular Jail Light & Sound Show", "Radhanagar Beach, Havelock Island", "Elephanta Beach snorkeling", "Ross Island colonial ruins"],
@@ -409,14 +409,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Port Blair's history, Havelock's beaches, and Neil Island's coral bridge in one island-hopping loop.",
     overview:
       "Five nights across Port Blair, Havelock (Swaraj Dweep) and Neil (Shaheed Dweep) covering the Cellular Jail's freedom-struggle history, the world-famous Radhanagar Beach, and complimentary snorkeling at Elephanta Beach.",
-    heroImage: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=90&w=3200",
     bestTime: "October to May",
     startingPoint: "Port Blair Airport",
     groupSize: "2+ guests",
     themes: ["Beach", "Island", "History"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=1200", caption: "Radhanagar Beach, Havelock Island" },
-      { image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=80&w=1200", caption: "Snorkeling off Elephanta Beach" },
+      { image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=1800", caption: "Radhanagar Beach, Havelock Island" },
+      { image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800", caption: "Snorkeling off Elephanta Beach" },
     ],
     itinerary: [
       { day: 1, title: "Arrival at Port Blair — City Tour", description: "Visit Corbyn's Cove Beach and the historic Cellular Jail, followed by the evening Light & Sound Show on India's freedom struggle.", meals: "Lunch, Dinner", stay: "Port Blair" },
@@ -438,7 +438,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "andaman-baratang-tour",
     title: "Andaman with Baratang Tour",
-    image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800",
     duration: "6 Nights / 7 Days",
     price: "₹38,499",
     highlights: ["Baratang mangrove creek & mud volcano", "Radhanagar Beach, Havelock Island", "Limestone Caves", "Ross Island colonial ruins"],
@@ -446,14 +446,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "The classic Andaman loop plus a day trip to Baratang's mangroves, limestone caves and mud volcano.",
     overview:
       "Everything in the classic Andaman itinerary — Cellular Jail, Havelock's Radhanagar Beach, Neil Island's coral bridge and Ross Island — plus a full day at Baratang Island, reached through the Jarawa Tribal Reserve.",
-    heroImage: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=90&w=3200",
     bestTime: "October to May",
     startingPoint: "Port Blair Airport",
     groupSize: "2+ guests",
     themes: ["Beach", "Island", "Adventure"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=80&w=1200", caption: "Baratang mangrove creek" },
-      { image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=1200", caption: "Radhanagar Beach, Havelock" },
+      { image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800", caption: "Baratang mangrove creek" },
+      { image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=1800", caption: "Radhanagar Beach, Havelock" },
     ],
     itinerary: [
       { day: 1, title: "Arrival at Port Blair — City Tour", description: "Corbyn's Cove Beach and the Cellular Jail, followed by the evening Light & Sound Show.", meals: "Lunch, Dinner", stay: "Port Blair" },
@@ -476,7 +476,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "ayodhya-varanasi",
     title: "Ayodhya – Varanasi Spiritual Tour",
-    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800",
     duration: "6 Nights / 7 Days",
     price: "₹33,499",
     highlights: ["Shri Ram Janmabhoomi Temple darshan", "Prayagraj Triveni Sangam", "Mahabodhi Temple, Bodhgaya", "Ganga Aarti at Dashashwamedh Ghat"],
@@ -484,14 +484,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "A pilgrimage across Ayodhya, Chitrakoot, Prayagraj, Bodhgaya and Varanasi.",
     overview:
       "A spiritual circuit from Ram Janmabhoomi in Ayodhya through Chitrakoot's exile sites and Prayagraj's Triveni Sangam to Bodhgaya's Mahabodhi Temple, closing with sunrise on the Ganga and the evening Aarti at Varanasi.",
-    heroImage: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=90&w=3200",
     bestTime: "October to March",
     startingPoint: "Lucknow",
     groupSize: "2+ guests",
     themes: ["Spiritual", "Heritage"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1200", caption: "Temples of Ayodhya and Varanasi" },
-      { image: "https://images.unsplash.com/photo-1561361058-c24cecae35ca?auto=format&fit=crop&q=80&w=1200", caption: "Ghats of the Ganga" },
+      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Temples of Ayodhya and Varanasi" },
+      { image: "https://images.unsplash.com/photo-1561361058-c24cecae35ca?auto=format&fit=crop&q=85&w=1800", caption: "Ghats of the Ganga" },
     ],
     itinerary: [
       { day: 1, title: "Lucknow Arrival — Ayodhya Sightseeing", description: "Drive to Ayodhya for Shri Ram Janmabhoomi Mandir, Hanuman Garhi, Kanak Bhawan, Ramkot and Nageshwarnath Temple.", meals: "Lunch, Dinner", stay: "Ayodhya" },
@@ -514,7 +514,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "singapore-malaysia-best",
     title: "Best of Singapore & Malaysia",
-    image: "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&q=85&w=1800",
     duration: "5 Nights / 6 Days",
     price: "₹91,900",
     highlights: ["Genting Highlands cable car", "Night Safari, Singapore", "Sentosa Island & Gardens by the Bay", "Universal Studios Singapore"],
@@ -523,14 +523,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Kuala Lumpur's hill resorts to Singapore's Sentosa Island and Universal Studios.",
     overview:
       "A fast-paced tour from Putrajaya and Kuala Lumpur's Batu Caves and Genting Highlands, across the causeway to Singapore's Night Safari, Sentosa Island, Gardens by the Bay and Universal Studios.",
-    heroImage: "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&q=90&w=3200",
     bestTime: "Year-round",
     startingPoint: "Kuala Lumpur Airport",
     groupSize: "Min 25 pax for quoted rate",
     themes: ["City", "Family", "Theme Park"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&q=80&w=1200", caption: "Sentosa Island, Singapore" },
-      { image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=80&w=1200", caption: "Singapore skyline" },
+      { image: "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&q=85&w=1800", caption: "Sentosa Island, Singapore" },
+      { image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=85&w=1800", caption: "Singapore skyline" },
     ],
     itinerary: [
       { day: 1, title: "Arrival in Malaysia", description: "Orientation tour of Putrajaya en route to Kuala Lumpur, followed by a KL city tour.", meals: "Lunch, Dinner", stay: "Kuala Lumpur" },
@@ -553,7 +553,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "bhutan-tour",
     title: "Bhutan Tour",
-    image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800",
     duration: "7 Nights / 8 Days",
     price: "₹47,000",
     highlights: ["Taktsang Monastery (Tiger's Nest) hike", "Punakha Dzong & Suspension Bridge", "Buddha Dordenma statue", "Gorumara jeep safari"],
@@ -561,14 +561,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "The Land of the Thunder Dragon — Thimphu's monasteries to the hike up Tiger's Nest.",
     overview:
       "An overland journey from Phuentsholing through Thimphu and Punakha to Paro, culminating in the hike to Taktsang Monastery — Bhutan's most sacred cliffside temple — with a jeep safari at Gorumara on the way home.",
-    heroImage: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=90&w=3200",
     bestTime: "March to May, September to November",
     startingPoint: "Bagdogra Airport",
     groupSize: "2+ guests",
     themes: ["Mountains", "Culture", "Spiritual"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=80&w=1200", caption: "Himalayan valleys of Bhutan" },
-      { image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=80&w=1200", caption: "Prayer flags and mountain passes" },
+      { image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800", caption: "Himalayan valleys of Bhutan" },
+      { image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800", caption: "Prayer flags and mountain passes" },
     ],
     itinerary: [
       { day: 1, title: "Bagdogra to Phuentsholing", description: "Arrival at Bagdogra and transfer to the India–Bhutan border town of Phuentsholing.", meals: "—", stay: "Phuentsholing" },
@@ -591,7 +591,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "eastern-europe-highlights",
     title: "Eastern Europe Highlights",
-    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
     duration: "7 Nights / 8 Days",
     price: "₹1,90,400",
     highlights: ["Schönbrunn Palace, Vienna", "Danube River Cruise, Budapest", "Prague Castle Viewing Gallery", "Dachstein Glacier cable car"],
@@ -599,14 +599,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Vienna, Budapest, Prague and Salzburg woven together through Austria, Hungary, Slovakia, Czechia and Germany.",
     overview:
       "A guided sweep through five countries — Vienna's palaces, a Danube cruise past Budapest's skyline, Prague's castle and Astronomical Clock, Salzburg's Baroque streets, and a cable car up the Dachstein Glacier.",
-    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
     bestTime: "April to October",
     startingPoint: "Vienna Airport",
     groupSize: "2+ guests",
     themes: ["Heritage", "City", "Scenic"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=1200", caption: "Historic architecture of Central Europe" },
-      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1200", caption: "Castles and old towns" },
+      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "Historic architecture of Central Europe" },
+      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Castles and old towns" },
     ],
     itinerary: [
       { day: 1, title: "Arrive in Vienna", description: "Airport welcome by the tour manager, hotel check-in, and dinner.", meals: "Dinner", stay: "Vienna" },
@@ -629,7 +629,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "grand-tour-europe",
     title: "Grand Tour of Europe",
-    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
     duration: "15 Nights / 16 Days",
     price: "₹4,13,700",
     highlights: ["Eiffel Tower 3rd level & Disneyland Paris", "Jungfraujoch — Top of Europe", "Venice gondola ride", "Vatican Museum & Sistine Chapel"],
@@ -638,14 +638,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "London to Rome across ten countries — the definitive first-time Europe itinerary.",
     overview:
       "A sixteen-day grand circuit spanning the UK, France, Belgium, the Netherlands, Germany, Switzerland, Liechtenstein, Austria and Italy — London's icons, a day at Disneyland Paris, the Top of Europe at Jungfraujoch, and Rome's Vatican and Colosseum.",
-    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
     bestTime: "April to October",
     startingPoint: "London Airport",
     groupSize: "2+ guests",
     themes: ["Heritage", "City", "Family"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=1200", caption: "Iconic landmarks across Europe" },
-      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1200", caption: "Historic old towns" },
+      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "Iconic landmarks across Europe" },
+      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Historic old towns" },
     ],
     itinerary: [
       { day: 1, title: "Arrival in London", description: "Airport welcome and hotel check-in.", meals: "Dinner", stay: "London" },
@@ -676,7 +676,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "kerala-kanyakumari",
     title: "Kerala with Kanyakumari",
-    image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1800",
     duration: "7 Nights / 8 Days",
     price: "₹39,999",
     highlights: ["Munnar tea gardens & Eravikulam National Park", "Kanyakumari's Vivekananda Memorial", "Alleppey houseboat backwaters", "Sree Padmanabhaswamy VIP darshan"],
@@ -685,14 +685,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Kerala's hill stations and backwaters extended to India's southernmost tip.",
     overview:
       "From Munnar's tea gardens to Thekkady's Kathakali performances, Varkala's cliffside beach and a full-day Kanyakumari excursion, ending with a traditional houseboat cruise through Alleppey's backwaters.",
-    heroImage: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=90&w=3200",
     bestTime: "September to March",
     startingPoint: "Cochin Airport",
     groupSize: "2+ guests",
     themes: ["Nature", "Backwaters", "Culture"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=80&w=1200", caption: "Backwaters of Kerala" },
-      { image: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=80&w=1200", caption: "Munnar tea plantations" },
+      { image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1800", caption: "Backwaters of Kerala" },
+      { image: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=85&w=1800", caption: "Munnar tea plantations" },
     ],
     itinerary: [
       { day: 1, title: "Arrival at Cochin — Munnar", description: "Visit Cheeyappara Waterfalls en route, then the Tea Museum in Munnar.", meals: "Lunch, Dinner", stay: "Munnar" },
@@ -717,7 +717,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "mesmerizing-vietnam",
     title: "Mesmerizing Vietnam",
-    image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=85&w=1800",
     duration: "7 Nights / 8 Days",
     price: "₹78,900",
     highlights: ["Mekong Delta excursion", "Ba Na Hills cable car & Golden Bridge", "Hoi An Ancient Town", "Overnight Ha Long Bay cruise"],
@@ -725,14 +725,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Ho Chi Minh City to Ha Long Bay via the Golden Bridge and an overnight cruise.",
     overview:
       "From Ho Chi Minh City's Mekong Delta and Cu Chi Tunnels to Da Nang's Marble Mountains and the Golden Bridge at Ba Na Hills, finishing with Hanoi's old quarter and an overnight cruise through Ha Long Bay's limestone islands.",
-    heroImage: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=90&w=3200",
     bestTime: "October to April",
     startingPoint: "Ho Chi Minh City Airport",
     groupSize: "2+ guests",
     themes: ["Culture", "Scenic", "Cruise"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=80&w=1200", caption: "Golden Bridge, Ba Na Hills" },
-      { image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=80&w=1200", caption: "Ha Long Bay limestone islands" },
+      { image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=85&w=1800", caption: "Golden Bridge, Ba Na Hills" },
+      { image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800", caption: "Ha Long Bay limestone islands" },
     ],
     itinerary: [
       { day: 1, title: "Ho Chi Minh City Arrival", description: "Half-day city tour of historical landmarks and the local market.", meals: "Lunch, Dinner", stay: "Ho Chi Minh City" },
@@ -755,7 +755,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "rajasthan-marwad",
     title: "Rajasthan Marwad",
-    image: "https://images.unsplash.com/photo-1524230507669-5ff97982bb5e?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&q=85&w=1800",
     duration: "7 Nights / 8 Days",
     price: "₹34,999",
     highlights: ["Sam Sand Dunes desert safari", "Jaisalmer Fort & Patwon Ki Haveli", "Mehrangarh Fort, Jodhpur", "Khatu Shyam Ji Temple darshan"],
@@ -763,14 +763,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Temples, forts and the Thar Desert across Bikaner, Jaisalmer and Jodhpur.",
     overview:
       "From temple darshans at Khatu Shyam Ji and Salasar Balaji through Bikaner's Junagarh Fort to a desert safari and camel ride at the Sam Sand Dunes, ending among Jodhpur's Blue City and Mehrangarh Fort.",
-    heroImage: "https://images.unsplash.com/photo-1524230507669-5ff97982bb5e?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&q=90&w=3200",
     bestTime: "October to March",
     startingPoint: "Jaipur Airport",
     groupSize: "2+ guests",
     themes: ["Heritage", "Desert", "Culture"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1524230507669-5ff97982bb5e?auto=format&fit=crop&q=80&w=1200", caption: "Forts of Rajasthan" },
-      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1200", caption: "Sam Sand Dunes desert safari" },
+      { image: "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&q=85&w=1800", caption: "Forts of Rajasthan" },
+      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Sam Sand Dunes desert safari" },
     ],
     itinerary: [
       { day: 1, title: "Arrival at Jaipur — Khatu Shyam Ji", description: "Evening darshan at the Khatu Shyam Ji Temple.", meals: "Lunch, Dinner", stay: "Khatu Shyam Ji" },
@@ -793,7 +793,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "singapore-malaysia-thailand",
     title: "Singapore Malaysia Thailand",
-    image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=85&w=1800",
     duration: "9 Nights / 10 Days",
     price: "₹1,05,000",
     highlights: ["Alcazar Cabaret Show & Coral Island, Pattaya", "Golden & Marble Buddha Temples, Bangkok", "Genting Highlands cable car", "Universal Studios & Wings of Time, Singapore"],
@@ -801,14 +801,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Three countries, one grand Southeast Asian holiday — Thailand, Malaysia and Singapore.",
     overview:
       "A ten-day sweep from Pattaya's beaches and Bangkok's temples through Kuala Lumpur's Genting Highlands to Singapore's Night Safari, Sentosa Island and Universal Studios.",
-    heroImage: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=90&w=3200",
     bestTime: "Year-round",
     startingPoint: "Bangkok Airport",
     groupSize: "Min 25 pax for quoted rate",
     themes: ["City", "Family", "Theme Park"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=80&w=1200", caption: "Singapore skyline" },
-      { image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=80&w=1200", caption: "Bangkok and Pattaya" },
+      { image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=85&w=1800", caption: "Singapore skyline" },
+      { image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=85&w=1800", caption: "Bangkok and Pattaya" },
     ],
     itinerary: [
       { day: 1, title: "Arrival Bangkok — Transfer to Pattaya", description: "Check in to Pattaya and enjoy the evening Alcazar Cabaret Show.", meals: "Lunch, Dinner", stay: "Pattaya" },
@@ -834,7 +834,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "sampurna-karnataka",
     title: "Sampurna Karnataka",
-    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800",
     duration: "7 Nights / 8 Days",
     price: "₹40,499",
     highlights: ["Hampi UNESCO World Heritage Site", "Murudeshwar's giant Shiva statue", "Jog Falls", "St. Mary's Island ferry ride"],
@@ -842,14 +842,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Karnataka end-to-end — Badami's cave temples, Hampi's ruins and the Malabar coast.",
     overview:
       "A full sweep of Karnataka: Badami's rock-cut cave temples, the UNESCO sites of Pattadakal and Hampi, Jog Falls, Murudeshwar's coastal Shiva temple, and a ferry ride to the basalt shores of St. Mary's Island.",
-    heroImage: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=90&w=3200",
     bestTime: "October to February",
     startingPoint: "Hubli Airport",
     groupSize: "2+ guests",
     themes: ["Heritage", "Coastal", "Culture"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1200", caption: "Hampi's ancient ruins" },
-      { image: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80&w=1200", caption: "Temples and coastline of Karnataka" },
+      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Hampi's ancient ruins" },
+      { image: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=85&w=1800", caption: "Temples and coastline of Karnataka" },
     ],
     itinerary: [
       { day: 1, title: "Arrival at Hubli", description: "City orientation tour and a sunset visit to Unkal Lake.", meals: "Dinner", stay: "Hubli" },
@@ -872,7 +872,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "sikkim-darjeeling-6n",
     title: "Sikkim Darjeeling",
-    image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800",
     duration: "6 Nights / 7 Days",
     price: "₹38,900",
     highlights: ["Tsomgo Lake & Nathula Pass", "Pemayangtse Monastery, Pelling", "Tiger Hill sunrise, Darjeeling", "Pelling Sky Walk"],
@@ -880,14 +880,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Gangtok's high-altitude lakes, Pelling's monasteries and Darjeeling's tea-country sunrise.",
     overview:
       "A classic Eastern Himalaya loop through Gangtok's Tsomgo Lake and Nathula Pass, Pelling's monasteries and Sky Walk, ending with a pre-dawn climb to Tiger Hill for sunrise over Kanchenjunga.",
-    heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=90&w=3200",
     bestTime: "September to December",
     startingPoint: "Bagdogra Airport / NJP",
     groupSize: "2+ guests",
     themes: ["Mountains", "Culture", "Scenic"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=80&w=1200", caption: "Himalayan valleys of Sikkim" },
-      { image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=80&w=1200", caption: "Alpine lakes and mountain passes" },
+      { image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800", caption: "Himalayan valleys of Sikkim" },
+      { image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800", caption: "Alpine lakes and mountain passes" },
     ],
     itinerary: [
       { day: 1, title: "NJP / Bagdogra / Siliguri to Gangtok", description: "Meet-and-greet transfer and hotel check-in in Gangtok.", meals: "—", stay: "Gangtok" },
@@ -908,7 +908,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "sikkim-darjeeling-9n",
     title: "Sikkim Darjeeling — Gangtok, Lachung & Darjeeling",
-    image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800",
     duration: "9 Nights / 10 Days",
     price: "₹52,500",
     highlights: ["Yumthang Valley — Valley of Flowers", "Tsomgo Lake & Nathula Pass", "Pelling Sky Walk", "Tiger Hill sunrise, Darjeeling"],
@@ -916,14 +916,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "The extended Sikkim loop, reaching all the way to Lachung and the Yumthang Valley.",
     overview:
       "A longer version of the Sikkim–Darjeeling circuit that pushes north to Lachung and the rhododendron meadows of Yumthang Valley, before looping back through Pelling and Darjeeling.",
-    heroImage: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=90&w=3200",
     bestTime: "March to May, September to December",
     startingPoint: "Bagdogra Airport / NJP",
     groupSize: "2+ guests",
     themes: ["Mountains", "Culture", "Scenic"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=80&w=1200", caption: "Yumthang Valley, Sikkim" },
-      { image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=80&w=1200", caption: "Mountain passes near Lachung" },
+      { image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800", caption: "Yumthang Valley, Sikkim" },
+      { image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800", caption: "Mountain passes near Lachung" },
     ],
     itinerary: [
       { day: 1, title: "NJP / Bagdogra / Siliguri to Gangtok", description: "Meet-and-greet transfer and hotel check-in.", meals: "—", stay: "Gangtok" },
@@ -947,7 +947,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "south-india-temple-tour",
     title: "South India Temple Tour",
-    image: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=85&w=1800",
     duration: "5 Nights / 6 Days",
     price: "₹28,599",
     highlights: ["Meenakshi Amman Temple, Madurai", "Dhanushkodi — Ghost Town of India", "Triveni Sangam sunset, Kanyakumari", "Padmanabhaswamy Temple VIP darshan"],
@@ -955,14 +955,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Madurai to Kanyakumari through Tamil Nadu and Kerala's most sacred temples.",
     overview:
       "A temple pilgrimage from Madurai's Meenakshi Amman Temple across the Pamban Bridge to Rameshwaram, the abandoned town of Dhanushkodi, and Kanyakumari's Triveni Sangam, finishing at Trivandrum's Padmanabhaswamy Temple.",
-    heroImage: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=90&w=3200",
     bestTime: "October to March",
     startingPoint: "Madurai",
     groupSize: "2+ guests",
     themes: ["Spiritual", "Heritage"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80&w=1200", caption: "Temples of Tamil Nadu" },
-      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1200", caption: "Kanyakumari's coastline" },
+      { image: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=85&w=1800", caption: "Temples of Tamil Nadu" },
+      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Kanyakumari's coastline" },
     ],
     itinerary: [
       { day: 1, title: "Arrival at Madurai", description: "Meenakshi Amman Temple, Tirupparankundram Temple, Azhagar Temple and Thirumalai Nayakkar Mahal.", meals: "Lunch, Dinner", stay: "Madurai" },
@@ -983,7 +983,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "special-kerala",
     title: "Special Kerala",
-    image: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=85&w=1800",
     duration: "6 Nights / 7 Days",
     price: "₹36,450",
     highlights: ["Munnar tea gardens & Eravikulam National Park", "Kathakali & Kalaripayattu shows", "Varkala cliffside beach", "Alleppey houseboat backwaters"],
@@ -991,14 +991,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "A compact seven-day introduction to Kerala's hills, backwaters and coast.",
     overview:
       "Munnar's tea gardens and Thekkady's traditional performances, Varkala's cliffside beach and Kovalam's temples, ending with a houseboat cruise through Alleppey's backwaters.",
-    heroImage: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=90&w=3200",
     bestTime: "September to March",
     startingPoint: "Cochin Airport",
     groupSize: "2+ guests",
     themes: ["Nature", "Backwaters", "Culture"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=80&w=1200", caption: "Kerala's backwaters" },
-      { image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=80&w=1200", caption: "Munnar's tea gardens" },
+      { image: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=85&w=1800", caption: "Kerala's backwaters" },
+      { image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1800", caption: "Alleppey backwater cruising" },
     ],
     itinerary: [
       { day: 1, title: "Arrival at Cochin — Munnar", description: "Cheeyappara Waterfalls en route, then the Tea Museum.", meals: "Lunch, Dinner", stay: "Munnar" },
@@ -1021,7 +1021,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "swiss-paris-highlights",
     title: "Swiss & Paris Highlights",
-    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
     duration: "7 Nights / 8 Days",
     price: "₹1,99,999",
     highlights: ["Eiffel Tower 3rd level & Disneyland Paris", "Jungfraujoch — Top of Europe", "Mount Titlis & Cliff Walk", "Rhine Falls boat ride"],
@@ -1029,14 +1029,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Paris's icons and Disneyland, then Switzerland's Alps from Jungfraujoch to Rhine Falls.",
     overview:
       "Paris's Eiffel Tower, Versailles and a day at Disneyland, followed by Geneva, the Jungfraujoch cable-car excursion, Mount Titlis's Cliff Walk and Rhine Falls near Zurich.",
-    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
     bestTime: "April to October",
     startingPoint: "Paris Airport",
     groupSize: "2+ guests",
     themes: ["City", "Mountains", "Family"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=1200", caption: "Paris landmarks" },
-      { image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=80&w=1200", caption: "Swiss Alps" },
+      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "Paris landmarks" },
+      { image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800", caption: "Swiss Alps" },
     ],
     itinerary: [
       { day: 1, title: "Arrive in Paris", description: "Airport welcome and hotel check-in.", meals: "Dinner", stay: "Paris" },
@@ -1059,7 +1059,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "best-of-austria",
     title: "Best of Austria",
-    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
     duration: "7 Nights / 8 Days",
     price: "₹1,41,999",
     highlights: ["Schönbrunn Palace, Vienna", "Salzburg Salt Mine excursion", "Swarovski Crystal Worlds, Innsbruck", "Top of Innsbruck cable car"],
@@ -1067,14 +1067,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Vienna's imperial palaces, Salzburg's Old Town and Innsbruck's Alpine cable cars, connected by train.",
     overview:
       "A train-linked loop through Vienna, Salzburg and Innsbruck — Schönbrunn Palace, a shared shuttle to the Hallstatt Salt Mine, and Innsbruck's Swarovski Crystal Worlds and Top of Innsbruck cable car.",
-    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
     bestTime: "May to September",
     startingPoint: "Vienna Airport",
     groupSize: "2+ guests",
     themes: ["City", "Heritage", "Scenic"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=1200", caption: "Vienna's imperial architecture" },
-      { image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=80&w=1200", caption: "Alpine views near Innsbruck" },
+      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "Vienna's imperial architecture" },
+      { image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800", caption: "Alpine views near Innsbruck" },
     ],
     itinerary: [
       { day: 1, title: "Arrival in Vienna", description: "Private transfer and hotel check-in, leisure evening.", meals: "—", stay: "Vienna" },
@@ -1098,7 +1098,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "classic-italy",
     title: "Classic Italy",
-    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800",
     duration: "6 Nights / 7 Days",
     price: "₹1,82,999",
     highlights: ["Grand Canal gondola ride, Venice", "Pisa, Siena & San Gimignano day trip", "Colosseum, Roman Forum & Palatine Hill", "High-speed trains across Italy"],
@@ -1106,14 +1106,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Milan to Rome by high-speed train, with a gondola ride through Venice along the way.",
     overview:
       "Four iconic cities linked by train — Milan's shopping streets, a shared gondola ride through Venice's canals, a Tuscan day trip to Pisa and Siena from Florence, and a guided walk through Rome's Colosseum and Roman Forum.",
-    heroImage: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=90&w=3200",
     bestTime: "April to October",
     startingPoint: "Milan Airport",
     groupSize: "2+ guests",
     themes: ["Heritage", "City", "Scenic"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1200", caption: "Canals of Venice" },
-      { image: "https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&q=80&w=1200", caption: "Ancient Rome" },
+      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Canals of Venice" },
+      { image: "https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&q=85&w=1800", caption: "Ancient Rome" },
     ],
     itinerary: [
       { day: 1, title: "Arrival in Milan", description: "Private transfer and hotel check-in, leisure evening.", meals: "—", stay: "Milan" },
@@ -1136,7 +1136,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "london-edinburgh-bliss",
     title: "London & Edinburgh Bliss",
-    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
     duration: "7 Nights / 8 Days",
     price: "₹1,95,999",
     highlights: ["London Eye & Madame Tussauds", "Tower of London & Crown Jewels", "Cotswolds & Oxford excursion", "Edinburgh Castle"],
@@ -1144,14 +1144,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "London's icons and the Cotswolds, then Scotland's capital by train.",
     overview:
       "London's landmarks — the Eye, Madame Tussauds, a Thames cruise and the Tower of London — plus a day in the Cotswolds and Oxford, before a train journey north to Edinburgh Castle and the Royal Mile.",
-    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
     bestTime: "May to September",
     startingPoint: "London Heathrow Airport",
     groupSize: "2+ guests",
     themes: ["City", "Heritage", "Scenic"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=1200", caption: "London landmarks" },
-      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1200", caption: "Edinburgh's historic streets" },
+      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "London landmarks" },
+      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Edinburgh's historic streets" },
     ],
     itinerary: [
       { day: 1, title: "Arrival in London", description: "Private transfer and hotel check-in, leisure evening.", meals: "—", stay: "London" },
@@ -1175,7 +1175,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "paris-swiss-delights",
     title: "Paris & Swiss Delights",
-    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
     duration: "6 Nights / 7 Days",
     price: "₹1,94,999",
     highlights: ["Eiffel Tower & Seine River Cruise", "Louvre Museum with audio guide", "Mount Titlis via Engelberg", "Rhine Falls, Europe's largest waterfall"],
@@ -1183,14 +1183,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Paris's museums and monuments, then Switzerland unlocked by a 3-day Swiss Travel Pass.",
     overview:
       "Paris's Eiffel Tower, Seine cruise and Louvre Museum, followed by a high-speed train to Zurich and a 3-day Swiss Travel Pass covering excursions to Mount Titlis and the Rhine Falls.",
-    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
     bestTime: "April to October",
     startingPoint: "Paris Charles de Gaulle Airport",
     groupSize: "2+ guests",
     themes: ["City", "Mountains", "Museum"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=1200", caption: "Eiffel Tower, Paris" },
-      { image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=80&w=1200", caption: "Swiss Alps near Engelberg" },
+      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "Eiffel Tower, Paris" },
+      { image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800", caption: "Swiss Alps near Engelberg" },
     ],
     itinerary: [
       { day: 1, title: "Arrival in Paris", description: "Private transfer and hotel check-in, leisure evening.", meals: "—", stay: "Paris" },
@@ -1213,7 +1213,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "splendid-germany",
     title: "Splendid Germany",
-    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
     duration: "6 Nights / 7 Days",
     price: "₹1,47,999",
     highlights: ["Neuschwanstein & Linderhof Castles", "Munich Hop-On Hop-Off tour", "Frankfurt Grand Tour & River Main cruise", "Scenic train journeys across Bavaria"],
@@ -1221,14 +1221,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Bavaria's fairytale castles to Frankfurt's skyline, connected by train.",
     overview:
       "Munich's Marienplatz and English Garden, a full day at the fairytale Neuschwanstein and Linderhof castles, then trains to Stuttgart and Frankfurt for city tours and a River Main panorama cruise.",
-    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
     bestTime: "May to September",
     startingPoint: "Munich Airport",
     groupSize: "2+ guests",
     themes: ["City", "Heritage", "Scenic"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=1200", caption: "Bavarian castles" },
-      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1200", caption: "Frankfurt's riverside skyline" },
+      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "Bavarian castles" },
+      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Frankfurt's riverside skyline" },
     ],
     itinerary: [
       { day: 1, title: "Arrival in Munich", description: "Private transfer and hotel check-in, leisure evening.", meals: "—", stay: "Munich" },
@@ -1251,7 +1251,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "turkish-wonders",
     title: "Turkish Wonders",
-    image: "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&q=85&w=1800",
     duration: "7 Nights / 8 Days",
     price: "₹2,56,999",
     highlights: ["Hagia Sophia, Blue Mosque & Hippodrome", "Pamukkale travertines & Hierapolis", "Göreme Open Air Museum & Ozkonak Underground City", "Antalya Old Town & Düden Waterfalls"],
@@ -1259,15 +1259,15 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Istanbul's mosques, Pamukkale's white terraces and Cappadocia's fairy chimneys in one loop.",
     overview:
       "Two nights in Istanbul for Hagia Sophia and the Blue Mosque, then domestic flights to Pamukkale's travertine terraces, Antalya's Old Town and Mediterranean waterfalls, and two nights in Cappadocia among its underground cities and fairy chimneys.",
-    heroImage: "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&q=90&w=3200",
     bestTime: "April to October",
     startingPoint: "Istanbul International Airport",
     groupSize: "Min 2 pax for quoted rate",
     themes: ["Heritage", "Culture", "Scenic"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&q=80&w=1200", caption: "The Blue Mosque, Istanbul" },
-      { image: "https://images.unsplash.com/photo-1527838832700-5059252407fa?auto=format&fit=crop&q=80&w=1200", caption: "Hagia Sophia at dusk" },
-      { image: "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&q=80&w=1200", caption: "Galata and the Bosphorus" },
+      { image: "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&q=85&w=1800", caption: "The Blue Mosque, Istanbul" },
+      { image: "https://images.unsplash.com/photo-1527838832700-5059252407fa?auto=format&fit=crop&q=85&w=1800", caption: "Hagia Sophia at dusk" },
+      { image: "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&q=85&w=1800", caption: "Galata and the Bosphorus" },
     ],
     itinerary: [
       { day: 1, title: "Arrival in Istanbul", description: "Airport welcome by the local representative, transfer to the hotel and an evening at leisure in the only city spanning two continents.", meals: "—", stay: "Istanbul" },
@@ -1299,7 +1299,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "south-african-delights",
     title: "South African Delights",
-    image: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=85&w=1800",
     duration: "6 Nights / 7 Days",
     price: "₹1,42,999",
     highlights: ["Table Mountain cable car", "Cape of Good Hope & Flying Dutchman Funicular", "Boulders Beach African penguins", "Sun City Resort & Gold Reef City"],
@@ -1307,14 +1307,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Cape Town's Mother City tour, the Cape Peninsula's penguins and Sun City's resort playground.",
     overview:
       "Three nights in Cape Town for the Mother City tour, Table Mountain and a full-day Cape Peninsula drive to the Cape of Good Hope and Boulders Beach, then two nights at the Sun City Resort and a final day at Johannesburg's Gold Reef City.",
-    heroImage: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=90&w=3200",
     bestTime: "October to April",
     startingPoint: "Cape Town International Airport",
     groupSize: "Min 2 pax for quoted rate",
     themes: ["Wildlife", "City", "Scenic"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=80&w=1200", caption: "South African landscapes" },
-      { image: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&q=80&w=1200", caption: "Sunset over the bushveld" },
+      { image: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=85&w=1800", caption: "South African landscapes" },
+      { image: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&q=85&w=1800", caption: "Sunset over the bushveld" },
     ],
     itinerary: [
       { day: 1, title: "Arrival in Cape Town", description: "Airport welcome and transfer to the hotel, with the rest of the day free to explore the waterfront and city at your own pace.", meals: "—", stay: "Cape Town" },
@@ -1342,7 +1342,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "japan-autumn-delights",
     title: "Japan Autumn Delights",
-    image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=85&w=1800",
     duration: "9 Nights / 10 Days",
     price: "₹2,84,999",
     highlights: ["Tokyo Skytree & teamLab Planets", "Mount Fuji 5th Station & Panoramic Ropeway", "Kyoto's Golden Pavilion & Sagano Romantic Train", "Shinkansen ride & Hiroshima Peace Memorial"],
@@ -1350,15 +1350,15 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Tokyo to Osaka in autumn — Mount Fuji, Kyoto's temples, Himeji Castle and a bullet train run.",
     overview:
       "A ten-day autumn journey down Japan from Tokyo through Mount Fuji, Nagoya, Nara, Kyoto, Kobe and Hiroshima to Osaka, mixing digital art and observation decks with Todaiji's Great Buddha, the Golden Pavilion, Himeji Castle and a Shinkansen ride.",
-    heroImage: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=90&w=3200",
     bestTime: "November",
     startingPoint: "Narita International Airport, Tokyo",
     groupSize: "Group departure — 16 Nov 2026",
     themes: ["Culture", "City", "Scenic"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=80&w=1200", caption: "Historic streets of Kyoto" },
-      { image: "https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&q=80&w=1200", caption: "Mount Fuji" },
-      { image: "https://images.unsplash.com/photo-1522547902298-51566e4fb383?auto=format&fit=crop&q=80&w=1200", caption: "Sensō-ji, Tokyo" },
+      { image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=85&w=1800", caption: "Historic streets of Kyoto" },
+      { image: "https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&q=85&w=1800", caption: "Mount Fuji" },
+      { image: "https://images.unsplash.com/photo-1522547902298-51566e4fb383?auto=format&fit=crop&q=85&w=1800", caption: "Sensō-ji, Tokyo" },
     ],
     itinerary: [
       { day: 1, title: "Arrival in Tokyo", description: "Private transfer from Narita International Airport to the hotel, with an Indian dinner at a local restaurant in the evening.", meals: "Dinner", stay: "Tokyo" },
@@ -1395,7 +1395,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "scandinavia-northern-lights",
     title: "Highlights of Scandinavia with Northern Lights",
-    image: "https://images.unsplash.com/photo-1483347756197-71ef80e95f73?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1483347756197-71ef80e95f73?auto=format&fit=crop&q=85&w=1800",
     duration: "8 Nights / 9 Days",
     price: "₹4,73,999",
     highlights: ["Northern Lights hunt in Rovaniemi", "Oslo Fjord cruise & Holmenkollen Ski Jump", "Overnight Baltic cruise & Santa Claus Express", "Santa Claus Village & husky sled ride"],
@@ -1403,14 +1403,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Oslo, Stockholm, Helsinki and Tallinn, then the Arctic Circle for the Aurora and Santa Claus Village.",
     overview:
       "Nordic capitals by coach, ferry and rail — an Oslo Fjord cruise, Stockholm's Gamla Stan, an overnight Baltic cruise to Helsinki, a day trip to medieval Tallinn, and the Santa Claus Express north to Rovaniemi for Ranua Wildlife Park, a Northern Lights excursion, Santa Claus Village and a husky sled ride.",
-    heroImage: "https://images.unsplash.com/photo-1483347756197-71ef80e95f73?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1483347756197-71ef80e95f73?auto=format&fit=crop&q=90&w=3200",
     bestTime: "December to March",
     startingPoint: "Oslo Airport",
     groupSize: "Group departure — 07 Dec 2026",
     themes: ["Northern Lights", "Winter", "Scenic"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1483347756197-71ef80e95f73?auto=format&fit=crop&q=80&w=1200", caption: "Aurora Borealis over Arctic forest" },
-      { image: "https://images.unsplash.com/photo-1579033461380-adb47c3eb938?auto=format&fit=crop&q=80&w=1200", caption: "Northern Lights above a frozen lake" },
+      { image: "https://images.unsplash.com/photo-1483347756197-71ef80e95f73?auto=format&fit=crop&q=85&w=1800", caption: "Aurora Borealis over Arctic forest" },
+      { image: "https://images.unsplash.com/photo-1579033461380-adb47c3eb938?auto=format&fit=crop&q=85&w=1800", caption: "Northern Lights above a frozen lake" },
     ],
     itinerary: [
       { day: 1, title: "Arrival in Oslo", description: "Airport welcome by the tour manager and transfer to the hotel, with dinner and a tour briefing in the evening.", meals: "Dinner", stay: "Oslo" },
@@ -1441,7 +1441,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "best-of-georgia",
     title: "Best of Georgia",
-    image: "https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&q=85&w=1800",
     duration: "6 Nights / 7 Days",
     price: "₹64,999",
     highlights: ["Narikala Fortress cable car, Tbilisi", "Jvari Monastery & Svetitskhoveli Cathedral", "Prometheus Cave & Martvili Canyon", "Ananuri, Gudauri & Kazbegi drive"],
@@ -1449,14 +1449,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Tbilisi's old town, Batumi's Black Sea waterfront and the Caucasus road to Kazbegi.",
     overview:
       "Four nights in Tbilisi and two in Batumi covering the Holy Trinity Cathedral and Narikala Fortress, the ancient capital of Mtskheta, the Black Sea boulevard and Ali & Nino statue, Prometheus Cave and Martvili Canyon, and a Georgian Military Highway drive to Gudauri and Kazbegi.",
-    heroImage: "https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&q=90&w=3200",
     bestTime: "April to October",
     startingPoint: "Tbilisi International Airport",
     groupSize: "Min 2 pax for quoted rate",
     themes: ["Heritage", "Mountains", "Culture"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&q=80&w=1200", caption: "Tbilisi at sunset" },
-      { image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=1200", caption: "The Greater Caucasus range" },
+      { image: "https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&q=85&w=1800", caption: "Tbilisi at sunset" },
+      { image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=85&w=1800", caption: "The Greater Caucasus range" },
     ],
     itinerary: [
       { day: 1, title: "Arrival in Georgia – Tbilisi Panoramic Tour", description: "Airport welcome and hotel check-in, then an evening panoramic tour with the Mtatsminda funicular ride over the city.", meals: "—", stay: "Tbilisi" },
@@ -1486,7 +1486,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "best-of-europe-2027",
     title: "Best of Europe",
-    image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=85&w=1800",
     duration: "10 Nights / 11 Days",
     price: "₹2,99,376",
     highlights: ["Eiffel Tower 3rd level & Disneyland Paris", "Jungfraujoch and Mount Titlis", "Venice gondola ride & Leaning Tower of Pisa", "Vatican City, Colosseum & Trevi Fountain"],
@@ -1494,15 +1494,15 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Paris, Switzerland, Liechtenstein, Austria and Italy across one grand eleven-day coach tour.",
     overview:
       "A five-country grand tour from Paris's Eiffel Tower and Disneyland through Geneva, Jungfraujoch and Mount Titlis, on via Rhine Falls, Vaduz and Innsbruck to Venice's canals, Florence and Pisa, ending with Vatican City, the Colosseum and the Trevi Fountain in Rome.",
-    heroImage: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=90&w=3200",
     bestTime: "March to October",
     startingPoint: "Paris CDG Airport",
     groupSize: "Group departures — 8, 16 & 27 March 2027",
     themes: ["City", "Mountains", "Heritage"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=80&w=1200", caption: "The Eiffel Tower, Paris" },
-      { image: "https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&q=80&w=1200", caption: "Venice's Grand Canal" },
-      { image: "https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&q=80&w=1200", caption: "St. Peter's Square, Vatican City" },
+      { image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=85&w=1800", caption: "The Eiffel Tower, Paris" },
+      { image: "https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&q=85&w=1800", caption: "Venice's Grand Canal" },
+      { image: "https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&q=85&w=1800", caption: "St. Peter's Square, Vatican City" },
     ],
     itinerary: [
       { day: 1, title: "Arrival in Paris", description: "Airport welcome by the tour manager, transfer to the hotel and an evening to settle in.", meals: "Dinner", stay: "Paris" },
@@ -1537,7 +1537,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "azerbaijan-highlights",
     title: "Azerbaijan Highlights",
-    image: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&q=85&w=1800",
     duration: "6 Nights / 7 Days",
     price: "₹51,999",
     highlights: ["Icherisheher Old City & Maiden Tower", "Gobustan National Park petroglyphs", "Tufandag & Shahdag mountain cable cars", "Ateshgah Fire Temple & Yanardag"],
@@ -1545,14 +1545,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Baku's Flame Towers and Old City, Gobustan's rock art and the Caucasus resorts of Gabala and Shahdag.",
     overview:
       "Five nights in Baku and one in Gabala covering the UNESCO-listed Icherisheher Old City, the Heydar Aliyev Center, Gobustan's prehistoric petroglyphs, the eternal flames of Ateshgah and Yanardag, and cable car rides at the Tufandag and Shahdag mountain resorts.",
-    heroImage: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&q=90&w=3200",
     bestTime: "April to October",
     startingPoint: "Heydar Aliyev International Airport, Baku",
     groupSize: "Min 2 pax for quoted rate",
     themes: ["City", "Mountains", "Heritage"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&q=80&w=1200", caption: "Baku's Caspian waterfront" },
-      { image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=1200", caption: "The Greater Caucasus above Gabala" },
+      { image: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&q=85&w=1800", caption: "Baku's Caspian waterfront" },
+      { image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=85&w=1800", caption: "The Greater Caucasus above Gabala" },
     ],
     itinerary: [
       { day: 1, title: "Arrival in Baku & Panoramic City Tour", description: "Airport welcome and hotel check-in, then an evening panoramic tour of Highland Park and the Alley of Martyrs, the National Assembly and the Flame Towers.", meals: "—", stay: "Baku" },
@@ -1584,7 +1584,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "almaty-bliss",
     title: "Almaty Bliss",
-    image: "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&q=85&w=1800",
     duration: "6 Nights / 7 Days",
     price: "₹74,999",
     highlights: ["Kok-Tobe cable car ride", "Medeu & Shymbulak mountain resort", "Charyn Canyon's Valley of Castles", "Kolsai Lakes & eagle hunting show"],
@@ -1592,14 +1592,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Kazakhstan's mountain city — cable cars, canyons, alpine lakes and Green Bazaar shopping.",
     overview:
       "Six nights based in Almaty beneath the Zailiyskiy Alatau, combining Kok-Tobe and Shymbulak cable cars, the Golden Square city tour, a traditional eagle hunting show, the Oi-Qaragai mountain resort, and a full-day excursion to Charyn Canyon and the Kolsai Lakes.",
-    heroImage: "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&q=80&w=2000",
+    heroImage: "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&q=90&w=3200",
     bestTime: "May to October",
     startingPoint: "Almaty International Airport",
     groupSize: "Min 2 pax for quoted rate",
     themes: ["Mountains", "Adventure", "City"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&q=80&w=1200", caption: "Alpine lakes of the Tien Shan" },
-      { image: "https://images.unsplash.com/photo-1605540436563-5bca919ae766?auto=format&fit=crop&q=80&w=1200", caption: "Shymbulak's snow-covered slopes" },
+      { image: "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&q=85&w=1800", caption: "Alpine lakes of the Tien Shan" },
+      { image: "https://images.unsplash.com/photo-1605540436563-5bca919ae766?auto=format&fit=crop&q=85&w=1800", caption: "Shymbulak's snow-covered slopes" },
     ],
     itinerary: [
       { day: 1, title: "Welcome to Almaty – Kok-Tobe Tour", description: "Airport welcome and hotel check-in, then a half-day visit to Kok-Tobe Hill with a cable car ride over the city and mountains.", meals: "—", stay: "Almaty" },
@@ -1715,7 +1715,7 @@ export const testimonials: Testimonial[] = [
   {
     id: "t1",
     name: "Ramesh Sen",
-    photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150",
+    photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=85&w=320",
     destination: "Explored Sikkim",
     review: "Bandhan Tours organized our Sikkim tour flawlessly. The hotels chosen had excellent views, the drivers were polite and handled the mountainous terrain very safely. Highly recommended!",
     rating: 5,
@@ -1723,7 +1723,7 @@ export const testimonials: Testimonial[] = [
   {
     id: "t2",
     name: "Priya Sharma",
-    photo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150",
+    photo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=85&w=320",
     destination: "Explored Kashmir",
     review: "The Kashmir group tour was fantastic. We had a great guide, seamless transportation, and the houseboats in Srinagar were a dream. Thank you, Bandhan, for this colorful memory!",
     rating: 5,
@@ -1731,7 +1731,7 @@ export const testimonials: Testimonial[] = [
   {
     id: "t3",
     name: "Amit & Sneha Patel",
-    photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150",
+    photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=85&w=320",
     destination: "Explored Singapore",
     review: "We booked our customized Singapore honeymoon package with Bandhan Tours. The itinerary was perfectly balanced - giving us plenty of romantic free time along with smooth tours.",
     rating: 5,
@@ -1741,37 +1741,37 @@ export const testimonials: Testimonial[] = [
 export const galleryImages: GalleryItem[] = [
   {
     id: "g1",
-    image: "https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?auto=format&fit=crop&q=80&w=600",
+    image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1800",
     location: "Kerala",
     title: "Alleppey Houseboat",
   },
   {
     id: "g2",
-    image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=80&w=600",
+    image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800",
     location: "Sikkim",
     title: "Himalayan Valleys",
   },
   {
     id: "g3",
-    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=600",
+    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800",
     location: "Agra, India",
     title: "The Taj Mahal",
   },
   {
     id: "g4",
-    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=600",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=1800",
     location: "Goa Beaches",
     title: "Golden Hour Shores",
   },
   {
     id: "g5",
-    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=600",
+    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=85&w=1800",
     location: "Bali, Indonesia",
     title: "Ubud Rice Terraces",
   },
   {
     id: "g6",
-    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=600",
+    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
     location: "Paris, France",
     title: "Eiffel Tower Mornings",
   },
@@ -1787,7 +1787,7 @@ export const blogPosts: BlogPost[] = [
     content:
       "Kashmir wears a different face in every season, and the 'best' time truly depends on the trip you're dreaming of.\n\nSpring (March–May) is when the valley wakes up. The Tulip Garden in Srinagar — Asia's largest — bursts into colour through late March and April, and the Mughal gardens are at their greenest. Days are mild and evenings still cool enough for a pheran.\n\nSummer (June–August) is peak season for good reason: warm days, blooming meadows in Gulmarg and Pahalgam, and long golden evenings on the Dal Lake houseboats. Book early — this is when families and honeymooners arrive in numbers.\n\nAutumn (September–November) is our quiet favourite. The chinar leaves turn crimson and gold, the saffron fields near Pampore are harvested, and the crowds thin out.\n\nWinter (December–February) belongs to the snow. Gulmarg becomes one of Asia's finest ski destinations, and the Gondola ride over a white valley is unforgettable.\n\nWhichever season calls you, our Kashmir designers will match the itinerary to the weather, the blooms, and your pace.",
     coverImage:
-      "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=80&w=1600",
+      "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=90&w=2400",
     author: "Bandhan Travel Desk",
     category: "Destinations",
     readTime: "6 min read",
@@ -1803,7 +1803,7 @@ export const blogPosts: BlogPost[] = [
     content:
       "The North East is India's most rewarding frontier — but the routes, permits, and pace are genuinely different from the rest of the country, which is exactly why we run it as its own category.\n\nPermits first. Indian nationals need an Inner Line Permit (ILP) for parts of Sikkim (like Nathula and Tsomgo Lake), and for Arunachal Pradesh. Foreign nationals have their own Protected Area rules. We arrange these for you, but plan for a day of lead time.\n\nOn pacing: the single biggest mistake first-timers make is cramming too much. Mountain roads are slow and gloriously scenic — a 120km hop can take five hours. Build in buffer days, especially in North Sikkim where weather closes passes without notice.\n\nOur go-to first-timer loop pairs Gangtok and Tsomgo Lake with a slow descent into Darjeeling's tea country. Meghalaya's living root bridges and Shillong are a wonderful standalone second trip.\n\nCarry layers, cash for remote stretches, and a flexible attitude — the North East pays it all back in views.",
     coverImage:
-      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=80&w=1600",
+      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=90&w=2400",
     author: "Bandhan Travel Desk",
     category: "Travel Tips",
     readTime: "7 min read",
@@ -1819,7 +1819,7 @@ export const blogPosts: BlogPost[] = [
     content:
       "After planning thousands of trips, we've noticed the same items get forgotten again and again. Here's the checklist we quietly wish every traveller carried.\n\nThe layering rule: pack for the coldest morning and the warmest afternoon of your trip, not the average. A light thermal, a fleece, and a windcheater cover almost every Indian hill station without bulk.\n\nAlways forgotten: a universal power bank, a small torch (power cuts happen), motion-sickness tablets for winding roads, a reusable water bottle, sunscreen even in the hills, and copies of your ID stored separately from the originals.\n\nDocuments: keep digital and printed copies of your booking vouchers and permits. On group departures, your tour captain carries master copies too.\n\nFootwear: one pair of broken-in walking shoes beats three pairs of new ones. Your feet will thank you on day three.\n\nPack light, layer smart, and leave room for what you'll bring home.",
     coverImage:
-      "https://images.unsplash.com/photo-1553531384-cc64ac80f931?auto=format&fit=crop&q=80&w=1600",
+      "https://images.unsplash.com/photo-1553531384-cc64ac80f931?auto=format&fit=crop&q=90&w=2400",
     author: "Bandhan Travel Desk",
     category: "Guides",
     readTime: "4 min read",

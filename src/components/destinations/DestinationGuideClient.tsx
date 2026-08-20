@@ -176,7 +176,7 @@ export default function DestinationGuideClient({ id }: { id: string }) {
         <main className="flex min-h-screen items-center justify-center px-6 pt-24 text-center">
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-accent">Destination unavailable</p>
-            <h1 className="mt-3 font-heading text-3xl font-bold text-primary">This guide is off the map.</h1>
+            <h1 className="mt-3 font-heading text-3xl font-extrabold text-primary">This guide is off the map.</h1>
             <Link href="/destinations" className="mt-6 inline-flex rounded-full bg-primary px-5 py-3 text-sm font-bold text-white">
               Explore destinations
             </Link>
@@ -244,7 +244,7 @@ export default function DestinationGuideClient({ id }: { id: string }) {
               </p>
 
               <h1
-                className="mt-4 font-heading text-[3.4rem] font-extrabold leading-[0.92] text-white sm:text-7xl lg:text-8xl opacity-0 animate-fade-in-up"
+                className="mt-4 font-heading text-4xl font-extrabold leading-[0.96] text-white opacity-0 animate-fade-in-up min-[380px]:text-5xl sm:text-7xl sm:leading-[0.92] lg:text-8xl"
                 style={{ animationDelay: "0.3s" }}
               >
                 {destination.name}
@@ -260,12 +260,12 @@ export default function DestinationGuideClient({ id }: { id: string }) {
               </p>
 
               <div
-                className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4 opacity-0 animate-fade-in-up"
+                className="mt-9 flex flex-col items-start gap-x-7 gap-y-4 opacity-0 animate-fade-in-up sm:flex-row sm:flex-wrap sm:items-center"
                 style={{ animationDelay: "0.6s" }}
               >
                 <Link
                   href={bookingHref}
-                  className="group inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3.5 text-sm font-bold text-primary shadow-lg shadow-gold/20 transition-all duration-300 hover:bg-gold-light hover:shadow-gold/30"
+                  className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-gold px-7 py-3.5 text-sm font-bold text-primary shadow-lg shadow-gold/20 transition-all duration-300 hover:bg-gold-light hover:shadow-gold/30 sm:w-auto"
                 >
                   Build my trip
                   <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
@@ -402,7 +402,7 @@ export default function DestinationGuideClient({ id }: { id: string }) {
                       </span>
                       <h3 className="font-heading text-xl font-bold leading-snug">{experience.title}</h3>
                       <p className="mt-2.5 text-sm leading-relaxed text-slate-200">{experience.description}</p>
-                      <span className="mt-4 inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gold opacity-0 transition-all duration-300 group-hover:opacity-100">
+                      <span className="mt-4 inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gold opacity-100 transition-all duration-300 sm:opacity-0 sm:group-hover:opacity-100">
                         Explore <ArrowUpRight size={13} />
                       </span>
                     </div>

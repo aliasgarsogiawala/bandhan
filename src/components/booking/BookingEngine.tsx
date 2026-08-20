@@ -546,14 +546,22 @@ export default function BookingEngine() {
         </p>
       </div>
 
-      <div className="mb-6 overflow-x-auto rounded-2xl border border-slate-100 bg-white p-2 shadow-soft">
-        <div className="flex min-w-[680px]">
+      <div className="mb-6 rounded-2xl border border-slate-100 bg-white p-2 shadow-soft">
+        <div className="flex items-center justify-between gap-3 px-2 pb-2 pt-1 sm:hidden">
+          <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-accent">
+            Step {step + 1} of {steps.length}
+          </span>
+          <span className="truncate text-xs font-bold text-primary">{steps[step]}</span>
+        </div>
+        <div className="grid grid-cols-5 gap-1 sm:flex">
           {steps.map((label, index) => (
             <button
               type="button"
               key={label}
               onClick={() => index < step && setStep(index)}
-              className={`flex flex-1 items-center gap-2 rounded-xl px-4 py-3 text-left text-xs font-bold ${
+              aria-current={index === step ? "step" : undefined}
+              aria-label={`Step ${index + 1}: ${label}`}
+              className={`flex min-w-0 flex-col items-center justify-center gap-1 rounded-xl px-1 py-2 text-center text-xs font-bold sm:flex-1 sm:flex-row sm:justify-start sm:gap-2 sm:px-4 sm:py-3 sm:text-left ${
                 index === step
                   ? "bg-primary text-white"
                   : index < step
@@ -568,7 +576,7 @@ export default function BookingEngine() {
               >
                 {index < step ? <Check size={13} /> : index + 1}
               </span>
-              {label}
+              <span className="hidden sm:inline">{label}</span>
             </button>
           ))}
         </div>

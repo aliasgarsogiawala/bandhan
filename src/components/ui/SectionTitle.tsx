@@ -7,6 +7,8 @@ interface SectionTitleProps {
   align?: "left" | "center" | "right";
   className?: string;
   badge?: string;
+  /** "dark" inverts the type for sections painted on an ink surface. */
+  tone?: "light" | "dark";
 }
 
 export const SectionTitle: React.FC<SectionTitleProps> = ({
@@ -16,7 +18,9 @@ export const SectionTitle: React.FC<SectionTitleProps> = ({
   align = "center",
   className = "",
   badge,
+  tone = "light",
 }) => {
+  const isDark = tone === "dark";
   const alignmentClasses = {
     left: "text-left items-start",
     center: "text-center items-center mx-auto",
@@ -36,18 +40,18 @@ export const SectionTitle: React.FC<SectionTitleProps> = ({
       className={`flex flex-col max-w-3xl ${alignmentClasses[align]} ${className}`}
     >
       {eyebrow && (
-        <span className="inline-flex items-center gap-3 text-[0.66rem] font-semibold uppercase tracking-[0.3em] text-accent mb-5">
-          <span className="h-px w-8 bg-accent/50" aria-hidden="true" />
+        <span className={`mb-4 inline-flex max-w-full items-center gap-2 text-[0.64rem] font-semibold uppercase tracking-[0.22em] sm:mb-5 sm:gap-3 sm:tracking-[0.3em] ${isDark ? "text-gold" : "text-accent"}`}>
+          <span className={`h-px w-6 shrink-0 sm:w-8 ${isDark ? "bg-gold/50" : "bg-accent/50"}`} aria-hidden="true" />
           {eyebrow}
         </span>
       )}
 
-      <h2 className="font-display font-normal text-4xl sm:text-5xl md:text-[3.4rem] text-primary leading-[1.06] tracking-[-0.01em]">
+      <h2 className={`font-heading text-3xl font-extrabold leading-[1.08] tracking-[-0.01em] min-[380px]:text-4xl sm:text-5xl md:text-[3.4rem] md:leading-[1.06] ${isDark ? "text-white" : "text-primary"}`}>
         {title}
       </h2>
 
       {description && (
-        <p className={`mt-5 text-base sm:text-lg text-foreground-muted leading-relaxed font-sans max-w-2xl ${textAlignmentClasses[align]}`}>
+        <p className={`mt-4 max-w-2xl font-sans text-sm leading-relaxed sm:mt-5 sm:text-lg ${isDark ? "text-slate-300/85" : "text-foreground-muted"} ${textAlignmentClasses[align]}`}>
           {description}
         </p>
       )}

@@ -147,6 +147,7 @@ export async function POST(request: Request) {
       booking,
       accessToken: booking.access_token,
       brochureUrl: `/api/bookings/${booking.id}/brochure?token=${booking.access_token}`,
+      quotationUrl: `/api/bookings/${booking.id}/quotation?token=${booking.access_token}`,
     });
   } catch (error) {
     if (error instanceof SoldOutError) {

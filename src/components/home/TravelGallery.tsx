@@ -23,8 +23,9 @@ const aspectClasses = [
 
 export const TravelGallery: React.FC = () => {
   return (
-    <section className="relative z-10 bg-white py-20 sm:py-28">
-      <Container>
+    <section className="relative z-10 overflow-hidden bg-ink-deep py-20 sm:py-28">
+      <div className="pointer-events-none absolute -right-40 top-1/3 h-[420px] w-[420px] rounded-full bg-primary-light/15 blur-[150px]" aria-hidden="true" />
+      <Container className="relative">
         {/* Header */}
         <div className="mx-auto mb-14 max-w-2xl text-center">
           <SectionTitle
@@ -32,6 +33,7 @@ export const TravelGallery: React.FC = () => {
             badge="Visual Inspiration"
             title="Our Travel Gallery"
             description="Moments captured by our travelers across scenic mountains, tranquil beaches, and historical monuments."
+            tone="dark"
           />
         </div>
 
@@ -43,7 +45,7 @@ export const TravelGallery: React.FC = () => {
           {galleryImages.map((item, idx) => (
             <StaggerItem key={item.id} as="div" y={26} className={idx % 5 === 0 ? "sm:row-span-2" : ""}>
               <div
-                className={`group relative h-full w-full overflow-hidden rounded-[1.25rem] border border-slate-100 shadow-soft ${aspectClasses[idx % aspectClasses.length]}`}
+                className={`group relative h-full w-full overflow-hidden rounded-[1.25rem] ring-1 ring-white/10 shadow-lifted transition-all duration-500 hover:ring-gold/30 ${aspectClasses[idx % aspectClasses.length]}`}
               >
                 <Image
                   src={item.image}
@@ -52,12 +54,12 @@ export const TravelGallery: React.FC = () => {
                   sizes="(max-width: 640px) 50vw, 33vw"
                   className="object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/85 via-primary/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                <div className="absolute inset-x-0 bottom-0 translate-y-2 p-5 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/85 via-primary/5 to-transparent opacity-100 transition-opacity duration-500 sm:opacity-0 sm:group-hover:opacity-100" />
+                <div className="absolute inset-x-0 bottom-0 translate-y-0 p-3 opacity-100 transition-all duration-500 sm:translate-y-2 sm:p-5 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100">
                   <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold">
                     {item.location}
                   </span>
-                  <h4 className="mt-1 font-heading text-lg font-bold text-white">{item.title}</h4>
+                  <h4 className="mt-1 line-clamp-2 font-heading text-sm font-bold leading-tight text-white sm:text-xl">{item.title}</h4>
                 </div>
               </div>
             </StaggerItem>

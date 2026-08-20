@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { GUEST_RELATIONS } from "@/lib/bookings/party";
 import type { BookedFor } from "@/lib/bookings/types";
@@ -61,6 +62,20 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     setWasOpen(false);
   }
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [isOpen, onClose]);
+
   const bookingForSomeoneElse = bookedFor === "guest";
 
   if (!isOpen) return null;
@@ -116,13 +131,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     }
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/45 backdrop-blur-md animate-fade-in">
-      <div className="relative w-full max-w-lg bg-white rounded-3xl overflow-hidden shadow-2xl border border-slate-100 animate-scale-up">
-        <div className="bg-primary px-6 py-6 text-white relative">
+  return createPortal(
+    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-primary/45 p-0 backdrop-blur-md animate-fade-in sm:p-4">
+      <div className="relative flex h-[100dvh] max-h-[100dvh] w-full max-w-lg flex-col overflow-hidden border border-slate-100 bg-white shadow-2xl sm:h-auto sm:max-h-[calc(100dvh-2rem)] sm:rounded-3xl sm:animate-scale-up" role="dialog" aria-modal="true" aria-labelledby="booking-modal-title">
+        <div className="relative shrink-0 bg-primary px-5 pb-5 pt-[max(1.25rem,env(safe-area-inset-top))] text-white sm:px-6 sm:py-6">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 text-white/75 hover:text-white hover:bg-white/10 p-2 rounded-full transition-colors"
+            className="absolute right-2 top-[max(0.5rem,env(safe-area-inset-top))] flex h-11 w-11 items-center justify-center rounded-full text-white/75 transition-colors hover:bg-white/10 hover:text-white sm:right-4 sm:top-4"
             aria-label="Close modal"
           >
             <svg
@@ -143,13 +158,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           <span className="text-xs uppercase tracking-widest text-gold font-bold mb-1 block">
             Book This Tour
           </span>
-          <h3 className="text-2xl font-bold font-heading">{packageTitle}</h3>
+          <h3 id="booking-modal-title" className="pr-10 font-heading text-xl font-bold sm:text-2xl">{packageTitle}</h3>
           <p className="text-sm text-slate-300 font-sans mt-1">
             Share your travel details — our team confirms pricing and availability within 24 hours.
           </p>
         </div>
 
-        <div className="p-6 md:p-8 max-h-[75vh] overflow-y-auto">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-5 sm:max-h-[75vh] sm:p-6 md:p-8">
           {typeof seatsLeft === "number" && seatsLeft <= 0 ? (
             <div className="text-center py-8 space-y-3">
               <p className="text-lg font-bold text-primary">This departure is sold out.</p>
@@ -426,7 +441,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };
 

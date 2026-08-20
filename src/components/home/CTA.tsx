@@ -16,15 +16,15 @@ export const CTA: React.FC<CTAProps> = ({ onStartPlanningClick }) => {
       {/* Background Image */}
       <div className="absolute inset-0 h-full w-full">
         <Image
-          src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=80&w=2000"
+          src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=90&w=3200"
           alt="Adventure Background"
           fill
           sizes="100vw"
           className="object-cover object-center"
         />
         {/* Calmer, deeper navy gradient */}
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-dark via-primary/90 to-primary/55" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,transparent_40%,rgba(3,16,32,0.55)_100%)]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink-deep via-ink-deep/80 via-45% to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,transparent_60%,rgba(3,12,23,0.22)_100%)]" />
       </div>
 
       <Container className="relative z-10">

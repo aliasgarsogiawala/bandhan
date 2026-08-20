@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { Calendar, Camera, CheckCircle2, MapPin, Quote, Star, X } from "lucide-react";
@@ -27,11 +28,13 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
   );
 
   useEffect(() => {
+    if (!isOpen) return;
+    const previousOverflow = document.body.style.overflow;
     window.addEventListener("keydown", handleKeyDown);
-    if (isOpen) document.body.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = previousOverflow;
     };
   }, [isOpen, handleKeyDown]);
 
@@ -40,9 +43,9 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
   const { name, city, tour, destination, rating, review, profileImage, tripImages, travelMonth, isVerified } = testimonial;
   const heroImage = tripImages?.[0];
 
-  return (
+  return createPortal(
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-3 sm:p-6">
+      <div className="fixed inset-0 z-[70] flex items-center justify-center overflow-hidden p-0 sm:p-6">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -57,7 +60,7 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.97, y: 20 }}
           transition={{ type: "spring", duration: 0.45, bounce: 0.08 }}
-          className="relative z-10 my-6 flex max-h-[92vh] w-full max-w-6xl flex-col overflow-hidden rounded-[1.75rem] border border-gold/25 bg-[#061625] text-white shadow-[0_40px_140px_-55px_rgba(0,0,0,0.95)]"
+          className="relative z-10 flex h-[100dvh] max-h-[100dvh] w-full max-w-6xl flex-col overflow-hidden border border-gold/25 bg-[#061625] text-white shadow-[0_40px_140px_-55px_rgba(0,0,0,0.95)] sm:my-6 sm:h-auto sm:max-h-[92vh] sm:rounded-[1.75rem]"
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-title"
@@ -66,7 +69,7 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="absolute right-4 top-4 z-30 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-[#061625]/75 text-white backdrop-blur-md transition-colors hover:border-gold hover:bg-gold hover:text-primary"
+            className="absolute right-3 top-[max(0.75rem,env(safe-area-inset-top))] z-30 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-[#061625]/75 text-white backdrop-blur-md transition-colors hover:border-gold hover:bg-gold hover:text-primary sm:right-4 sm:top-4"
             aria-label="Close review modal"
           >
             <X className="h-5 w-5" />
@@ -74,7 +77,7 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
 
           <div className="flex-1 overflow-y-auto">
             <div className="grid lg:grid-cols-[1.05fr_0.95fr]">
-              <div className="relative min-h-[260px] overflow-hidden sm:min-h-[340px] lg:min-h-[390px]">
+              <div className="relative min-h-[220px] overflow-hidden sm:min-h-[340px] lg:min-h-[390px]">
                 {heroImage ? (
                   <Image
                     src={heroImage}
@@ -159,13 +162,14 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
             </div>
           </div>
 
-          <div className="flex items-center justify-between border-t border-white/10 bg-white/[0.03] px-6 py-4 sm:px-9">
+          <div className="flex shrink-0 items-center justify-between border-t border-white/10 bg-white/[0.03] px-5 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 sm:px-9 sm:py-4">
             <span className="text-xs font-semibold uppercase tracking-[0.16em] text-white/35">Bandhan Tours</span>
             <button type="button" onClick={onClose} className="rounded-full bg-gold px-5 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-gold-light">Close story</button>
           </div>
         </motion.div>
       </div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 };
 

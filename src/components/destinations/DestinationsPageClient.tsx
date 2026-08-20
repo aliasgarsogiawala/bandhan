@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/common/Navbar";
+import Footer from "@/components/common/Footer";
 import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import type { Destination } from "@/data/mockData";
@@ -14,7 +15,7 @@ export default function DestinationsPageClient() {
   const destinations = items.filter((destination) => destination.status !== "draft");
 
   return (
-    <div className="min-h-screen bg-sand">
+    <div className="flex min-h-screen flex-col overflow-x-hidden bg-sand">
       <Navbar />
       <main className="pt-32 pb-20 sm:pt-40">
         <Container>
@@ -30,7 +31,7 @@ export default function DestinationsPageClient() {
               <Link
                 key={dest.id}
                 href={`/destinations/${encodeURIComponent(dest.id)}`}
-                className="group relative h-[380px] overflow-hidden rounded-3xl border border-slate-100/50 bg-primary shadow-soft transition-all duration-500 hover:-translate-y-1 hover:shadow-xl"
+                className="group relative h-[340px] overflow-hidden rounded-3xl border border-slate-100/50 bg-primary shadow-soft transition-all duration-500 hover:-translate-y-1 hover:shadow-xl sm:h-[380px]"
               >
                 <Image
                   src={dest.image}
@@ -52,10 +53,10 @@ export default function DestinationsPageClient() {
                   <h2 className="mb-2 mt-1 font-heading text-2xl font-bold tracking-wide transition-colors group-hover:text-gold">
                     {dest.name}
                   </h2>
-                  <p className="line-clamp-2 translate-y-3 text-xs text-slate-200 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                  <p className="line-clamp-2 translate-y-0 text-xs text-slate-200 opacity-100 transition-all duration-500 sm:translate-y-3 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100">
                     {dest.description}
                   </p>
-                  <span className="mt-3 flex items-center gap-1.5 text-xs font-bold text-gold opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                  <span className="mt-3 flex items-center gap-1.5 text-xs font-bold text-gold opacity-100 transition-opacity duration-500 sm:opacity-0 sm:group-hover:opacity-100">
                     Plan This Destination <span className="text-base">→</span>
                   </span>
                 </div>
@@ -70,6 +71,7 @@ export default function DestinationsPageClient() {
           )}
         </Container>
       </main>
+      <Footer />
     </div>
   );
 }

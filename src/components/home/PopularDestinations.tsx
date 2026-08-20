@@ -18,8 +18,11 @@ export const PopularDestinations: React.FC = () => {
     .slice(0, 8);
 
   return (
-    <section id="domestic-tours" className="relative z-10 bg-white py-20 sm:py-28">
-      <CompassMark className="pointer-events-none absolute -right-16 top-10 h-72 w-72 text-primary/[0.035]" />
+    <section id="domestic-tours" className="relative z-10 overflow-hidden bg-ink py-20 sm:py-28">
+      <CompassMark className="pointer-events-none absolute -right-16 top-10 h-72 w-72 text-white/[0.035]" />
+      {/* Soft brand glows so the ink field has depth rather than reading flat. */}
+      <div className="pointer-events-none absolute -left-40 top-1/4 h-[460px] w-[460px] rounded-full bg-primary-light/20 blur-[150px]" aria-hidden="true" />
+      <div className="pointer-events-none absolute -right-32 bottom-0 h-[380px] w-[380px] rounded-full bg-gold/[0.07] blur-[130px]" aria-hidden="true" />
       <Container>
         {/* Header */}
         <div className="mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
@@ -29,10 +32,11 @@ export const PopularDestinations: React.FC = () => {
             title="Popular Destinations"
             description="Explore our hand-picked domestic and international gateways curated for unforgettable memories."
             className="max-w-2xl"
+            tone="dark"
           />
           <Link
             href="/destinations"
-            className="group inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-primary/15 px-5 py-3 text-sm font-bold text-primary transition-all duration-300 hover:border-primary hover:bg-primary hover:text-white md:self-end"
+            className="group inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-white/20 px-5 py-3 text-sm font-bold text-white/85 transition-all duration-300 hover:border-gold hover:bg-gold hover:text-primary md:self-end"
           >
             Explore all destinations
             <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
@@ -45,7 +49,7 @@ export const PopularDestinations: React.FC = () => {
             <StaggerItem key={dest.id} as="article" y={30}>
               <Link
                 href={`/destinations/${encodeURIComponent(dest.id)}`}
-                className="group relative block h-[430px] overflow-hidden rounded-[1.75rem] bg-primary shadow-soft ring-1 ring-primary/10 transition-all duration-500 ease-out hover:-translate-y-1.5 hover:shadow-lifted hover:ring-gold/30 motion-reduce:hover:translate-y-0"
+                className="group relative block h-[360px] overflow-hidden rounded-[1.75rem] bg-primary shadow-lifted ring-1 ring-white/10 transition-all duration-500 ease-out hover:-translate-y-1.5 hover:shadow-lifted hover:ring-gold/30 motion-reduce:hover:translate-y-0 sm:h-[430px]"
               >
                 {/* Image */}
                 <Image
@@ -73,13 +77,13 @@ export const PopularDestinations: React.FC = () => {
                     <span className="h-px w-5 bg-gold/50 transition-all duration-500 group-hover:w-8" aria-hidden="true" />
                     From {dest.price}
                   </span>
-                  <h3 className="mt-2 font-display text-[1.9rem] font-normal leading-[1.1] tracking-[-0.01em] transition-colors duration-300 group-hover:text-gold">
+                  <h3 className="mt-2 font-heading text-[1.9rem] font-extrabold leading-[1.1] tracking-[-0.01em] transition-colors duration-300 group-hover:text-gold">
                     {dest.name}
                   </h3>
-                  <p className="mt-2 max-h-0 overflow-hidden text-xs leading-relaxed text-slate-200/90 opacity-0 transition-all duration-500 group-hover:max-h-24 group-hover:opacity-100">
+                  <p className="mt-2 max-h-24 overflow-hidden text-xs leading-relaxed text-slate-200/90 opacity-100 transition-all duration-500 sm:max-h-0 sm:opacity-0 sm:group-hover:max-h-24 sm:group-hover:opacity-100">
                     {dest.description}
                   </p>
-                  <span className="mt-3.5 inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-gold opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                  <span className="mt-3.5 inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-gold opacity-100 transition-opacity duration-500 sm:opacity-0 sm:group-hover:opacity-100">
                     Plan this destination
                     <ArrowRight size={12} className="transition-transform duration-300 group-hover:translate-x-1" />
                   </span>

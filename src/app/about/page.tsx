@@ -199,9 +199,9 @@ export default function AboutPage() {
         <section className="py-20 sm:py-28">
           <Container>
             <div className="grid gap-6 lg:grid-cols-12">
-              <ScrollReveal className="relative min-h-[520px] overflow-hidden lg:col-span-7">
+              <ScrollReveal className="relative min-h-[360px] overflow-hidden sm:min-h-[520px] lg:col-span-7">
                 <Image
-                  src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1500"
+                  src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=90&w=2400"
                   alt="A quiet Himalayan landscape"
                   fill
                   sizes="(max-width: 1024px) 100vw, 58vw"

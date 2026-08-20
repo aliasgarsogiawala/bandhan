@@ -1,8 +1,17 @@
 import type { PDFImage } from "pdf-lib";
 import type { Booking } from "@/lib/bookings/types";
-import type { BookingPackageSnapshot, QuoteSnapshot } from "@/lib/bookings/pricing";
 import { formatMoney } from "@/lib/bookings/pricing";
 import { BRAND, COMPANY } from "@/lib/email/company";
+import {
+  bookedByLabel,
+  formatProposalDate,
+  roomSummary,
+  safePackageSnapshot,
+  safeQuoteSnapshot,
+  travellerMix,
+  travellerNames,
+  totalTravellersForBooking,
+} from "./proposalData";
 import {
   CONTENT_WIDTH,
   MARGIN,
@@ -26,53 +35,6 @@ const C = {
 };
 
 const FOOTER_TOP = PAGE_HEIGHT - 54;
-
-function safeSnapshot(booking: Booking): BookingPackageSnapshot {
-  const snapshot = booking.package_snapshot || ({} as BookingPackageSnapshot);
-  return {
-    source: snapshot.source || booking.booking_source || "package",
-    id: snapshot.id || booking.package_id || undefined,
-    title:
-      snapshot.title ||
-      booking.package_title ||
-      booking.destination ||
-      "Personalised Holiday Proposal",
-    destination: snapshot.destination || booking.destination || "To be confirmed",
-    category: snapshot.category,
-    duration: snapshot.duration || booking.duration_label || undefined,
-    tagline: snapshot.tagline,
-    overview: snapshot.overview,
-    heroImage: snapshot.heroImage,
-    bestTime: snapshot.bestTime,
-    startingPoint: snapshot.startingPoint,
-    groupSize: snapshot.groupSize,
-    themes: snapshot.themes || [],
-    highlights: snapshot.highlights || [],
-    itinerary: snapshot.itinerary || [],
-    inclusions: snapshot.inclusions || [],
-    exclusions: snapshot.exclusions || [],
-    gallery: snapshot.gallery || [],
-  };
-}
-
-function safeQuote(booking: Booking): QuoteSnapshot {
-  const snapshot = booking.pricing_snapshot || ({} as QuoteSnapshot);
-  const total = Number(snapshot.total || booking.price_amount || 0);
-  const depositPercent = Number(snapshot.depositPercent || 25);
-  const depositAmount = Number(snapshot.depositAmount || Math.round((total * depositPercent) / 100));
-  return {
-    currency: "INR",
-    lineItems: Array.isArray(snapshot.lineItems) ? snapshot.lineItems : [],
-    subtotal: Number(snapshot.subtotal || total),
-    total,
-    depositPercent,
-    depositAmount,
-    balanceAmount: Number(snapshot.balanceAmount || Math.max(0, total - depositAmount)),
-    validityDays: Number(snapshot.validityDays || 7),
-    generatedAt: snapshot.generatedAt || booking.created_at,
-    isIndicative: snapshot.isIndicative !== false,
-  };
-}
 
 async function loadImage(doc: PdfDoc, url?: string): Promise<PDFImage | null> {
   if (!url || !/^https?:\/\//i.test(url)) return null;
@@ -221,13 +183,19 @@ function coverLabelValue(
   });
 }
 
-export function quotationBrochureFileName(booking: Booking): string {
-  return `Bandhan-Tours-${booking.quotation_number}.pdf`;
+export function tripBrochureFileName(booking: Booking): string {
+  return `Bandhan-Tours-Trip-Brochure-${booking.quotation_number}.pdf`;
 }
 
+/** Backwards-compatible export for existing email delivery integrations. */
+export const quotationBrochureFileName = tripBrochureFileName;
+
 export async function renderQuotationBrochurePdf(booking: Booking): Promise<Uint8Array> {
-  const snapshot = safeSnapshot(booking);
-  const quote = safeQuote(booking);
+  const snapshot = safePackageSnapshot(booking);
+  const quote = safeQuoteSnapshot(booking);
+  const mix = travellerMix(booking);
+  const names = travellerNames(booking);
+  const totalTravellers = totalTravellersForBooking(booking);
   const doc = await PdfDoc.create();
   doc.contentBottom = FOOTER_TOP - 16;
 
@@ -280,16 +248,16 @@ export async function renderQuotationBrochurePdf(booking: Booking): Promise<Uint
   doc.strokeRect(MARGIN, boxTop, CONTENT_WIDTH, 108, C.gold, 0.8);
   const colWidth = (CONTENT_WIDTH - 36) / 3;
   coverLabelValue(doc, "Prepared for", booking.contact_name, MARGIN + 14, boxTop + 18, colWidth);
-  coverLabelValue(doc, "Travel date", booking.travel_date || "To be confirmed", MARGIN + 14 + colWidth + 10, boxTop + 18, colWidth);
-  coverLabelValue(doc, "Travellers", String(booking.travellers_count || 1), MARGIN + 14 + (colWidth + 10) * 2, boxTop + 18, colWidth);
+  coverLabelValue(doc, "Travel date", formatProposalDate(booking.travel_date), MARGIN + 14 + colWidth + 10, boxTop + 18, colWidth);
+  coverLabelValue(doc, "Travellers", String(totalTravellers), MARGIN + 14 + (colWidth + 10) * 2, boxTop + 18, colWidth);
   // On a trip arranged by someone else, the quotation cell also credits the
   // booker so the traveller knows who this proposal came from.
   coverLabelValue(
     doc,
-    booking.booker_name ? "Quotation · booked by" : "Quotation",
+    booking.booker_name ? "Trip ref · booked by" : "Trip reference",
     booking.booker_name
-      ? `${booking.quotation_number} · ${booking.booker_name}`
-      : booking.quotation_number,
+      ? `${booking.booking_code} · ${booking.booker_name}`
+      : booking.booking_code,
     MARGIN + 14,
     boxTop + 61,
     colWidth
@@ -347,7 +315,7 @@ export async function renderQuotationBrochurePdf(booking: Booking): Promise<Uint
     ["Destination", snapshot.destination],
     ["Starts from", booking.departure_city || snapshot.startingPoint || "To be confirmed"],
     ["Best time", snapshot.bestTime || "Year-round"],
-    ["Group size", snapshot.groupSize || `${booking.travellers_count || 1} guests`],
+    ["Group size", snapshot.groupSize || `${totalTravellers} guests`],
   ];
   const detailWidth = (CONTENT_WIDTH - 18) / 2;
   for (let index = 0; index < details.length; index += 2) {
@@ -365,6 +333,98 @@ export async function renderQuotationBrochurePdf(booking: Booking): Promise<Uint
       );
     }
     doc.y += 48;
+  }
+
+  doc.y += 8;
+  doc.ensure(215);
+  section(doc, "Designed for your party", "Travellers, names and rooms");
+  const mixGap = 7;
+  const mixWidth = (CONTENT_WIDTH - mixGap * 3) / 4;
+  mix.forEach((item, index) => {
+    const x = MARGIN + index * (mixWidth + mixGap);
+    doc.rect(x, doc.y, mixWidth, 55, item.count ? C.primary : C.sand);
+    doc.textAt(String(item.count), {
+      x: x + 10,
+      y: doc.y + 9,
+      size: 17,
+      bold: true,
+      color: item.count ? C.gold : C.light,
+    });
+    doc.textAt(item.shortLabel.toUpperCase(), {
+      x: x + 10,
+      y: doc.y + 33,
+      width: mixWidth - 18,
+      size: 6,
+      bold: true,
+      color: item.count ? C.white : C.muted,
+      charSpacing: 0.3,
+    });
+    doc.textAt(item.note, {
+      x: x + 10,
+      y: doc.y + 44,
+      width: mixWidth - 18,
+      size: 5.6,
+      color: item.count ? C.light : C.muted,
+    });
+  });
+  doc.y += 65;
+
+  doc.rect(MARGIN, doc.y, CONTENT_WIDTH, 34, C.sand);
+  doc.textAt("ROOM PLAN", {
+    x: MARGIN + 12,
+    y: doc.y + 10,
+    size: 6.3,
+    bold: true,
+    color: C.accent,
+    charSpacing: 0.7,
+  });
+  doc.textAt(roomSummary(booking), {
+    x: MARGIN + 88,
+    y: doc.y + 9,
+    width: CONTENT_WIDTH - 100,
+    size: 8.3,
+    bold: true,
+    color: C.primary,
+  });
+  doc.y += 45;
+
+  const partyWidth = (CONTENT_WIDTH - 10) / 2;
+  doc.rect(MARGIN, doc.y, partyWidth, 47, C.primary);
+  coverLabelValue(doc, "Lead traveller", booking.contact_name, MARGIN + 12, doc.y + 9, partyWidth - 24);
+  doc.rect(MARGIN + partyWidth + 10, doc.y, partyWidth, 47, C.primaryLight);
+  coverLabelValue(doc, "Booked by", bookedByLabel(booking), MARGIN + partyWidth + 22, doc.y + 9, partyWidth - 24);
+  doc.y += 58;
+
+  if (names.names.length) {
+    doc.textAt("TRAVELLER NAMES", {
+      y: doc.y,
+      size: 6.3,
+      bold: true,
+      color: C.accent,
+      charSpacing: 0.75,
+    });
+    doc.y += 14;
+    for (const [index, name] of names.names.entries()) {
+      doc.ensure(23);
+      doc.textAt(`${String(index + 1).padStart(2, "0")}  ${name}`, {
+        y: doc.y,
+        width: CONTENT_WIDTH,
+        size: 8,
+        bold: true,
+        color: C.primary,
+      });
+      doc.y += 16;
+      doc.rule(doc.y, C.border);
+      doc.y += 6;
+    }
+  }
+  if (names.pendingCount) {
+    doc.textAt(`${names.pendingCount} additional traveller name${names.pendingCount === 1 ? "" : "s"} can be added before ticketing.`, {
+      y: doc.y,
+      size: 7.2,
+      color: C.muted,
+    });
+    doc.y += 20;
   }
 
   if (snapshot.highlights?.length) {

@@ -67,6 +67,54 @@ export function monthNumber(value: string): number {
   return Number.isInteger(month) && month >= 1 && month <= 12 ? month : 0;
 }
 
+export type ResolvedTravelMonth = {
+  /** A value guaranteed to exist in `options`, or "" for no month filter. */
+  value: string;
+  /** True when a past month was carried forward to the same month next year. */
+  rolledForward: boolean;
+  /** The label originally asked for, when it was rolled forward. */
+  requestedLabel?: string;
+};
+
+/**
+ * Reconciles a `?month=` value from a link against the months the picker can
+ * currently offer.
+ *
+ * Seasonality only depends on the month number — `bestTimeCoversMonth` never
+ * looks at the year — so a bookmark saying "June 2026" opened in August 2026
+ * still expresses a usable intent: show me June trips. Rather than dropping
+ * the filter (which left the control reading "Any Month" while the URL claimed
+ * otherwise), the month is carried forward to the next June the picker offers.
+ * Only genuinely unparseable values fall back to no filter.
+ */
+export function resolveTravelMonth(
+  requested: string | null,
+  options: { value: string; label: string }[] = travelMonthOptions()
+): ResolvedTravelMonth {
+  if (!requested) return { value: "", rolledForward: false };
+
+  const month = monthNumber(requested);
+  if (!month) return { value: "", rolledForward: false };
+
+  if (options.some((o) => o.value === requested)) {
+    return { value: requested, rolledForward: false };
+  }
+
+  // The rolling window spans 12 consecutive months, so it contains every month
+  // number exactly once — this lookup always succeeds for a parseable value.
+  const upcoming = options.find((o) => monthNumber(o.value) === month);
+  if (!upcoming) return { value: "", rolledForward: false };
+
+  const [year] = requested.split("-");
+  const requestedLabel = /^\d{4}$/.test(year)
+    ? new Intl.DateTimeFormat("en-IN", { month: "long", year: "numeric" }).format(
+        new Date(Number(year), month - 1, 1)
+      )
+    : undefined;
+
+  return { value: upcoming.value, rolledForward: true, requestedLabel };
+}
+
 /**
  * Whether a package's free-text `bestTime` covers the given month (1–12).
  *

@@ -76,13 +76,13 @@ export default function AccountPage() {
               <p className="text-foreground-muted font-sans text-sm">
                 You don&apos;t have any bookings yet.
               </p>
-              <div className="flex items-center justify-center gap-3">
-                <Link href="/packages">
+              <div className="flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
+                <Link href="/packages" className="[&_button]:w-full">
                   <PrimaryButton variant="navy" size="md">
                     Browse Packages
                   </PrimaryButton>
                 </Link>
-                <Link href="/plan-trip">
+                <Link href="/plan-trip" className="[&_button]:w-full">
                   <PrimaryButton variant="coral" size="md">
                     Plan a Custom Trip
                   </PrimaryButton>

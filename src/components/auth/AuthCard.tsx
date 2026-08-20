@@ -75,7 +75,7 @@ export function AuthCard({ mode }: { mode: Mode }) {
     <main className="relative min-h-screen flex items-center justify-center px-4 py-12 overflow-hidden selection:bg-accent/20">
       {/* Scenic travel backdrop */}
       <Image
-        src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?auto=format&fit=crop&q=80&w=2000"
+        src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=90&w=3200"
         alt="A traveler taking in the view"
         fill
         priority

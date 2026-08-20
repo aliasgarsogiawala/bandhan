@@ -2,10 +2,7 @@ import { NextResponse } from "next/server";
 import { getSessionUserId } from "@/lib/auth/session";
 import { getActor } from "@/lib/bookings/authz";
 import { getBookingById } from "@/lib/bookings/db";
-import {
-  renderQuotationBrochurePdf,
-  tripBrochureFileName,
-} from "@/lib/documents/quotationBrochurePdf";
+import { quotationFileName, renderQuotationPdf } from "@/lib/documents/quotationPdf";
 
 export const runtime = "nodejs";
 
@@ -30,12 +27,12 @@ export async function GET(request: Request, { params }: RouteParams) {
     return NextResponse.json({ ok: false, error: "Not authorized." }, { status: 403 });
   }
 
-  const pdf = await renderQuotationBrochurePdf(booking);
+  const pdf = await renderQuotationPdf(booking);
   const disposition = url.searchParams.get("download") === "1" ? "attachment" : "inline";
   return new NextResponse(pdf as BodyInit, {
     headers: {
       "Content-Type": "application/pdf",
-      "Content-Disposition": `${disposition}; filename="${tripBrochureFileName(booking)}"`,
+      "Content-Disposition": `${disposition}; filename="${quotationFileName(booking)}"`,
       "Content-Length": String(pdf.byteLength),
       "Cache-Control": "no-store",
       "X-Content-Type-Options": "nosniff",

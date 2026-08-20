@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { store } from "@/lib/admin/store";
 
@@ -39,6 +40,20 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
   } else if (!isOpen && wasOpen) {
     setWasOpen(false);
   }
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -83,15 +98,15 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
     }, 1500);
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/45 backdrop-blur-md animate-fade-in">
-      <div className="relative w-full max-w-lg bg-white rounded-3xl overflow-hidden shadow-2xl border border-slate-100 animate-scale-up">
+  return createPortal(
+    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-primary/45 p-0 backdrop-blur-md animate-fade-in sm:p-4">
+      <div className="relative flex h-[100dvh] max-h-[100dvh] w-full max-w-lg flex-col overflow-hidden border border-slate-100 bg-white shadow-2xl sm:h-auto sm:max-h-[calc(100dvh-2rem)] sm:rounded-3xl sm:animate-scale-up" role="dialog" aria-modal="true" aria-labelledby="enquiry-modal-title">
         
         {/* Header decoration */}
-        <div className="bg-primary px-6 py-6 text-white relative">
+        <div className="relative shrink-0 bg-primary px-5 pb-5 pt-[max(1.25rem,env(safe-area-inset-top))] text-white sm:px-6 sm:py-6">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 text-white/75 hover:text-white hover:bg-white/10 p-2 rounded-full transition-colors"
+            className="absolute right-2 top-[max(0.5rem,env(safe-area-inset-top))] flex h-11 w-11 items-center justify-center rounded-full text-white/75 transition-colors hover:bg-white/10 hover:text-white sm:right-4 sm:top-4"
             aria-label="Close modal"
           >
             <svg
@@ -112,14 +127,14 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
           <span className="text-xs uppercase tracking-widest text-gold font-bold mb-1 block">
             Custom Holiday Planner
           </span>
-          <h3 className="text-2xl font-bold font-heading">Enquire About Your Trip</h3>
+          <h3 id="enquiry-modal-title" className="pr-10 font-heading text-xl font-bold sm:text-2xl">Enquire About Your Trip</h3>
           <p className="text-sm text-slate-300 font-sans mt-1">
             Let our destination specialists craft your dream itinerary.
           </p>
         </div>
 
         {/* Modal body */}
-        <div className="p-6 md:p-8 max-h-[75vh] overflow-y-auto">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-5 sm:max-h-[75vh] sm:p-6 md:p-8">
           {submitted ? (
             <div className="text-center py-8 space-y-4">
               <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner animate-scale-up">
@@ -260,7 +275,8 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };
 

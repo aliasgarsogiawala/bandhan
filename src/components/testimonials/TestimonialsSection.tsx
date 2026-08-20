@@ -37,7 +37,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ classN
       id="guest-stories"
       data-plane-safe-zone="testimonials"
       aria-labelledby="guest-stories-title"
-      className={`relative isolate z-30 overflow-hidden bg-[#061625] py-16 text-white sm:py-20 lg:py-24 ${className}`}
+      className={`relative isolate z-30 overflow-hidden bg-[#061625] py-14 text-white sm:py-20 lg:py-24 ${className}`}
     >
       <div className="pointer-events-none absolute inset-0 opacity-25 [background-image:linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] [background-size:72px_72px]" />
       <div className="pointer-events-none absolute -left-52 top-0 h-[520px] w-[520px] rounded-full bg-primary-light/20 blur-[150px]" />
@@ -62,7 +62,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ classN
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.08 }}
-              className="font-heading text-4xl font-semibold leading-[1.05] text-white sm:text-5xl lg:text-6xl"
+              className="font-heading text-3xl font-semibold leading-[1.06] text-white min-[380px]:text-4xl sm:text-5xl lg:text-6xl"
             >
               Not just trips.
               <span className="block font-light text-white/55">Memories worth carrying home.</span>
@@ -84,7 +84,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ classN
             initial={{ opacity: 0, x: 18 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="relative overflow-hidden rounded-[1.75rem] border border-gold/30 bg-gradient-to-br from-[#102c47] to-[#081a2d] p-6 shadow-[0_30px_80px_-36px_rgba(0,0,0,0.9)]"
+            className="relative overflow-hidden rounded-[1.75rem] border border-gold/30 bg-gradient-to-br from-[#102c47] to-[#081a2d] p-5 shadow-[0_30px_80px_-36px_rgba(0,0,0,0.9)] sm:p-6"
           >
             <div className="absolute -right-12 -top-12 h-36 w-36 rounded-full border border-gold/10" />
             <div className="relative">
@@ -135,11 +135,11 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ classN
             <h3 className="font-heading text-xl font-semibold text-white">Every journey has a story.</h3>
             <p className="mt-1.5 text-sm text-white/45">Share yours and inspire the next traveller.</p>
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <a href="https://g.page/r/review" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-gold px-5 py-3 text-sm font-semibold text-primary shadow-[0_12px_35px_-15px_rgba(254,209,79,0.75)] transition-colors hover:bg-gold-light">
+          <div className="flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center">
+            <a href="https://g.page/r/review" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-5 py-3 text-sm font-semibold text-primary shadow-[0_12px_35px_-15px_rgba(254,209,79,0.75)] transition-colors hover:bg-gold-light">
               <MessageSquarePlus className="h-4 w-4" aria-hidden="true" /> Write a Review
             </a>
-            <Link href="/packages" className="group inline-flex items-center gap-2 rounded-full border border-gold/35 px-5 py-3 text-sm font-semibold text-gold transition-colors hover:bg-gold hover:text-primary">
+            <Link href="/packages" className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-gold/35 px-5 py-3 text-sm font-semibold text-gold transition-colors hover:bg-gold hover:text-primary">
               <Compass className="h-4 w-4" aria-hidden="true" /> Explore Journeys <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
             </Link>
           </div>

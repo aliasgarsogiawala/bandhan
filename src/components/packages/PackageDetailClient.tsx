@@ -100,7 +100,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
       <Navbar onEnquiryClick={enquire} />
 
       {/* Immersive hero */}
-      <header className="relative h-[78vh] min-h-[540px] flex items-end">
+      <header className="relative flex min-h-[100svh] items-end pt-28 sm:h-[78vh] sm:min-h-[540px] sm:pt-0">
         <Image
           src={pkg.heroImage}
           alt={pkg.title}
@@ -111,7 +111,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
         />
         <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/40 to-primary/30" />
 
-        <Container className="relative pb-14 sm:pb-20">
+        <Container className="relative pb-10 sm:pb-20">
           <nav
             className="text-xs font-semibold uppercase tracking-wider text-white/70 mb-5"
             aria-label="Breadcrumb"
@@ -124,7 +124,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
               Tour Packages
             </Link>
             <span className="mx-2">/</span>
-            <span className="text-gold">{pkg.title}</span>
+            <span className="hidden text-gold sm:inline">{pkg.title}</span>
           </nav>
 
           <div className="flex flex-wrap items-center gap-2 mb-4">
@@ -146,10 +146,10 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
             ))}
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-[4.25rem] font-display font-light text-white leading-[1.06] tracking-[-0.015em] max-w-4xl">
+          <h1 className="max-w-4xl font-heading text-3xl font-extrabold leading-[1.06] tracking-[-0.015em] text-white min-[380px]:text-4xl sm:text-5xl lg:text-[4.25rem]">
             {pkg.title}
           </h1>
-          <p className="mt-4 text-base sm:text-xl text-slate-200 font-sans max-w-2xl leading-relaxed">
+          <p className="mt-4 max-w-2xl font-sans text-sm leading-relaxed text-slate-200 sm:text-xl">
             {pkg.tagline}
           </p>
 
@@ -157,7 +157,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
             {quickFacts.map((fact) => (
               <div
                 key={fact.label}
-                className="px-4 py-2.5 bg-white/10 backdrop-blur-md rounded-2xl border border-white/15"
+                className="max-w-full rounded-2xl border border-white/15 bg-white/10 px-4 py-2.5 backdrop-blur-md"
               >
                 <span className="block text-[10px] font-bold uppercase tracking-wider text-gold">
                   {fact.label}
@@ -174,7 +174,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
               href={pkg.brochureUrl}
               target="_blank"
               rel="noreferrer"
-              className="mt-5 inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md transition hover:border-gold hover:bg-gold hover:text-primary"
+              className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-full border border-white/30 bg-white/10 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md transition hover:border-gold hover:bg-gold hover:text-primary"
             >
               View original brochure
               <span aria-hidden="true">↗</span>
@@ -184,7 +184,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
       </header>
 
       {/* Sticky in-page section nav */}
-      <div className="sticky top-0 z-30 bg-blur-glass border-b border-slate-200/60 shadow-soft">
+      <div className="sticky top-16 z-30 border-b border-slate-200/60 bg-blur-glass shadow-soft sm:top-[76px]">
         <Container className="flex items-center gap-1 overflow-x-auto py-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {SECTION_LINKS.map((section) => (
             <a
@@ -214,7 +214,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                 <span className="text-xs font-bold uppercase tracking-widest text-accent">
                   Overview
                 </span>
-                <h2 className="mt-2 text-3xl sm:text-4xl font-display font-normal text-primary tracking-[-0.01em]">
+                <h2 className="mt-2 text-3xl sm:text-4xl font-heading font-extrabold text-primary tracking-[-0.01em]">
                   The Journey at a Glance
                 </h2>
                 <p className="mt-4 text-foreground-muted font-sans leading-relaxed text-sm sm:text-base">
@@ -243,7 +243,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                 <span className="text-xs font-bold uppercase tracking-widest text-accent">
                   Day by Day
                 </span>
-                <h2 className="mt-2 text-3xl sm:text-4xl font-display font-normal text-primary tracking-[-0.01em]">
+                <h2 className="mt-2 text-3xl sm:text-4xl font-heading font-extrabold text-primary tracking-[-0.01em]">
                   Detailed Itinerary
                 </h2>
 
@@ -334,7 +334,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                 <span className="text-xs font-bold uppercase tracking-widest text-accent">
                   The Fine Print, Upfront
                 </span>
-                <h2 className="mt-2 text-3xl sm:text-4xl font-display font-normal text-primary tracking-[-0.01em]">
+                <h2 className="mt-2 text-3xl sm:text-4xl font-heading font-extrabold text-primary tracking-[-0.01em]">
                   What&apos;s Included
                 </h2>
 
@@ -386,7 +386,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                 <span className="text-xs font-bold uppercase tracking-widest text-accent">
                   Postcards From the Route
                 </span>
-                <h2 className="mt-2 text-3xl sm:text-4xl font-display font-normal text-primary tracking-[-0.01em]">
+                <h2 className="mt-2 text-3xl sm:text-4xl font-heading font-extrabold text-primary tracking-[-0.01em]">
                   Trip Gallery
                 </h2>
 
@@ -405,8 +405,8 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                         sizes="(max-width: 768px) 100vw, 50vw"
                         className="object-cover transition-transform duration-700 group-hover:scale-105"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-primary/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      <span className="absolute bottom-4 left-4 right-4 text-white text-sm font-semibold translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                      <div className="absolute inset-0 bg-gradient-to-t from-primary/70 via-transparent to-transparent opacity-100 transition-opacity duration-500 sm:opacity-0 sm:group-hover:opacity-100" />
+                      <span className="absolute bottom-4 left-4 right-4 translate-y-0 text-sm font-semibold text-white opacity-100 transition-all duration-500 sm:translate-y-2 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100">
                         {item.caption}
                       </span>
                     </div>
@@ -421,7 +421,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                 <span className="text-xs font-bold uppercase tracking-widest text-accent">
                   Good to Know
                 </span>
-                <h2 className="mt-2 text-3xl sm:text-4xl font-display font-normal text-primary tracking-[-0.01em]">
+                <h2 className="mt-2 text-3xl sm:text-4xl font-heading font-extrabold text-primary tracking-[-0.01em]">
                   Frequently Asked Questions
                 </h2>
 
@@ -594,7 +594,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                   <span className="text-xs font-bold uppercase tracking-widest text-accent">
                     Keep Exploring
                   </span>
-                  <h2 className="mt-2 text-3xl sm:text-4xl font-display font-normal text-primary tracking-[-0.01em]">
+                  <h2 className="mt-2 text-3xl sm:text-4xl font-heading font-extrabold text-primary tracking-[-0.01em]">
                     You May Also Like
                   </h2>
                 </div>

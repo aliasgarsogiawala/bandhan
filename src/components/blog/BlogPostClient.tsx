@@ -66,7 +66,7 @@ export const BlogPostClient: React.FC<{ slug: string }> = ({ slug }) => {
       <header className="relative bg-primary pt-32 pb-16 sm:pt-36 sm:pb-20 overflow-hidden">
         {/* Background image */}
         <Image
-          src={post?.coverImage || "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=2000"}
+          src={post?.coverImage || "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=90&w=3200"}
           alt=""
           fill
           priority

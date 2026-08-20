@@ -44,7 +44,7 @@ export const BlogListClient: React.FC = () => {
       <header className="relative bg-primary pt-32 pb-16 sm:pt-36 sm:pb-20 overflow-hidden">
         {/* Background image */}
         <Image
-          src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=2000"
+          src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=90&w=3200"
           alt=""
           fill
           priority
@@ -85,7 +85,7 @@ export const BlogListClient: React.FC = () => {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search articles by title or topic…"
-              className="w-full rounded-full bg-white/10 backdrop-blur-md border border-white/15 pl-11 pr-10 py-3 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-gold"
+              className="min-h-12 w-full rounded-full border border-white/15 bg-white/10 py-3 pl-11 pr-10 text-base text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-gold sm:text-sm"
             />
             {query && (
               <button
@@ -106,7 +106,7 @@ export const BlogListClient: React.FC = () => {
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className={`px-4 sm:px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
+                  className={`min-h-11 rounded-full px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all duration-300 sm:px-6 ${
                     activeCategory === cat
                       ? "bg-gold text-primary shadow-md"
                       : "text-white/70 hover:text-white"

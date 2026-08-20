@@ -34,7 +34,7 @@ export default function AboutHero() {
   return (
     <header className="relative flex min-h-[680px] items-end overflow-hidden bg-primary pt-36">
       <div ref={imageRef} className="absolute -inset-y-12 inset-x-0 will-change-transform">
-        <Image src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&q=85&w=2200" alt="Travellers driving through a mountain landscape" fill priority sizes="100vw" className="object-cover" />
+        <Image src="https://images.unsplash.com/photo-1530789253388-582c481c54b0?auto=format&fit=crop&q=90&w=3200" alt="Travellers driving through a mountain landscape" fill priority sizes="100vw" className="object-cover" />
       </div>
       <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/70 to-primary/20" />
       <div className="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-primary/35" />

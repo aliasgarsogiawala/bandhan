@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Search, X, MapPin, Newspaper, ArrowRight, Clock } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
@@ -89,6 +89,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
 
   const { user, signOut } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
+  const solidAtTop =
+    pathname === "/destinations" || pathname === "/book" || pathname?.startsWith("/account");
   const openEnquiry = onEnquiryClick || (() => router.push("/contact"));
   const { items: recentSearches, saveRecentSearch, clearRecentSearches } = useRecentSearches();
   const suggestions = useSearchSuggestions(searchQuery);
@@ -99,6 +102,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
   const mobileProfileRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const mobileMenuButtonRef = useRef<HTMLButtonElement>(null);
 
   const runSearch = (query: string) => {
     const trimmed = query.trim();
@@ -176,6 +180,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
       }
       if (searchRef.current && !searchRef.current.contains(target)) {
         setIsSearchOpen(false);
+        setSearchQuery("");
+        setActiveIndex(-1);
       }
     };
 
@@ -185,19 +191,23 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
 
   useEffect(() => {
     if (isSearchOpen) searchInputRef.current?.focus();
-    else {
-      setSearchQuery("");
-      setActiveIndex(-1);
-    }
   }, [isSearchOpen]);
 
   useEffect(() => {
-    setActiveIndex(-1);
-  }, [searchQuery]);
-
-  useEffect(() => {
-    setMobileActiveIndex(-1);
-  }, [mobileSearchQuery]);
+    if (!isMobileMenuOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setIsMobileMenuOpen(false);
+      requestAnimationFrame(() => mobileMenuButtonRef.current?.focus());
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [isMobileMenuOpen]);
 
   const navLinks = [
     { label: "Home", href: "/" },
@@ -232,9 +242,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
     <>
       <nav
         className={`fixed top-0 left-0 w-full z-[45] transition-all duration-500 ${
-          isScrolled
-            ? "bg-primary/95 backdrop-blur-md py-4 shadow-lg border-b border-primary-light/30"
-            : "bg-transparent py-6"
+          isScrolled || solidAtTop
+            ? "bg-primary/95 py-3 shadow-lg border-b border-primary-light/30 backdrop-blur-md lg:py-4"
+            : "bg-transparent py-4 lg:py-6"
         }`}
       >
         <Container className="flex items-center justify-between">
@@ -254,7 +264,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
               width={150}
               height={55}
               priority
-              className="transition-all duration-300 object-contain h-[45px] w-auto"
+              className="h-10 w-auto object-contain transition-all duration-300 sm:h-[45px]"
             />
           </Link>
 
@@ -383,7 +393,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
                     ref={searchInputRef}
                     type="text"
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      setActiveIndex(-1);
+                    }}
                     onKeyDown={(e) =>
                       handleSearchKeyDown(
                         e,
@@ -400,13 +413,20 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
                     role="combobox"
                     aria-expanded={isSearchOpen}
                     aria-autocomplete="list"
+                    aria-controls="desktop-search-suggestions"
                     className="w-full rounded-full bg-white/10 border border-white/15 px-4 py-2 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-gold"
                   />
                 </form>
               </div>
               <button
                 type="button"
-                onClick={() => setIsSearchOpen((prev) => !prev)}
+                onClick={() => {
+                  if (isSearchOpen) {
+                    setSearchQuery("");
+                    setActiveIndex(-1);
+                  }
+                  setIsSearchOpen((prev) => !prev);
+                }}
                 aria-label={isSearchOpen ? "Close search" : "Open search"}
                 className="p-2 text-white/85 hover:text-gold transition-colors duration-300 focus:outline-none"
               >
@@ -415,6 +435,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
 
               {/* Search dropdown: live suggestions or recent searches */}
               <div
+                id="desktop-search-suggestions"
                 className={`absolute right-0 top-full mt-3 w-80 max-h-[28rem] overflow-y-auto rounded-2xl bg-primary/95 backdrop-blur-md border border-white/10 shadow-premium p-2 transition-all duration-300 origin-top-right ${
                   isSearchOpen && (searchQuery.trim() || recentSearches.length > 0)
                     ? "opacity-100 scale-100 translate-y-0 visible"
@@ -652,12 +673,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
 
             {/* Mobile Hamburger menu trigger */}
             <button
+              ref={mobileMenuButtonRef}
               onClick={() => {
                 setIsMobileMenuOpen(!isMobileMenuOpen);
                 setIsMobileProfileOpen(false);
               }}
-              className="p-2 text-white/90 focus:outline-none"
-              aria-label="Toggle mobile menu"
+              className="flex h-11 w-11 items-center justify-center text-white/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-navigation"
+              type="button"
             >
               {isMobileMenuOpen ? (
                 <svg
@@ -697,13 +722,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
 
         {/* Mobile Navigation Drawer */}
         <div
-          className={`fixed inset-0 bg-primary/98 z-40 flex flex-col justify-center px-8 transition-all duration-500 ease-in-out lg:hidden ${
+          id="mobile-navigation"
+          aria-hidden={!isMobileMenuOpen}
+          className={`fixed inset-0 z-40 flex h-[100dvh] flex-col overflow-hidden bg-primary/98 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(5.5rem,calc(4.5rem+env(safe-area-inset-top)))] transition-all duration-300 ease-out lg:hidden ${
             isMobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
           }`}
         >
-          <div className="flex flex-col gap-6 text-center max-h-[80vh] overflow-y-auto py-8">
+          <div className="chatbot-scrollbar-none mx-auto flex min-h-0 w-full max-w-sm flex-1 flex-col gap-1.5 overflow-y-auto overscroll-contain py-3 text-left">
             {/* Mobile search */}
-            <div className="w-full max-w-xs mx-auto text-left">
+            <div className="mb-2 w-full text-left">
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -715,13 +742,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
                     runSearch(mobileSearchQuery);
                   }
                 }}
-                className="flex items-center gap-2 rounded-full bg-white/10 border border-white/15 px-4 py-2.5 w-full"
+                className="flex min-h-12 w-full items-center gap-2 rounded-2xl border border-white/15 bg-white/10 px-4 py-2.5"
               >
                 <Search size={17} className="text-white/60 shrink-0" />
                 <input
                   type="text"
                   value={mobileSearchQuery}
-                  onChange={(e) => setMobileSearchQuery(e.target.value)}
+                  onChange={(e) => {
+                    setMobileSearchQuery(e.target.value);
+                    setMobileActiveIndex(-1);
+                  }}
                   onKeyDown={(e) =>
                     handleSearchKeyDown(
                       e,
@@ -735,7 +765,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
                   placeholder="Search packages, destinations…"
                   aria-label="Search packages and destinations"
                   autoComplete="off"
-                  className="w-full bg-transparent text-sm text-white placeholder:text-white/50 focus:outline-none"
+                  className="w-full bg-transparent text-base text-white placeholder:text-white/50 focus:outline-none"
                 />
               </form>
 
@@ -804,16 +834,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
             <Link
               href="/"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-2xl font-bold font-heading text-white/90 hover:text-gold transition-colors duration-300"
+              className="flex min-h-11 items-center rounded-xl px-4 font-heading text-xl font-bold text-white/90 transition-colors duration-300 hover:bg-white/[0.06] hover:text-gold"
             >
               Home
             </Link>
 
             {/* Mobile Packages Collapsible Trigger & Submenu */}
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-stretch">
               <button
                 onClick={() => setIsMobilePackagesOpen(!isMobilePackagesOpen)}
-                className="flex items-center gap-2 text-2xl font-bold font-heading text-white/90 hover:text-gold transition-colors duration-300 focus:outline-none"
+                className="flex min-h-11 w-full items-center justify-between rounded-xl px-4 font-heading text-xl font-bold text-white/90 transition-colors duration-300 hover:bg-white/[0.06] hover:text-gold focus:outline-none"
+                aria-expanded={isMobilePackagesOpen}
+                aria-controls="mobile-package-links"
+                type="button"
               >
                 Packages
                 <svg
@@ -835,7 +868,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
               </button>
 
               <div
-                className={`flex flex-col gap-4 mt-4 transition-all duration-300 overflow-hidden ${
+                id="mobile-package-links"
+                className={`flex flex-col overflow-hidden transition-all duration-300 ${
                   isMobilePackagesOpen
                     ? "max-h-[300px] opacity-100"
                     : "max-h-0 opacity-0 pointer-events-none"
@@ -846,7 +880,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
                     key={item.label}
                     href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-lg font-semibold text-white/70 hover:text-gold transition-colors duration-300"
+                    className="flex min-h-11 items-center rounded-xl px-8 text-base font-semibold text-white/70 transition-colors duration-300 hover:bg-white/[0.06] hover:text-gold"
                   >
                     {item.label}
                   </a>
@@ -860,7 +894,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
                 key={link.label}
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-2xl font-bold font-heading text-white/90 hover:text-gold transition-colors duration-300"
+                className="flex min-h-11 items-center rounded-xl px-4 font-heading text-xl font-bold text-white/90 transition-colors duration-300 hover:bg-white/[0.06] hover:text-gold"
               >
                 {link.label}
               </a>
@@ -871,14 +905,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
               <Link
                 href="/signin"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-2xl font-bold font-heading text-white/90 hover:text-gold transition-colors duration-300"
+                className="flex min-h-11 items-center rounded-xl px-4 font-heading text-xl font-bold text-white/90 transition-colors duration-300 hover:bg-white/[0.06] hover:text-gold"
               >
                 Sign In
               </Link>
             )}
 
             {/* Enquire Now Action Button */}
-            <div className="pt-4 flex justify-center">
+            <div className="flex justify-center px-2 pt-3">
               <PrimaryButton
                 variant="coral"
                 size="lg"

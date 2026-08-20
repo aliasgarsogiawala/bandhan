@@ -46,8 +46,10 @@ export function hex(value: string): RGB {
 
 /** Strips control characters that would corrupt the content stream. */
 function clean(text: string): string {
-   
-  return String(text ?? "").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "");
+  return String(text ?? "")
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "")
+    .replace(/[\u2010-\u2015\u2212]/g, "-")
+    .replace(/\u00A0/g, " ");
 }
 
 export interface TextOptions {

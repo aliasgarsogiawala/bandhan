@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type { Booking } from "@/lib/bookings/types";
 import { packageSnapshot } from "@/lib/bookings/pricing";
 import { renderQuotationBrochurePdf } from "@/lib/documents/quotationBrochurePdf";
+import { renderQuotationPdf } from "@/lib/documents/quotationPdf";
 import { featuredPackages } from "@/data/mockData";
 
 export const runtime = "nodejs";
@@ -96,15 +97,21 @@ const SAMPLE: Booking = {
   updated_at: new Date().toISOString(),
 };
 
-export async function GET() {
+export async function GET(request: Request) {
   if (process.env.NODE_ENV === "production") {
     return new NextResponse("Not found", { status: 404 });
   }
-  const pdf = await renderQuotationBrochurePdf(SAMPLE);
+  const documentType = new URL(request.url).searchParams.get("document");
+  const quotationOnly = documentType === "quotation";
+  const pdf = quotationOnly
+    ? await renderQuotationPdf(SAMPLE)
+    : await renderQuotationBrochurePdf(SAMPLE);
   return new NextResponse(pdf as BodyInit, {
     headers: {
       "Content-Type": "application/pdf",
-      "Content-Disposition": 'inline; filename="Bandhan-Tours-Quotation-Brochure-Sample.pdf"',
+      "Content-Disposition": `inline; filename="Bandhan-Tours-${
+        quotationOnly ? "Quotation" : "Trip-Brochure"
+      }-Sample.pdf"`,
       "Content-Length": String(pdf.byteLength),
       "Cache-Control": "no-store",
     },

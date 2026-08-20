@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 
@@ -25,6 +26,20 @@ export function InlineAuthModal({ open, onClose, onSuccess }: InlineAuthModalPro
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [open, onClose]);
 
   if (!open) return null;
 
@@ -57,20 +72,20 @@ export function InlineAuthModal({ open, onClose, onSuccess }: InlineAuthModalPro
     }
   };
 
-  return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-primary/60 backdrop-blur-sm p-4">
-      <div className="relative w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl sm:p-8">
+  return createPortal(
+    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-primary/60 p-0 backdrop-blur-sm sm:p-4">
+      <div className="relative h-[100dvh] max-h-[100dvh] w-full max-w-md overflow-y-auto bg-white px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-[max(1.25rem,env(safe-area-inset-top))] shadow-2xl sm:h-auto sm:max-h-[calc(100dvh-2rem)] sm:rounded-3xl sm:p-8" role="dialog" aria-modal="true" aria-labelledby="inline-auth-title">
         <button
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="absolute right-4 top-4 rounded-full p-1.5 text-foreground-muted hover:bg-sand hover:text-primary"
+          className="absolute right-2 top-[max(0.5rem,env(safe-area-inset-top))] flex h-11 w-11 items-center justify-center rounded-full text-foreground-muted hover:bg-sand hover:text-primary sm:right-4 sm:top-4"
         >
           <X size={18} />
         </button>
 
         <div className="mb-6">
-          <h2 className="font-heading text-xl font-bold text-primary">{copy.title}</h2>
+          <h2 id="inline-auth-title" className="pr-10 font-heading text-xl font-bold text-primary">{copy.title}</h2>
           <p className="mt-1.5 text-sm text-foreground-muted">
             Your custom trip details are saved — nothing you&apos;ve entered will be lost.
           </p>
@@ -129,7 +144,8 @@ export function InlineAuthModal({ open, onClose, onSuccess }: InlineAuthModalPro
           </PrimaryButton>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 

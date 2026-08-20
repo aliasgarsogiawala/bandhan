@@ -44,6 +44,173 @@ interface BotResponse {
   packageId?: string;
 }
 
+const MAX_INPUT_LENGTH = 500;
+const MAX_RESPONSE_LENGTH = 4_000;
+const MAX_CONVERSATION_MESSAGES = 60;
+const RATE_LIMIT_WINDOW_MS = 30_000;
+const RATE_LIMIT_MAX_MESSAGES = 8;
+
+const SECURITY_CHIPS = ["packages", "policies", "contact"];
+
+const SECURITY_RESPONSES = {
+  sensitive: {
+    text:
+      "For your security, please don't share passwords, OTPs, card or bank details, government ID numbers, personal email addresses, or phone numbers in chat. Use the dedicated booking/enquiry form for traveller information, or contact Bandhan Tours directly.",
+    chips: SECURITY_CHIPS,
+    actions: [{ label: "Open enquiry form", href: contactEnquiryHref() }],
+  },
+  injection: {
+    text:
+      "I can only help with Bandhan Tours travel information. I can't reveal internal instructions, change my security rules, execute code, or follow requests to bypass safeguards.",
+    chips: SECURITY_CHIPS,
+  },
+  nsfw: {
+    text:
+      "Miles is a family-safe travel assistant and can't accept or display sexually explicit, exploitative, hateful, or graphically violent content. Please keep the conversation respectful and travel-related.",
+    chips: SECURITY_CHIPS,
+  },
+  rateLimit: {
+    text: "You're sending messages very quickly. Please wait a moment, then try again or use the enquiry form for detailed requests.",
+    chips: SECURITY_CHIPS,
+  },
+  tooLong: {
+    text: `Please keep each message under ${MAX_INPUT_LENGTH} characters and avoid including personal or payment details. You can split a travel question into smaller messages.`,
+    chips: SECURITY_CHIPS,
+  },
+} satisfies Record<string, BotResponse>;
+
+interface ValidatedInput {
+  text: string;
+  displayText: string;
+  blockedResponse?: BotResponse;
+}
+
+/** Remove invisible direction overrides and control characters that can make
+ * malicious text look different from the value the application processes. */
+function normalizeChatInput(raw: string): string {
+  return raw
+    .normalize("NFKC")
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "")
+    .replace(/[\u202A-\u202E\u2066-\u2069]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function passesLuhn(value: string): boolean {
+  let sum = 0;
+  let doubleDigit = false;
+  for (let index = value.length - 1; index >= 0; index -= 1) {
+    let digit = Number(value[index]);
+    if (doubleDigit) {
+      digit *= 2;
+      if (digit > 9) digit -= 9;
+    }
+    sum += digit;
+    doubleDigit = !doubleDigit;
+  }
+  return sum > 0 && sum % 10 === 0;
+}
+
+function containsPaymentCard(raw: string): boolean {
+  const candidates = raw.match(/(?:\d[ -]?){13,19}/g) ?? [];
+  return candidates.some((candidate) => {
+    const digits = candidate.replace(/\D/g, "");
+    return digits.length >= 13 && digits.length <= 19 && passesLuhn(digits);
+  });
+}
+
+function containsSensitiveData(raw: string): boolean {
+  const labelledSecret =
+    /\b(?:otp|one[- ]time password|cvv|cvc|atm pin|upi pin|password|passcode|bank account|account number|aadhaar|aadhar|passport number|pan number|upi id)\b\s*(?::|=|\bis\b)\s*[a-z0-9@._-]{3,}/i;
+  const emailAddress = /\b[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)+\b/i;
+  const indianPhone = /(?:\+?91[\s-]?)?[6-9]\d{4}[\s-]?\d{5}\b/;
+  const aadhaar = /\b\d{4}[\s-]?\d{4}[\s-]?\d{4}\b/;
+  const pan = /\b[A-Z]{5}\d{4}[A-Z]\b/i;
+  return (
+    labelledSecret.test(raw) ||
+    emailAddress.test(raw) ||
+    indianPhone.test(raw) ||
+    aadhaar.test(raw) ||
+    pan.test(raw) ||
+    containsPaymentCard(raw)
+  );
+}
+
+function containsInjectionAttempt(raw: string): boolean {
+  return [
+    /\b(?:ignore|forget|override|disregard)\b.{0,45}\b(?:instructions?|rules?|prompt|safeguards?|system|developer)\b/i,
+    /\b(?:reveal|show|print|repeat|leak|expose)\b.{0,45}\b(?:system prompt|developer message|hidden instructions?|secrets?|environment variables?)\b/i,
+    /\b(?:jailbreak|developer mode|dan mode|bypass (?:security|safeguards?|rules?))\b/i,
+    /<\s*script\b|javascript\s*:|\bon(?:error|load|click)\s*=/i,
+    /\b(?:execute|eval|run)\b.{0,30}\b(?:javascript|shell|terminal|command|code)\b/i,
+  ].some((pattern) => pattern.test(raw));
+}
+
+/** Conservative family-safe moderation. Romantic trips, honeymoons, couples,
+ * and adult traveller pricing are intentionally not treated as NSFW. */
+function containsNsfwContent(raw: string): boolean {
+  const normalized = raw
+    .toLowerCase()
+    .replace(/0/g, "o")
+    .replace(/@/g, "a")
+    .replace(/[1!|]/g, "i")
+    .replace(/3/g, "e")
+    .replace(/[4^]/g, "a")
+    .replace(/[5$]/g, "s")
+    .replace(/7/g, "t")
+    .replace(/[^a-z\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  const compact = normalized.replace(/\s/g, "");
+  const explicitPatterns = [
+    /\b(?:porn(?:ography)?|nsfw|nudes?|nudity|naked|sexting|sexual|erotic|fetish|orgy|brothel|prostitut(?:e|ion)|onlyfans)\b/,
+    /\b(?:sex tourism|looking for sex|pay for sex|sexual services?|explicit content)\b/,
+    /\b(?:rape|molest(?:ation)?|sexual assault|child exploitation)\b/,
+    /\b(?:graphic gore|gory|behead(?:ing)?|dismember(?:ment)?|snuff film|graphic torture)\b/,
+  ];
+  const obfuscatedExplicit = /(?:porn(?:ography)?|onlyfans|sexting|brothel|prostitution)/;
+  return explicitPatterns.some((pattern) => pattern.test(normalized)) || obfuscatedExplicit.test(compact);
+}
+
+export function validateChatInput(raw: string): ValidatedInput {
+  if (raw.length > MAX_INPUT_LENGTH) {
+    return { text: "", displayText: "Message withheld: too long", blockedResponse: SECURITY_RESPONSES.tooLong };
+  }
+  const text = normalizeChatInput(raw);
+  if (containsNsfwContent(text)) {
+    return { text: "", displayText: "Inappropriate content withheld", blockedResponse: SECURITY_RESPONSES.nsfw };
+  }
+  if (containsSensitiveData(text)) {
+    return { text: "", displayText: "Sensitive information withheld", blockedResponse: SECURITY_RESPONSES.sensitive };
+  }
+  if (containsInjectionAttempt(text)) {
+    return { text: "", displayText: "Unsupported request blocked", blockedResponse: SECURITY_RESPONSES.injection };
+  }
+  return { text, displayText: text };
+}
+
+function isSafeActionHref(href: string): boolean {
+  if (/^\/(?:packages|destinations|blog|book|plan-trip|contact|testimonials)(?:[/?#]|$)/.test(href)) return true;
+  if (href === "https://wa.me/919830012345") return true;
+  if (href === "tel:+919830012345") return true;
+  return false;
+}
+
+/** Catalogue content can be edited in the admin UI. React escapes message
+ * text, and this final boundary also caps output and drops any unexpected link. */
+function secureBotResponse(response: BotResponse): BotResponse {
+  const cleanedText = response.text
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "")
+    .slice(0, MAX_RESPONSE_LENGTH);
+  if (containsNsfwContent(cleanedText)) return SECURITY_RESPONSES.nsfw;
+  return {
+    ...response,
+    text: cleanedText,
+    chips: response.chips?.filter((chip) => Object.hasOwn(FAQS, chip)).slice(0, 6),
+    actions: response.actions?.filter((action) => isSafeActionHref(action.href)).slice(0, 3),
+  };
+}
+
 function resolveAnswer(faq: Faq, ctx: KnowledgeContext): string {
   return typeof faq.answer === "function" ? faq.answer(ctx) : faq.answer;
 }
@@ -456,6 +623,7 @@ const STOPWORDS = new Set([
   "and", "or", "how", "much", "does", "do", "did", "can", "could", "will", "would",
   "about", "with", "from", "that", "this", "it", "its", "tell", "me", "give",
   "show", "have", "has", "need", "needs", "want", "wants", "you", "your", "there",
+  "adult", "adults", "child", "children", "traveller", "travellers", "romantic", "honeymoon",
 ]);
 
 /** Pulls out the specific, non-generic words from a query — e.g. "what is
@@ -799,38 +967,105 @@ export const Chatbot: React.FC = () => {
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const launcherRef = useRef<HTMLButtonElement>(null);
   const replyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const messageSeq = useRef(1);
   const activePackageId = useRef<string | null>(null);
+  const messageTimestamps = useRef<number[]>([]);
 
   // Nudge the user with a teaser bubble a few seconds in, once, if unopened.
   useEffect(() => {
     if (open || teaserDismissed) return;
-    const t = setTimeout(() => setShowTeaser(true), 4000);
+    const desktopViewport = window.matchMedia("(min-width: 1024px)");
+    if (!desktopViewport.matches) return;
+    const t = setTimeout(() => {
+      if (desktopViewport.matches) setShowTeaser(true);
+    }, 4000);
     return () => clearTimeout(t);
   }, [open, teaserDismissed]);
 
-  // Keep the newest message in view; focus the input when the panel opens.
+  // Keep the newest message in view without moving the page behind the dialog.
   useEffect(() => {
     if (!open) return;
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, typing, open]);
 
   useEffect(() => {
-    if (open) inputRef.current?.focus();
+    if (!open) return;
+    let frame = 0;
+    const keepLatestMessageVisible = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "auto" });
+      });
+    };
+    const viewport = window.visualViewport;
+    window.addEventListener("resize", keepLatestMessageVisible);
+    viewport?.addEventListener("resize", keepLatestMessageVisible);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("resize", keepLatestMessageVisible);
+      viewport?.removeEventListener("resize", keepLatestMessageVisible);
+    };
   }, [open]);
 
   useEffect(() => {
     if (!open) return;
-    const closeOnEscape = (event: KeyboardEvent) => {
+
+    // Opening the software keyboard immediately is disruptive on phones. Give
+    // keyboard-and-mouse users the convenient autofocus, and focus the dialog
+    // itself on touch-sized screens instead.
+    const focusTarget = requestAnimationFrame(() => {
+      if (window.matchMedia("(min-width: 1024px) and (pointer: fine)").matches) {
+        inputRef.current?.focus({ preventScroll: true });
+      } else {
+        panelRef.current?.focus({ preventScroll: true });
+      }
+    });
+
+    return () => cancelAnimationFrame(focusTarget);
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleDialogKeys = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setOpen(false);
         requestAnimationFrame(() => launcherRef.current?.focus());
+        return;
+      }
+
+      if (event.key !== "Tab" || !panelRef.current) return;
+      const focusable = Array.from(
+        panelRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      );
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (
+        event.shiftKey &&
+        (document.activeElement === first || document.activeElement === panelRef.current)
+      ) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
       }
     };
-    window.addEventListener("keydown", closeOnEscape);
-    return () => window.removeEventListener("keydown", closeOnEscape);
+
+    window.addEventListener("keydown", handleDialogKeys);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleDialogKeys);
+    };
   }, [open]);
 
   useEffect(() => () => {
@@ -849,42 +1084,76 @@ export const Chatbot: React.FC = () => {
   };
 
   // Generate the id up front so the state updater stays pure (React may invoke
-  // updaters more than once; allocating from a ref keeps ids deterministic.
+  // updaters more than once); allocating from a ref keeps ids deterministic.
   const appendMessage = (msg: Omit<Message, "id">) => {
     const id = ++messageSeq.current;
-    setMessages((prev) => [...prev, { id, ...msg }]);
+    setMessages((prev) => [...prev, { id, ...msg }].slice(-MAX_CONVERSATION_MESSAGES));
   };
 
   const pushBotReply = (response: BotResponse) => {
+    const securedResponse = secureBotResponse(response);
     setTyping(true);
     replyTimer.current = setTimeout(() => {
       replyTimer.current = null;
       setTyping(false);
       setHop((h) => h + 1);
-      if (response.packageId) activePackageId.current = response.packageId;
-      appendMessage({ from: "bot", text: response.text, chips: response.chips, actions: response.actions });
+      if (securedResponse.packageId) activePackageId.current = securedResponse.packageId;
+      appendMessage({
+        from: "bot",
+        text: securedResponse.text,
+        chips: securedResponse.chips,
+        actions: securedResponse.actions,
+      });
     }, 650);
   };
 
-  const sendText = (raw: string) => {
-    const text = raw.trim();
-    if (!text || typing) return;
-    appendMessage({ from: "user", text });
-    setInput("");
-    const activePackage = knowledge.packages.find((pkg) => pkg.id === activePackageId.current);
-    pushBotReply(resolveResponse(text, knowledge, activePackage));
+  const isRateLimited = (now: number) => {
+    const recent = messageTimestamps.current.filter((timestamp) => now - timestamp < RATE_LIMIT_WINDOW_MS);
+    messageTimestamps.current = recent;
+    if (recent.length >= RATE_LIMIT_MAX_MESSAGES) return true;
+    messageTimestamps.current.push(now);
+    return false;
   };
 
-  const sendChip = (faqId: string) => {
+  const sendText = (raw: string, timestamp: number) => {
+    if (!raw.trim() || typing) return;
+    setInput("");
+    if (isRateLimited(timestamp)) {
+      appendMessage({ from: "user", text: "Message paused" });
+      pushBotReply(SECURITY_RESPONSES.rateLimit);
+      return;
+    }
+
+    const validated = validateChatInput(raw);
+    if (validated.blockedResponse) {
+      // Never echo a credential, identifier or malicious payload back into the
+      // DOM or conversation history, even though React would escape the text.
+      appendMessage({ from: "user", text: validated.displayText });
+      pushBotReply(validated.blockedResponse);
+      return;
+    }
+    if (!validated.text) return;
+
+    appendMessage({ from: "user", text: validated.displayText });
+    const activePackage = knowledge.packages.find((pkg) => pkg.id === activePackageId.current);
+    pushBotReply(resolveResponse(validated.text, knowledge, activePackage));
+  };
+
+  const sendChip = (faqId: string, timestamp: number) => {
     const faq = FAQS[faqId];
     if (!faq || typing) return;
+    if (isRateLimited(timestamp)) {
+      appendMessage({ from: "user", text: "Message paused" });
+      pushBotReply(SECURITY_RESPONSES.rateLimit);
+      return;
+    }
     appendMessage({ from: "user", text: faq.chipLabel });
     pushBotReply(faqResponse(faq, knowledge));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    sendText(input);
+    sendText(input, e.timeStamp);
   };
 
   const resetConversation = () => {
@@ -892,11 +1161,11 @@ export const Chatbot: React.FC = () => {
     setTyping(false);
     setInput("");
     activePackageId.current = null;
+    messageTimestamps.current = [];
     messageSeq.current += 1;
     setMessages([
       { id: messageSeq.current, from: "bot", text: GREETING, chips: GREETING_CHIPS },
     ]);
-    requestAnimationFrame(() => inputRef.current?.focus());
   };
 
   // Keep the assistant off the admin console.
@@ -906,23 +1175,23 @@ export const Chatbot: React.FC = () => {
     <>
       {/* Teaser bubble */}
       {showTeaser && !open && (
-        <div className="fixed bottom-24 right-4 z-40 max-w-[280px] animate-fade-in-up sm:right-6">
-          <div className="relative border border-primary/10 bg-white px-4 py-3.5 pr-10 shadow-[0_18px_60px_rgba(7,32,60,0.16)]">
+        <div className="fixed bottom-[calc(5rem+env(safe-area-inset-bottom))] left-3 right-3 z-40 animate-fade-in-up lg:bottom-24 lg:left-auto lg:right-6 lg:max-w-[280px]">
+          <div className="relative border border-primary/10 bg-white px-4 py-3.5 pr-12 shadow-[0_18px_60px_rgba(7,32,60,0.16)]">
             <button
               onClick={() => {
                 setShowTeaser(false);
                 setTeaserDismissed(true);
               }}
-              className="absolute right-2 top-2 p-1 text-foreground-light transition hover:text-primary"
+              className="absolute right-1 top-1 flex h-11 w-11 items-center justify-center text-foreground-light transition hover:bg-sand hover:text-primary"
               aria-label="Dismiss chat suggestion"
               type="button"
             >
-              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                 <line x1="18" y1="6" x2="6" y2="18" />
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </button>
-            <button type="button" onClick={openPanel} className="flex items-start gap-3 text-left">
+            <button type="button" onClick={openPanel} className="flex min-h-11 w-full items-start gap-3 text-left">
               <MilesAvatar className="h-9 w-9 shrink-0" />
               <div>
                 <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-accent">
@@ -940,39 +1209,41 @@ export const Chatbot: React.FC = () => {
       {/* Chat panel */}
       {open && (
         <div
+          ref={panelRef}
           id="bandhan-chat-panel"
           role="dialog"
-          aria-modal="false"
+          aria-modal="true"
           aria-label={`${BOT_NAME}, travel assistant`}
-          className="fixed bottom-20 left-3 right-3 z-40 flex h-[min(720px,calc(100dvh-6rem))] flex-col overflow-hidden border border-primary/10 bg-[#f7f5ef] shadow-[0_30px_90px_rgba(7,32,60,0.26)] animate-scale-up sm:bottom-24 sm:left-auto sm:right-6 sm:w-[420px]"
+          tabIndex={-1}
+          className="chatbot-panel-enter fixed inset-0 z-[70] flex h-[100dvh] w-full flex-col overflow-hidden bg-[#f7f5ef] outline-none lg:inset-auto lg:bottom-24 lg:right-6 lg:h-[min(720px,calc(100dvh-7rem))] lg:w-[420px] lg:border lg:border-primary/10 lg:shadow-[0_30px_90px_rgba(7,32,60,0.26)]"
         >
           {/* Header */}
-          <div className="relative shrink-0 bg-primary px-5 pb-4 pt-5 text-white">
+          <div className="relative shrink-0 bg-primary px-3 pb-2.5 pt-[max(0.75rem,env(safe-area-inset-top))] text-white sm:px-4 lg:px-5 lg:pb-4 lg:pt-5">
             <div className="absolute inset-x-0 top-0 h-1 bg-gold" />
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 lg:gap-3">
               <span
                 key={hop}
-                className={`relative flex h-11 w-11 shrink-0 items-center justify-center border border-white/15 bg-white/10 ${
+                className={`relative flex h-10 w-10 shrink-0 items-center justify-center border border-white/15 bg-white/10 lg:h-11 lg:w-11 ${
                   hop > 0 ? "miles-hop" : ""
                 }`}
               >
-                <MilesAvatar className="h-9 w-9" />
+                <MilesAvatar className="h-8 w-8 lg:h-9 lg:w-9" />
                 <span className="absolute -bottom-1 -right-1 h-3 w-3 border-2 border-primary bg-emerald-400" />
               </span>
               <div className="min-w-0 flex-1 leading-tight">
                 <div className="flex items-center gap-2">
                   <p className="font-heading text-base font-bold">{BOT_NAME}</p>
-                  <span className="border border-emerald-300/30 bg-emerald-400/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-emerald-300">
+                  <span className="hidden border border-emerald-300/30 bg-emerald-400/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-emerald-300 min-[360px]:inline-flex">
                     Online
                   </span>
                 </div>
-                <p className="mt-1 text-[11px] text-slate-300">
+                <p className="mt-0.5 truncate text-[10px] text-slate-300 lg:mt-1 lg:text-[11px]">
                   Bandhan Tours · Trip assistant
                 </p>
               </div>
               <button
                 onClick={resetConversation}
-                className="p-2 text-white/60 transition hover:bg-white/10 hover:text-white"
+                className="flex h-11 w-11 shrink-0 items-center justify-center text-white/70 transition hover:bg-white/10 hover:text-white"
                 aria-label="Start a new conversation"
                 title="New conversation"
                 type="button"
@@ -984,7 +1255,7 @@ export const Chatbot: React.FC = () => {
               </button>
               <button
                 onClick={closePanel}
-                className="p-2 text-white/60 transition hover:bg-white/10 hover:text-white"
+                className="flex h-11 w-11 shrink-0 items-center justify-center text-white/70 transition hover:bg-white/10 hover:text-white"
                 aria-label="Close chat"
                 type="button"
               >
@@ -1000,14 +1271,14 @@ export const Chatbot: React.FC = () => {
             <Link
               href="/packages"
               onClick={() => setOpen(false)}
-              className="border-r border-primary/10 px-4 py-3 text-center text-[10px] font-bold uppercase tracking-[0.14em] text-primary transition hover:bg-gold/20"
+              className="flex min-h-11 items-center justify-center border-r border-primary/10 px-3 py-2 text-center text-[11px] font-bold text-primary transition hover:bg-gold/20 lg:px-4 lg:py-3 lg:text-[10px] lg:uppercase lg:tracking-[0.14em]"
             >
               Browse tours
             </Link>
             <Link
               href="/plan-trip"
               onClick={() => setOpen(false)}
-              className="px-4 py-3 text-center text-[10px] font-bold uppercase tracking-[0.14em] text-primary transition hover:bg-gold/20"
+              className="flex min-h-11 items-center justify-center px-3 py-2 text-center text-[11px] font-bold text-primary transition hover:bg-gold/20 lg:px-4 lg:py-3 lg:text-[10px] lg:uppercase lg:tracking-[0.14em]"
             >
               Plan a custom trip
             </Link>
@@ -1020,16 +1291,16 @@ export const Chatbot: React.FC = () => {
             aria-live="polite"
             aria-relevant="additions"
             aria-label="Conversation with Miles"
-            className="flex-1 space-y-5 overflow-y-auto px-4 py-5 sm:px-5"
+            className="min-h-0 flex-1 touch-pan-y space-y-4 overscroll-contain overflow-y-auto px-3 py-4 sm:px-4 lg:space-y-5 lg:px-5 lg:py-5"
           >
             {messages.map((m) => (
-              <div key={m.id} className={`flex flex-col ${m.from === "user" ? "items-end" : "items-start"}`}>
-                <div className={m.from === "user" ? "flex max-w-[84%] justify-end" : "flex max-w-[91%] items-start gap-2.5"}>
+              <div key={m.id} className={`flex w-full flex-col ${m.from === "user" ? "items-end" : "items-start"}`}>
+                <div className={m.from === "user" ? "flex max-w-[88%] justify-end lg:max-w-[84%]" : "flex max-w-full items-start gap-2 lg:max-w-[91%] lg:gap-2.5"}>
                   {m.from === "bot" && (
-                    <MilesAvatar className="mt-0.5 h-7 w-7 shrink-0" />
+                    <MilesAvatar className="mt-0.5 h-6 w-6 shrink-0 lg:h-7 lg:w-7" />
                   )}
                   <div
-                    className={`whitespace-pre-line px-4 py-3 font-sans text-[13px] leading-6 ${
+                    className={`min-w-0 whitespace-pre-line break-words px-3.5 py-3 font-sans text-sm leading-5 lg:px-4 lg:text-[13px] lg:leading-6 ${
                       m.from === "user"
                         ? "bg-primary text-white shadow-[0_8px_24px_rgba(7,32,60,0.14)]"
                         : "border border-primary/10 bg-white text-foreground shadow-[0_8px_24px_rgba(7,32,60,0.07)]"
@@ -1041,7 +1312,7 @@ export const Chatbot: React.FC = () => {
 
                 {/* Useful next actions: real details, enquiry, phone or WhatsApp. */}
                 {m.from === "bot" && m.actions && m.actions.length > 0 && (
-                  <div className="ml-9 mt-2.5 flex flex-wrap gap-2">
+                  <div className="chatbot-scrollbar-none -mx-1 mt-2.5 flex max-w-full snap-x gap-2 overflow-x-auto px-1 pb-1 lg:ml-9 lg:flex-wrap lg:overflow-visible lg:px-0">
                     {m.actions.map((action) => (
                       <Link
                         key={`${m.id}-${action.href}`}
@@ -1049,7 +1320,7 @@ export const Chatbot: React.FC = () => {
                         onClick={() => setOpen(false)}
                         target={action.href.startsWith("http") ? "_blank" : undefined}
                         rel={action.href.startsWith("http") ? "noreferrer" : undefined}
-                        className="inline-flex items-center gap-2 border border-primary bg-white px-3.5 py-2 text-[11px] font-bold text-primary transition duration-200 hover:bg-primary hover:text-white"
+                        className="inline-flex min-h-11 shrink-0 snap-start items-center gap-2 border border-primary bg-white px-3.5 py-2 text-xs font-bold text-primary transition duration-200 hover:bg-primary hover:text-white lg:min-h-0 lg:text-[11px]"
                       >
                         {action.label}
                         <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -1063,17 +1334,17 @@ export const Chatbot: React.FC = () => {
 
                 {/* Suggestion chips */}
                 {m.from === "bot" && m.chips && m.chips.length > 0 && (
-                  <div className="mt-2.5 flex flex-wrap gap-2 pl-9">
+                  <div className="chatbot-scrollbar-none -mx-1 mt-2.5 flex max-w-full snap-x gap-2 overflow-x-auto px-1 pb-1 lg:mx-0 lg:flex-wrap lg:overflow-visible lg:pl-9">
                     {m.chips.map((cid) => {
                       const faq = FAQS[cid];
                       if (!faq) return null;
                       return (
                         <button
                           key={cid}
-                          onClick={() => sendChip(cid)}
+                          onClick={(event) => sendChip(cid, event.timeStamp)}
                           disabled={typing}
                           type="button"
-                          className="border border-primary/15 bg-white px-3 py-2 text-[11px] font-semibold text-primary transition-colors duration-200 hover:border-primary hover:bg-primary hover:text-white disabled:opacity-50"
+                          className="min-h-11 shrink-0 snap-start border border-primary/15 bg-white px-3.5 py-2 text-xs font-semibold text-primary transition-colors duration-200 hover:border-primary hover:bg-primary hover:text-white disabled:opacity-50 lg:min-h-0 lg:px-3 lg:text-[11px]"
                         >
                           {faq.chipLabel}
                         </button>
@@ -1088,7 +1359,7 @@ export const Chatbot: React.FC = () => {
             {typing && (
               <div className="flex items-start gap-2.5" role="status" aria-label="Miles is typing">
                 <span className="sr-only">Miles is typing</span>
-                <MilesAvatar className="h-7 w-7 shrink-0" />
+                <MilesAvatar className="h-6 w-6 shrink-0 lg:h-7 lg:w-7" />
                 <div className="flex items-center gap-1 border border-primary/10 bg-white px-4 py-3 shadow-[0_8px_24px_rgba(7,32,60,0.07)]">
                   {[0, 1, 2].map((i) => (
                     <span
@@ -1103,29 +1374,31 @@ export const Chatbot: React.FC = () => {
           </div>
 
           {/* Input */}
-          <form onSubmit={handleSubmit} className="shrink-0 border-t border-primary/10 bg-white p-3.5">
-            <div className="flex items-center gap-2 border border-primary/15 bg-slate-50 p-1.5 transition focus-within:border-primary">
+          <form onSubmit={handleSubmit} className="shrink-0 border-t border-primary/10 bg-white px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 lg:p-3.5">
+            <div className="flex min-h-12 items-center gap-2 border border-primary/15 bg-slate-50 p-1 transition focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10">
               <input
                 ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask about a destination, price or booking…"
-                className="min-w-0 flex-1 bg-transparent px-2.5 py-2 text-sm text-primary placeholder:text-foreground-light focus:outline-none"
+                placeholder="Ask Miles about your trip…"
+                className="min-w-0 flex-1 bg-transparent px-2.5 py-2 text-base text-primary placeholder:text-foreground-light focus:outline-none lg:text-sm"
                 aria-label="Type your message"
+                aria-describedby="chat-security-note"
                 autoComplete="off"
-                maxLength={500}
+                enterKeyHint="send"
+                maxLength={MAX_INPUT_LENGTH}
               />
               <button
                 type="submit"
                 disabled={!input.trim() || typing}
-                className="flex h-10 w-10 shrink-0 items-center justify-center bg-accent text-white transition hover:bg-accent-dark disabled:cursor-not-allowed disabled:opacity-35"
+                className="flex h-11 w-11 shrink-0 items-center justify-center bg-accent text-white transition hover:bg-accent-dark disabled:cursor-not-allowed disabled:opacity-35 lg:h-10 lg:w-10"
                 aria-label="Send message"
               >
                 <PlaneIcon className="h-4 w-4" />
               </button>
             </div>
-            <p className="mt-2 text-center text-[9px] uppercase tracking-[0.13em] text-foreground-light">
-              Published information · Human help available
+            <p id="chat-security-note" className="mt-1.5 text-center text-[10px] leading-4 text-foreground-light lg:mt-2">
+              Family-safe · Don&apos;t share passwords, OTPs, payment details or ID numbers.
             </p>
           </form>
         </div>
@@ -1135,7 +1408,7 @@ export const Chatbot: React.FC = () => {
       <button
         ref={launcherRef}
         onClick={() => (open ? setOpen(false) : openPanel())}
-        className="fixed bottom-5 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-gold shadow-[0_14px_40px_rgba(7,32,60,0.28)] transition duration-300 hover:-translate-y-0.5 hover:scale-105 hover:bg-primary-light active:translate-y-0 active:scale-95 sm:bottom-6 sm:right-6"
+        className={`${open ? "hidden lg:flex" : "flex"} fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-40 h-14 w-14 items-center justify-center rounded-full bg-primary text-gold shadow-[0_14px_40px_rgba(7,32,60,0.28)] transition duration-300 hover:-translate-y-0.5 hover:scale-105 hover:bg-primary-light active:translate-y-0 active:scale-95 lg:bottom-6 lg:right-6`}
         aria-label={open ? "Close chat" : `Chat with ${BOT_NAME}`}
         aria-expanded={open}
         aria-controls="bandhan-chat-panel"
