@@ -25,7 +25,7 @@ export default function TestimonialsPage() {
           priority
           className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/90 via-slate-950/85 to-slate-950" />
+        <div className="absolute inset-0 bg-ink-deep/80" />
         <div className="relative max-w-4xl mx-auto px-4">
           <span className="text-xs font-bold text-gold uppercase tracking-widest bg-gold/10 px-3 py-1 rounded-full border border-gold/30">
             Authentic Guest Feedback

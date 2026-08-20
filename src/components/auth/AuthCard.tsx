@@ -83,7 +83,7 @@ export function AuthCard({ mode }: { mode: Mode }) {
         className="object-cover object-center"
       />
       {/* Brand gradient overlay for contrast + a soft gold glow */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/85 via-primary/70 to-primary-dark/90" />
+      <div className="absolute inset-0 bg-ink-deep/70" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,rgba(254,209,79,0.18),transparent_45%)]" />
 
       <div className="relative z-10 w-full max-w-md">

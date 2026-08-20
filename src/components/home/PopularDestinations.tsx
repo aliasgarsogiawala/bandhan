@@ -18,11 +18,9 @@ export const PopularDestinations: React.FC = () => {
     .slice(0, 8);
 
   return (
-    <section id="domestic-tours" className="relative z-10 overflow-hidden bg-ink py-20 sm:py-28">
+    <section id="domestic-tours" className="surface-grain edge-hairline-top relative z-10 overflow-hidden bg-ink py-20 sm:py-28">
       <CompassMark className="pointer-events-none absolute -right-16 top-10 h-72 w-72 text-white/[0.035]" />
       {/* Soft brand glows so the ink field has depth rather than reading flat. */}
-      <div className="pointer-events-none absolute -left-40 top-1/4 h-[460px] w-[460px] rounded-full bg-primary-light/20 blur-[150px]" aria-hidden="true" />
-      <div className="pointer-events-none absolute -right-32 bottom-0 h-[380px] w-[380px] rounded-full bg-gold/[0.07] blur-[130px]" aria-hidden="true" />
       <Container>
         {/* Header */}
         <div className="mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
@@ -61,7 +59,7 @@ export const PopularDestinations: React.FC = () => {
                 />
 
                 {/* Cinematic scrim — deep at the base so the type always holds */}
-                <div className="absolute inset-0 bg-gradient-to-t from-primary-dark via-primary-dark/45 via-45% to-transparent transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-ink-deep/45 transition-opacity duration-500" />
                 <div className="absolute inset-0 bg-primary-dark/0 transition-colors duration-500 group-hover:bg-primary-dark/15" />
 
                 {/* Tag */}

@@ -85,7 +85,7 @@ function header(doc: PdfDoc, booking: Booking) {
     bold: true,
     color: C.white,
   });
-  doc.textAt("TRIP PROPOSAL & QUOTATION", {
+  doc.textAt("PERSONALISED TRIP BROCHURE", {
     x: MARGIN,
     y: 15,
     width: CONTENT_WIDTH,
@@ -218,6 +218,33 @@ export async function renderQuotationBrochurePdf(booking: Booking): Promise<Uint
     doc.rect(0, 270, PAGE_WIDTH, 90, C.primary, 0.72);
   } else {
     doc.rect(0, 0, PAGE_WIDTH, 320, C.primaryLight);
+    doc.rect(365, 0, PAGE_WIDTH - 365, 320, C.primary, 0.45);
+    doc.strokeRect(382, 42, 156, 156, C.gold, 1.2);
+    doc.strokeRect(413, 73, 156, 156, C.light, 0.7);
+    doc.textAt("CURATED FOR", {
+      x: MARGIN,
+      y: 92,
+      size: 7,
+      bold: true,
+      color: C.gold,
+      charSpacing: 1.2,
+    });
+    doc.textAt(booking.contact_name, {
+      x: MARGIN,
+      y: 111,
+      width: 290,
+      size: 18,
+      bold: true,
+      color: C.white,
+    });
+    doc.textAt("TRAVEL WELL. TRAVEL TOGETHER.", {
+      x: MARGIN,
+      y: 150,
+      size: 8,
+      bold: true,
+      color: C.light,
+      charSpacing: 0.8,
+    });
     doc.rect(0, 314, PAGE_WIDTH, 6, C.gold);
   }
 
@@ -315,7 +342,7 @@ export async function renderQuotationBrochurePdf(booking: Booking): Promise<Uint
     ["Destination", snapshot.destination],
     ["Starts from", booking.departure_city || snapshot.startingPoint || "To be confirmed"],
     ["Best time", snapshot.bestTime || "Year-round"],
-    ["Group size", snapshot.groupSize || `${totalTravellers} guests`],
+    ["Your party", `${totalTravellers} guests`],
   ];
   const detailWidth = (CONTENT_WIDTH - 18) / 2;
   for (let index = 0; index < details.length; index += 2) {
@@ -562,12 +589,14 @@ export async function renderQuotationBrochurePdf(booking: Booking): Promise<Uint
   if (snapshot.inclusions?.length || snapshot.exclusions?.length) {
     section(doc, "The fine print upfront", "Included and not included");
     if (snapshot.inclusions?.length) {
+      doc.ensure(48);
       doc.textAt("INCLUSIONS", { y: doc.y, size: 7, bold: true, color: C.accent, charSpacing: 0.8 });
       doc.y += 15;
       bullets(doc, snapshot.inclusions);
       doc.y += 8;
     }
     if (snapshot.exclusions?.length) {
+      doc.ensure(48);
       doc.textAt("EXCLUSIONS", { y: doc.y, size: 7, bold: true, color: C.accent, charSpacing: 0.8 });
       doc.y += 15;
       bullets(doc, snapshot.exclusions);

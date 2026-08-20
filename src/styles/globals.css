@@ -77,43 +77,6 @@ textarea {
   --radius-2xl: 1.5rem;
   --radius-3xl: 2rem;
 
-  --animate-fade-in: fade-in 0.8s ease-out forwards;
-  --animate-fade-in-up: fade-in-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  --animate-fade-in-down: fade-in-down 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  --animate-scale-up: scale-up 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  --animate-float: float 6s ease-in-out infinite;
-  --animate-float-slow: float 9s ease-in-out infinite;
-  --animate-shimmer: shimmer 3s linear infinite;
-  --animate-draw: draw 2.2s ease-in-out forwards;
-  --animate-spin-slow: spin 24s linear infinite;
-}
-
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-@keyframes fade-in-up {
-  from { opacity: 0; transform: translate3d(0, 36px, 0); }
-  to { opacity: 1; transform: translate3d(0, 0, 0); }
-}
-@keyframes fade-in-down {
-  from { opacity: 0; transform: translate3d(0, -24px, 0); }
-  to { opacity: 1; transform: translate3d(0, 0, 0); }
-}
-@keyframes scale-up {
-  from { transform: scale(1.12); }
-  to { transform: scale(1); }
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-14px); }
-}
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-@keyframes draw {
-  to { stroke-dashoffset: 0; }
 }
 
 /* The assistant enters as a bottom sheet on touch-sized screens and as a
@@ -148,41 +111,44 @@ textarea {
   }
 }
 
-/* Scroll reveal */
-.reveal {
-  opacity: 0;
-  transform: translate3d(0, 40px, 0);
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
-}
-.reveal.is-visible {
-  opacity: 1;
-  transform: none;
-}
 
-/* Luxury gold shimmering text */
-.text-shimmer-gold {
-  background: linear-gradient(110deg, var(--color-gold) 20%, #fff6d6 40%, var(--color-gold) 60%, var(--color-gold-dark) 80%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 4s linear infinite;
-}
 
-/* Animated SVG path draw */
-.draw-path {
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-}
-.draw-path.is-visible {
-  animation: draw 2.4s ease-in-out forwards;
-}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .reveal { opacity: 1; transform: none; transition: none; }
-  .draw-path { animation: none; stroke-dashoffset: 0; }
-  .animate-float, .animate-float-slow { animation: none; }
   .chatbot-panel-enter { animation: none; }
+}
+
+/* ---------------------------------------------------------------------------
+   Section surface treatments
+   Reusable atmospheres so each band has depth of its own instead of being a
+   flat fill. Applied via a single class rather than repeating four absolutely
+   positioned gradient divs in every section.
+   ------------------------------------------------------------------------ */
+
+/* Fine grain over dark bands. Large flat areas of near-black band badly on
+   8-bit displays; a faint noise breaks the gradient stepping up. */
+.surface-grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+
+
+/* Hairline rule that fades at both ends — used to seam adjoining bands. */
+.edge-hairline-top {
+  position: relative;
+}
+.edge-hairline-top::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12) 20%, rgba(255, 255, 255, 0.12) 80%, transparent);
 }

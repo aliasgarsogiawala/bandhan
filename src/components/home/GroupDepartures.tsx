@@ -112,7 +112,7 @@ export const GroupDepartures: React.FC = () => {
   return (
     <section
       id="group-departures"
-      className="relative z-10 overflow-hidden bg-white py-20 sm:py-28"
+      className="relative z-10 overflow-hidden bg-sand-light py-20 sm:py-28"
     >
       <ContourPattern className="pointer-events-none absolute inset-0 h-full w-full text-primary/[0.025]" />
 
@@ -159,7 +159,7 @@ export const GroupDepartures: React.FC = () => {
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/15 to-transparent" />
+                    <div className="absolute inset-0 bg-ink-deep/55" />
 
                     <span
                       className={`absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.12em] ${status.badge}`}

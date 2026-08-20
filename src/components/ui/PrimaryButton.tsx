@@ -39,7 +39,7 @@ export const PrimaryButton: React.FC<ButtonProps> = ({
   return (
     <button
       disabled={disabled || isLoading}
-      className={`group/btn relative inline-flex items-center justify-center gap-2 overflow-hidden border border-transparent font-sans tracking-wide transition-all duration-300 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 motion-reduce:hover:translate-y-0 ${variantClasses[variant]} ${sizeClasses[size]} ${widthClass} ${className}`}
+      className={`group/btn relative inline-flex items-center justify-center gap-2 border border-transparent font-sans tracking-wide transition-all duration-300 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 motion-reduce:hover:translate-y-0 ${variantClasses[variant]} ${sizeClasses[size]} ${widthClass} ${className}`}
       {...props}
     >
       {isLoading && (
@@ -64,12 +64,6 @@ export const PrimaryButton: React.FC<ButtonProps> = ({
           />
         </svg>
       )}
-
-      {/* Sheen sweep on hover */}
-      <span
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 ease-out group-hover/btn:translate-x-full motion-reduce:hidden"
-      />
       {!isLoading && leftIcon && <span className="relative z-10 flex-shrink-0">{leftIcon}</span>}
       <span className="relative z-10">{children}</span>
       {!isLoading && rightIcon && <span className="relative z-10 flex-shrink-0">{rightIcon}</span>}

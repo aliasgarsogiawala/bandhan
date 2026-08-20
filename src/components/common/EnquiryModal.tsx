@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
-import { store } from "@/lib/admin/store";
+import { submitEnquiry } from "@/lib/admin/store";
 
 interface EnquiryModalProps {
   isOpen: boolean;
@@ -28,6 +28,7 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [wasOpen, setWasOpen] = useState(false);
 
   // Reset the form and seed the destination the moment the modal opens.
@@ -64,26 +65,21 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
-    // Persist the lead to the admin store (localStorage-backed).
-    store.add("enquiries", {
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      destination: formData.destination,
-      travelMonth: formData.travelMonth,
-      guests: formData.guests,
-      message: formData.message,
-      source: "enquiry-modal",
-      status: "new",
-      createdAt: new Date().toISOString(),
-    });
-
-    // Simulate network latency before showing the success state.
-    setTimeout(() => {
+    setSubmitError("");
+    try {
+      await submitEnquiry({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        destination: formData.destination,
+        travelMonth: formData.travelMonth,
+        guests: formData.guests,
+        message: formData.message,
+        source: "enquiry-modal",
+      });
       setIsSubmitting(false);
       setSubmitted(true);
       setFormData({
@@ -95,12 +91,15 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
         guests: "2",
         message: "",
       });
-    }, 1500);
+    } catch (error) {
+      setIsSubmitting(false);
+      setSubmitError(error instanceof Error ? error.message : "Could not submit your enquiry.");
+    }
   };
 
   return createPortal(
-    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-primary/45 p-0 backdrop-blur-md animate-fade-in sm:p-4">
-      <div className="relative flex h-[100dvh] max-h-[100dvh] w-full max-w-lg flex-col overflow-hidden border border-slate-100 bg-white shadow-2xl sm:h-auto sm:max-h-[calc(100dvh-2rem)] sm:rounded-3xl sm:animate-scale-up" role="dialog" aria-modal="true" aria-labelledby="enquiry-modal-title">
+    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-primary/45 p-0 backdrop-blur-md sm:p-4">
+      <div className="relative flex h-[100dvh] max-h-[100dvh] w-full max-w-lg flex-col overflow-hidden border border-slate-100 bg-white shadow-2xl sm:h-auto sm:max-h-[calc(100dvh-2rem)] sm:rounded-3xl sm:" role="dialog" aria-modal="true" aria-labelledby="enquiry-modal-title">
         
         {/* Header decoration */}
         <div className="relative shrink-0 bg-primary px-5 pb-5 pt-[max(1.25rem,env(safe-area-inset-top))] text-white sm:px-6 sm:py-6">
@@ -137,7 +136,7 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-5 sm:max-h-[75vh] sm:p-6 md:p-8">
           {submitted ? (
             <div className="text-center py-8 space-y-4">
-              <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner animate-scale-up">
+              <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="32"
@@ -261,6 +260,9 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
               </div>
 
               <div className="pt-2">
+                {submitError && (
+                  <p className="mb-3 text-center text-sm font-semibold text-red-600">{submitError}</p>
+                )}
                 <PrimaryButton
                   type="submit"
                   variant="coral"

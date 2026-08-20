@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import { Container } from "@/components/ui/Container";
+import { ParallaxBand } from "@/components/ui/ParallaxBand";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { SecondaryButton } from "@/components/ui/SecondaryButton";
 import { useRecentSearches } from "@/lib/recentSearches";
@@ -20,6 +20,7 @@ import {
   travelMonthOptions,
 } from "@/lib/tripSearch";
 import type { Destination, TourPackage } from "@/data/mockData";
+import type { Banner } from "@/lib/admin/types";
 
 export interface HeroSearch {
   destination: string;
@@ -44,6 +45,8 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
   const { saveRecentSearch } = useRecentSearches();
   const { items: packages } = useCollection<TourPackage>("packages");
   const { items: destinations } = useCollection<Destination>("destinations");
+  const { items: banners } = useCollection<Banner>("banners");
+  const banner = banners.find((item) => item.isActive);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -124,43 +127,37 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
   };
 
   return (
-    <section className="relative w-full min-h-[100svh] overflow-hidden lg:flex lg:h-[95vh] lg:min-h-[750px] lg:items-center lg:justify-center">
-      {/* Background Image */}
-      <div className="absolute inset-0 w-full h-full">
-        <Image
-          src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&q=90&w=3200"
-          alt="Bandhan Tours Luxury Travel"
-          fill
-          priority
-          className="object-cover object-center scale-105 animate-scale-up"
-        />
-        {/* Dark Vignette Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/70 via-primary/35 to-primary/85 z-0" />
-      </div>
+    <ParallaxBand
+      image={banner?.image || "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&q=90&w=3200"}
+      alt=""
+      overlay={70}
+      priority
+      className="w-full min-h-[100svh] lg:flex lg:h-[95vh] lg:min-h-[750px] lg:items-center lg:justify-center"
+    >
 
       {/* Hero Content */}
       <div className="relative z-10 w-full pb-12 pt-28 sm:pb-16 sm:pt-32 lg:py-20">
         <Container className="flex flex-col items-center text-center text-white">
           {/* Badge */}
-          <span className="mb-5 inline-flex items-center gap-2 text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-gold animate-fade-in sm:mb-8 sm:gap-3 sm:text-[0.68rem] sm:tracking-[0.34em]">
+          <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-gold/25 bg-ink-deep/40 px-4 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-gold backdrop-blur-md sm:mb-8 sm:gap-3 sm:px-5 sm:py-2 sm:text-[0.68rem] sm:tracking-[0.34em]">
             <span className="h-px w-5 bg-gold/50 sm:w-8" aria-hidden="true" />
-            Where Colours Come Alive
+            {banner?.badge || "Where Colours Come Alive"}
             <span className="h-px w-5 bg-gold/50 sm:w-8" aria-hidden="true" />
           </span>
 
           {/* Headline */}
-          <h1 className="mb-5 max-w-4xl font-heading text-[2.75rem] font-extrabold leading-[1.02] tracking-[-0.015em] text-white [text-shadow:0_2px_24px_rgba(3,16,32,0.45)] animate-fade-in-up min-[380px]:text-5xl sm:mb-7 sm:text-6xl md:text-7xl lg:text-[5.5rem] lg:leading-[1.05]">
-            Explore Beyond{" "}
-            <em className="not-italic font-medium text-gold">Boundaries</em>
+          <h1 className="mb-5 max-w-4xl font-heading text-[2.75rem] font-extrabold leading-[1.02] tracking-[-0.015em] text-white [text-shadow:0_2px_10px_rgba(3,12,23,0.55),0_8px_40px_rgba(3,12,23,0.45)] min-[380px]:text-5xl sm:mb-7 sm:text-6xl md:text-7xl lg:text-[5.5rem] lg:leading-[1.05]">
+            {banner?.title || "Explore Beyond"}{" "}
+            <em className="not-italic font-extrabold text-gold">{banner?.highlightedTitle || "Boundaries"}</em>
           </h1>
 
           {/* Subheading */}
-          <p className="mb-8 max-w-xl text-sm font-light leading-relaxed tracking-wide text-slate-200/90 animate-fade-in-up sm:mb-11 sm:text-lg">
-            Discover unforgettable domestic and international journeys custom-tailored for the discerning modern traveler.
+          <p className="mb-8 max-w-xl text-sm font-normal leading-relaxed tracking-wide text-white/90 [text-shadow:0_1px_12px_rgba(3,12,23,0.6)] sm:mb-11 sm:text-lg">
+            {banner?.description || "Discover unforgettable domestic and international journeys custom-tailored for the discerning modern traveler."}
           </p>
 
           {/* Call to Actions */}
-          <div className="mb-10 flex w-full max-w-xs flex-col justify-center gap-3 animate-fade-in-up sm:mb-16 sm:w-auto sm:max-w-none sm:flex-row sm:flex-wrap sm:gap-4">
+          <div className="mb-10 flex w-full max-w-xs flex-col justify-center gap-3 sm:mb-16 sm:w-auto sm:max-w-none sm:flex-row sm:flex-wrap sm:gap-4">
             <PrimaryButton
               variant="coral"
               size="lg"
@@ -183,15 +180,15 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
                 </svg>
               }
             >
-              Explore Tours
+              {banner?.primaryLabel || "Explore Tours"}
             </PrimaryButton>
             <SecondaryButton variant="glass" size="lg" onClick={onPlanTripClick} className="w-full sm:w-auto">
-              Plan My Trip
+              {banner?.secondaryLabel || "Plan My Trip"}
             </SecondaryButton>
           </div>
 
           {/* Floating Search Card */}
-          <div className="w-full max-w-5xl animate-fade-in-up">
+          <div className="w-full max-w-5xl">
             <form
               onSubmit={handleSearch}
               className="rounded-2xl border border-white/25 bg-primary/40 p-2 shadow-glass backdrop-blur-xl sm:rounded-3xl sm:p-4"
@@ -289,7 +286,7 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
           </div>
         </Container>
       </div>
-    </section>
+    </ParallaxBand>
   );
 };
 

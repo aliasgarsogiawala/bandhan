@@ -72,9 +72,7 @@ export const BlogPostClient: React.FC<{ slug: string }> = ({ slug }) => {
           priority
           className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/80 to-primary" />
-        <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-accent/20 blur-3xl" aria-hidden="true" />
-        <div className="absolute -bottom-32 -left-16 w-80 h-80 rounded-full bg-gold/15 blur-3xl" aria-hidden="true" />
+        <div className="absolute inset-0 bg-ink-deep/75" />
         <Container className="relative max-w-3xl">
           <nav className="text-xs font-semibold uppercase tracking-wider text-white/60 mb-4" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-gold transition-colors">Home</Link>

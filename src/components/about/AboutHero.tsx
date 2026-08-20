@@ -36,8 +36,8 @@ export default function AboutHero() {
       <div ref={imageRef} className="absolute -inset-y-12 inset-x-0 will-change-transform">
         <Image src="https://images.unsplash.com/photo-1530789253388-582c481c54b0?auto=format&fit=crop&q=90&w=3200" alt="Travellers driving through a mountain landscape" fill priority sizes="100vw" className="object-cover" />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/70 to-primary/20" />
-      <div className="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-primary/35" />
+      <div className="absolute inset-0 bg-ink-deep/65" />
+      <div className="absolute inset-0 bg-transparent" />
       <Container className="relative pb-20 sm:pb-24">
         <div ref={contentRef} className="max-w-4xl will-change-transform">
           <span className="text-xs font-bold uppercase tracking-[0.3em] text-gold">About Bandhan Tours</span>
@@ -50,7 +50,7 @@ export default function AboutHero() {
           </p>
         </div>
       </Container>
-      <div className="absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-gold/70 to-transparent" aria-hidden="true" />
+      <div className="absolute bottom-0 left-0 h-px w-full bg-gold/45" aria-hidden="true" />
     </header>
   );
 }

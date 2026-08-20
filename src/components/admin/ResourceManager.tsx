@@ -190,6 +190,8 @@ export function ResourceManager<T extends WithId>({ config }: { config: Resource
   const [editing, setEditing] = useState<T | null>(null);
   const [draft, setDraft] = useState<Record<string, unknown> | null>(null);
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState("");
   const formFields = config.visibleFields
     ? config.fields.filter((field) => config.visibleFields?.includes(field.name))
     : config.fields;
@@ -206,6 +208,7 @@ export function ResourceManager<T extends WithId>({ config }: { config: Resource
   }, [items, search, config.searchKeys]);
 
   const openNew = () => {
+    setSaveError("");
     setEditing(null);
     setPreviewOpen(false);
     const nextDraft = emptyDraft(config);
@@ -214,6 +217,7 @@ export function ResourceManager<T extends WithId>({ config }: { config: Resource
   };
 
   const openEdit = (item: T) => {
+    setSaveError("");
     setEditing(item);
     setPreviewOpen(false);
     setDraft({ ...item } as Record<string, unknown>);
@@ -228,20 +232,29 @@ export function ResourceManager<T extends WithId>({ config }: { config: Resource
   const setField = (name: string, value: unknown) =>
     setDraft((d) => (d ? { ...d, [name]: value } : d));
 
-  const save = (e: React.FormEvent) => {
+  const save = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!draft) return;
-    if (editing) {
-      store.update(config.key, editing.id, draft);
-    } else {
-      store.add(config.key, draft);
+    setSaving(true);
+    setSaveError("");
+    try {
+      if (editing) await store.update(config.key, editing.id, draft);
+      else await store.add(config.key, draft);
+      close();
+    } catch (error) {
+      setSaveError(error instanceof Error ? error.message : "Could not save this content.");
+    } finally {
+      setSaving(false);
     }
-    close();
   };
 
-  const remove = (item: T) => {
+  const remove = async (item: T) => {
     if (window.confirm(`Delete this ${config.singular.toLowerCase()}? This cannot be undone.`)) {
-      store.remove(config.key, item.id);
+      try {
+        await store.remove(config.key, item.id);
+      } catch (error) {
+        window.alert(error instanceof Error ? error.message : "Could not delete this content.");
+      }
     }
   };
 
@@ -356,8 +369,8 @@ export function ResourceManager<T extends WithId>({ config }: { config: Resource
 
       {/* Form modal */}
       {draft && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/45 backdrop-blur-sm animate-fade-in">
-          <div className={`relative w-full ${isStructuredDestination ? "max-w-5xl" : "max-w-2xl"} bg-white rounded-3xl shadow-2xl border border-slate-100 max-h-[94vh] min-h-0 flex flex-col animate-scale-up`}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/45 backdrop-blur-sm">
+          <div className={`relative w-full ${isStructuredDestination ? "max-w-5xl" : "max-w-2xl"} bg-white rounded-3xl shadow-2xl border border-slate-100 max-h-[94vh] min-h-0 flex flex-col`}>
             <div className="flex items-center justify-between gap-4 px-6 py-5 border-b border-slate-100 shrink-0">
               <div>
                 <div className="flex items-center gap-2"><span className="px-2 py-1 rounded-full bg-accent/10 text-accent text-[10px] font-bold uppercase tracking-wider">{isStructuredDestination ? "Content template" : "Quick content editor"}</span><span className="text-[11px] text-foreground-light">{editing ? "Editing existing content" : "New content"}</span></div>
@@ -385,6 +398,7 @@ export function ResourceManager<T extends WithId>({ config }: { config: Resource
               )}
 
               <div className="flex justify-end gap-3 mt-6 pt-5 border-t border-slate-100 sticky bottom-0 bg-white/95 backdrop-blur-sm">
+                {saveError && <p className="mr-auto self-center text-sm font-semibold text-red-600">{saveError}</p>}
                 {config.key === "destinations" && <button type="button" onClick={() => setPreviewOpen(true)} className="mr-auto px-5 py-2.5 rounded-full text-sm font-semibold text-primary border border-primary/20 hover:border-primary hover:bg-primary hover:text-white transition-colors">Preview</button>}
                 <button
                   type="button"
@@ -393,7 +407,7 @@ export function ResourceManager<T extends WithId>({ config }: { config: Resource
                 >
                   Cancel
                 </button>
-                <PrimaryButton type="submit" variant="navy" size="md">
+                <PrimaryButton type="submit" variant="navy" size="md" isLoading={saving}>
                   {editing ? "Save Changes" : `Create ${config.singular}`}
                 </PrimaryButton>
               </div>

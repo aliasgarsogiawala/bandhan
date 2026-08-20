@@ -53,8 +53,8 @@ export default function MiceHero() {
           className="object-cover"
         />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/75 to-primary/25" />
-      <div className="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-primary/40" />
+      <div className="absolute inset-0 bg-ink-deep/65" />
+      <div className="absolute inset-0 bg-transparent" />
 
       <Container className="relative pb-16 sm:pb-20">
         <div ref={contentRef} className="max-w-4xl will-change-transform">
@@ -100,7 +100,7 @@ export default function MiceHero() {
       </Container>
 
       <div
-        className="absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-gold/70 to-transparent"
+        className="absolute bottom-0 left-0 h-px w-full bg-gold/45"
         aria-hidden="true"
       />
     </header>

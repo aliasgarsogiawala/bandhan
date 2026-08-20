@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
+import { ParallaxBand } from "@/components/ui/ParallaxBand";
 
 interface CTAProps {
   onStartPlanningClick: () => void;
@@ -12,21 +12,12 @@ interface CTAProps {
 
 export const CTA: React.FC<CTAProps> = ({ onStartPlanningClick }) => {
   return (
-    <section id="special-packages" className="relative z-10 overflow-hidden py-24 sm:py-32">
-      {/* Background Image */}
-      <div className="absolute inset-0 h-full w-full">
-        <Image
-          src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=90&w=3200"
-          alt="Adventure Background"
-          fill
-          sizes="100vw"
-          className="object-cover object-center"
-        />
-        {/* Calmer, deeper navy gradient */}
-        <div className="absolute inset-0 bg-gradient-to-r from-ink-deep via-ink-deep/80 via-45% to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,transparent_60%,rgba(3,12,23,0.22)_100%)]" />
-      </div>
-
+    <ParallaxBand
+      id="special-packages"
+      image="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=90&w=3200"
+      overlay={65}
+      className="py-28 sm:py-36 lg:py-44"
+    >
       <Container className="relative z-10">
         <div className="max-w-2xl space-y-7 text-white">
           <span className="inline-flex items-center gap-2.5 text-[0.7rem] font-bold uppercase tracking-[0.28em] text-gold">
@@ -52,7 +43,7 @@ export const CTA: React.FC<CTAProps> = ({ onStartPlanningClick }) => {
           </div>
         </div>
       </Container>
-    </section>
+    </ParallaxBand>
   );
 };
 

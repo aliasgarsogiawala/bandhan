@@ -11,6 +11,10 @@ export const SESSION_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
 
 const SECRET = process.env.AUTH_SECRET || "bandhan-user-auth-dev-secret";
 
+export function isAuthConfigured(): boolean {
+  return process.env.NODE_ENV !== "production" || Boolean(process.env.AUTH_SECRET);
+}
+
 function hmac(value: string): string {
   return crypto.createHmac("sha256", SECRET).update(value).digest("hex");
 }
@@ -20,6 +24,7 @@ export function signSession(userId: string): string {
 }
 
 export function verifySession(token?: string | null): string | null {
+  if (!isAuthConfigured()) return null;
   if (!token) return null;
   const dot = token.lastIndexOf(".");
   if (dot <= 0) return null;

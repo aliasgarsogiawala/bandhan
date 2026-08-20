@@ -3,8 +3,12 @@ import { isDbConfigured } from "@/lib/db";
 import { findAgentByEmail } from "@/lib/auth/agents";
 import { verifyPassword } from "@/lib/auth/password";
 import { AGENT_COOKIE, agentSessionCookieOptions, signAgentSession } from "@/lib/auth/agentSession";
+import { isAuthConfigured } from "@/lib/auth/session";
 
 export async function POST(request: Request) {
+  if (!isAuthConfigured()) {
+    return NextResponse.json({ ok: false, error: "Authentication is not configured." }, { status: 503 });
+  }
   if (!isDbConfigured()) {
     return NextResponse.json(
       { ok: false, error: "Sign-in isn't available yet — the database isn't configured." },

@@ -4,9 +4,11 @@ import React from "react";
 import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { Stagger, StaggerItem } from "@/components/ui/Stagger";
-import { whyChooseUs } from "@/data/mockData";
+import type { WhyChooseItem } from "@/data/mockData";
+import { useCollection } from "@/lib/admin/store";
 
 export const WhyChooseUs: React.FC = () => {
+  const { items: whyChooseUs } = useCollection<WhyChooseItem>("features");
   // Render custom icons based on name
   const renderIcon = (name: string) => {
     const baseClass = "w-6 h-6 stroke-[2]";
@@ -48,9 +50,7 @@ export const WhyChooseUs: React.FC = () => {
   };
 
   return (
-    <section id="why-choose-us" className="relative z-10 overflow-hidden bg-ink py-20 sm:py-28">
-      <div className="pointer-events-none absolute -left-40 bottom-0 h-[440px] w-[440px] rounded-full bg-primary-light/18 blur-[150px]" aria-hidden="true" />
-      <div className="pointer-events-none absolute -right-32 top-0 h-[360px] w-[360px] rounded-full bg-gold/[0.06] blur-[130px]" aria-hidden="true" />
+    <section id="why-choose-us" className="surface-grain edge-hairline-top relative z-10 overflow-hidden bg-ink py-20 sm:py-28">
       <Container className="relative">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
           {/* Left Text details */}

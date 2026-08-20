@@ -12,6 +12,8 @@ import {
   BOOKING_STATUS_PIPELINE,
 } from "@/lib/bookings/types";
 import type { BookingDetail } from "@/lib/bookings/types";
+import { BookingTravellerEditor } from "@/components/account/BookingTravellerEditor";
+import { PaymentCheckoutButton } from "@/components/account/PaymentCheckoutButton";
 
 const DOC_LABELS: Record<string, string> = {
   quotation: "Quotation",
@@ -84,11 +86,18 @@ export default function AccountBookingDetailPage() {
                       </Link>
                     )}
                     <Link
+                      href={`/api/bookings/${booking.id}/quotation`}
+                      target="_blank"
+                      className="text-xs font-bold uppercase tracking-wider text-primary hover:text-accent whitespace-nowrap"
+                    >
+                      Quotation PDF →
+                    </Link>
+                    <Link
                       href={`/api/bookings/${booking.id}/brochure`}
                       target="_blank"
                       className="text-xs font-bold uppercase tracking-wider text-accent hover:text-accent-dark whitespace-nowrap"
                     >
-                      Proposal Brochure →
+                      Trip Brochure →
                     </Link>
                   </div>
                 </div>
@@ -135,6 +144,8 @@ export default function AccountBookingDetailPage() {
                   </div>
                 </div>
 
+                <PaymentCheckoutButton booking={booking} />
+
                 {/* Status timeline */}
                 <div className="mt-8">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-muted block mb-3">
@@ -163,12 +174,42 @@ export default function AccountBookingDetailPage() {
                 </div>
               </div>
 
+              <BookingTravellerEditor booking={booking} onSaved={setBooking} />
+
               {/* Documents */}
               <div className="bg-white rounded-3xl shadow-premium border border-slate-100/80 p-6 sm:p-8">
                 <h2 className="text-lg font-heading font-bold text-primary mb-4">Documents</h2>
+                <div className="mb-5 grid gap-3 sm:grid-cols-2">
+                  <div className="rounded-2xl bg-primary p-5 text-white">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-gold">
+                      Generated for your party
+                    </span>
+                    <h3 className="mt-1 font-heading text-lg font-bold">Personalised quotation</h3>
+                    <p className="mt-2 text-xs leading-relaxed text-slate-300">
+                      Traveller rates, rooms, advance, balance and validity.
+                    </p>
+                    <div className="mt-4 flex gap-3 text-xs font-bold">
+                      <a href={`/api/bookings/${booking.id}/quotation`} target="_blank" rel="noreferrer" className="text-gold">Preview</a>
+                      <a href={`/api/bookings/${booking.id}/quotation?download=1`} className="text-white">Download</a>
+                    </div>
+                  </div>
+                  <div className="rounded-2xl border border-gold/30 bg-sand p-5">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-accent">
+                      Your complete journey
+                    </span>
+                    <h3 className="mt-1 font-heading text-lg font-bold text-primary">Personalised trip brochure</h3>
+                    <p className="mt-2 text-xs leading-relaxed text-foreground-muted">
+                      Party details, itinerary, inclusions and trip estimate.
+                    </p>
+                    <div className="mt-4 flex gap-3 text-xs font-bold">
+                      <a href={`/api/bookings/${booking.id}/brochure`} target="_blank" rel="noreferrer" className="text-accent">Preview</a>
+                      <a href={`/api/bookings/${booking.id}/brochure?download=1`} className="text-primary">Download</a>
+                    </div>
+                  </div>
+                </div>
                 {booking.documents.length === 0 ? (
                   <p className="text-sm text-foreground-muted font-sans">
-                    No documents have been shared yet.
+                    No additional documents have been shared yet.
                   </p>
                 ) : (
                   <ul className="space-y-2">

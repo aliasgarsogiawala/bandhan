@@ -8,7 +8,7 @@ import Footer from "@/components/common/Footer";
 import { Container } from "@/components/ui/Container";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
-import { store } from "@/lib/admin/store";
+import { submitEnquiry } from "@/lib/admin/store";
 
 const bentoIcon = (
   path: React.ReactNode,
@@ -31,6 +31,7 @@ function ContactContent() {
   const [preferredContact, setPreferredContact] = useState<"WhatsApp" | "Phone call" | "Email">("WhatsApp");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [prefillDestination, setPrefillDestination] = useState("");
   const [highlight, setHighlight] = useState(false);
   const formCardRef = useRef<HTMLDivElement>(null);
@@ -81,28 +82,27 @@ function ContactContent() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
-    // Persist the lead to the admin store (localStorage-backed).
-    store.add("enquiries", {
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      destination: prefillDestination,
-      subject: formData.subject,
-      message: `${formData.message}\n\nPreferred contact: ${preferredContact}`,
-      source: "contact-page",
-      status: "new",
-      createdAt: new Date().toISOString(),
-    });
-
-    setTimeout(() => {
+    setSubmitError("");
+    try {
+      await submitEnquiry({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        destination: prefillDestination,
+        subject: formData.subject,
+        message: `${formData.message}\n\nPreferred contact: ${preferredContact}`,
+        source: "contact-page",
+      });
       setIsSubmitting(false);
       setSubmitted(true);
       setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
-    }, 1500);
+    } catch (error) {
+      setIsSubmitting(false);
+      setSubmitError(error instanceof Error ? error.message : "Could not send your message.");
+    }
   };
 
   return (
@@ -118,19 +118,19 @@ function ContactContent() {
           priority
           className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/85 via-primary/80 to-primary-dark/95" />
+        <div className="absolute inset-0 bg-ink-deep/75" />
         <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_20%_20%,rgba(254,209,79,0.25),transparent_45%),radial-gradient(circle_at_80%_60%,rgba(254,209,79,0.2),transparent_40%)]" />
         <Container className="relative z-10 flex flex-col items-center text-center text-white">
-          <span className="px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-gold text-xs font-semibold uppercase tracking-widest mb-6 inline-block animate-fade-in">
+          <span className="px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-gold text-xs font-semibold uppercase tracking-widest mb-6 inline-block">
             We&apos;d Love To Hear From You
           </span>
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold mb-6 leading-[1.05] max-w-3xl tracking-[-0.015em] text-white [text-shadow:0_2px_24px_rgba(3,16,32,0.45)] font-heading animate-fade-in-up">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold mb-6 leading-[1.05] max-w-3xl tracking-[-0.015em] text-white [text-shadow:0_2px_24px_rgba(3,16,32,0.45)] font-heading">
             Let&apos;s Plan Your Next Adventure
           </h1>
-          <p className="text-base sm:text-lg text-slate-200 max-w-2xl font-light leading-relaxed mb-10 animate-fade-in-up">
+          <p className="text-base sm:text-lg text-slate-200 max-w-2xl font-light leading-relaxed mb-10">
             Have a question about a package, group booking, or a custom itinerary? Our travel designers are just a message away.
           </p>
-          <div className="flex w-full max-w-xs flex-col justify-center gap-3 animate-fade-in-up sm:w-auto sm:max-w-none sm:flex-row sm:flex-wrap">
+          <div className="flex w-full max-w-xs flex-col justify-center gap-3 sm:w-auto sm:max-w-none sm:flex-row sm:flex-wrap">
             <PrimaryButton variant="coral" size="lg" onClick={scrollToForm} className="w-full sm:w-auto">
               Start an Enquiry
             </PrimaryButton>
@@ -434,7 +434,7 @@ function ContactContent() {
                 }`}
               >
                 {prefillDestination && !submitted && (
-                  <div className="mb-6 flex items-center gap-3 rounded-2xl bg-accent/10 border border-accent/20 px-4 py-3 animate-fade-in-up">
+                  <div className="mb-6 flex items-center gap-3 rounded-2xl bg-accent/10 border border-accent/20 px-4 py-3">
                     <span className="text-lg" aria-hidden="true">✨</span>
                     <p className="text-sm text-primary font-sans">
                       Great pick! We&apos;ve started your enquiry for{" "}
@@ -444,7 +444,7 @@ function ContactContent() {
                 )}
                 {submitted ? (
                   <div className="text-center py-10 space-y-4">
-                    <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner animate-scale-up">
+                    <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="32"
@@ -557,6 +557,7 @@ function ContactContent() {
                     </div>
 
                     <div className="pt-2">
+                      {submitError && <p className="mb-3 text-center text-sm font-semibold text-red-600">{submitError}</p>}
                       <PrimaryButton type="submit" variant="coral" isLoading={isSubmitting} fullWidth size="md">
                         Send Message
                       </PrimaryButton>

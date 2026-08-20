@@ -198,14 +198,14 @@ export default function DestinationGuideClient({ id }: { id: string }) {
         <section className="relative isolate flex min-h-[100svh] items-end overflow-hidden bg-primary">
           {/* background image */}
           <div className="absolute inset-0">
-            <Image src={destination.image} alt={destination.name} fill priority sizes="100vw" className="object-cover opacity-70 animate-scale-up" />
-            <div className="absolute inset-0 bg-gradient-to-tr from-primary-dark via-primary/80 to-primary/20" />
-            <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/30 to-transparent" />
+            <Image src={destination.image} alt={destination.name} fill priority sizes="100vw" className="object-cover opacity-70" />
+            <div className="absolute inset-0 bg-ink-deep/60" />
+            <div className="absolute inset-0 bg-ink-deep/50" />
           </div>
 
           {/* decorative floating shapes */}
-          <LeafSprig className="pointer-events-none absolute right-[6%] top-[22%] hidden h-28 w-28 text-gold/30 animate-float md:block" />
-          <Compass className="pointer-events-none absolute left-[4%] top-[18%] hidden h-40 w-40 text-white/10 animate-spin-slow lg:block" />
+          <LeafSprig className="pointer-events-none absolute right-[6%] top-[22%] hidden h-28 w-28 text-gold/30 md:block" />
+          <Compass className="pointer-events-none absolute left-[4%] top-[18%] hidden h-40 w-40 text-white/10 lg:block" />
 
           {/* topo texture overlay */}
           <TopoPattern className="pointer-events-none absolute inset-0 h-full w-full text-white/[0.04]" />
@@ -225,7 +225,7 @@ export default function DestinationGuideClient({ id }: { id: string }) {
             </nav>
 
             <div className="mt-16 max-w-3xl">
-              <div className="mb-5 flex flex-wrap items-center gap-2 opacity-0 animate-fade-in-down" style={{ animationDelay: "0.1s" }}>
+              <div className="mb-5 flex flex-wrap items-center gap-2 opacity-0" style={{ animationDelay: "0.1s" }}>
                 {destination.tag && (
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-gold px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-primary">
                     {isNature && <LeafSprig className="h-3.5 w-3.5" />}
@@ -239,28 +239,28 @@ export default function DestinationGuideClient({ id }: { id: string }) {
                 )}
               </div>
 
-              <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold opacity-0 animate-fade-in-down" style={{ animationDelay: "0.2s" }}>
+              <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold opacity-0" style={{ animationDelay: "0.2s" }}>
                 A Bandhan destination guide
               </p>
 
               <h1
-                className="mt-4 font-heading text-4xl font-extrabold leading-[0.96] text-white opacity-0 animate-fade-in-up min-[380px]:text-5xl sm:text-7xl sm:leading-[0.92] lg:text-8xl"
+                className="mt-4 font-heading text-4xl font-extrabold leading-[0.96] text-white opacity-0 min-[380px]:text-5xl sm:text-7xl sm:leading-[0.92] lg:text-8xl"
                 style={{ animationDelay: "0.3s" }}
               >
                 {destination.name}
               </h1>
 
-              <InkUnderline className="mt-6 h-3 w-44 text-gold opacity-0 animate-fade-in" style={{ animationDelay: "0.55s" }} />
+              <InkUnderline className="mt-6 h-3 w-44 text-gold opacity-0" style={{ animationDelay: "0.55s" }} />
 
               <p
-                className="mt-6 max-w-2xl text-base leading-relaxed text-white/85 sm:text-xl opacity-0 animate-fade-in-up"
+                className="mt-6 max-w-2xl text-base leading-relaxed text-white/85 sm:text-xl opacity-0"
                 style={{ animationDelay: "0.45s" }}
               >
                 {destination.tagline || destination.description}
               </p>
 
               <div
-                className="mt-9 flex flex-col items-start gap-x-7 gap-y-4 opacity-0 animate-fade-in-up sm:flex-row sm:flex-wrap sm:items-center"
+                className="mt-9 flex flex-col items-start gap-x-7 gap-y-4 opacity-0 sm:flex-row sm:flex-wrap sm:items-center"
                 style={{ animationDelay: "0.6s" }}
               >
                 <Link
@@ -395,7 +395,7 @@ export default function DestinationGuideClient({ id }: { id: string }) {
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       className="object-cover opacity-50 transition-all duration-[900ms] ease-out group-hover:scale-110 group-hover:opacity-60"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-primary-dark via-primary/70 to-primary/15" />
+                    <div className="absolute inset-0 bg-ink-deep/60" />
                     <div className="relative flex h-full flex-col justify-end">
                       <span className="mb-auto inline-flex h-9 w-fit items-center rounded-full bg-white/10 px-3 text-xs font-extrabold text-gold ring-1 ring-inset ring-white/15 backdrop-blur-sm">
                         {String(index + 1).padStart(2, "0")}
@@ -447,11 +447,11 @@ export default function DestinationGuideClient({ id }: { id: string }) {
                 {/* right timeline */}
                 <ol className="relative p-8 lg:p-10">
                   {/* vertical line */}
-                  <span className="absolute left-[3.4rem] top-12 bottom-12 w-px bg-gradient-to-b from-accent/40 via-accent/20 to-transparent" />
+                  <span className="absolute left-[3.4rem] top-12 bottom-12 w-px bg-accent/25" />
                   {guide.route.map((stop, index) => (
                     <li key={stop.title} className="relative grid grid-cols-[2.5rem_1fr] gap-5 pb-8 last:pb-0">
                       <div className="relative">
-                        <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-gradient-to-br from-accent to-accent-dark text-xs font-extrabold text-white shadow-lg shadow-accent/25">
+                        <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-accent text-xs font-extrabold text-white shadow-lg shadow-accent/25">
                           {String(index + 1).padStart(2, "0")}
                         </span>
                       </div>
@@ -482,7 +482,7 @@ export default function DestinationGuideClient({ id }: { id: string }) {
               {guide.seasons.map((season, index) => (
                 <Reveal key={season.title} delay={index * 110}>
                   <article className="group relative h-full overflow-hidden rounded-[1.5rem] border border-primary/5 bg-white px-7 py-8 shadow-soft transition-all duration-500 hover:-translate-y-1.5 hover:shadow-premium">
-                    <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-gradient-to-r from-gold to-accent transition-transform duration-500 group-hover:scale-x-100" />
+                    <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-gold transition-transform duration-500 group-hover:scale-x-100" />
                     <SunMark className="h-9 w-9 text-gold transition-transform duration-500 group-hover:rotate-90" />
                     <span className="mt-5 block text-[10px] font-bold uppercase tracking-[0.18em] text-accent">
                       Season {index + 1}
@@ -536,7 +536,7 @@ export default function DestinationGuideClient({ id }: { id: string }) {
               </Reveal>
 
               <Reveal delay={140}>
-                <aside className="relative h-full overflow-hidden rounded-[1.75rem] border border-primary/10 bg-gradient-to-br from-sand-dark to-sand p-8">
+                <aside className="relative h-full overflow-hidden rounded-[1.75rem] border border-primary/10 bg-sand-dark p-8">
                   <CornerFlourish className="absolute right-3 top-3 h-12 w-12 text-accent/30" />
                   <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gold/25 text-primary ring-1 ring-inset ring-gold/30">
                     <Sparkles size={18} />
@@ -597,9 +597,9 @@ export default function DestinationGuideClient({ id }: { id: string }) {
                 sizes="100vw"
                 className="-z-10 object-cover opacity-20"
               />
-              <div className="-z-10 absolute inset-0 bg-gradient-to-t from-primary-dark via-primary/90 to-primary/70" />
-              <LeafSprig className="pointer-events-none absolute left-6 top-6 h-12 w-12 text-gold/40 animate-float" />
-              <LeafSprig className="pointer-events-none absolute bottom-6 right-6 h-12 w-12 rotate-180 text-gold/40 animate-float-slow" />
+              <div className="-z-10 absolute inset-0 bg-ink-deep/70" />
+              <LeafSprig className="pointer-events-none absolute left-6 top-6 h-12 w-12 text-gold/40" />
+              <LeafSprig className="pointer-events-none absolute bottom-6 right-6 h-12 w-12 rotate-180 text-gold/40" />
 
               <Reveal>
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-gold">Ready when you are</p>

@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Compass, MessageSquarePlus, ShieldCheck, Star } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-import { testimonialData, TestimonialItem } from "@/data/testimonialData";
+import type { TestimonialItem } from "@/data/testimonialData";
+import type { Testimonial } from "@/lib/admin/types";
+import { useCollection } from "@/lib/admin/store";
 import { TrustStatistics } from "./TrustStatistics";
 import { TestimonialCarousel } from "./TestimonialCarousel";
 import { ReviewModal } from "./ReviewModal";
@@ -17,6 +19,28 @@ interface TestimonialsSectionProps {
 }
 
 export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ className = "" }) => {
+  const { items } = useCollection<Testimonial>("testimonials");
+  const testimonials = useMemo<TestimonialItem[]>(
+    () =>
+      items.map((item) => ({
+        id: item.id,
+        name: item.name,
+        city: item.city || "India",
+        tour: item.tour || item.destination,
+        destination: item.destination,
+        category: item.category || "Family",
+        rating: item.rating,
+        review: item.review,
+        shortReview: item.shortReview,
+        profileImage: item.profileImage || item.photo || "/logo.svg",
+        tripImages: item.tripImages || [],
+        travelMonth: item.travelMonth || "",
+        isVerified: item.isVerified ?? true,
+        tourManager: item.tourManager,
+        language: item.language,
+      })),
+    [items]
+  );
   const [activeModalItem, setActiveModalItem] = useState<TestimonialItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
@@ -40,8 +64,6 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ classN
       className={`relative isolate z-30 overflow-hidden bg-[#061625] py-14 text-white sm:py-20 lg:py-24 ${className}`}
     >
       <div className="pointer-events-none absolute inset-0 opacity-25 [background-image:linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] [background-size:72px_72px]" />
-      <div className="pointer-events-none absolute -left-52 top-0 h-[520px] w-[520px] rounded-full bg-primary-light/20 blur-[150px]" />
-      <div className="pointer-events-none absolute -right-48 top-12 h-[430px] w-[430px] rounded-full bg-gold/[0.08] blur-[140px]" />
 
       <Container className="relative z-10">
         <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-16">
@@ -84,7 +106,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ classN
             initial={{ opacity: 0, x: 18 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="relative overflow-hidden rounded-[1.75rem] border border-gold/30 bg-gradient-to-br from-[#102c47] to-[#081a2d] p-5 shadow-[0_30px_80px_-36px_rgba(0,0,0,0.9)] sm:p-6"
+            className="relative overflow-hidden rounded-[1.75rem] border border-gold/30 bg-ink-soft p-5 shadow-[0_30px_80px_-36px_rgba(0,0,0,0.9)] sm:p-6"
           >
             <div className="absolute -right-12 -top-12 h-36 w-36 rounded-full border border-gold/10" />
             <div className="relative">
@@ -105,7 +127,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ classN
                 </div>
               </div>
               <div className="mt-6 flex items-center">
-                {testimonialData.slice(0, 5).map((testimonial, index) => (
+                {testimonials.slice(0, 5).map((testimonial, index) => (
                   <Image
                     key={testimonial.id}
                     src={testimonial.profileImage}
@@ -127,10 +149,10 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ classN
         </div>
 
         <div className="mt-3">
-          <TestimonialCarousel testimonials={testimonialData} onReadMore={handleOpenReviewModal} />
+          <TestimonialCarousel testimonials={testimonials} onReadMore={handleOpenReviewModal} />
         </div>
 
-        <div className="mt-10 flex flex-col items-center justify-between gap-5 rounded-3xl border border-gold/20 bg-gradient-to-r from-[#0d263f] to-[#091c30] px-6 py-6 shadow-[0_24px_70px_-42px_rgba(0,0,0,0.9)] sm:flex-row sm:px-8 sm:text-left">
+        <div className="mt-10 flex flex-col items-center justify-between gap-5 rounded-3xl border border-gold/20 bg-ink-soft px-6 py-6 shadow-[0_24px_70px_-42px_rgba(0,0,0,0.9)] sm:flex-row sm:px-8 sm:text-left">
           <div>
             <h3 className="font-heading text-xl font-semibold text-white">Every journey has a story.</h3>
             <p className="mt-1.5 text-sm text-white/45">Share yours and inspire the next traveller.</p>

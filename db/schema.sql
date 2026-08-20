@@ -13,6 +13,22 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE INDEX IF NOT EXISTS users_email_idx ON users (email);
 
+ALTER TABLE users ADD COLUMN IF NOT EXISTS phone text;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS updated_at timestamptz NOT NULL DEFAULT now();
+
+CREATE TABLE IF NOT EXISTS customer_travellers (
+  id           uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id      uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  name         text NOT NULL,
+  email        text,
+  phone        text,
+  relationship text,
+  created_at   timestamptz NOT NULL DEFAULT now(),
+  updated_at   timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS customer_travellers_user_id_idx ON customer_travellers (user_id);
+
 CREATE TABLE IF NOT EXISTS agents (
   id            uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   name          text NOT NULL,
@@ -145,6 +161,36 @@ CREATE TABLE IF NOT EXISTS booking_notifications (
 );
 
 CREATE INDEX IF NOT EXISTS booking_notifications_booking_id_idx ON booking_notifications (booking_id);
+
+-- Shared website content. The JSON payload preserves the rich package,
+-- destination and blog shapes while keeping every admin edit centralized.
+CREATE TABLE IF NOT EXISTS site_content (
+  collection_key text NOT NULL,
+  item_id        text NOT NULL,
+  data           jsonb NOT NULL,
+  sort_order     int NOT NULL DEFAULT 0,
+  created_at     timestamptz NOT NULL DEFAULT now(),
+  updated_at     timestamptz NOT NULL DEFAULT now(),
+  PRIMARY KEY (collection_key, item_id)
+);
+
+CREATE INDEX IF NOT EXISTS site_content_collection_idx
+  ON site_content (collection_key, sort_order, updated_at DESC);
+
+CREATE TABLE IF NOT EXISTS booking_payments (
+  id                  uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  booking_id          uuid NOT NULL REFERENCES bookings(id) ON DELETE CASCADE,
+  provider            text NOT NULL DEFAULT 'stripe',
+  provider_session_id text NOT NULL UNIQUE,
+  provider_payment_id text,
+  amount_minor        int NOT NULL,
+  currency            text NOT NULL DEFAULT 'inr',
+  status              text NOT NULL DEFAULT 'pending', -- pending | processing | paid | failed | refunded
+  created_at          timestamptz NOT NULL DEFAULT now(),
+  updated_at          timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS booking_payments_booking_id_idx ON booking_payments (booking_id);
 
 INSERT INTO group_departures (destination, date, duration, price, seats_left, total_seats, status)
 SELECT * FROM (VALUES

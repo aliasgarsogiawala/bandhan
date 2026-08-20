@@ -109,7 +109,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/40 to-primary/30" />
+        <div className="absolute inset-0 bg-ink-deep/60" />
 
         <Container className="relative pb-10 sm:pb-20">
           <nav
@@ -405,7 +405,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                         sizes="(max-width: 768px) 100vw, 50vw"
                         className="object-cover transition-transform duration-700 group-hover:scale-105"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-primary/70 via-transparent to-transparent opacity-100 transition-opacity duration-500 sm:opacity-0 sm:group-hover:opacity-100" />
+                      <div className="absolute inset-0 bg-ink-deep/50 opacity-100 transition-opacity duration-500 sm:opacity-0 sm:group-hover:opacity-100" />
                       <span className="absolute bottom-4 left-4 right-4 translate-y-0 text-sm font-semibold text-white opacity-100 transition-all duration-500 sm:translate-y-2 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100">
                         {item.caption}
                       </span>
@@ -472,10 +472,6 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
           <aside className="lg:sticky lg:top-24 space-y-6">
             <div className="bg-white rounded-3xl shadow-premium border border-slate-100/80 overflow-hidden">
               <div className="bg-primary px-6 py-6 text-white relative overflow-hidden">
-                <div
-                  className="absolute -top-10 -right-10 w-36 h-36 rounded-full bg-gold/20 blur-2xl"
-                  aria-hidden="true"
-                />
                 <span className="text-[10px] font-bold uppercase tracking-widest text-gold block">
                   Starting From
                 </span>
@@ -635,7 +631,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                       sizes="(max-width: 768px) 100vw, 33vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-primary/85 via-primary/25 to-transparent" />
+                    <div className="absolute inset-0 bg-ink-deep/55" />
                     <div className="absolute bottom-0 left-0 right-0 p-5">
                       <span className="text-[10px] font-bold uppercase tracking-wider text-gold block">
                         {related.duration}

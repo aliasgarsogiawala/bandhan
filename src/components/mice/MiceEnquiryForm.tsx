@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Check } from "lucide-react";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
-import { store } from "@/lib/admin/store";
+import { submitEnquiry } from "@/lib/admin/store";
 
 const EVENT_TYPES = [
   "Meeting / leadership offsite",
@@ -57,6 +57,8 @@ export default function MiceEnquiryForm() {
   const [services, setServices] = useState<string[]>([]);
   const [submitted, setSubmitted] = useState(false);
   const [reference, setReference] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -73,8 +75,10 @@ export default function MiceEnquiryForm() {
     );
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    setSubmitting(true);
+    setSubmitError("");
 
     const brief = [
       `Company: ${form.company}`,
@@ -92,24 +96,27 @@ export default function MiceEnquiryForm() {
       .filter(Boolean)
       .join("\n");
 
-    store.add("enquiries", {
-      name: form.name,
-      email: form.email,
-      phone: form.phone,
-      destination: form.destination,
-      travelMonth: form.travelWindow,
-      guests: form.delegates,
-      subject: `MICE — ${form.eventType} · ${form.company}`,
-      message: brief,
-      source: "mice-page",
-      status: "new",
-      createdAt: new Date().toISOString(),
-    });
-
-    setReference(form.company);
-    setSubmitted(true);
-    setForm(emptyForm);
-    setServices([]);
+    try {
+      await submitEnquiry({
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        destination: form.destination,
+        travelMonth: form.travelWindow,
+        guests: form.delegates,
+        subject: `MICE — ${form.eventType} · ${form.company}`,
+        message: brief,
+        source: "mice-page",
+      });
+      setReference(form.company);
+      setSubmitted(true);
+      setForm(emptyForm);
+      setServices([]);
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : "Could not submit your brief.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -344,9 +351,12 @@ export default function MiceEnquiryForm() {
         <p className="text-xs leading-relaxed text-foreground-light">
           We use these details only to prepare your proposal.
         </p>
-        <PrimaryButton type="submit" variant="coral" size="md">
-          Send the brief
-        </PrimaryButton>
+        <div>
+          {submitError && <p className="mb-2 max-w-sm text-sm font-semibold text-red-600">{submitError}</p>}
+          <PrimaryButton type="submit" variant="coral" size="md" isLoading={submitting}>
+            Send the brief
+          </PrimaryButton>
+        </div>
       </div>
     </form>
   );

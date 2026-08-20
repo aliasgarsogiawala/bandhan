@@ -7,6 +7,10 @@ export const SESSION_MAX_AGE = 60 * 60 * 8; // 8 hours
 const DEFAULT_PASSWORD = "bandhan@admin";
 const DEFAULT_SECRET = "bandhan-admin-session-secret";
 
+export function isAdminConfigured(): boolean {
+  return process.env.NODE_ENV !== "production" || Boolean(process.env.ADMIN_PASSWORD && process.env.ADMIN_SESSION_SECRET);
+}
+
 export function getAdminPassword(): string {
   return process.env.ADMIN_PASSWORD || DEFAULT_PASSWORD;
 }
@@ -25,6 +29,7 @@ export function sessionToken(): string {
 }
 
 export function isValidToken(token?: string | null): boolean {
+  if (!isAdminConfigured()) return false;
   if (!token) return false;
   const expected = sessionToken();
   // Length guard avoids timingSafeEqual throwing on mismatched buffer sizes.

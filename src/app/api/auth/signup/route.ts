@@ -2,11 +2,14 @@ import { NextResponse } from "next/server";
 import { isDbConfigured } from "@/lib/db";
 import { createUser } from "@/lib/auth/users";
 import { hashPassword } from "@/lib/auth/password";
-import { signSession, USER_COOKIE, sessionCookieOptions } from "@/lib/auth/session";
+import { isAuthConfigured, signSession, USER_COOKIE, sessionCookieOptions } from "@/lib/auth/session";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(request: Request) {
+  if (!isAuthConfigured()) {
+    return NextResponse.json({ ok: false, error: "Authentication is not configured." }, { status: 503 });
+  }
   if (!isDbConfigured()) {
     return NextResponse.json(
       { ok: false, error: "Sign-up isn't available yet — the database isn't configured." },

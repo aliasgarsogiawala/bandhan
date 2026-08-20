@@ -48,11 +48,11 @@ export async function getCustomerDetail(id: string): Promise<CustomerDetail | nu
   const sql = getSql();
 
   const users = (await sql`
-    SELECT id, name, email, created_at
+    SELECT id, name, email, phone, created_at
     FROM users
     WHERE id = ${id}
     LIMIT 1
-  `) as Pick<CustomerSummary, "id" | "name" | "email" | "created_at">[];
+  `) as Array<Pick<CustomerSummary, "id" | "name" | "email" | "created_at"> & { phone: string | null }>;
 
   const user = users[0];
   if (!user) return null;
@@ -72,7 +72,7 @@ export async function getCustomerDetail(id: string): Promise<CustomerDetail | nu
   `) as CustomerCommunication[];
 
   const lastBookingAt = bookings[0]?.created_at ?? null;
-  const phone = bookings.find((b) => b.contact_phone)?.contact_phone ?? null;
+  const phone = user.phone || bookings.find((b) => b.contact_phone)?.contact_phone || null;
 
   return {
     ...user,

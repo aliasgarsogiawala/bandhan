@@ -366,11 +366,14 @@ export async function renderQuotationPdf(booking: Booking): Promise<Uint8Array> 
     size: 7,
     color: C.light,
   });
-  cardLabelValue(doc, `${quote.depositPercent}% booking advance`, formatMoney(quote.depositAmount), MARGIN + 324, doc.y + 19, 82, { dark: true, valueSize: 11 });
-  cardLabelValue(doc, "Balance", formatMoney(quote.balanceAmount), MARGIN + 419, doc.y + 19, 78, { dark: true, valueSize: 11 });
+  cardLabelValue(doc, `${quote.depositPercent}% advance`, formatMoney(quote.depositAmount), MARGIN + 320, doc.y + 19, 86, { dark: true, valueSize: 11 });
+  cardLabelValue(doc, "Balance", formatMoney(quote.balanceAmount), MARGIN + 420, doc.y + 19, 72, { dark: true, valueSize: 11 });
+  doc.y += 125;
 
-  // Page two: named travellers and commercial terms.
-  doc.addPage();
+  // Continue with named travellers and commercial terms. The flow helper keeps
+  // this directly after pricing when space allows and starts a clean page when
+  // a longer quotation needs it.
+  doc.ensure(195);
 
   sectionTitle(doc, "Prepared around your party", "Traveller and booking details");
   const partyTop = doc.y;
@@ -397,24 +400,36 @@ export async function renderQuotationPdf(booking: Booking): Promise<Uint8Array> 
 
   doc.textAt("TRAVELLER NAMES", { y: doc.y, size: 6.5, bold: true, color: C.accent, charSpacing: 0.8 });
   doc.y += 15;
-  names.names.forEach((name, index) => {
-    doc.ensure(31);
-    doc.rect(MARGIN, doc.y, 29, 25, C.primary);
-    doc.textAt(String(index + 1).padStart(2, "0"), { x: MARGIN, y: doc.y + 8, width: 29, align: "center", size: 8, bold: true, color: C.gold });
-    doc.strokeRect(MARGIN + 35, doc.y, CONTENT_WIDTH - 35, 25, C.border, 0.7);
-    doc.textAt(name, { x: MARGIN + 46, y: doc.y + 8, width: CONTENT_WIDTH - 57, size: 8.5, bold: true, color: C.primary });
-    doc.y += 31;
+  const namedTravellerText = names.names
+    .map((name, index) => `${String(index + 1).padStart(2, "0")} ${name}`)
+    .join("   |   ");
+  const namedTravellerLines = doc.wrap(namedTravellerText, CONTENT_WIDTH - 24, 8, true);
+  const namesBoxHeight =
+    18 + namedTravellerLines.length * 13 + (names.pendingCount ? 18 : 0);
+  doc.ensure(namesBoxHeight + 8);
+  doc.rect(MARGIN, doc.y, CONTENT_WIDTH, namesBoxHeight, C.sand);
+  namedTravellerLines.forEach((line, index) => {
+    doc.textAt(line, {
+      x: MARGIN + 12,
+      y: doc.y + 11 + index * 13,
+      width: CONTENT_WIDTH - 24,
+      size: 8,
+      bold: true,
+      color: C.primary,
+    });
   });
   if (names.pendingCount) {
-    doc.rect(MARGIN, doc.y, CONTENT_WIDTH, 30, C.sand);
-    doc.textAt(`${names.pendingCount} additional traveller name${names.pendingCount === 1 ? "" : "s"} can be added before ticketing.`, {
-      x: MARGIN + 12,
-      y: doc.y + 10,
-      size: 7.5,
-      color: C.muted,
-    });
-    doc.y += 40;
+    doc.textAt(
+      `${names.pendingCount} additional traveller name${names.pendingCount === 1 ? "" : "s"} can be added before ticketing.`,
+      {
+        x: MARGIN + 12,
+        y: doc.y + 13 + namedTravellerLines.length * 13,
+        size: 7,
+        color: C.muted,
+      }
+    );
   }
+  doc.y += namesBoxHeight + 8;
 
   if (booking.special_requirements) {
     doc.y += 5;
@@ -439,34 +454,8 @@ export async function renderQuotationPdf(booking: Booking): Promise<Uint8Array> 
     `A ${quote.depositPercent}% advance is requested only after availability is verified and you approve the final services.`,
     "Cancellation, amendment, visa, insurance and supplier-specific conditions will be shared before payment.",
     "Anything not expressly listed as included in the proposal brochure should be treated as excluded.",
+    "Next: share any changes to dates, traveller mix, rooms or experiences before your consultant rechecks availability.",
   ]);
-
-  doc.y += 10;
-  doc.ensure(106);
-  doc.rect(MARGIN, doc.y, CONTENT_WIDTH, 92, C.greenLight);
-  doc.rect(MARGIN, doc.y, 5, 92, C.green);
-  doc.textAt("NEXT STEP", {
-    x: MARGIN + 18,
-    y: doc.y + 17,
-    size: 7,
-    bold: true,
-    color: C.green,
-    charSpacing: 0.8,
-  });
-  doc.textAt("Review, refine, then confirm", {
-    x: MARGIN + 18,
-    y: doc.y + 34,
-    size: 14,
-    bold: true,
-    color: C.primary,
-  });
-  doc.textAt("Share any changes to dates, traveller mix, rooms or experiences. Your consultant will recheck availability before requesting payment.", {
-    x: MARGIN + 18,
-    y: doc.y + 57,
-    width: CONTENT_WIDTH - 36,
-    size: 7.5,
-    color: C.muted,
-  });
 
   return doc.save();
 }

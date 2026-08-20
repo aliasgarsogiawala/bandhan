@@ -14,7 +14,7 @@ function SpotlightPackage({ pkg }: { pkg: TourPackage }) {
   return (
     <Link href={`/packages/${pkg.id}`} className="group relative flex min-h-[34rem] overflow-hidden rounded-[1.75rem] bg-primary shadow-[0_24px_70px_-34px_rgba(7,32,60,0.55)] lg:min-h-[39rem]">
       <Image src={pkg.image} alt={pkg.title} fill sizes="(max-width: 1024px) 100vw, 55vw" className="object-cover transition-transform duration-1000 group-hover:scale-105" />
-      <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/35 to-primary/5" />
+      <div className="absolute inset-0 bg-ink-deep/55" />
       <div className="absolute left-6 top-6 flex flex-wrap gap-2 sm:left-8 sm:top-8">
         <span className="rounded-full border border-white/20 bg-primary/40 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-white backdrop-blur-md">Featured route</span>
         {pkg.isPopular && <span className="rounded-full bg-gold px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-primary">Popular</span>}
@@ -47,8 +47,7 @@ export const FeaturedPackages: React.FC = () => {
   const supportingPackages = filteredPackages.slice(1);
 
   return (
-    <section id="international-tours" className="relative z-10 overflow-hidden bg-[#f7f5f1] py-20 sm:py-24">
-      <div className="pointer-events-none absolute -right-40 top-20 h-96 w-96 rounded-full bg-gold/[0.08] blur-3xl" />
+    <section id="international-tours" className="relative z-10 overflow-hidden bg-sand py-20 sm:py-24">
       <Container className="relative">
         <div className="flex flex-col gap-8 border-b border-primary/10 pb-8 lg:flex-row lg:items-end lg:justify-between">
           <SectionTitle align="left" badge="The Bandhan collection" title="Journeys worth planning for." description="A considered shortlist of holidays, selected for the way they make you feel." className="max-w-2xl" />

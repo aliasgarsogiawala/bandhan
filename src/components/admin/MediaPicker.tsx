@@ -89,7 +89,12 @@ export default function MediaPicker({ value, onChange, multiple = false, label }
         </div>
       </div>
 
-      {showLibrary && <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 rounded-2xl border border-slate-100 bg-sand/60 p-3 max-h-56 overflow-y-auto">{gallery.map((item) => { const active = selected.includes(item.image); return <button key={item.id} type="button" onClick={() => toggleLibraryItem(item.image)} className={`relative aspect-square rounded-xl overflow-hidden border-2 ${active ? "border-accent" : "border-transparent"}`} title={item.title}>{/* eslint-disable-next-line @next/next/no-img-element */}<img src={item.image} alt={item.title} className="w-full h-full object-cover" />{active && <span className="absolute inset-0 bg-accent/35 flex items-center justify-center text-white text-xl">✓</span>}</button>; })}{gallery.length === 0 && <p className="col-span-full py-4 text-xs text-foreground-muted">Add images in Gallery first, or upload new media.</p>}</div>}
+      {showLibrary && <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 rounded-2xl border border-slate-100 bg-sand/60 p-3 max-h-56 overflow-y-auto">{gallery.map((item) => { const active = selected.includes(item.image); return <button key={item.id} type="button" onClick={() => toggleLibraryItem(item.image)} className={`relative aspect-square rounded-xl overflow-hidden border-2 ${active ? "border-accent" : "border-transparent"}`} title={item.title}>
+        {/* Admins may paste media from hosts not known at build time. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+        {active && <span className="absolute inset-0 bg-accent/35 flex items-center justify-center text-white text-xl">✓</span>}
+      </button>; })}{gallery.length === 0 && <p className="col-span-full py-4 text-xs text-foreground-muted">Add images in Gallery first, or upload new media.</p>}</div>}
 
       <div className="flex gap-2"><input type="url" value={multiple ? urlInput : (typeof value === "string" ? value : "")} onChange={(event) => multiple ? setUrlInput(event.target.value) : onChange(event.target.value)} onKeyDown={(event) => { if (multiple && event.key === "Enter") { event.preventDefault(); addUrl(); } }} placeholder={multiple ? "Paste an image URL" : "Or paste an image URL"} className={fieldClass} />{multiple && <button type="button" onClick={addUrl} className="px-4 rounded-xl border border-slate-200 text-xs font-bold text-primary hover:bg-slate-50 whitespace-nowrap">Add URL</button>}</div>
       <p className="text-[11px] text-foreground-light">JPG, PNG, WEBP, or GIF up to 8MB. Click Create/Save after uploading to attach the media.</p>

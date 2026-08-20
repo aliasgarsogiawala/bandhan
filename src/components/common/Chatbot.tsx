@@ -1175,7 +1175,7 @@ export const Chatbot: React.FC = () => {
     <>
       {/* Teaser bubble */}
       {showTeaser && !open && (
-        <div className="fixed bottom-[calc(5rem+env(safe-area-inset-bottom))] left-3 right-3 z-40 animate-fade-in-up lg:bottom-24 lg:left-auto lg:right-6 lg:max-w-[280px]">
+        <div className="fixed bottom-[calc(5rem+env(safe-area-inset-bottom))] left-3 right-3 z-40 lg:bottom-24 lg:left-auto lg:right-6 lg:max-w-[280px]">
           <div className="relative border border-primary/10 bg-white px-4 py-3.5 pr-12 shadow-[0_18px_60px_rgba(7,32,60,0.16)]">
             <button
               onClick={() => {

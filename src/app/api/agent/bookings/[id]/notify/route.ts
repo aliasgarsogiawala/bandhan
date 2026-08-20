@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isDbConfigured } from "@/lib/db";
-import { getActor } from "@/lib/bookings/authz";
+import { actorCanManageBooking, getActor } from "@/lib/bookings/authz";
 import { addNotification, getBookingById } from "@/lib/bookings/db";
 import type { NotificationChannel } from "@/lib/bookings/types";
 
@@ -21,6 +21,9 @@ export async function POST(request: Request, { params }: RouteParams) {
   const { id } = await params;
   const existing = await getBookingById(id);
   if (!existing) return NextResponse.json({ ok: false, error: "Booking not found." }, { status: 404 });
+  if (!actorCanManageBooking(actor, existing)) {
+    return NextResponse.json({ ok: false, error: "This booking is not assigned to you." }, { status: 403 });
+  }
 
   let body: { channel?: string; message?: string };
   try {

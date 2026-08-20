@@ -8,6 +8,8 @@ import type {
   GalleryItem,
   WhyChooseItem,
   BlogPost,
+  Banner,
+  Announcement,
 } from "./types";
 
 const truncate = (s: unknown, n = 60) => {
@@ -242,4 +244,51 @@ export const featuresResource: ResourceConfig<WhyChooseItem> = {
     { name: "description", label: "Description", type: "textarea", fullWidth: true, required: true },
   ],
   empty: { title: "", stat: "", iconName: "experience", description: "" },
+};
+
+export const bannersResource: ResourceConfig<Banner> = {
+  key: "banners",
+  title: "Homepage Banners",
+  singular: "Banner",
+  description: "Hero campaigns shown at the top of the website.",
+  searchKeys: ["title", "highlightedTitle", "badge", "description"],
+  columns: [
+    { key: "image", label: "", render: (item) => <Thumb src={item.image} alt={item.title} /> },
+    { key: "title", label: "Title", className: "font-semibold text-primary" },
+    { key: "badge", label: "Badge" },
+    { key: "isActive", label: "Status", render: (item) => badge(item.isActive ? "Active" : "Hidden", item.isActive ? "bg-emerald-50 text-emerald-600 border-emerald-200" : "bg-slate-100 text-slate-500 border-slate-200") },
+  ],
+  fields: [
+    { name: "badge", label: "Eyebrow badge", type: "text", placeholder: "Handcrafted journeys" },
+    { name: "title", label: "Headline", type: "text", required: true },
+    { name: "highlightedTitle", label: "Highlighted headline", type: "text" },
+    { name: "description", label: "Description", type: "textarea", fullWidth: true },
+    { name: "image", label: "Background image", type: "media", required: true, fullWidth: true },
+    { name: "primaryLabel", label: "Primary button label", type: "text" },
+    { name: "secondaryLabel", label: "Secondary button label", type: "text" },
+    { name: "isActive", label: "Active", type: "boolean", help: "Only active banners are shown publicly." },
+  ],
+  empty: { badge: "", title: "", highlightedTitle: "", description: "", image: "", primaryLabel: "Explore Packages", secondaryLabel: "Plan My Trip", isActive: true },
+};
+
+export const announcementsResource: ResourceConfig<Announcement> = {
+  key: "announcements",
+  title: "Customer Announcements",
+  singular: "Announcement",
+  description: "Notices displayed to signed-in customers on their account page.",
+  searchKeys: ["title", "message"],
+  columns: [
+    { key: "title", label: "Title", className: "font-semibold text-primary" },
+    { key: "message", label: "Message", render: (item) => truncate(item.message) },
+    { key: "isActive", label: "Status", render: (item) => badge(item.isActive ? "Active" : "Hidden", item.isActive ? "bg-emerald-50 text-emerald-600 border-emerald-200" : "bg-slate-100 text-slate-500 border-slate-200") },
+  ],
+  fields: [
+    { name: "title", label: "Title", type: "text", required: true },
+    { name: "message", label: "Message", type: "textarea", fullWidth: true, required: true },
+    { name: "link", label: "Optional link", type: "text", fullWidth: true, placeholder: "/packages" },
+    { name: "startsAt", label: "Starts at", type: "text", placeholder: "2026-08-20" },
+    { name: "endsAt", label: "Ends at", type: "text", placeholder: "2026-09-20" },
+    { name: "isActive", label: "Active", type: "boolean" },
+  ],
+  empty: { title: "", message: "", link: "", startsAt: "", endsAt: "", isActive: true },
 };

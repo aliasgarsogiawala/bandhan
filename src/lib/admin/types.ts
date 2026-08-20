@@ -1,7 +1,6 @@
 import type {
   Destination,
   TourPackage,
-  Testimonial,
   GalleryItem,
   WhyChooseItem,
   BlogPost,
@@ -10,11 +9,51 @@ import type {
 export type {
   Destination,
   TourPackage,
-  Testimonial,
   GalleryItem,
   WhyChooseItem,
   BlogPost,
 };
+
+export interface Testimonial {
+  id: string;
+  name: string;
+  photo?: string;
+  profileImage?: string;
+  destination: string;
+  city?: string;
+  tour?: string;
+  category?: "Family" | "Honeymoon" | "Group" | "Friends" | "Corporate" | "Solo";
+  review: string;
+  shortReview?: string;
+  rating: number;
+  tripImages?: string[];
+  travelMonth?: string;
+  isVerified?: boolean;
+  tourManager?: string;
+  language?: "English" | "Marathi" | "Hindi";
+}
+
+export interface Banner {
+  id: string;
+  title: string;
+  highlightedTitle?: string;
+  badge?: string;
+  description?: string;
+  image: string;
+  primaryLabel?: string;
+  secondaryLabel?: string;
+  isActive: boolean;
+}
+
+export interface Announcement {
+  id: string;
+  title: string;
+  message: string;
+  link?: string;
+  startsAt?: string;
+  endsAt?: string;
+  isActive: boolean;
+}
 
 export interface Enquiry {
   id: string;
@@ -38,6 +77,8 @@ export type CollectionKey =
   | "gallery"
   | "features"
   | "blog"
+  | "banners"
+  | "announcements"
   | "enquiries";
 
 /** A record stored in any collection always has a string id. */

@@ -40,7 +40,7 @@ export default function DestinationsPageClient() {
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/20 to-transparent opacity-85 transition-opacity duration-300 group-hover:opacity-95" />
+                <div className="absolute inset-0 bg-ink-deep/50 opacity-85 transition-opacity duration-300 group-hover:opacity-95" />
                 {dest.tag && (
                   <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-accent shadow-sm backdrop-blur-sm">
                     {dest.tag}

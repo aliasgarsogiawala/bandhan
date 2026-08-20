@@ -81,9 +81,12 @@ export const Countdown: React.FC<{ target: number; className?: string }> = ({ ta
   const [now, setNow] = useState<number | null>(null);
 
   useEffect(() => {
-    setNow(Date.now());
+    const initial = window.setTimeout(() => setNow(Date.now()), 0);
     const t = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(t);
+    return () => {
+      clearTimeout(initial);
+      clearInterval(t);
+    };
   }, []);
 
   const pad = (n: number) => String(n).padStart(2, "0");

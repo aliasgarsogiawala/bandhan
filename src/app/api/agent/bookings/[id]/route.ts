@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isDbConfigured } from "@/lib/db";
-import { getActor } from "@/lib/bookings/authz";
+import { actorCanManageBooking, actorCanViewBooking, getActor } from "@/lib/bookings/authz";
 import {
   assignAgent,
   getBookingById,
@@ -51,6 +51,14 @@ export async function PATCH(request: Request, { params }: RouteParams) {
     body = await request.json();
   } catch {
     return NextResponse.json({ ok: false, error: "Invalid request." }, { status: 400 });
+  }
+
+  if (body.action === "assign") {
+    if (!actorCanViewBooking(actor, existing) || existing.agent_id !== null) {
+      return NextResponse.json({ ok: false, error: "This booking is assigned to another agent." }, { status: 403 });
+    }
+  } else if (!actorCanManageBooking(actor, existing)) {
+    return NextResponse.json({ ok: false, error: "This booking is not assigned to you." }, { status: 403 });
   }
 
   try {

@@ -65,7 +65,7 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
           aria-modal="true"
           aria-labelledby="modal-title"
         >
-          <div className="pointer-events-none absolute inset-x-12 top-0 z-20 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
+          <div className="pointer-events-none absolute inset-x-12 top-0 z-20 h-px bg-gold/50" />
           <button
             type="button"
             onClick={onClose}
@@ -88,16 +88,16 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
                     priority
                   />
                 ) : (
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary-light to-primary-dark" />
+                  <div className="absolute inset-0 bg-primary" />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#061625] via-[#061625]/10 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-[#0b2138]" />
+                <div className="absolute inset-0 bg-ink-deep/55 lg:" />
                 <div className="absolute bottom-5 left-5 flex items-center gap-2 rounded-full border border-white/15 bg-[#061625]/70 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.16em] text-white/80 backdrop-blur-md sm:bottom-7 sm:left-7">
                   <MapPin className="h-3.5 w-3.5 text-gold" aria-hidden="true" />
                   {destination}
                 </div>
               </div>
 
-              <div className="flex flex-col justify-center bg-gradient-to-br from-[#0d2a46] to-[#081a2c] p-6 sm:p-9 lg:p-10">
+              <div className="flex flex-col justify-center bg-ink-soft p-6 sm:p-9 lg:p-10">
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold">A traveller story</p>
                 <h2 id="modal-title" className="mt-4 max-w-xl font-heading text-3xl font-semibold leading-tight text-white sm:text-4xl">
                   {tour}

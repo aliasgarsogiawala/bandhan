@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { isDbConfigured } from "@/lib/db";
 import { getSessionUserId } from "@/lib/auth/session";
-import { getActor } from "@/lib/bookings/authz";
+import { actorCanViewBooking, getActor } from "@/lib/bookings/authz";
 import { getBookingById } from "@/lib/bookings/db";
 import {
   bookingConfirmationFileName,
@@ -41,12 +41,13 @@ export async function GET(request: Request, { params }: RouteParams) {
   const userId = await getSessionUserId();
   const actor = await getActor(request);
   const isOwner = userId && booking.user_id === userId;
-  if (!isOwner && !actor) {
+  const actorHasAccess = actor ? actorCanViewBooking(actor, booking) : false;
+  if (!isOwner && !actorHasAccess) {
     return NextResponse.json({ ok: false, error: "Not authorized." }, { status: 403 });
   }
 
   // The voucher only makes sense once the trip is actually locked in.
-  if (!["confirmed", "completed"].includes(booking.status) && !actor) {
+  if (!["confirmed", "completed"].includes(booking.status) && !actorHasAccess) {
     return NextResponse.json(
       { ok: false, error: "This booking is not confirmed yet." },
       { status: 409 }

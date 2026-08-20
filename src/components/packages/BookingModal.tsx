@@ -132,8 +132,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   };
 
   return createPortal(
-    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-primary/45 p-0 backdrop-blur-md animate-fade-in sm:p-4">
-      <div className="relative flex h-[100dvh] max-h-[100dvh] w-full max-w-lg flex-col overflow-hidden border border-slate-100 bg-white shadow-2xl sm:h-auto sm:max-h-[calc(100dvh-2rem)] sm:rounded-3xl sm:animate-scale-up" role="dialog" aria-modal="true" aria-labelledby="booking-modal-title">
+    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-primary/45 p-0 backdrop-blur-md sm:p-4">
+      <div className="relative flex h-[100dvh] max-h-[100dvh] w-full max-w-lg flex-col overflow-hidden border border-slate-100 bg-white shadow-2xl sm:h-auto sm:max-h-[calc(100dvh-2rem)] sm:rounded-3xl sm:" role="dialog" aria-modal="true" aria-labelledby="booking-modal-title">
         <div className="relative shrink-0 bg-primary px-5 pb-5 pt-[max(1.25rem,env(safe-area-inset-top))] text-white sm:px-6 sm:py-6">
           <button
             onClick={onClose}
@@ -180,7 +180,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             </div>
           ) : bookingCode ? (
             <div className="text-center py-8 space-y-4">
-              <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner animate-scale-up">
+              <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="32"

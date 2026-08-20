@@ -1,50 +1,27 @@
-"use client";
-
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 
 interface ScrollRevealProps {
   children: React.ReactNode;
   className?: string;
+  /** Retained for call-site compatibility; no longer used. */
   delay?: number;
 }
 
-export const ScrollReveal: React.FC<ScrollRevealProps> = ({
-  children,
-  className = "",
-  delay = 0,
-}) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(node);
-        }
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -60px 0px" }
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div
-      ref={ref}
-      style={{ transitionDelay: isVisible ? `${delay}ms` : "0ms" }}
-      className={`transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform motion-reduce:transform-none motion-reduce:opacity-100 motion-reduce:blur-none motion-reduce:transition-none ${
-        isVisible ? "translate-y-0 scale-100 opacity-100 blur-none" : "translate-y-12 scale-[0.985] opacity-0 blur-[2px]"
-      } ${className}`}
-    >
-      {children}
-    </div>
-  );
-};
+/**
+ * Formerly an IntersectionObserver fade-and-lift wrapper.
+ *
+ * The reveal is deliberately gone: content now paints immediately. Beyond the
+ * design direction, the observer had a real cost — anything below the fold
+ * rendered blank until it was scrolled into view, which hurt perceived speed,
+ * printed empty sections in screenshots and previews, and left content missing
+ * for anything that reads the page without scrolling it.
+ *
+ * The component is kept (rather than deleted at ~118 call sites) so the section
+ * markup still reads as intentional grouping, and so a reveal can be
+ * reintroduced in one place if it is ever wanted again.
+ */
+export const ScrollReveal: React.FC<ScrollRevealProps> = ({ children, className = "" }) => (
+  <div className={className}>{children}</div>
+);
 
 export default ScrollReveal;

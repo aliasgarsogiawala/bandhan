@@ -25,8 +25,11 @@ export interface CustomPackageEmailInput {
   priceAmount?: string | null;
   /** File name of the attached PDF, shown in the attachment chip. */
   pdfFileName?: string;
+  /** Optional second PDF, used when quotation and brochure are separate files. */
+  secondaryPdfFileName?: string;
   /** Direct download link to the PDF (portal/storage) — optional fallback. */
   pdfUrl?: string;
+  secondaryPdfUrl?: string;
   /** Link to the booking inside the customer portal. */
   portalUrl?: string;
   /** Travel designer who prepared the plan, shown in the sign-off. */
@@ -84,15 +87,19 @@ export function buildCustomPackageEmail(input: CustomPackageEmailInput): EmailCo
     travellersCount,
     priceAmount,
     pdfFileName = `Bandhan-Tours-Itinerary-${bookingCode}.pdf`,
+    secondaryPdfFileName,
     pdfUrl,
+    secondaryPdfUrl,
     portalUrl,
     agentName,
     validityNote,
   } = input;
 
   const firstName = (customerName || "there").trim().split(/\s+/)[0];
-  const subject = `Your custom itinerary is ready — ${packageTitle} (${bookingCode})`;
-  const preheader = `Your personalised travel plan and quotation for ${destination || packageTitle} is attached as a PDF.`;
+  const subject = `Your travel documents are ready — ${packageTitle} (${bookingCode})`;
+  const preheader = secondaryPdfFileName
+    ? `Your personalised quotation and trip brochure for ${destination || packageTitle} are attached.`
+    : `Your personalised travel plan and quotation for ${destination || packageTitle} is attached as a PDF.`;
 
   // ---- Trip summary rows (only include what we have) ----
   const rows: string[] = [];
@@ -105,7 +112,8 @@ export function buildCustomPackageEmail(input: CustomPackageEmailInput): EmailCo
 
   const ctaButtons = [
     portalUrl ? button("View in My Account", portalUrl, { fill: BRAND.primary, text: BRAND.white }) : "",
-    pdfUrl ? button("Download PDF", pdfUrl, { fill: BRAND.gold, text: BRAND.primary, border: BRAND.goldDark }) : "",
+    pdfUrl ? button(secondaryPdfUrl ? "Download Brochure" : "Download PDF", pdfUrl, { fill: BRAND.gold, text: BRAND.primary, border: BRAND.goldDark }) : "",
+    secondaryPdfUrl ? button("Download Quotation", secondaryPdfUrl, { fill: BRAND.white, text: BRAND.primary, border: BRAND.primary }) : "",
   ].filter(Boolean);
 
   const html = `<!DOCTYPE html>
@@ -159,9 +167,10 @@ export function buildCustomPackageEmail(input: CustomPackageEmailInput): EmailCo
                 Hi ${escapeHtml(firstName)},
               </p>
               <p style="margin:0 0 22px 0;font-family:${FONT_STACK};font-size:15px;line-height:1.65;color:${BRAND.foreground};">
-                Great news — your personalised travel plan is ready! We've attached your full
-                <strong>itinerary &amp; quotation as a PDF</strong> to this email. It covers your day-by-day
-                plan, inclusions, hotels, and pricing, tailored to the preferences you shared with us.
+                Great news — your personalised travel plan is ready! We&apos;ve attached your
+                <strong>${secondaryPdfFileName ? "quotation and trip brochure as separate PDFs" : "itinerary &amp; quotation as a PDF"}</strong>
+                to this email. Together they cover your traveller configuration, day-by-day plan,
+                inclusions, rooms and pricing, tailored to the preferences you shared with us.
               </p>
             </td>
           </tr>
@@ -178,6 +187,7 @@ export function buildCustomPackageEmail(input: CustomPackageEmailInput): EmailCo
                   </td>
                   <td style="padding:12px 16px;vertical-align:middle;font-family:${FONT_STACK};">
                     <div style="font-size:14px;font-weight:700;color:${BRAND.primary};">${escapeHtml(pdfFileName)}</div>
+                    ${secondaryPdfFileName ? `<div style="margin-top:4px;font-size:14px;font-weight:700;color:${BRAND.primary};">${escapeHtml(secondaryPdfFileName)}</div>` : ""}
                     <div style="font-size:12px;color:${BRAND.muted};">Attached to this email${pdfUrl ? " · or download below" : ""}</div>
                   </td>
                 </tr>
@@ -276,7 +286,9 @@ export function buildCustomPackageEmail(input: CustomPackageEmailInput): EmailCo
     "",
     `Hi ${firstName},`,
     "",
-    `Great news — your personalised travel plan is ready. Your full itinerary & quotation is attached as a PDF (${pdfFileName}).`,
+    secondaryPdfFileName
+      ? `Great news - your personalised quotation and trip brochure are attached as PDFs (${secondaryPdfFileName}; ${pdfFileName}).`
+      : `Great news - your personalised travel plan is ready. Your full itinerary and quotation is attached as a PDF (${pdfFileName}).`,
     "",
     "TRIP SUMMARY",
     destination ? `- Destination: ${destination}` : "",
@@ -286,7 +298,8 @@ export function buildCustomPackageEmail(input: CustomPackageEmailInput): EmailCo
     `- Booking Reference: ${bookingCode}`,
     priceAmount ? `- Quoted Price: ${priceAmount}` : "",
     validityNote ? `\n${validityNote}` : "",
-    pdfUrl ? `\nDownload the PDF: ${pdfUrl}` : "",
+    pdfUrl ? `\nDownload the brochure: ${pdfUrl}` : "",
+    secondaryPdfUrl ? `Download the quotation: ${secondaryPdfUrl}` : "",
     portalUrl ? `View in your account: ${portalUrl}` : "",
     "",
     "Want to tweak the dates, hotels, or pace? Just reply to this email — nothing is locked in until you're happy. When you're ready to confirm, a small advance secures your booking.",

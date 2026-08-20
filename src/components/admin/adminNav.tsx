@@ -12,6 +12,9 @@ import {
   PackageOpen,
   UserRoundCog,
   UsersRound,
+  Megaphone,
+  PanelTop,
+  ChartNoAxesCombined,
 } from "lucide-react";
 
 export interface AdminNavItem {
@@ -34,6 +37,7 @@ export const adminNavGroups: AdminNavGroup[] = [
       { label: "Bookings", href: "/admin/bookings", icon: ClipboardList },
       { label: "Customers", href: "/admin/customers", icon: UsersRound },
       { label: "Agents", href: "/admin/agents", icon: UserRoundCog },
+      { label: "Reports", href: "/admin/reports", icon: ChartNoAxesCombined },
     ],
   },
   {
@@ -46,6 +50,8 @@ export const adminNavGroups: AdminNavGroup[] = [
       { label: "Gallery", href: "/admin/gallery", icon: Images },
       { label: "Features", href: "/admin/features", icon: GalleryHorizontal },
       { label: "Blog", href: "/admin/blog", icon: BookOpenText },
+      { label: "Banners", href: "/admin/banners", icon: PanelTop },
+      { label: "Announcements", href: "/admin/announcements", icon: Megaphone },
     ],
   },
 ];

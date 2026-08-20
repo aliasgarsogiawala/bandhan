@@ -1,6 +1,7 @@
 import { requireAdmin } from "@/lib/admin/auth";
 import { AGENT_COOKIE, verifyAgentSession } from "@/lib/auth/agentSession";
 import { findAgentById } from "@/lib/auth/agents";
+import type { Booking } from "./types";
 
 export type Actor =
   | { kind: "admin"; label: "admin" }
@@ -26,4 +27,14 @@ export async function getActor(request: Request): Promise<Actor | null> {
   if (!agent || agent.status !== "active") return null;
 
   return { kind: "agent", id: agent.id, label: `agent:${agent.name}` };
+}
+
+/** Admins can see everything; agents can see their work and the unassigned queue. */
+export function actorCanViewBooking(actor: Actor, booking: Booking): boolean {
+  return actor.kind === "admin" || booking.agent_id === actor.id || booking.agent_id === null;
+}
+
+/** Mutations require an assigned agent. Self-assignment is handled separately. */
+export function actorCanManageBooking(actor: Actor, booking: Booking): boolean {
+  return actor.kind === "admin" || booking.agent_id === actor.id;
 }

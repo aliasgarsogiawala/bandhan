@@ -3,10 +3,17 @@ import {
   ADMIN_COOKIE,
   SESSION_MAX_AGE,
   getAdminPassword,
+  isAdminConfigured,
   sessionToken,
 } from "@/lib/admin/auth";
 
 export async function POST(request: Request) {
+  if (!isAdminConfigured()) {
+    return NextResponse.json(
+      { ok: false, error: "Admin access is not configured." },
+      { status: 503 }
+    );
+  }
   let password = "";
   try {
     const body = await request.json();

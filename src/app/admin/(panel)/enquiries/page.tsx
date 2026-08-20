@@ -47,15 +47,23 @@ export default function EnquiriesPage() {
     closed: items.filter((e) => e.status === "closed").length,
   };
 
-  const setStatus = (id: string, status: Enquiry["status"]) => {
-    store.update<Enquiry>("enquiries", id, { status });
-    setOpen((o) => (o && o.id === id ? { ...o, status } : o));
+  const setStatus = async (id: string, status: Enquiry["status"]) => {
+    try {
+      await store.update<Enquiry>("enquiries", id, { status });
+      setOpen((o) => (o && o.id === id ? { ...o, status } : o));
+    } catch (error) {
+      window.alert(error instanceof Error ? error.message : "Could not update this enquiry.");
+    }
   };
 
-  const remove = (id: string) => {
+  const remove = async (id: string) => {
     if (window.confirm("Delete this enquiry?")) {
-      store.remove("enquiries", id);
-      setOpen((o) => (o && o.id === id ? null : o));
+      try {
+        await store.remove("enquiries", id);
+        setOpen((o) => (o && o.id === id ? null : o));
+      } catch (error) {
+        window.alert(error instanceof Error ? error.message : "Could not delete this enquiry.");
+      }
     }
   };
 
@@ -158,7 +166,7 @@ export default function EnquiriesPage() {
 
       {/* Detail drawer */}
       {open && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-primary/40 backdrop-blur-sm animate-fade-in" onClick={() => setOpen(null)}>
+        <div className="fixed inset-0 z-50 flex justify-end bg-primary/40 backdrop-blur-sm" onClick={() => setOpen(null)}>
           <div
             className="w-full max-w-md bg-white h-full overflow-y-auto shadow-2xl animate-slide-down"
             onClick={(e) => e.stopPropagation()}

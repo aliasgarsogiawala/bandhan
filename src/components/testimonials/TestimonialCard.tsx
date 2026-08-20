@@ -42,7 +42,7 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
     <article
       className="group relative flex h-full min-h-[420px] flex-col overflow-hidden rounded-[1.75rem] border border-gold/25 bg-[#0b2138] shadow-[0_28px_80px_-54px_rgba(0,0,0,0.95)]"
     >
-      <div className="pointer-events-none absolute inset-x-8 top-0 z-20 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-8 top-0 z-20 h-px bg-gold/40" />
 
       <div className="relative h-48 shrink-0 overflow-hidden sm:h-56">
         {thumbnailPhoto ? (
@@ -55,9 +55,9 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
             priority={false}
           />
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-primary-light to-primary-dark" />
+          <div className="absolute inset-0 bg-primary" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#061625]/85 via-[#061625]/15 to-transparent" />
+        <div className="absolute inset-0 bg-ink-deep/55" />
         <div className="absolute inset-x-0 bottom-0 p-5">
           <div className="mb-1.5 flex items-center gap-2 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white/65">
             <MapPin className="h-3.5 w-3.5 text-gold" aria-hidden="true" />

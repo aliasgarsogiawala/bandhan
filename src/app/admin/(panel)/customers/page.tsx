@@ -38,6 +38,9 @@ export default function CustomersPage() {
 
   const [openId, setOpenId] = useState<string | null>(null);
   const [detail, setDetail] = useState<CustomerDetail | null>(null);
+  const [profile, setProfile] = useState({ name: "", email: "", phone: "" });
+  const [saving, setSaving] = useState(false);
+  const [saveMessage, setSaveMessage] = useState("");
 
   useEffect(() => {
     fetch("/api/admin/customers", { cache: "no-store" })
@@ -52,7 +55,11 @@ export default function CustomersPage() {
     fetch(`/api/admin/customers/${openId}`, { cache: "no-store" })
       .then((r) => r.json())
       .then((data) => {
-        if (!cancelled) setDetail(data.customer || null);
+        if (!cancelled) {
+          const customer = data.customer || null;
+          setDetail(customer);
+          if (customer) setProfile({ name: customer.name, email: customer.email, phone: customer.phone || "" });
+        }
       });
     return () => {
       cancelled = true;
@@ -70,6 +77,28 @@ export default function CustomersPage() {
       (c) => c.name.toLowerCase().includes(q) || c.email.toLowerCase().includes(q)
     );
   }, [customers, search]);
+
+  const saveProfile = async () => {
+    if (!openId) return;
+    setSaving(true);
+    setSaveMessage("");
+    try {
+      const response = await fetch(`/api/admin/customers/${openId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(profile),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Could not update customer.");
+      setDetail(data.customer);
+      setCustomers((current) => current.map((item) => item.id === openId ? { ...item, name: data.customer.name, email: data.customer.email } : item));
+      setSaveMessage("Customer updated.");
+    } catch (saveError) {
+      setSaveMessage(saveError instanceof Error ? saveError.message : "Could not update customer.");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   return (
     <div>
@@ -159,7 +188,7 @@ export default function CustomersPage() {
       {/* Detail drawer */}
       {openId && (
         <div
-          className="fixed inset-0 z-50 flex justify-end bg-primary/40 backdrop-blur-sm animate-fade-in"
+          className="fixed inset-0 z-50 flex justify-end bg-primary/40 backdrop-blur-sm"
           onClick={() => setOpenId(null)}
         >
           <div
@@ -188,19 +217,14 @@ export default function CustomersPage() {
             ) : (
               <div className="p-6 space-y-6">
                 {/* Profile */}
-                <dl className="space-y-3 text-sm">
-                  {[
-                    ["Email", activeDetail.email],
-                    ["Phone", activeDetail.phone || "—"],
-                    ["Joined", formatDate(activeDetail.created_at)],
-                    ["Total Bookings", String(activeDetail.bookings_count)],
-                  ].map(([label, value]) => (
-                    <div key={label} className="flex gap-3">
-                      <dt className="w-32 flex-shrink-0 text-foreground-muted">{label}</dt>
-                      <dd className="font-medium text-primary break-words min-w-0">{value}</dd>
-                    </div>
-                  ))}
-                </dl>
+                <div className="space-y-3">
+                  <input value={profile.name} onChange={(e) => setProfile({ ...profile, name: e.target.value })} placeholder="Name" className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm" />
+                  <input type="email" value={profile.email} onChange={(e) => setProfile({ ...profile, email: e.target.value })} placeholder="Email" className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm" />
+                  <input value={profile.phone} onChange={(e) => setProfile({ ...profile, phone: e.target.value })} placeholder="Phone" className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm" />
+                  <div className="flex items-center justify-between text-xs text-foreground-muted"><span>Joined {formatDate(activeDetail.created_at)}</span><span>{activeDetail.bookings_count} bookings</span></div>
+                  <button type="button" disabled={saving} onClick={() => void saveProfile()} className="rounded-full bg-primary px-4 py-2 text-sm font-bold text-white disabled:opacity-50">{saving ? "Saving…" : "Save profile"}</button>
+                  {saveMessage ? <p role="status" className="text-xs font-semibold text-primary">{saveMessage}</p> : null}
+                </div>
 
                 {/* Bookings */}
                 <div>

@@ -50,9 +50,7 @@ export const BlogListClient: React.FC = () => {
           priority
           className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/85 via-primary/75 to-primary" />
-        <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-accent/20 blur-3xl" aria-hidden="true" />
-        <div className="absolute -bottom-32 -left-16 w-80 h-80 rounded-full bg-gold/15 blur-3xl" aria-hidden="true" />
+        <div className="absolute inset-0 bg-ink/80" />
 
         <Container className="relative">
           <nav className="text-xs font-semibold uppercase tracking-wider text-white/60 mb-4" aria-label="Breadcrumb">

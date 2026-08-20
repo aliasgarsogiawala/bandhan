@@ -98,7 +98,7 @@ export default function AdminLoginPage() {
         sizes="100vw"
         className="object-cover object-center"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/70 to-primary/35" />
+      <div className="absolute inset-0 bg-ink-deep/70" />
       <div className="relative mx-auto grid min-h-screen w-full max-w-6xl items-center gap-12 px-5 py-12 lg:grid-cols-[1fr_430px] lg:px-8">
         <div className="hidden max-w-xl text-white lg:block">
           <span className="text-xs font-bold uppercase tracking-[0.28em] text-gold">Bandhan Tours · Back office</span>

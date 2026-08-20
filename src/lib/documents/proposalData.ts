@@ -4,6 +4,7 @@ import type {
   QuoteSnapshot,
   TravellerBreakdown,
 } from "@/lib/bookings/pricing";
+import { parseMoney } from "@/lib/bookings/pricing";
 
 export interface TravellerMixItem {
   key: keyof TravellerBreakdown;
@@ -43,7 +44,7 @@ export function safePackageSnapshot(booking: Booking): BookingPackageSnapshot {
 
 export function safeQuoteSnapshot(booking: Booking): QuoteSnapshot {
   const snapshot = booking.pricing_snapshot || ({} as QuoteSnapshot);
-  const total = Number(snapshot.total || booking.price_amount || 0);
+  const total = parseMoney(snapshot.total || booking.price_amount || 0);
   const depositPercent = Number(snapshot.depositPercent || 25);
   const depositAmount = Number(
     snapshot.depositAmount || Math.round((total * depositPercent) / 100)

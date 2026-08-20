@@ -116,10 +116,8 @@ export const PackagesPageClient: React.FC = () => {
           priority
           className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/85 via-primary/75 to-primary" />
+        <div className="absolute inset-0 bg-ink/80" />
         {/* Soft radial glows echoing the brand palette */}
-        <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-accent/20 blur-3xl" aria-hidden="true" />
-        <div className="absolute -bottom-32 -left-16 w-80 h-80 rounded-full bg-gold/15 blur-3xl" aria-hidden="true" />
 
         <Container className="relative">
           <nav className="text-xs font-semibold uppercase tracking-wider text-white/60 mb-4" aria-label="Breadcrumb">
@@ -300,7 +298,7 @@ export const PackagesPageClient: React.FC = () => {
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-cover transition-transform duration-700 group-hover:scale-105"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent" />
+                      <div className="absolute inset-0 bg-ink-deep/45" />
 
                       {pkg.isPopular && (
                         <span className="absolute top-4 left-4 px-3 py-1 bg-accent text-white rounded-full text-[10px] font-bold uppercase tracking-wider shadow-md shadow-accent/20">
@@ -375,8 +373,6 @@ export const PackagesPageClient: React.FC = () => {
           {/* Custom trip CTA */}
           <ScrollReveal className="mt-16">
             <div className="relative bg-primary rounded-3xl px-8 py-12 sm:px-12 text-center overflow-hidden">
-              <div className="absolute -top-16 -left-16 w-64 h-64 rounded-full bg-gold/15 blur-3xl" aria-hidden="true" />
-              <div className="absolute -bottom-20 -right-10 w-72 h-72 rounded-full bg-accent/20 blur-3xl" aria-hidden="true" />
               <div className="relative">
                 <h2 className="text-2xl sm:text-3xl font-heading font-extrabold text-white">
                   Didn&apos;t find your dream route?

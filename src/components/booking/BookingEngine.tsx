@@ -8,12 +8,14 @@ import {
   ArrowLeft,
   ArrowRight,
   BedDouble,
+  BookOpen,
   CalendarDays,
   Check,
   Download,
   FileText,
   Mail,
   MapPin,
+  ReceiptText,
   Send,
   ShieldCheck,
   Sparkles,
@@ -56,6 +58,7 @@ interface BookingResult {
   quotationNumber: string;
   token: string;
   brochureUrl: string;
+  quotationUrl: string;
 }
 
 function SummaryCard({
@@ -73,7 +76,7 @@ function SummaryCard({
         {image ? (
           <Image src={image} alt={snapshot.title} fill className="object-cover" sizes="420px" />
         ) : null}
-        <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/25 to-transparent" />
+        <div className="absolute inset-0 bg-ink-deep/50" />
         <div className="absolute bottom-0 p-5 text-white">
           <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gold">
             {snapshot.source === "package"
@@ -381,6 +384,7 @@ export default function BookingEngine() {
         quotationNumber: data.booking.quotation_number,
         token: data.accessToken,
         brochureUrl: data.brochureUrl,
+        quotationUrl: data.quotationUrl,
       });
     } catch (submitError) {
       setError(submitError instanceof Error ? submitError.message : "Could not create your booking.");
@@ -408,13 +412,13 @@ export default function BookingEngine() {
       if (!response.ok || !data.ok) throw new Error(data.error || "Could not prepare the brochure.");
       if (data.shareUrl) {
         window.open(data.shareUrl, "_blank", "noopener,noreferrer");
-        setDeliveryMessage("WhatsApp opened with your brochure message ready to send.");
+        setDeliveryMessage("WhatsApp opened with both document links ready to send.");
       } else if (data.delivered) {
-        setDeliveryMessage(`Brochure sent successfully to ${deliveryEmail}.`);
+        setDeliveryMessage(`Quotation and brochure sent successfully to ${deliveryEmail}.`);
       } else if (data.mailtoUrl) {
         window.location.assign(data.mailtoUrl);
         setDeliveryMessage(
-          "Your email draft is ready. Add the downloaded PDF as an attachment before sending."
+          "Your email draft is ready. Both secure document links are included."
         );
       }
     } catch (sendError) {
@@ -438,7 +442,7 @@ export default function BookingEngine() {
               Proposal created
             </p>
             <h1 className="mt-2 font-heading text-3xl font-extrabold sm:text-4xl">
-              Your trip brochure is ready
+              Your quotation and brochure are ready
             </h1>
             <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-300">
               We saved your request as <strong className="text-white">{result.code}</strong> and
@@ -446,35 +450,82 @@ export default function BookingEngine() {
               Our team will verify live availability before final confirmation.
             </p>
           </div>
-          <div className="grid gap-8 p-6 sm:p-10 lg:grid-cols-[1fr_340px]">
+          <div className="grid gap-8 p-5 sm:p-10 lg:grid-cols-[1fr_340px]">
             <div>
-              <h2 className="font-heading text-xl font-bold text-primary">Share your proposal</h2>
+              <h2 className="font-heading text-xl font-bold text-primary">Your travel documents</h2>
               <p className="mt-2 text-sm leading-relaxed text-foreground-muted">
-                Preview the complete itinerary, pricing, inclusions and next steps. You can also
-                send it to the traveller by email or WhatsApp.
+                Both files use the traveller mix, rooms, names, add-ons and prices you selected.
               </p>
-              <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                <a
-                  href={result.brochureUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-bold text-white hover:bg-accent"
-                >
-                  <FileText size={17} /> Preview brochure
-                </a>
-                <a
-                  href={`${result.brochureUrl}&download=1`}
-                  className="flex items-center justify-center gap-2 rounded-full border border-primary/15 px-5 py-3 text-sm font-bold text-primary hover:bg-sand"
-                >
-                  <Download size={17} /> Download PDF
-                </a>
+              <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                <article className="relative overflow-hidden rounded-3xl bg-primary p-5 text-white shadow-premium">
+                  <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full border border-gold/20" />
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gold text-primary">
+                    <ReceiptText size={21} />
+                  </div>
+                  <p className="mt-5 text-[10px] font-bold uppercase tracking-[0.18em] text-gold">
+                    Commercial summary
+                  </p>
+                  <h3 className="mt-1 font-heading text-xl font-bold">Personalised quotation</h3>
+                  <p className="mt-2 text-xs leading-relaxed text-slate-300">
+                    Traveller-wise rates, room plan, advance, balance, validity and commercial notes.
+                  </p>
+                  <div className="mt-5 grid grid-cols-2 gap-2">
+                    <a
+                      href={result.quotationUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex min-h-11 items-center justify-center gap-1.5 rounded-full bg-white px-3 text-xs font-bold text-primary transition hover:bg-gold"
+                    >
+                      <FileText size={15} /> Preview
+                    </a>
+                    <a
+                      href={`${result.quotationUrl}&download=1`}
+                      className="flex min-h-11 items-center justify-center gap-1.5 rounded-full border border-white/25 px-3 text-xs font-bold text-white transition hover:border-gold hover:text-gold"
+                    >
+                      <Download size={15} /> Download
+                    </a>
+                  </div>
+                </article>
+
+                <article className="relative overflow-hidden rounded-3xl border border-gold/35 bg-sand-light p-5 shadow-soft">
+                  <div className="absolute -bottom-10 -right-7 h-32 w-32 rounded-full border border-accent/10" />
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-accent text-white">
+                    <BookOpen size={21} />
+                  </div>
+                  <p className="mt-5 text-[10px] font-bold uppercase tracking-[0.18em] text-accent">
+                    Journey presentation
+                  </p>
+                  <h3 className="mt-1 font-heading text-xl font-bold text-primary">Personalised trip brochure</h3>
+                  <p className="mt-2 text-xs leading-relaxed text-foreground-muted">
+                    Your party, itinerary, highlights, inclusions, pricing and next steps in one keepsake.
+                  </p>
+                  <div className="mt-5 grid grid-cols-2 gap-2">
+                    <a
+                      href={result.brochureUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex min-h-11 items-center justify-center gap-1.5 rounded-full bg-primary px-3 text-xs font-bold text-white transition hover:bg-accent"
+                    >
+                      <FileText size={15} /> Preview
+                    </a>
+                    <a
+                      href={`${result.brochureUrl}&download=1`}
+                      className="flex min-h-11 items-center justify-center gap-1.5 rounded-full border border-primary/15 bg-white/70 px-3 text-xs font-bold text-primary transition hover:border-accent hover:text-accent"
+                    >
+                      <Download size={15} /> Download
+                    </a>
+                  </div>
+                </article>
+              </div>
+
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
                 <button
                   type="button"
                   onClick={() => sendBrochure("email")}
                   disabled={Boolean(sending)}
                   className="flex items-center justify-center gap-2 rounded-full border border-primary/15 px-5 py-3 text-sm font-bold text-primary hover:bg-sand disabled:opacity-50"
                 >
-                  <Mail size={17} /> {sending === "email" ? "Sending..." : "Send by email"}
+                  <Mail size={17} /> {sending === "email" ? "Sending..." : "Email both documents"}
                 </button>
                 <button
                   type="button"
@@ -482,7 +533,7 @@ export default function BookingEngine() {
                   disabled={Boolean(sending)}
                   className="flex items-center justify-center gap-2 rounded-full bg-emerald-600 px-5 py-3 text-sm font-bold text-white hover:bg-emerald-700 disabled:opacity-50"
                 >
-                  <Send size={17} /> {sending === "whatsapp" ? "Opening..." : "Share on WhatsApp"}
+                  <Send size={17} /> {sending === "whatsapp" ? "Opening..." : "Share both documents"}
                 </button>
               </div>
               {deliveryMessage ? (
@@ -505,7 +556,7 @@ export default function BookingEngine() {
                 </Link>
               </div>
             </div>
-            <div className="rounded-3xl bg-sand p-6">
+            <div className="h-fit rounded-3xl bg-sand p-6">
               <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-muted">
                 Indicative trip total
               </span>
@@ -522,6 +573,28 @@ export default function BookingEngine() {
                 <div className="flex justify-between">
                   <span className="text-foreground-muted">Travellers</span>
                   <strong className="text-primary">{travellerCount}</strong>
+                </div>
+              </div>
+              <div className="mt-5 grid grid-cols-2 gap-2 border-t border-slate-200 pt-5 text-center">
+                <div className="rounded-2xl bg-white/70 p-3">
+                  <strong className="block text-lg text-primary">{travellers.adults}</strong>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-muted">Adults</span>
+                </div>
+                <div className="rounded-2xl bg-white/70 p-3">
+                  <strong className="block text-lg text-primary">
+                    {travellers.childrenWithBed + travellers.childrenWithoutBed + travellers.infants}
+                  </strong>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-muted">Children</span>
+                </div>
+                <div className="col-span-2 rounded-2xl bg-white/70 p-3 text-left">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-muted">Room plan</span>
+                  <strong className="mt-1 block text-xs leading-relaxed text-primary">
+                    {[
+                      rooms.singleRooms ? `${rooms.singleRooms} single` : "",
+                      rooms.doubleRooms ? `${rooms.doubleRooms} double/twin` : "",
+                      rooms.tripleRooms ? `${rooms.tripleRooms} triple` : "",
+                    ].filter(Boolean).join(" + ")}
+                  </strong>
                 </div>
               </div>
             </div>
@@ -541,8 +614,8 @@ export default function BookingEngine() {
           Build your holiday proposal
         </h1>
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-foreground-muted sm:text-base">
-          Configure your trip, see an instant indicative price and leave with a complete
-          shareable brochure.
+          Configure your trip, see an instant indicative price and leave with a polished
+          quotation and personalised brochure.
         </p>
       </div>
 
@@ -949,7 +1022,7 @@ export default function BookingEngine() {
               </button>
             ) : (
               <button type="button" onClick={() => submit()} disabled={submitting} className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-bold text-white hover:bg-accent-dark disabled:opacity-50">
-                {submitting ? "Creating proposal..." : "Create booking & brochure"} <FileText size={16} />
+                {submitting ? "Creating proposal..." : "Create quotation & brochure"} <FileText size={16} />
               </button>
             )}
           </div>

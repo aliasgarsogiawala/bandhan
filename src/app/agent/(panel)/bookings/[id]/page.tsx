@@ -302,13 +302,29 @@ export default function AgentBookingDetailPage() {
       <div className="bg-white rounded-2xl border border-slate-100 p-6 space-y-4">
         <h2 className="text-sm font-bold uppercase tracking-wider text-primary">Documents</h2>
         <div className="rounded-2xl border border-gold/30 bg-gold/10 p-4">
-          <p className="text-sm font-bold text-primary">Generated proposal brochure</p>
+          <p className="text-sm font-bold text-primary">Generated customer documents</p>
           <p className="mt-1 text-xs text-foreground-muted">
-            Includes the saved itinerary, traveller configuration, price breakdown, inclusions and terms.
+            Both files use the saved itinerary, exact traveller configuration, rooms, price breakdown and terms.
           </p>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-xl bg-primary p-4 text-white">
+              <p className="text-sm font-bold">Personalised quotation</p>
+              <p className="mt-1 text-[11px] text-slate-300">Commercial summary and traveller-wise price.</p>
+              <div className="mt-3 flex gap-3 text-xs font-bold">
+                <a href={`/api/bookings/${booking.id}/quotation`} target="_blank" rel="noreferrer" className="text-gold">Preview</a>
+                <a href={`/api/bookings/${booking.id}/quotation?download=1`} className="text-white">Download</a>
+              </div>
+            </div>
+            <div className="rounded-xl border border-primary/10 bg-white/70 p-4">
+              <p className="text-sm font-bold text-primary">Personalised trip brochure</p>
+              <p className="mt-1 text-[11px] text-foreground-muted">Itinerary, party, inclusions and pricing.</p>
+              <div className="mt-3 flex gap-3 text-xs font-bold">
+                <a href={`/api/bookings/${booking.id}/brochure`} target="_blank" rel="noreferrer" className="text-accent">Preview</a>
+                <a href={`/api/bookings/${booking.id}/brochure?download=1`} className="text-primary">Download</a>
+              </div>
+            </div>
+          </div>
           <div className="mt-4 flex flex-wrap gap-2">
-            <a href={`/api/bookings/${booking.id}/brochure`} target="_blank" rel="noreferrer" className="rounded-full bg-primary px-4 py-2 text-xs font-bold text-white">Preview PDF</a>
-            <a href={`/api/bookings/${booking.id}/brochure?download=1`} className="rounded-full border border-primary/20 px-4 py-2 text-xs font-bold text-primary">Download</a>
             <button type="button" disabled={busy} onClick={() => sendBrochure("email")} className="rounded-full border border-primary/20 px-4 py-2 text-xs font-bold text-primary disabled:opacity-50">Send email</button>
             <button type="button" disabled={busy} onClick={() => sendBrochure("whatsapp")} className="rounded-full bg-emerald-600 px-4 py-2 text-xs font-bold text-white disabled:opacity-50">Share WhatsApp</button>
           </div>

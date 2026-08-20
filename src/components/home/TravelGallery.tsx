@@ -5,7 +5,8 @@ import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { Stagger, StaggerItem } from "@/components/ui/Stagger";
-import { galleryImages } from "@/data/mockData";
+import type { GalleryItem } from "@/data/mockData";
+import { useCollection } from "@/lib/admin/store";
 
 // Varied aspect ratios give the grid a natural masonry rhythm
 // while keeping next/image dimensions explicit (no CLS).
@@ -22,9 +23,9 @@ const aspectClasses = [
 ];
 
 export const TravelGallery: React.FC = () => {
+  const { items: galleryImages } = useCollection<GalleryItem>("gallery");
   return (
-    <section className="relative z-10 overflow-hidden bg-ink-deep py-20 sm:py-28">
-      <div className="pointer-events-none absolute -right-40 top-1/3 h-[420px] w-[420px] rounded-full bg-primary-light/15 blur-[150px]" aria-hidden="true" />
+    <section className="surface-grain edge-hairline-top relative z-10 overflow-hidden bg-ink-deep py-20 sm:py-28">
       <Container className="relative">
         {/* Header */}
         <div className="mx-auto mb-14 max-w-2xl text-center">
@@ -54,7 +55,7 @@ export const TravelGallery: React.FC = () => {
                   sizes="(max-width: 640px) 50vw, 33vw"
                   className="object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/85 via-primary/5 to-transparent opacity-100 transition-opacity duration-500 sm:opacity-0 sm:group-hover:opacity-100" />
+                <div className="absolute inset-0 bg-ink-deep/55 opacity-100 transition-opacity duration-500 sm:opacity-0 sm:group-hover:opacity-100" />
                 <div className="absolute inset-x-0 bottom-0 translate-y-0 p-3 opacity-100 transition-all duration-500 sm:translate-y-2 sm:p-5 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100">
                   <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold">
                     {item.location}

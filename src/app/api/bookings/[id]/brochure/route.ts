@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSessionUserId } from "@/lib/auth/session";
-import { getActor } from "@/lib/bookings/authz";
+import { actorCanViewBooking, getActor } from "@/lib/bookings/authz";
 import { getBookingById } from "@/lib/bookings/db";
 import {
   renderQuotationBrochurePdf,
@@ -26,7 +26,8 @@ export async function GET(request: Request, { params }: RouteParams) {
   const actor = await getActor(request);
   const isOwner = Boolean(userId && booking.user_id === userId);
   const hasAccessToken = Boolean(token && token === booking.access_token);
-  if (!isOwner && !actor && !hasAccessToken) {
+  const actorHasAccess = actor ? actorCanViewBooking(actor, booking) : false;
+  if (!isOwner && !actorHasAccess && !hasAccessToken) {
     return NextResponse.json({ ok: false, error: "Not authorized." }, { status: 403 });
   }
 

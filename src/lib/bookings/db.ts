@@ -304,6 +304,36 @@ export async function setRemarks(
   return rows[0] ?? null;
 }
 
+export async function updateCustomerBookingDetails(
+  bookingId: string,
+  patch: {
+    travellerNames?: string;
+    contactPhone?: string;
+    specialRequirements?: string;
+  }
+): Promise<Booking | null> {
+  const sql = getSql();
+  const current = await getBookingById(bookingId);
+  if (!current) return null;
+  const rows = (await sql`
+    UPDATE bookings
+    SET
+      traveller_names = ${patch.travellerNames?.trim() ?? current.traveller_names},
+      contact_phone = ${patch.contactPhone?.trim() || current.contact_phone},
+      special_requirements = ${patch.specialRequirements?.trim() ?? current.special_requirements},
+      updated_at = now()
+    WHERE id = ${bookingId}
+    RETURNING *
+  `) as Booking[];
+  if (rows[0]) {
+    await sql`
+      INSERT INTO booking_status_history (booking_id, from_status, to_status, note, changed_by)
+      VALUES (${bookingId}, ${current.status}, ${current.status}, 'Traveller details updated', 'customer')
+    `;
+  }
+  return rows[0] ?? null;
+}
+
 export async function listHistory(bookingId: string): Promise<BookingHistoryEntry[]> {
   const sql = getSql();
   return (await sql`

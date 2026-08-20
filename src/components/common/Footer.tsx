@@ -167,7 +167,7 @@ export const Footer: React.FC = () => {
               </button>
             </form>
             {subscribed && (
-              <span className="text-xs text-emerald-400 font-medium block animate-fade-in">
+              <span className="text-xs text-emerald-400 font-medium block">
                 Successfully Subscribed!
               </span>
             )}

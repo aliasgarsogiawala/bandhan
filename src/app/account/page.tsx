@@ -10,6 +10,7 @@ import { useAuth } from "@/lib/auth/useAuth";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
 import { BOOKING_STATUS_LABELS } from "@/lib/bookings/types";
 import type { Booking } from "@/lib/bookings/types";
+import { AccountProfilePanel } from "@/components/account/AccountProfilePanel";
 
 const STATUS_BADGE: Record<string, string> = {
   new: "bg-slate-100 text-slate-600 border-slate-200",
@@ -24,7 +25,7 @@ const STATUS_BADGE: Record<string, string> = {
 };
 
 export default function AccountPage() {
-  const { user, loading } = useAuth();
+  const { user, loading, refresh } = useAuth();
   const [bookings, setBookings] = useState<Booking[] | null>(null);
 
   const enquire = () => window.location.assign(contactEnquiryHref());
@@ -128,6 +129,7 @@ export default function AccountPage() {
               ))}
             </div>
           )}
+          {user ? <AccountProfilePanel user={user} onProfileSaved={refresh} /> : null}
         </Container>
       </main>
 
