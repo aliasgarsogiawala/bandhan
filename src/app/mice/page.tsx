@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 };
 
 const companyFacts = [
-  { value: "Since 2013", label: "Group travel planning" },
+  { value: "13+ years", label: "Corporate travel experience" },
   { value: "3 offices", label: "Thane, Pune and Guwahati" },
   { value: "India + global", label: "Domestic and international programmes" },
   { value: "One team", label: "From proposal to reconciliation" },
@@ -127,6 +127,64 @@ const managementControls = [
     title: "Operational reporting",
     copy: "Rooming, travel and service trackers that give internal stakeholders a clear programme status.",
   },
+];
+
+const corporateSolutions = [
+  {
+    icon: Building2,
+    title: "Hotel reservations",
+    copy: "Corporate hotel bookings at preferred rates across India and international destinations.",
+  },
+  {
+    icon: Users,
+    title: "Corporate and group travel",
+    copy: "Seamless management of individual and group business travel itineraries.",
+  },
+  {
+    icon: Presentation,
+    title: "MICE services",
+    copy: "Full support for meetings, incentives, conferences and exhibitions.",
+  },
+  {
+    icon: FileCheck2,
+    title: "Visa and passport assistance",
+    copy: "Expert guidance and documentation support for international travel compliance.",
+  },
+  {
+    icon: Bus,
+    title: "Ground transportation",
+    copy: "Reliable airport transfers and local transport arrangements for your teams.",
+  },
+  {
+    icon: Headphones,
+    title: "24×7 travel support",
+    copy: "Round-the-clock assistance ensuring your travellers are never left stranded.",
+  },
+];
+
+const travellerExperience = [
+  {
+    icon: CalendarCheck,
+    title: "Quick confirmations",
+    copy: "Fast booking confirmations so your teams can focus on business, not logistics.",
+  },
+  {
+    icon: ClipboardList,
+    title: "Customised solutions",
+    copy: "Travel policies and itineraries tailored to your organisation's specific needs.",
+  },
+  {
+    icon: Headphones,
+    title: "Reliable support",
+    copy: "24×7 dedicated assistance for any travel disruption or last-minute change.",
+  },
+];
+
+const clients = [
+  { name: "ABEC Exhibitions & Conferences Pvt. Ltd.", logo: "/clients/abec.png" },
+  { name: "Krypton", logo: "/clients/krypton.png" },
+  { name: "Bandhan Industries", logo: "/clients/bandhan-industries.png" },
+  { name: "Antyodaya", logo: "/clients/antyodaya.png" },
 ];
 
 const serviceIcons = [Building2, Plane, Bus, FileCheck2, UtensilsCrossed, Headphones];
@@ -244,6 +302,40 @@ export default function MicePage() {
             <ScrollReveal>
               <div className="max-w-3xl">
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">
+                  Corporate travel management
+                </p>
+                <h2 className="mt-4 font-heading text-3xl font-bold tracking-[-0.025em] text-primary sm:text-4xl">
+                  End-to-end corporate travel solutions.
+                </h2>
+                <p className="mt-5 text-base leading-8 text-foreground-muted">
+                  Bandhan Tours has served corporate clients across India for over
+                  13 years, planning every business trip with efficiency,
+                  professionalism and personalised support. MICE programmes sit
+                  inside that wider service, so the event and the everyday travel
+                  around it are handled by the same desk.
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <div className="mt-12 grid border-l border-t border-primary/15 sm:grid-cols-2 lg:grid-cols-3">
+              {corporateSolutions.map((solution) => (
+                <ScrollReveal key={solution.title}>
+                  <article className="h-full border-b border-r border-primary/15 bg-white p-7 sm:p-8">
+                    <solution.icon size={22} className="text-accent" aria-hidden="true" />
+                    <h3 className="mt-5 font-heading text-lg font-bold text-primary">{solution.title}</h3>
+                    <p className="mt-3 text-sm leading-7 text-foreground-muted">{solution.copy}</p>
+                  </article>
+                </ScrollReveal>
+              ))}
+            </div>
+          </Container>
+        </section>
+
+        <section className="border-b border-primary/10 py-20 sm:py-24 lg:py-28">
+          <Container>
+            <ScrollReveal>
+              <div className="max-w-3xl">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">
                   Meetings, incentives, conferences and exhibitions
                 </p>
                 <h2 className="mt-4 font-heading text-3xl font-bold tracking-[-0.025em] text-primary sm:text-4xl">
@@ -260,7 +352,7 @@ export default function MicePage() {
             <div className="mt-12 grid border-l border-t border-primary/15 md:grid-cols-2">
               {programmeTypes.map((programme) => (
                 <ScrollReveal key={programme.title}>
-                  <article className="h-full border-b border-r border-primary/15 bg-white p-7 sm:p-9">
+                  <article className="h-full border-b border-r border-primary/15 bg-[#f5f5f2] p-7 sm:p-9">
                     <div className="flex items-center justify-between gap-4">
                       <h3 className="font-heading text-2xl font-bold text-primary">{programme.title}</h3>
                       <span className="text-xs font-bold text-accent">{programme.number}</span>
@@ -318,6 +410,41 @@ export default function MicePage() {
                 </ScrollReveal>
               ))}
             </div>
+          </Container>
+        </section>
+
+        <section className="bg-[#f5f5f2] py-20 sm:py-24 lg:py-28">
+          <Container>
+            <ScrollReveal>
+              <div className="max-w-3xl">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">
+                  Traveller experience
+                </p>
+                <h2 className="mt-4 font-heading text-3xl font-bold tracking-[-0.025em] text-primary sm:text-4xl">
+                  Your teams travel with confidence.
+                </h2>
+              </div>
+            </ScrollReveal>
+
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {travellerExperience.map((item) => (
+                <ScrollReveal key={item.title}>
+                  <article className="h-full border-t-2 border-primary bg-white px-6 py-8">
+                    <item.icon size={22} className="text-accent" aria-hidden="true" />
+                    <h3 className="mt-5 font-heading text-lg font-bold text-primary">{item.title}</h3>
+                    <p className="mt-3 text-sm leading-7 text-foreground-muted">{item.copy}</p>
+                  </article>
+                </ScrollReveal>
+              ))}
+            </div>
+
+            <ScrollReveal>
+              <p className="mt-12 max-w-3xl border-l-2 border-accent pl-6 font-heading text-lg leading-9 text-primary sm:text-xl">
+                We don&apos;t just manage trips. We work as a strategic extension of
+                your procurement and HR teams, so every traveller is supported and
+                every rupee is well spent.
+              </p>
+            </ScrollReveal>
           </Container>
         </section>
 
@@ -441,6 +568,34 @@ export default function MicePage() {
           </Container>
         </section>
 
+        <section className="border-b border-primary/10 py-16 sm:py-20">
+          <Container>
+            <ScrollReveal>
+              <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-16">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">Our clientele</p>
+                  <h2 className="mt-4 font-heading text-2xl font-bold tracking-[-0.025em] text-primary sm:text-3xl">
+                    Trusted by organisations that travel often.
+                  </h2>
+                </div>
+                <ul className="grid grid-cols-2 items-center gap-x-8 gap-y-10 sm:grid-cols-4">
+                  {clients.map((client) => (
+                    <li key={client.name} className="relative h-14">
+                      <Image
+                        src={client.logo}
+                        alt={client.name}
+                        fill
+                        sizes="(max-width: 640px) 40vw, 160px"
+                        className="object-contain object-left grayscale transition duration-300 hover:grayscale-0 sm:object-center"
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </ScrollReveal>
+          </Container>
+        </section>
+
         <section id="enquiry" className="scroll-mt-24 bg-[#f5f5f2] py-20 sm:py-24 lg:py-28">
           <Container>
             <div className="grid gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:items-start lg:gap-16">
@@ -464,12 +619,22 @@ export default function MicePage() {
                     <Receipt size={18} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
                     <p className="leading-6 text-foreground-muted">Itemised proposal with clearly stated inclusions.</p>
                   </div>
+                  <div className="flex gap-3">
+                    <ShieldCheck size={18} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
+                    <p className="leading-6 text-foreground-muted">No obligation — review the options and compare rates before committing.</p>
+                  </div>
                 </div>
 
                 <div className="mt-8 border-t border-primary/15 pt-7">
                   <p className="text-xs font-bold uppercase tracking-[0.16em] text-foreground-light">Corporate desk</p>
-                  <a href="tel:+919422332610" className="mt-3 block font-heading text-xl font-bold text-primary hover:text-accent">+91 94223 32610</a>
-                  <a href="mailto:info@bandhantours.com" className="mt-1 block text-sm text-foreground-muted hover:text-accent">info@bandhantours.com</a>
+                  <p className="mt-3 font-heading text-lg font-bold text-primary">Nikita Patil</p>
+                  <p className="text-sm text-foreground-muted">Corporate sales and operations</p>
+                  <a href="tel:+919175685400" className="mt-4 block font-heading text-xl font-bold text-primary hover:text-accent">+91 91756 85400</a>
+                  <a href="mailto:nikita@bandhantours.com" className="mt-1 block text-sm text-foreground-muted hover:text-accent">nikita@bandhantours.com</a>
+                  <p className="mt-5 text-sm leading-6 text-foreground-muted">
+                    Bandhan Tours Pvt. Ltd., Tower 2, Lodha Supremus, 226 Road No. 22,
+                    Wagle Industrial Estate, Thane
+                  </p>
                 </div>
               </ScrollReveal>
 

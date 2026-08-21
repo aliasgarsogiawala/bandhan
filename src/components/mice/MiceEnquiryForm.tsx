@@ -136,14 +136,14 @@ export default function MiceEnquiryForm() {
         <ul className="mt-7 space-y-3 border-t border-slate-100 pt-6 text-sm text-foreground-muted">
           <li>
             Need to move faster? Call{" "}
-            <a href="tel:+919422332610" className="font-bold text-primary">
-              +91 94223 32610
+            <a href="tel:+919175685400" className="font-bold text-primary">
+              +91 91756 85400
             </a>
           </li>
           <li>
             Have an RFP document?{" "}
-            <a href="mailto:info@bandhantours.com" className="font-bold text-primary">
-              info@bandhantours.com
+            <a href="mailto:nikita@bandhantours.com" className="font-bold text-primary">
+              nikita@bandhantours.com
             </a>
           </li>
         </ul>
