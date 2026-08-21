@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
@@ -32,8 +32,7 @@ interface LightboxProps {
 export const Lightbox: React.FC<LightboxProps> = ({ slides, index, onClose, onNavigate }) => {
   const isOpen = index !== null && index >= 0 && index < slides.length;
   // Portalling requires the DOM, so hold off until after hydration.
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const mounted = useSyncExternalStore(() => () => {}, () => true, () => false);
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   // Where focus came from, so it can be handed back on close.

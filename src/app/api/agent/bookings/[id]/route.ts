@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { isDbConfigured } from "@/lib/db";
 import { actorCanManageBooking, actorCanViewBooking, getActor } from "@/lib/bookings/authz";
+import { findAgentById } from "@/lib/auth/agents";
+import { getDepartureById } from "@/lib/departures/db";
+import { parseMoney } from "@/lib/bookings/pricing";
 import {
   assignAgent,
   getBookingById,
@@ -61,6 +64,11 @@ export async function PATCH(request: Request, { params }: RouteParams) {
     return NextResponse.json({ ok: false, error: "This booking is not assigned to you." }, { status: 403 });
   }
 
+  const workflowError = validateWorkflowAction(body.action, existing.status);
+  if (workflowError) {
+    return NextResponse.json({ ok: false, error: workflowError }, { status: 409 });
+  }
+
   try {
     let booking = existing;
     switch (body.action) {
@@ -68,7 +76,7 @@ export async function PATCH(request: Request, { params }: RouteParams) {
         if (actor.kind !== "agent") {
           return NextResponse.json({ ok: false, error: "Only agents can self-assign." }, { status: 400 });
         }
-        booking = (await assignAgent(id, actor.id, actor.label)) ?? existing;
+        booking = (await assignAgent(id, actor.id, actor.label, actor.label)) ?? existing;
         break;
       }
       case "assignTo": {
@@ -76,15 +84,36 @@ export async function PATCH(request: Request, { params }: RouteParams) {
           return NextResponse.json({ ok: false, error: "Only admins can assign to any agent." }, { status: 400 });
         }
         if (!body.agentId) return NextResponse.json({ ok: false, error: "Missing agentId." }, { status: 400 });
-        booking = (await assignAgent(id, body.agentId, actor.label)) ?? existing;
+        const assignee = await findAgentById(body.agentId);
+        if (!assignee || assignee.status !== "active") {
+          return NextResponse.json({ ok: false, error: "Select an active agent." }, { status: 400 });
+        }
+        booking = (await assignAgent(id, body.agentId, actor.label, assignee.name)) ?? existing;
         break;
       }
       case "setPricing": {
-        if (!body.priceAmount) return NextResponse.json({ ok: false, error: "Missing price." }, { status: 400 });
-        booking = (await setPricing(id, body.priceAmount, actor.label)) ?? existing;
+        if (parseMoney(body.priceAmount) <= 0) {
+          return NextResponse.json({ ok: false, error: "Enter a valid quoted price." }, { status: 400 });
+        }
+        booking = (await setPricing(id, body.priceAmount || "", actor.label)) ?? existing;
         break;
       }
       case "approve": {
+        if (existing.departure_id) {
+          const departure = await getDepartureById(existing.departure_id);
+          const requiredSeats = Math.max(1, existing.travellers_count || 1);
+          if (!departure || departure.seats_left < requiredSeats) {
+            return NextResponse.json(
+              {
+                ok: false,
+                error: departure
+                  ? `Only ${departure.seats_left} seat${departure.seats_left === 1 ? " is" : "s are"} available for this departure.`
+                  : "The selected departure is no longer available.",
+              },
+              { status: 409 }
+            );
+          }
+        }
         booking = (await updateStatus(id, "approved", actor.label, body.note)) ?? existing;
         break;
       }
@@ -104,7 +133,7 @@ export async function PATCH(request: Request, { params }: RouteParams) {
         if (typeof body.remarks !== "string") {
           return NextResponse.json({ ok: false, error: "Missing remarks." }, { status: 400 });
         }
-        booking = (await setRemarks(id, body.remarks)) ?? existing;
+        booking = (await setRemarks(id, body.remarks, actor.label)) ?? existing;
         break;
       }
       case "complete": {
@@ -122,4 +151,27 @@ export async function PATCH(request: Request, { params }: RouteParams) {
     console.error("update booking error:", error);
     return NextResponse.json({ ok: false, error: "Could not update the booking." }, { status: 500 });
   }
+}
+
+function validateWorkflowAction(action: Action | undefined, status: string): string | null {
+  if (!action || ["assign", "assignTo", "setRemarks"].includes(action)) return null;
+  if (action === "setPricing" && !["new", "reviewing", "quoted"].includes(status)) {
+    return "Pricing can only be confirmed while the request is under review.";
+  }
+  if (action === "approve" && status !== "quoted") {
+    return "Confirm pricing before approving this booking.";
+  }
+  if (action === "markPaymentReceived" && !["approved", "payment_pending"].includes(status)) {
+    return "Approve the booking before recording payment.";
+  }
+  if (action === "complete" && status !== "confirmed") {
+    return "Only a confirmed booking can be completed.";
+  }
+  if (action === "reject" && !["new", "reviewing", "quoted", "approved"].includes(status)) {
+    return "This booking can no longer be rejected. Cancel it instead if appropriate.";
+  }
+  if (action === "cancel" && ["rejected", "cancelled", "completed"].includes(status)) {
+    return "This booking is already closed.";
+  }
+  return null;
 }

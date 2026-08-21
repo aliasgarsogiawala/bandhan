@@ -37,8 +37,9 @@ type Basis = BookingSource | "departure";
  * an agent needs — their own reference and internal remarks. The booking is
  * assigned to them and opens as "Under Review" rather than joining the queue.
  */
-export default function AgentBookingForm() {
+export default function AgentBookingForm({ mode = "agent" }: { mode?: "agent" | "admin" }) {
   const router = useRouter();
+  const isAdmin = mode === "admin";
   const { items: packages } = useCollection<TourPackage>("packages");
   const { items: destinations } = useCollection<Destination>("destinations");
   const [departures, setDepartures] = useState<GroupDeparture[]>([]);
@@ -66,6 +67,7 @@ export default function AgentBookingForm() {
   const [addonIds, setAddonIds] = useState<string[]>([]);
   const [travellerNames, setTravellerNames] = useState("");
   const [specialRequirements, setSpecialRequirements] = useState("");
+  const [budget, setBudget] = useState("");
   const [agentReference, setAgentReference] = useState("");
   const [internalRemarks, setInternalRemarks] = useState("");
   const [notifyBooker, setNotifyBooker] = useState(true);
@@ -74,19 +76,18 @@ export default function AgentBookingForm() {
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    // The admin departures endpoint is admin-only, so agents read the public
-    // list of active departures instead.
-    fetch("/api/departures", { cache: "no-store" })
+    fetch(isAdmin ? "/api/admin/departures" : "/api/departures", { cache: "no-store" })
       .then((res) => res.json())
       .then((data) => setDepartures(data.departures || []))
       .catch(() => setDepartures([]));
-  }, []);
+  }, [isAdmin]);
 
   const activePackages = packages.filter((item) => item.status !== "draft");
   const activeDestinations = destinations.filter((item) => item.status !== "draft");
   const selectedPackage = activePackages.find((item) => item.id === selectedId);
   const selectedDestination = activeDestinations.find((item) => item.id === selectedId);
-  const selectedDeparture = departures.find((item) => item.id === departureId);
+  const activeDepartures = departures.filter((item) => item.is_active !== false);
+  const selectedDeparture = activeDepartures.find((item) => item.id === departureId);
   const fullPackage = selectedPackage ? getFullPackageForPackage(selectedPackage) : null;
 
   const effectiveDuration =
@@ -106,7 +107,7 @@ export default function AgentBookingForm() {
       : basis === "destination" && selectedDestination
         ? destinationSnapshot(selectedDestination)
         : {
-            source: "custom",
+            source: basis === "departure" ? "package" : "custom",
             title:
               basis === "departure" && selectedDeparture
                 ? selectedDeparture.destination
@@ -165,7 +166,15 @@ export default function AgentBookingForm() {
     setError("");
 
     if (client.name.trim().length < 2) {
-      setError("Please enter your client's name.");
+      setError(isAdmin ? "Please enter the customer's name." : "Please enter your client's name.");
+      return;
+    }
+    if (isAdmin && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(client.email.trim())) {
+      setError("Please enter a valid customer email address.");
+      return;
+    }
+    if (isAdmin && client.phone.replace(/\D/g, "").length < 8) {
+      setError("Please enter a valid customer phone number.");
       return;
     }
     if (basis === "package" && !selectedPackage) {
@@ -188,10 +197,16 @@ export default function AgentBookingForm() {
       setError("Enter the travel date.");
       return;
     }
+    if (selectedDeparture && travellerCount > selectedDeparture.seats_left) {
+      setError(
+        `Only ${selectedDeparture.seats_left} seat${selectedDeparture.seats_left === 1 ? " is" : "s are"} currently available for this departure.`
+      );
+      return;
+    }
 
     setBusy(true);
     try {
-      const response = await fetch("/api/agent/bookings", {
+      const response = await fetch(isAdmin ? "/api/admin/bookings" : "/api/agent/bookings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -211,6 +226,7 @@ export default function AgentBookingForm() {
           pricingSnapshot: quote,
           packageSnapshot: { ...snapshot, duration: effectiveDuration },
           travellerNames,
+          budget,
           specialRequirements,
           contact: client,
           agentReference,
@@ -223,7 +239,7 @@ export default function AgentBookingForm() {
         setError(data.error || "Could not create the booking.");
         return;
       }
-      router.push(`/agent/bookings/${data.booking.id}`);
+      router.push(`/${mode}/bookings/${data.booking.id}`);
     } catch {
       setError("Network error. Please try again.");
     } finally {
@@ -242,25 +258,30 @@ export default function AgentBookingForm() {
       <section className="rounded-2xl border border-slate-100 bg-white p-6">
         <div className="flex items-center gap-2">
           <Briefcase size={18} className="text-accent" />
-          <h2 className="font-heading text-base font-bold text-primary">Your client</h2>
+          <h2 className="font-heading text-base font-bold text-primary">
+            {isAdmin ? "Customer and lead traveller" : "Your client"}
+          </h2>
         </div>
         <p className="mt-1 text-xs text-foreground-muted">
-          The booking is raised in your name — quotations, documents and updates stay with you.
-          Add your client&apos;s own contact details only if they should receive them directly.
+          {isAdmin
+            ? "Enter the lead traveller's contact details. If the email already has an account, this trip is linked automatically."
+            : "The booking is raised in your name — quotations, documents and updates stay with you. Add your client's own contact details only if they should receive them directly."}
         </p>
         <div className="mt-5 grid gap-4 sm:grid-cols-3">
           <label className="space-y-2">
-            <span className={labelClass}>Client name</span>
+              <span className={labelClass}>{isAdmin ? "Customer name" : "Client name"}</span>
             <input
               value={client.name}
               onChange={(event) => setClient((c) => ({ ...c, name: event.target.value }))}
               className={inputClass}
               placeholder="Lead traveller"
+              required
             />
           </label>
           <label className="space-y-2">
             <span className={labelClass}>
-              Client email <span className="font-medium normal-case text-foreground-light">optional</span>
+              {isAdmin ? "Customer email" : "Client email"}{" "}
+              {!isAdmin ? <span className="font-medium normal-case text-foreground-light">optional</span> : null}
             </span>
             <input
               type="email"
@@ -268,11 +289,13 @@ export default function AgentBookingForm() {
               onChange={(event) => setClient((c) => ({ ...c, email: event.target.value }))}
               className={inputClass}
               placeholder="Defaults to yours"
+              required={isAdmin}
             />
           </label>
           <label className="space-y-2">
             <span className={labelClass}>
-              Client phone <span className="font-medium normal-case text-foreground-light">optional</span>
+              {isAdmin ? "Customer phone" : "Client phone"}{" "}
+              {!isAdmin ? <span className="font-medium normal-case text-foreground-light">optional</span> : null}
             </span>
             <input
               type="tel"
@@ -280,13 +303,16 @@ export default function AgentBookingForm() {
               onChange={(event) => setClient((c) => ({ ...c, phone: event.target.value }))}
               className={inputClass}
               placeholder="Defaults to yours"
+              required={isAdmin}
             />
           </label>
         </div>
-        <p className="mt-3 text-xs text-foreground-muted">
-          If this email already has a customer account, the booking is linked to it and shows up
-          in their My Trips automatically.
-        </p>
+        {!isAdmin ? (
+          <p className="mt-3 text-xs text-foreground-muted">
+            If this email already has a customer account, the booking is linked to it and shows up
+            in their My Trips automatically.
+          </p>
+        ) : null}
       </section>
 
       <section className="rounded-2xl border border-slate-100 bg-white p-6">
@@ -303,8 +329,9 @@ export default function AgentBookingForm() {
             <button
               key={value}
               type="button"
+              aria-pressed={basis === value}
               onClick={() => selectBasis(value)}
-              className={`rounded-full border px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors ${
+              className={`min-h-11 rounded-full border px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors ${
                 basis === value
                   ? "border-primary bg-primary text-white"
                   : "border-slate-200 bg-white text-primary hover:border-primary"
@@ -361,7 +388,7 @@ export default function AgentBookingForm() {
                 className={inputClass}
               >
                 <option value="">Select a departure…</option>
-                {departures.map((item) => (
+                {activeDepartures.map((item) => (
                   <option key={item.id} value={item.id} disabled={item.seats_left <= 0}>
                     {item.destination} — {item.date} — {item.seats_left} seats left
                   </option>
@@ -407,6 +434,17 @@ export default function AgentBookingForm() {
               placeholder="6 Nights / 7 Days"
             />
           </label>
+          {basis === "custom" ? (
+            <label className="space-y-2 sm:col-span-2">
+              <span className={labelClass}>Budget preference</span>
+              <input
+                value={budget}
+                onChange={(event) => setBudget(event.target.value)}
+                className={inputClass}
+                placeholder="e.g. ₹75,000 per person"
+              />
+            </label>
+          ) : null}
         </div>
 
         {pricing.addons.length > 0 ? (
@@ -526,17 +564,19 @@ export default function AgentBookingForm() {
       <section className="rounded-2xl border border-slate-100 bg-white p-6">
         <h2 className="font-heading text-base font-bold text-primary">Notes and reference</h2>
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
-          <label className="space-y-2">
-            <span className={labelClass}>Your reference</span>
-            <input
-              value={agentReference}
-              onChange={(event) => setAgentReference(event.target.value)}
-              className={inputClass}
-              placeholder="Your own booking reference"
-            />
-          </label>
-          <label className="space-y-2">
-            <span className={labelClass}>Client requests</span>
+          {!isAdmin ? (
+            <label className="space-y-2">
+              <span className={labelClass}>Your reference</span>
+              <input
+                value={agentReference}
+                onChange={(event) => setAgentReference(event.target.value)}
+                className={inputClass}
+                placeholder="Your own booking reference"
+              />
+            </label>
+          ) : null}
+          <label className={`space-y-2 ${isAdmin ? "sm:col-span-2" : ""}`}>
+            <span className={labelClass}>{isAdmin ? "Customer requests" : "Client requests"}</span>
             <input
               value={specialRequirements}
               onChange={(event) => setSpecialRequirements(event.target.value)}
@@ -551,21 +591,23 @@ export default function AgentBookingForm() {
               value={internalRemarks}
               onChange={(event) => setInternalRemarks(event.target.value)}
               className={inputClass}
-              placeholder="Only visible to you, other agents and admin."
+              placeholder={isAdmin ? "Only visible to admins and assigned agents." : "Only visible to you, other agents and admin."}
             />
           </label>
         </div>
-        <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 p-3">
-          <input
-            type="checkbox"
-            checked={notifyBooker}
-            onChange={(event) => setNotifyBooker(event.target.checked)}
-            className="mt-0.5 h-4 w-4 accent-accent"
-          />
-          <span className="text-xs leading-relaxed text-foreground-muted">
-            Copy me on everything sent to the client.
-          </span>
-        </label>
+        {!isAdmin ? (
+          <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 p-3">
+            <input
+              type="checkbox"
+              checked={notifyBooker}
+              onChange={(event) => setNotifyBooker(event.target.checked)}
+              className="mt-0.5 h-4 w-4 accent-accent"
+            />
+            <span className="text-xs leading-relaxed text-foreground-muted">
+              Copy me on everything sent to the client.
+            </span>
+          </label>
+        ) : null}
       </section>
 
       <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-primary p-6 text-white">

@@ -232,17 +232,17 @@ export default function AgentBookingDetailPage() {
               Assign to Me
             </PrimaryButton>
           )}
-          {booking.status !== "approved" && !isTerminal && (
+          {booking.status === "quoted" && (
             <PrimaryButton size="sm" variant="navy" isLoading={busy} onClick={() => patch({ action: "approve" })}>
               Approve
             </PrimaryButton>
           )}
-          {!isTerminal && booking.status !== "confirmed" && booking.status !== "completed" && (
+          {["new", "reviewing", "quoted", "approved"].includes(booking.status) && (
             <SecondaryButton size="sm" variant="outline-coral" onClick={() => patch({ action: "reject" })}>
               Reject
             </SecondaryButton>
           )}
-          {booking.payment_status !== "received" && (
+          {booking.payment_status !== "received" && ["approved", "payment_pending"].includes(booking.status) && (
             <PrimaryButton size="sm" variant="gold" isLoading={busy} onClick={() => patch({ action: "markPaymentReceived" })}>
               Mark Payment Received
             </PrimaryButton>
@@ -259,7 +259,7 @@ export default function AgentBookingDetailPage() {
           )}
         </div>
 
-        <div className="flex flex-wrap items-end gap-3 pt-2 border-t border-slate-100">
+        {["new", "reviewing", "quoted"].includes(booking.status) ? <div className="flex flex-wrap items-end gap-3 pt-2 border-t border-slate-100">
           <div className="space-y-1">
             <label className="text-xs font-semibold text-primary uppercase">Price</label>
             <input
@@ -278,7 +278,7 @@ export default function AgentBookingDetailPage() {
           >
             Confirm Pricing
           </PrimaryButton>
-        </div>
+        </div> : null}
 
         <div className="space-y-1 pt-2 border-t border-slate-100">
           <label className="text-xs font-semibold text-primary uppercase">Internal Remarks</label>

@@ -2,9 +2,18 @@ import { NextResponse } from "next/server";
 import { isDbConfigured } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin/auth";
 import { createBooking, listAll, SoldOutError } from "@/lib/bookings/db";
+import { findUserByEmail } from "@/lib/auth/users";
+import { normalizeParty, PartyError, type PartyContactInput } from "@/lib/bookings/party";
 import type { BookingType } from "@/lib/bookings/types";
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import type {
+  BookingPackageSnapshot,
+  BookingSource,
+  QuoteSnapshot,
+  RoomConfiguration,
+  SelectedAddon,
+  TravellerBreakdown,
+} from "@/lib/bookings/pricing";
+import { totalTravellers } from "@/lib/bookings/pricing";
 
 export async function GET(request: Request) {
   if (!isDbConfigured()) return NextResponse.json({ bookings: [] });
@@ -35,6 +44,16 @@ interface CreateBody {
   contactName?: string;
   contactEmail?: string;
   contactPhone?: string;
+  contact?: PartyContactInput;
+  bookingSource?: BookingSource;
+  departureCity?: string;
+  durationLabel?: string;
+  travellers?: TravellerBreakdown;
+  rooms?: RoomConfiguration;
+  selectedAddons?: SelectedAddon[];
+  pricingSnapshot?: QuoteSnapshot;
+  packageSnapshot?: BookingPackageSnapshot;
+  internalRemarks?: string;
 }
 
 export async function POST(request: Request) {
@@ -56,42 +75,70 @@ export async function POST(request: Request) {
   }
 
   const type: BookingType = body.type === "customized" ? "customized" : "standard";
-  const contactName = (body.contactName || "").trim();
-  const contactEmail = (body.contactEmail || "").trim().toLowerCase();
-  const contactPhone = (body.contactPhone || "").trim();
+  const bookingSource: BookingSource =
+    body.bookingSource === "destination" || body.bookingSource === "custom"
+      ? body.bookingSource
+      : "package";
 
-  if (contactName.length < 2) return fail("Please enter the customer's name.");
-  if (!EMAIL_RE.test(contactEmail)) return fail("Please enter a valid email address.");
-  if (contactPhone.length < 6) return fail("Please enter a valid phone number.");
-  if (!body.packageId && !body.departureId && !(body.destination || "").trim()) {
-    return fail("Select a package, a departure, or enter a destination.");
+  let party;
+  try {
+    party = normalizeParty(
+      {
+        bookedFor: "self",
+        contact: body.contact || {
+          name: body.contactName,
+          email: body.contactEmail,
+          phone: body.contactPhone,
+        },
+      },
+      { allow: ["self"] }
+    );
+  } catch (error) {
+    if (error instanceof PartyError) return fail(error.message);
+    throw error;
   }
 
-  const travellersCount = body.travellersCount ? Number(body.travellersCount) : undefined;
+  if (type === "customized" && !(body.destination || "").trim()) {
+    return fail("Please enter the destination the customer wants.");
+  }
+  if (type === "standard" && !(body.packageTitle || "").trim() && !body.departureId) {
+    return fail("Select a package or a group departure.");
+  }
+  if (!(body.travelDate || "").trim() && !body.departureId) {
+    return fail("Please enter the travel date.");
+  }
+
+  const travellers = sanitizeTravellers(body.travellers, body.travellersCount);
+  const travellersCount = totalTravellers(travellers);
+  if (travellersCount < 1) return fail("Please add at least one traveller.");
+  const rooms = sanitizeRooms(body.rooms, travellersCount);
+  const existingCustomer = await findUserByEmail(party.contact.email);
 
   try {
     const booking = await createBooking({
       type,
+      userId: existingCustomer?.id ?? null,
       packageId: body.packageId,
       packageTitle: body.packageTitle,
       departureId: body.departureId,
+      bookingSource,
       destination: body.destination,
       travelDate: body.travelDate,
-      travellersCount: Number.isFinite(travellersCount) ? travellersCount : undefined,
+      travellersCount,
       travellerNames: body.travellerNames,
       budget: body.budget,
       specialRequirements: body.specialRequirements,
-      // A walk-in or phone booking is still the customer booking for
-      // themselves — admin is recording it, not travelling.
-      party: {
-        bookedFor: "self",
-        contact: { name: contactName, email: contactEmail, phone: contactPhone },
-        booker: null,
-        relation: null,
-        notifyBooker: true,
-      },
+      departureCity: body.departureCity,
+      durationLabel: body.durationLabel,
+      travellers,
+      rooms,
+      selectedAddons: body.selectedAddons,
+      pricingSnapshot: body.pricingSnapshot,
+      packageSnapshot: body.packageSnapshot,
+      party,
       createdBy: "admin",
       createdNote: "Logged by admin",
+      internalRemarks: body.internalRemarks,
     });
     return NextResponse.json({ ok: true, booking });
   } catch (error) {
@@ -105,4 +152,36 @@ export async function POST(request: Request) {
 
 function fail(error: string) {
   return NextResponse.json({ ok: false, error }, { status: 400 });
+}
+
+function sanitizeTravellers(
+  value: TravellerBreakdown | undefined,
+  fallback: string | number | undefined
+): TravellerBreakdown {
+  const safe = (input: unknown, defaultValue = 0) => {
+    const numeric = Number(input);
+    return Number.isFinite(numeric) ? Math.min(99, Math.max(0, Math.floor(numeric))) : defaultValue;
+  };
+  return {
+    adults: safe(value?.adults, safe(fallback, 1)),
+    childrenWithBed: safe(value?.childrenWithBed),
+    childrenWithoutBed: safe(value?.childrenWithoutBed),
+    infants: safe(value?.infants),
+  };
+}
+
+function sanitizeRooms(value: RoomConfiguration | undefined, travellersCount: number): RoomConfiguration {
+  const safe = (input: unknown) => {
+    const numeric = Number(input);
+    return Number.isFinite(numeric) ? Math.min(99, Math.max(0, Math.floor(numeric))) : 0;
+  };
+  const rooms = {
+    singleRooms: safe(value?.singleRooms),
+    doubleRooms: safe(value?.doubleRooms),
+    tripleRooms: safe(value?.tripleRooms),
+  };
+  if (rooms.singleRooms + rooms.doubleRooms + rooms.tripleRooms === 0) {
+    rooms.doubleRooms = Math.max(1, Math.ceil(travellersCount / 2));
+  }
+  return rooms;
 }

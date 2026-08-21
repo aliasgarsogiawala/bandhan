@@ -37,6 +37,15 @@ export async function POST(request: Request, { params }: RouteParams) {
     : "other";
   const url = (body.url || "").trim();
   if (!url) return NextResponse.json({ ok: false, error: "Missing document URL." }, { status: 400 });
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol !== "https:" && parsed.protocol !== "http:") throw new Error("Invalid protocol");
+  } catch {
+    return NextResponse.json(
+      { ok: false, error: "Enter a valid HTTP or HTTPS document URL." },
+      { status: 400 }
+    );
+  }
 
   try {
     const document = await addDocument(id, docType, url, actor.label);

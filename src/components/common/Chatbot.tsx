@@ -360,7 +360,7 @@ const FAQS: Record<string, Faq> = {
     chipLabel: "Payment & advance",
     keywords: ["payment", "pay", "advance", "deposit", "installment", "emi", "upi", "card", "money"],
     answer:
-      "There is no payment just to submit a request. After an agent verifies availability, your quotation shows the exact booking advance and remaining balance. Approved bookings can be paid securely through Razorpay using UPI, cards, netbanking or wallets. Please do not send money against an unverified price.",
+      "There is no payment just to submit a request. After an agent verifies availability, your quotation shows the exact booking advance and remaining balance. For an approved booking, your Bandhan travel consultant will contact you directly with verified payment instructions. Please do not send money against an unverified price or unsolicited message.",
     followups: ["booking", "cancellation", "contact"],
   },
   cancellation: {

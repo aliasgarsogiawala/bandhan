@@ -7,7 +7,6 @@ import {
   createBooking,
   listAll,
   listForAgent,
-  setRemarks,
   SoldOutError,
 } from "@/lib/bookings/db";
 import { normalizeParty, PartyError, type PartyContactInput } from "@/lib/bookings/party";
@@ -160,10 +159,8 @@ export async function POST(request: Request) {
       status: "reviewing",
       createdBy: actor.label,
       createdNote: `Raised by ${party.booker?.name} for ${party.contact.name}`,
+      internalRemarks: body.internalRemarks,
     });
-
-    const remarks = (body.internalRemarks || "").trim();
-    if (remarks) await setRemarks(booking.id, remarks);
 
     return NextResponse.json({
       ok: true,

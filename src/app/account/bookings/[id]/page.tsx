@@ -13,7 +13,6 @@ import {
 } from "@/lib/bookings/types";
 import type { BookingDetail } from "@/lib/bookings/types";
 import { BookingTravellerEditor } from "@/components/account/BookingTravellerEditor";
-import { PaymentCheckoutButton } from "@/components/account/PaymentCheckoutButton";
 import PdfPreviewModal from "@/components/ui/PdfPreviewModal";
 
 const DOC_LABELS: Record<string, string> = {
@@ -146,7 +145,21 @@ export default function AccountBookingDetailPage() {
                   </div>
                 </div>
 
-                <PaymentCheckoutButton booking={booking} />
+                {booking.payment_status !== "received" &&
+                ["approved", "payment_pending"].includes(booking.status) ? (
+                  <div
+                    role="status"
+                    className="mt-6 rounded-2xl border border-accent/20 bg-accent/5 px-5 py-4"
+                  >
+                    <p className="text-xs font-bold uppercase tracking-[0.14em] text-accent">
+                      Payment coordination
+                    </p>
+                    <p className="mt-1 text-sm leading-relaxed text-foreground-muted">
+                      Bandhan Tours handles payment arrangements directly. Your travel consultant
+                      will contact you with the verified amount and payment instructions.
+                    </p>
+                  </div>
+                ) : null}
 
                 {/* Status timeline */}
                 <div className="mt-8">

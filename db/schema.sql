@@ -177,22 +177,6 @@ CREATE TABLE IF NOT EXISTS site_content (
 CREATE INDEX IF NOT EXISTS site_content_collection_idx
   ON site_content (collection_key, sort_order, updated_at DESC);
 
-CREATE TABLE IF NOT EXISTS booking_payments (
-  id                  uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  booking_id          uuid NOT NULL REFERENCES bookings(id) ON DELETE CASCADE,
-  provider            text NOT NULL DEFAULT 'razorpay',
-  provider_session_id text NOT NULL UNIQUE,
-  provider_payment_id text,
-  amount_minor        int NOT NULL,
-  currency            text NOT NULL DEFAULT 'inr',
-  status              text NOT NULL DEFAULT 'pending', -- pending | processing | paid | failed | refunded
-  created_at          timestamptz NOT NULL DEFAULT now(),
-  updated_at          timestamptz NOT NULL DEFAULT now()
-);
-
-CREATE INDEX IF NOT EXISTS booking_payments_booking_id_idx ON booking_payments (booking_id);
-ALTER TABLE booking_payments ALTER COLUMN provider SET DEFAULT 'razorpay';
-
 INSERT INTO group_departures (destination, date, duration, price, seats_left, total_seats, status)
 SELECT * FROM (VALUES
   ('Leh Ladakh Summer Special', 'Aug 15, 2026', '7 Nights / 8 Days', '₹42,500', 6, 30, 'limited-seats'),

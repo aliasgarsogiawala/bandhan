@@ -1,5 +1,5 @@
 import { getSql } from "@/lib/db";
-import { decrementSeats, getDepartureById, restoreSeats } from "@/lib/departures/db";
+import { getDepartureById } from "@/lib/departures/db";
 import type {
   Booking,
   BookingDetail,
@@ -16,12 +16,13 @@ import type { BookingParty } from "./party";
 import type {
   BookingPackageSnapshot,
   BookingSource,
+  QuoteLineItem,
   QuoteSnapshot,
   RoomConfiguration,
   SelectedAddon,
   TravellerBreakdown,
 } from "./pricing";
-import { formatMoney } from "./pricing";
+import { formatMoney, parseMoney } from "./pricing";
 
 const CODE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // no 0/O/1/I
 
@@ -74,6 +75,7 @@ export interface CreateBookingInput {
   /** Who logged this request — defaults to 'system' for the public booking forms. */
   createdBy?: string;
   createdNote?: string;
+  internalRemarks?: string;
 }
 
 export class SoldOutError extends Error {
@@ -118,7 +120,7 @@ export async function createBooking(input: CreateBookingInput): Promise<Booking>
       contact_name, contact_email, contact_phone, booking_source, departure_city,
       duration_label, adults, children_with_bed, children_without_bed, infants,
       room_configuration, selected_addons, pricing_snapshot, package_snapshot,
-      terms_accepted, quotation_number, price_amount, status, booked_for,
+      terms_accepted, quotation_number, price_amount, status, internal_remarks, booked_for,
       booker_name, booker_email, booker_phone, booker_relation, notify_booker, agent_reference
     ) VALUES (
       ${code}, ${input.type}, ${input.userId || null}, ${input.agentId || null},
@@ -132,7 +134,8 @@ export async function createBooking(input: CreateBookingInput): Promise<Booking>
       ${JSON.stringify(rooms)}::jsonb, ${selectedAddons}::jsonb, ${pricingSnapshot}::jsonb,
       ${packageSnapshot}::jsonb, ${Boolean(input.termsAccepted)}, ${quotationNumber},
       ${input.pricingSnapshot?.total ? formatMoney(input.pricingSnapshot.total) : null},
-      ${status}, ${party.bookedFor}, ${party.booker?.name || null},
+      ${status}, ${(input.internalRemarks || "").trim() || null}, ${party.bookedFor},
+      ${party.booker?.name || null},
       ${party.booker?.email || null}, ${party.booker?.phone || null},
       ${party.relation || null}, ${party.notifyBooker}, ${input.agentReference || null}
     )
@@ -205,35 +208,44 @@ export async function updateStatus(
   changedBy: string,
   note?: string
 ): Promise<Booking | null> {
-  const sql = getSql();
-  const current = await getBookingById(bookingId);
-  if (!current) return null;
-
-  // Seats are claimed only once a booking is actually confirmed (payment
-  // received), and released if a confirmed booking later falls through —
-  // this is the one place every status transition passes through.
-  if (current.departure_id && toStatus === "confirmed" && current.status !== "confirmed") {
-    const claimed = await decrementSeats(current.departure_id, current.travellers_count || 1);
-    if (!claimed) throw new SoldOutError();
-  } else if (
-    current.departure_id &&
-    current.status === "confirmed" &&
-    (toStatus === "cancelled" || toStatus === "rejected")
-  ) {
-    await restoreSeats(current.departure_id, current.travellers_count || 1);
+  if (toStatus === "confirmed") {
+    return setPaymentStatus(bookingId, "received", changedBy);
   }
-
+  const sql = getSql();
   const rows = (await sql`
-    UPDATE bookings SET status = ${toStatus}, updated_at = now()
-    WHERE id = ${bookingId}
-    RETURNING *
+    WITH current AS MATERIALIZED (
+      SELECT * FROM bookings WHERE id = ${bookingId} FOR UPDATE
+    ), restored AS (
+      UPDATE group_departures
+      SET
+        seats_left = LEAST(
+          seats_left + COALESCE(current.travellers_count, 1),
+          total_seats
+        ),
+        status = CASE
+          WHEN group_departures.status = 'sold-out' AND seats_left + COALESCE(current.travellers_count, 1) > 0
+            THEN 'limited-seats'
+          ELSE group_departures.status
+        END,
+        updated_at = now()
+      FROM current
+      WHERE group_departures.id = current.departure_id
+        AND current.status = 'confirmed'
+        AND ${toStatus} IN ('cancelled', 'rejected')
+      RETURNING group_departures.id
+    ), updated AS (
+      UPDATE bookings SET status = ${toStatus}, updated_at = now()
+      FROM current
+      WHERE bookings.id = current.id
+      RETURNING bookings.*
+    ), history AS (
+      INSERT INTO booking_status_history (booking_id, from_status, to_status, note, changed_by)
+      SELECT current.id, current.status, ${toStatus}, ${note || null}, ${changedBy}
+      FROM current JOIN updated ON updated.id = current.id
+      RETURNING id
+    )
+    SELECT * FROM updated
   `) as Booking[];
-
-  await sql`
-    INSERT INTO booking_status_history (booking_id, from_status, to_status, note, changed_by)
-    VALUES (${bookingId}, ${current.status}, ${toStatus}, ${note || null}, ${changedBy})
-  `;
-
   return rows[0] ?? null;
 }
 
@@ -242,16 +254,79 @@ export async function setPricing(
   priceAmount: string,
   changedBy: string
 ): Promise<Booking | null> {
+  const current = await getBookingById(bookingId);
+  if (!current) return null;
+
+  const total = parseMoney(priceAmount);
+  if (total <= 0) throw new Error("A valid quoted price is required.");
+
+  const previous = current.pricing_snapshot || ({} as QuoteSnapshot);
+  const depositPercent = Math.min(100, Math.max(0, Number(previous.depositPercent || 25)));
+  const depositAmount = Math.round((total * depositPercent) / 100);
+  const baseLines = (Array.isArray(previous.lineItems) ? previous.lineItems : []).filter(
+    (line) => line.key !== "managed-price-adjustment" && line.key !== "managed-package-quote"
+  );
+  const baseTotal = baseLines.reduce((sum, line) => sum + Number(line.amount || 0), 0);
+  const lineItems: QuoteLineItem[] = baseLines.length
+    ? [
+        ...baseLines,
+        ...(baseTotal !== total
+          ? [
+              {
+                key: "managed-price-adjustment",
+                label: "Final quotation adjustment",
+                quantity: 1,
+                unitPrice: total - baseTotal,
+                amount: total - baseTotal,
+              },
+            ]
+          : []),
+      ]
+    : [
+        {
+          key: "managed-package-quote",
+          label: "Package quotation",
+          quantity: 1,
+          unitPrice: total,
+          amount: total,
+        },
+      ];
+  const snapshot: QuoteSnapshot = {
+    currency: "INR",
+    lineItems,
+    subtotal: total,
+    total,
+    depositPercent,
+    depositAmount,
+    balanceAmount: Math.max(0, total - depositAmount),
+    validityDays: Math.max(1, Number(previous.validityDays || 7)),
+    generatedAt: new Date().toISOString(),
+    isIndicative: false,
+  };
+
   const sql = getSql();
   const rows = (await sql`
-    UPDATE bookings SET price_amount = ${priceAmount}, updated_at = now()
-    WHERE id = ${bookingId}
-    RETURNING *
+    WITH current AS MATERIALIZED (
+      SELECT id, status FROM bookings WHERE id = ${bookingId} FOR UPDATE
+    ), updated AS (
+      UPDATE bookings
+      SET
+        price_amount = ${formatMoney(total)},
+        pricing_snapshot = ${JSON.stringify(snapshot)}::jsonb,
+        quotation_status = 'generated',
+        status = 'quoted',
+        updated_at = now()
+      FROM current
+      WHERE bookings.id = current.id
+      RETURNING bookings.*
+    ), history AS (
+      INSERT INTO booking_status_history (booking_id, from_status, to_status, note, changed_by)
+      SELECT current.id, current.status, 'quoted', ${`Final price set to ${formatMoney(total)}`}, ${changedBy}
+      FROM current JOIN updated ON updated.id = current.id
+      RETURNING id
+    )
+    SELECT * FROM updated
   `) as Booking[];
-  if (rows[0]) {
-    await updateStatus(bookingId, "quoted", changedBy, `Price set to ${priceAmount}`);
-    return getBookingById(bookingId);
-  }
   return rows[0] ?? null;
 }
 
@@ -261,45 +336,223 @@ export async function setPaymentStatus(
   changedBy: string
 ): Promise<Booking | null> {
   const sql = getSql();
+  if (paymentStatus === "received") {
+    const rows = (await sql`
+      WITH current AS MATERIALIZED (
+        SELECT * FROM bookings WHERE id = ${bookingId} FOR UPDATE
+      ), claimed AS (
+        UPDATE group_departures
+        SET
+          seats_left = seats_left - COALESCE(current.travellers_count, 1),
+          status = CASE
+            WHEN seats_left - COALESCE(current.travellers_count, 1) <= 0 THEN 'sold-out'
+            ELSE group_departures.status
+          END,
+          updated_at = now()
+        FROM current
+        WHERE group_departures.id = current.departure_id
+          AND current.status IN ('approved', 'payment_pending')
+          AND group_departures.seats_left >= COALESCE(current.travellers_count, 1)
+        RETURNING group_departures.id
+      ), updated AS (
+        UPDATE bookings
+        SET payment_status = 'received', status = 'confirmed', updated_at = now()
+        FROM current
+        WHERE bookings.id = current.id
+          AND (
+            current.status = 'confirmed'
+            OR (
+              current.status IN ('approved', 'payment_pending')
+              AND (
+                current.departure_id IS NULL
+                OR EXISTS (SELECT 1 FROM claimed WHERE claimed.id = current.departure_id)
+              )
+            )
+          )
+        RETURNING bookings.*
+      ), history AS (
+        INSERT INTO booking_status_history (booking_id, from_status, to_status, note, changed_by)
+        SELECT current.id, current.status, 'confirmed', 'Payment received', ${changedBy}
+        FROM current JOIN updated ON updated.id = current.id
+        WHERE current.status <> 'confirmed' OR current.payment_status <> 'received'
+        RETURNING id
+      )
+      SELECT * FROM updated
+    `) as Booking[];
+    if (!rows[0]) {
+      const current = await getBookingById(bookingId);
+      if (current?.departure_id && ["approved", "payment_pending"].includes(current.status)) {
+        throw new SoldOutError();
+      }
+    }
+    return rows[0] ?? null;
+  }
+
   const rows = (await sql`
     UPDATE bookings SET payment_status = ${paymentStatus}, updated_at = now()
     WHERE id = ${bookingId}
     RETURNING *
   `) as Booking[];
-  if (rows[0] && paymentStatus === "received") {
-    await updateStatus(bookingId, "confirmed", changedBy, "Payment received");
-    return getBookingById(bookingId);
-  }
   return rows[0] ?? null;
 }
 
 export async function assignAgent(
   bookingId: string,
   agentId: string,
+  changedBy: string,
+  assignedTo = agentId
+): Promise<Booking | null> {
+  const sql = getSql();
+  const rows = (await sql`
+    WITH current AS MATERIALIZED (
+      SELECT id, status, agent_id FROM bookings WHERE id = ${bookingId} FOR UPDATE
+    ), updated AS (
+      UPDATE bookings
+      SET
+        agent_id = ${agentId},
+        status = CASE WHEN current.status = 'new' THEN 'reviewing' ELSE current.status END,
+        updated_at = now()
+      FROM current
+      WHERE bookings.id = current.id
+      RETURNING bookings.*
+    ), history AS (
+      INSERT INTO booking_status_history (booking_id, from_status, to_status, note, changed_by)
+      SELECT
+        current.id,
+        current.status,
+        CASE WHEN current.status = 'new' THEN 'reviewing' ELSE current.status END,
+        ${`Assigned to ${assignedTo}`},
+        ${changedBy}
+      FROM current JOIN updated ON updated.id = current.id
+      WHERE current.agent_id IS DISTINCT FROM ${agentId}::uuid
+      RETURNING id
+    )
+    SELECT * FROM updated
+  `) as Booking[];
+  return rows[0] ?? null;
+}
+
+export async function unassignAgent(
+  bookingId: string,
   changedBy: string
 ): Promise<Booking | null> {
   const sql = getSql();
   const rows = (await sql`
-    UPDATE bookings SET agent_id = ${agentId}, updated_at = now()
-    WHERE id = ${bookingId}
-    RETURNING *
+    WITH current AS MATERIALIZED (
+      SELECT id, status, agent_id FROM bookings WHERE id = ${bookingId} FOR UPDATE
+    ), updated AS (
+      UPDATE bookings SET agent_id = NULL, updated_at = now()
+      FROM current
+      WHERE bookings.id = current.id
+      RETURNING bookings.*
+    ), history AS (
+      INSERT INTO booking_status_history (booking_id, from_status, to_status, note, changed_by)
+      SELECT current.id, current.status, current.status, 'Agent unassigned', ${changedBy}
+      FROM current JOIN updated ON updated.id = current.id
+      WHERE current.agent_id IS NOT NULL
+      RETURNING id
+    )
+    SELECT * FROM updated
   `) as Booking[];
-  if (rows[0] && rows[0].status === "new") {
-    await updateStatus(bookingId, "reviewing", changedBy, "Assigned to agent");
-    return getBookingById(bookingId);
-  }
   return rows[0] ?? null;
 }
 
 export async function setRemarks(
   bookingId: string,
-  remarks: string
+  remarks: string,
+  changedBy = "system"
 ): Promise<Booking | null> {
   const sql = getSql();
   const rows = (await sql`
-    UPDATE bookings SET internal_remarks = ${remarks}, updated_at = now()
-    WHERE id = ${bookingId}
-    RETURNING *
+    WITH current AS MATERIALIZED (
+      SELECT id, status, internal_remarks FROM bookings WHERE id = ${bookingId} FOR UPDATE
+    ), updated AS (
+      UPDATE bookings SET internal_remarks = ${remarks}, updated_at = now()
+      FROM current
+      WHERE bookings.id = current.id
+      RETURNING bookings.*
+    ), history AS (
+      INSERT INTO booking_status_history (booking_id, from_status, to_status, note, changed_by)
+      SELECT current.id, current.status, current.status, 'Internal remarks updated', ${changedBy}
+      FROM current JOIN updated ON updated.id = current.id
+      WHERE current.internal_remarks IS DISTINCT FROM ${remarks}
+      RETURNING id
+    )
+    SELECT * FROM updated
+  `) as Booking[];
+  return rows[0] ?? null;
+}
+
+export interface ManagedBookingDetailsPatch {
+  contactName: string;
+  contactEmail: string;
+  contactPhone: string;
+  destination?: string;
+  travelDate?: string;
+  departureCity?: string;
+  durationLabel?: string;
+  travellerNames?: string;
+  budget?: string;
+  specialRequirements?: string;
+  travellers: TravellerBreakdown;
+  rooms: RoomConfiguration;
+  userId?: string | null;
+}
+
+export async function updateManagedBookingDetails(
+  bookingId: string,
+  patch: ManagedBookingDetailsPatch,
+  changedBy: string
+): Promise<Booking | null> {
+  const current = await getBookingById(bookingId);
+  if (!current) return null;
+  const travellersCount =
+    patch.travellers.adults +
+    patch.travellers.childrenWithBed +
+    patch.travellers.childrenWithoutBed +
+    patch.travellers.infants;
+  const packageSnapshot: BookingPackageSnapshot = {
+    ...(current.package_snapshot || ({} as BookingPackageSnapshot)),
+    destination: patch.destination?.trim() || current.destination || "To be confirmed",
+    duration: patch.durationLabel?.trim() || current.duration_label || undefined,
+  };
+
+  const sql = getSql();
+  const rows = (await sql`
+    WITH locked AS MATERIALIZED (
+      SELECT id, status FROM bookings WHERE id = ${bookingId} FOR UPDATE
+    ), updated AS (
+      UPDATE bookings
+      SET
+        user_id = ${patch.userId === undefined ? current.user_id : patch.userId},
+        contact_name = ${patch.contactName.trim()},
+        contact_email = ${patch.contactEmail.trim().toLowerCase()},
+        contact_phone = ${patch.contactPhone.trim()},
+        destination = ${(patch.destination || "").trim() || null},
+        travel_date = ${(patch.travelDate || "").trim() || null},
+        departure_city = ${(patch.departureCity || "").trim() || null},
+        duration_label = ${(patch.durationLabel || "").trim() || null},
+        traveller_names = ${(patch.travellerNames || "").trim() || null},
+        budget = ${(patch.budget || "").trim() || null},
+        special_requirements = ${(patch.specialRequirements || "").trim() || null},
+        travellers_count = ${travellersCount},
+        adults = ${patch.travellers.adults},
+        children_with_bed = ${patch.travellers.childrenWithBed},
+        children_without_bed = ${patch.travellers.childrenWithoutBed},
+        infants = ${patch.travellers.infants},
+        room_configuration = ${JSON.stringify(patch.rooms)}::jsonb,
+        package_snapshot = ${JSON.stringify(packageSnapshot)}::jsonb,
+        updated_at = now()
+      FROM locked
+      WHERE bookings.id = locked.id
+      RETURNING bookings.*
+    ), history AS (
+      INSERT INTO booking_status_history (booking_id, from_status, to_status, note, changed_by)
+      SELECT locked.id, locked.status, locked.status, 'Booking and traveller details updated', ${changedBy}
+      FROM locked JOIN updated ON updated.id = locked.id
+      RETURNING id
+    )
+    SELECT * FROM updated
   `) as Booking[];
   return rows[0] ?? null;
 }

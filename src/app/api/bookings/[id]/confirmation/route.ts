@@ -9,7 +9,6 @@ import {
   buildBookingConfirmationDocument,
 } from "@/lib/documents/bookingConfirmation";
 import { renderBookingConfirmationPdf } from "@/lib/documents/bookingConfirmationPdf";
-import { formatMoney } from "@/lib/bookings/pricing";
 
 /**
  * Serves the booking-confirmation voucher for a booking.
@@ -48,38 +47,15 @@ export async function GET(request: Request, { params }: RouteParams) {
     return NextResponse.json({ ok: false, error: "Not authorized." }, { status: 403 });
   }
 
-  const isTestPreview = Boolean(
-    process.env.NODE_ENV !== "production" &&
-      url.searchParams.get("test") === "1" &&
-      isOwner
-  );
-
   // The voucher only makes sense once the trip is actually locked in.
-  if (!["confirmed", "completed"].includes(booking.status) && !actorHasAccess && !isTestPreview) {
+  if (!["confirmed", "completed"].includes(booking.status) && !actorHasAccess) {
     return NextResponse.json(
       { ok: false, error: "This booking is not confirmed yet." },
       { status: 409 }
     );
   }
 
-  const testDeposit = Number(booking.pricing_snapshot?.depositAmount || 0);
-  const testBalance = Number(booking.pricing_snapshot?.balanceAmount || 0);
-  const input = bookingConfirmationInputFromBooking(
-    booking,
-    isTestPreview
-      ? {
-          status: "confirmed",
-          paymentStatus: "received",
-          amountPaid: testDeposit > 0 ? formatMoney(testDeposit) : undefined,
-          balanceDue: testBalance > 0 ? formatMoney(testBalance) : undefined,
-          paymentDueNote: "test preview only",
-          notes: [
-            "TEST MODE PREVIEW - no payment was collected and the booking record was not changed.",
-            "This document is for checkout-flow testing only and is not a valid travel voucher.",
-          ],
-        }
-      : {}
-  );
+  const input = bookingConfirmationInputFromBooking(booking);
 
   if (url.searchParams.get("format") === "html") {
     const html = buildBookingConfirmationDocument({

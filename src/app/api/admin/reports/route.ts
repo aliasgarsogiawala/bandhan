@@ -12,7 +12,7 @@ export async function GET(request: Request) {
         ["Customers", report.totals.customers],
         ["Bookings", report.totals.bookings],
         ["Enquiries", report.totals.enquiries],
-        ["Paid amount (INR)", (report.totals.paidMinor / 100).toFixed(2)],
+        ["Payments recorded", report.totals.paymentsRecorded],
         [],
         ["Booking status", "Count"],
         ...report.bookingStatuses.map((item) => [item.status, item.count]),
