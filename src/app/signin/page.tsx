@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import AuthCard from "@/components/auth/AuthCard";
 
 export const metadata: Metadata = {
-  title: "Sign In | Bandhan Tours",
+  title: "Customer Sign In | Bandhan Tours",
 };
 
 export default function SignInPage() {

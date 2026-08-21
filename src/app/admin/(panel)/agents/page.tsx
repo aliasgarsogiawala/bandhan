@@ -13,6 +13,7 @@ export default function AdminAgentsPage() {
   const [loading, setLoading] = useState(true);
   const [form, setForm] = useState(emptyForm);
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
 
   const refresh = () => {
@@ -34,6 +35,7 @@ export default function AdminAgentsPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setNotice("");
     setBusy(true);
     try {
       const res = await fetch("/api/admin/agents", {
@@ -46,6 +48,7 @@ export default function AdminAgentsPage() {
         setError(data.error || "Could not create the agent.");
         return;
       }
+      setNotice(`Agent account created for ${form.email}. Share the login details securely.`);
       setForm(emptyForm);
       refresh();
     } finally {
@@ -65,48 +68,81 @@ export default function AdminAgentsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Agents" description="Create and manage agent portal accounts." />
+      <PageHeader
+        title="Agents"
+        description="Create agent accounts and issue their portal login credentials. Agents cannot register themselves."
+      />
 
       <div className="bg-white rounded-2xl border border-slate-100 p-6">
-        <h2 className="text-sm font-bold uppercase tracking-wider text-primary mb-4">New Agent</h2>
+        <h2 className="text-sm font-bold uppercase tracking-wider text-primary">Issue Agent Credentials</h2>
+        <p className="mb-5 mt-1 text-sm text-foreground-muted">
+          Set the agent&apos;s email and password, then share both with them securely.
+        </p>
         <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <input
-            name="name"
-            required
-            value={form.name}
-            onChange={handleChange}
-            placeholder="Full name"
-            className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm"
-          />
-          <input
-            name="email"
-            type="email"
-            required
-            value={form.email}
-            onChange={handleChange}
-            placeholder="Email"
-            className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm"
-          />
-          <input
-            name="phone"
-            value={form.phone}
-            onChange={handleChange}
-            placeholder="Phone (optional)"
-            className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm"
-          />
-          <input
-            name="password"
-            type="password"
-            required
-            value={form.password}
-            onChange={handleChange}
-            placeholder="Temporary password"
-            className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm"
-          />
-          {error && <p className="sm:col-span-2 text-sm text-red-600">{error}</p>}
+          <label className="space-y-1.5 text-sm font-semibold text-primary">
+            Full name
+            <input
+              name="name"
+              required
+              autoComplete="name"
+              value={form.name}
+              onChange={handleChange}
+              placeholder="Agent's full name"
+              className="block w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-base font-normal sm:text-sm"
+            />
+          </label>
+          <label className="space-y-1.5 text-sm font-semibold text-primary">
+            Login email
+            <input
+              name="email"
+              type="email"
+              required
+              autoComplete="off"
+              value={form.email}
+              onChange={handleChange}
+              placeholder="agent@example.com"
+              className="block w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-base font-normal sm:text-sm"
+            />
+          </label>
+          <label className="space-y-1.5 text-sm font-semibold text-primary">
+            Phone <span className="font-normal text-foreground-muted">(optional)</span>
+            <input
+              name="phone"
+              type="tel"
+              autoComplete="off"
+              value={form.phone}
+              onChange={handleChange}
+              placeholder="Agent's phone number"
+              className="block w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-base font-normal sm:text-sm"
+            />
+          </label>
+          <label className="space-y-1.5 text-sm font-semibold text-primary">
+            Login password
+            <input
+              name="password"
+              type="password"
+              required
+              minLength={8}
+              autoComplete="new-password"
+              value={form.password}
+              onChange={handleChange}
+              placeholder="At least 8 characters"
+              aria-describedby="agent-password-help"
+              className="block w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-base font-normal sm:text-sm"
+            />
+            <span id="agent-password-help" className="block text-xs font-normal text-foreground-muted">
+              The agent will use this password on the private agent sign-in page.
+            </span>
+          </label>
+          {error && <p role="alert" className="sm:col-span-2 text-sm text-red-600">{error}</p>}
+          {notice && (
+            <p role="status" className="sm:col-span-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+              {notice}
+            </p>
+          )}
           <div className="sm:col-span-2">
             <PrimaryButton type="submit" variant="navy" size="md" isLoading={busy}>
-              Create Agent
+              Create Agent Account
             </PrimaryButton>
           </div>
         </form>
