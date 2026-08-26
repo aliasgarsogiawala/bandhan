@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { PDFDocument, PDFFont, PDFPage, StandardFonts, rgb, type RGB } from "pdf-lib";
+import { PDFDocument, PDFFont, PDFPage, StandardFonts, rgb, type PDFImage, type RGB } from "pdf-lib";
 import fontkit from "@pdf-lib/fontkit";
 
 /**
@@ -73,6 +73,7 @@ export class PdfDoc {
   readonly bold: PDFFont;
   readonly serif: PDFFont;
   readonly serifBold: PDFFont;
+  readonly brandLogo: PDFImage | null;
   page: PDFPage;
   /** Cursor, measured from the top of the page downwards. */
   y = MARGIN;
@@ -86,13 +87,15 @@ export class PdfDoc {
     regular: PDFFont,
     bold: PDFFont,
     serif: PDFFont,
-    serifBold: PDFFont
+    serifBold: PDFFont,
+    brandLogo: PDFImage | null
   ) {
     this.doc = doc;
     this.regular = regular;
     this.bold = bold;
     this.serif = serif;
     this.serifBold = serifBold;
+    this.brandLogo = brandLogo;
     this.page = doc.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
   }
 
@@ -100,13 +103,15 @@ export class PdfDoc {
     const doc = await PDFDocument.create();
     doc.registerFontkit(fontkit);
     const bytes = await loadFontBytes();
-    const [regular, bold, serif, serifBold] = await Promise.all([
+    const [regular, bold, serif, serifBold, logoBytes] = await Promise.all([
       doc.embedFont(bytes.regular, { subset: true }),
       doc.embedFont(bytes.bold, { subset: true }),
       doc.embedFont(StandardFonts.TimesRoman),
       doc.embedFont(StandardFonts.TimesRomanBold),
+      fs.readFile(path.join(process.cwd(), "public", "pdf-assets", "bandhan-logo.png")).catch(() => null),
     ]);
-    return new PdfDoc(doc, regular, bold, serif, serifBold);
+    const brandLogo = logoBytes ? await doc.embedPng(new Uint8Array(logoBytes)) : null;
+    return new PdfDoc(doc, regular, bold, serif, serifBold, brandLogo);
   }
 
   font(bold?: boolean, family: "sans" | "serif" = "sans"): PDFFont {

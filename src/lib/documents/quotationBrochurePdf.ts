@@ -45,15 +45,17 @@ function drawCoverMeta(
   rows: Array<[string, string]>,
   top: number
 ) {
-  const height = 118;
-  doc.roundedRect(MARGIN, top, CONTENT_WIDTH, height, C.white, 14, 0.98);
-  doc.strokeRect(MARGIN, top, CONTENT_WIDTH, height, C.gold, 1);
+  const height = 112;
+  doc.rect(MARGIN, top, CONTENT_WIDTH, height, C.primary, 0.9);
+  doc.rule(top, C.gold, MARGIN, CONTENT_WIDTH, 1);
+  doc.rule(top + height, C.gold, MARGIN, CONTENT_WIDTH, 1);
   const colWidth = (CONTENT_WIDTH - 40) / 3;
   rows.forEach(([label, value], index) => {
     const col = index % 3;
     const row = Math.floor(index / 3);
     const x = MARGIN + 16 + col * (colWidth + 12);
-    const y = top + 18 + row * 52;
+    const y = top + 16 + row * 50;
+    if (col > 0) doc.rect(x - 10, top + 12 + row * 50, 0.6, 36, C.white, 0.25);
     labelValue(doc, label, value, x, y, colWidth, {
       dark: true,
       valueSize: 9.5,
@@ -95,16 +97,16 @@ export async function renderQuotationBrochurePdf(booking: Booking): Promise<Uint
     doc.rect(0, 0, PAGE_WIDTH, PAGE_HEIGHT, C.primary);
   }
 
-  drawBrandMark(doc, { y: 22, dark: true });
-  doc.textAt("PRIVATE JOURNEY  /  PERSONALISED PROPOSAL", { x: MARGIN, y: 36, width: CONTENT_WIDTH, align: "right", size: 6.4, bold: true, color: C.gold, charSpacing: 0.8 });
-  doc.textAt(`CURATED FOR  ${booking.contact_name.toUpperCase()}`, { x: MARGIN, y: 470, size: 7, bold: true, color: C.gold, charSpacing: 1.15 });
+  drawBrandMark(doc, { y: 20, dark: true, width: 112 });
+  doc.textAt(`PERSONALISED TRIP BROCHURE  /  ${booking.quotation_number}`, { x: MARGIN, y: 32, width: CONTENT_WIDTH, align: "right", size: 6.4, bold: true, color: C.gold, charSpacing: 0.75 });
+  doc.textAt(`PREPARED FOR  ${booking.contact_name.toUpperCase()}`, { x: MARGIN, y: 470, size: 7, bold: true, color: C.gold, charSpacing: 1.05 });
 
   const titleStartY = 500;
-  const coverTitle = doc.wrap(snapshot.title, CONTENT_WIDTH - 30, 30, false, "serif");
+  const coverTitle = doc.wrap(snapshot.title, CONTENT_WIDTH - 30, 28, true);
   let coverY = titleStartY;
   for (const line of coverTitle.slice(0, 3)) {
-    doc.textAt(line, { x: MARGIN, y: coverY, size: 30, family: "serif", color: C.white });
-    coverY += 34;
+    doc.textAt(line, { x: MARGIN, y: coverY, size: 28, bold: true, color: C.white });
+    coverY += 33;
   }
   if (snapshot.tagline) {
     coverY += 6;
@@ -137,7 +139,7 @@ export async function renderQuotationBrochurePdf(booking: Booking): Promise<Uint
 
   // ── Journey overview ───────────────────────────────────────────────────
   doc.addPage();
-  sectionHeading(doc, "Your journey", "A thoughtfully planned holiday");
+  sectionHeading(doc, "Trip overview", snapshot.destination || snapshot.title);
 
   doc.paragraph(
     snapshot.overview ||
@@ -170,8 +172,8 @@ export async function renderQuotationBrochurePdf(booking: Booking): Promise<Uint
     const y = doc.y;
     detailCards.slice(i, i + 2).forEach(([label, value], offset) => {
       const x = MARGIN + offset * (detailWidth + 12);
-      doc.roundedRect(x, y, detailWidth, 52, C.sand, 9);
-      doc.roundedRect(x, y, 3, 52, offset === 0 ? C.gold : C.accent, 2);
+      doc.rect(x, y, detailWidth, 52, C.sand);
+      doc.rect(x, y, 3, 52, C.gold);
       labelValue(doc, label, value, x + 14, y + 12, detailWidth - 28, { valueSize: 9 });
     });
     doc.y += 64;
@@ -179,40 +181,15 @@ export async function renderQuotationBrochurePdf(booking: Booking): Promise<Uint
 
   if (snapshot.highlights?.length) {
     doc.y += 4;
-    sectionHeading(doc, "Signature moments", "Highlights of your route");
-    const chipGap = 8;
-    let chipX = MARGIN;
-    let chipY = doc.y;
-    for (const highlight of snapshot.highlights) {
-      const text = highlight.length > 48 ? `${highlight.slice(0, 46)}…` : highlight;
-      const width = Math.min(CONTENT_WIDTH, doc.measure(text, 7.5, true) + 22);
-      if (chipX + width > MARGIN + CONTENT_WIDTH) {
-        chipX = MARGIN;
-        chipY += 28;
-      }
-      doc.ensure(chipY - doc.y + 28);
-      doc.rect(chipX, chipY, width, 22, C.primary);
-      doc.textAt(text, {
-        x: chipX + 11,
-        y: chipY + 6.5,
-        size: 7.5,
-        bold: true,
-        color: C.white,
-      });
-      chipX += width + chipGap;
-    }
-    doc.y = chipY + 36;
+    sectionHeading(doc, "Route highlights", "Key experiences");
+    snapshot.highlights.forEach((highlight, index) => {
+      doc.ensure(27);
+      doc.rule(doc.y + 23, C.border, MARGIN, CONTENT_WIDTH, 0.5);
+      doc.textAt(String(index + 1).padStart(2, "0"), { x: MARGIN, y: doc.y + 4, size: 9, bold: true, color: C.goldDark });
+      doc.textAt(highlight, { x: MARGIN + 34, y: doc.y + 4, width: CONTENT_WIDTH - 34, size: 8.3, bold: true, color: C.primary });
+      doc.y += 27;
+    });
   }
-
-  doc.rule(doc.y, C.border);
-  doc.y += 14;
-  doc.textAt(`CURATED FOR  ${booking.contact_name.toUpperCase()}  /  ${totalTravellers} GUESTS`, {
-    y: doc.y,
-    size: 6.8,
-    bold: true,
-    color: C.goldDark,
-    charSpacing: 0.75,
-  });
 
   // ── Itinerary ──────────────────────────────────────────────────────────
   if (itinerary.length) {
@@ -261,9 +238,9 @@ export async function renderQuotationBrochurePdf(booking: Booking): Promise<Uint
 
   // ── Pricing ────────────────────────────────────────────────────────────
   doc.y += 6;
-  sectionHeading(doc, "Transparent pricing", "Your indicative quotation", "All amounts in INR");
+  sectionHeading(doc, "Pricing", "Cost summary", "All amounts in INR");
 
-  doc.roundedRect(MARGIN, doc.y, CONTENT_WIDTH, 28, C.primary, 8);
+  doc.rect(MARGIN, doc.y, CONTENT_WIDTH, 28, C.primary);
   doc.textAt("DESCRIPTION", {
     x: MARGIN + 12,
     y: doc.y + 10,
@@ -334,9 +311,9 @@ export async function renderQuotationBrochurePdf(booking: Booking): Promise<Uint
 
   doc.ensure(110);
   doc.y += 8;
-  doc.roundedRect(MARGIN, doc.y, CONTENT_WIDTH, 96, C.primary, 12);
-  doc.roundedRect(MARGIN, doc.y, 4, 96, C.gold, 2);
-  doc.textAt("TOTAL PACKAGE ESTIMATE", {
+  doc.rect(MARGIN, doc.y, CONTENT_WIDTH, 96, C.primary);
+  doc.rect(MARGIN, doc.y, 4, 96, C.gold);
+  doc.textAt("ESTIMATED TRIP TOTAL", {
     x: MARGIN + 18,
     y: doc.y + 16,
     size: 7,
@@ -383,7 +360,7 @@ export async function renderQuotationBrochurePdf(booking: Booking): Promise<Uint
 
   // ── Inclusions / exclusions ────────────────────────────────────────────
   if (snapshot.inclusions?.length || snapshot.exclusions?.length) {
-    sectionHeading(doc, "The fine print upfront", "Included and not included");
+    sectionHeading(doc, "Services", "Included and not included");
     splitLists(
       doc,
       "Inclusions",
@@ -393,23 +370,24 @@ export async function renderQuotationBrochurePdf(booking: Booking): Promise<Uint
     );
   }
 
+  // Booking instructions close the brochure on a deliberate, image-led page.
+  doc.addPage();
+
   if (booking.special_requirements) {
-    doc.ensure(105);
-    sectionHeading(doc, "Your preferences", "Special requests noted");
-    doc.rect(MARGIN, doc.y, CONTENT_WIDTH, 8, C.gold);
-    doc.y += 16;
+    sectionHeading(doc, "Traveller requirements", "Requests recorded");
+    doc.rect(MARGIN, doc.y, 3, 52, C.gold);
     doc.paragraph(booking.special_requirements, {
-      x: MARGIN + 4,
-      maxWidth: CONTENT_WIDTH - 8,
+      x: MARGIN + 16,
+      maxWidth: CONTENT_WIDTH - 24,
       size: 8.6,
       lineHeight: 13.5,
       color: C.foreground,
-      spaceAfter: 14,
+      spaceAfter: 18,
     });
   }
 
   // ── Next steps ─────────────────────────────────────────────────────────
-  sectionHeading(doc, "Next steps", "Ready when you are");
+  sectionHeading(doc, "Booking process", "What happens next");
   bullets(doc, [
     "Review this proposal and share any changes to dates, hotels, room configuration or pace.",
     "Your travel consultant will verify live availability and issue the final confirmation.",
@@ -420,9 +398,9 @@ export async function renderQuotationBrochurePdf(booking: Booking): Promise<Uint
   doc.ensure(96);
   doc.y += 10;
   const closingTop = doc.y;
-  doc.roundedRect(MARGIN, closingTop, CONTENT_WIDTH, 84, C.primary, 12);
-  doc.roundedRect(MARGIN, closingTop, 4, 84, C.gold, 2);
-  doc.textAt("LET'S MAKE THIS JOURNEY YOURS", {
+  doc.rect(MARGIN, closingTop, CONTENT_WIDTH, 84, C.primary);
+  doc.rect(MARGIN, closingTop, 4, 84, C.gold);
+  doc.textAt("CONTACT BANDHAN TOURS", {
     x: MARGIN + 18,
     y: closingTop + 16,
     size: 7.5,
@@ -430,7 +408,7 @@ export async function renderQuotationBrochurePdf(booking: Booking): Promise<Uint
     color: C.gold,
     charSpacing: 0.85,
   });
-  doc.textAt("Speak with your Bandhan Tours travel designer", {
+  doc.textAt("Your travel consultant", {
     x: MARGIN + 18,
     y: closingTop + 34,
     size: 13,
@@ -443,6 +421,19 @@ export async function renderQuotationBrochurePdf(booking: Booking): Promise<Uint
     size: 8,
     color: C.light,
   });
+
+  if (availableImages[1] || availableImages[0]) {
+    const imageTop = closingTop + 104;
+    drawImageCover(doc, availableImages[1] || availableImages[0], MARGIN, imageTop, CONTENT_WIDTH, 230);
+    doc.rect(MARGIN, imageTop + 204, CONTENT_WIDTH, 26, C.primary, 0.72);
+    doc.textAt(snapshot.gallery?.[1]?.caption || snapshot.destination, {
+      x: MARGIN + 12,
+      y: imageTop + 213,
+      width: CONTENT_WIDTH - 24,
+      size: 6.5,
+      color: C.white,
+    });
+  }
 
   repaintContinuationChrome(doc, {
     eyebrow: "Personalised trip brochure",

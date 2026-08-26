@@ -5,6 +5,8 @@ import { packageSnapshot } from "../src/lib/bookings/pricing";
 import type { Booking } from "../src/lib/bookings/types";
 import { renderQuotationPdf } from "../src/lib/documents/quotationPdf";
 import { renderQuotationBrochurePdf } from "../src/lib/documents/quotationBrochurePdf";
+import { renderPackageBrochurePdf } from "../src/lib/documents/packageBrochurePdf";
+import { getFullPackage } from "../src/data/packageDetails";
 
 const previewPackage = featuredPackages.find((pkg) => pkg.id === "sikkim-darjeeling-9n");
 if (!previewPackage) throw new Error("Preview package not found.");
@@ -119,19 +121,26 @@ const sample: Booking = {
 async function main() {
   const outputDir = path.join(process.cwd(), "output", "pdf");
   await fs.mkdir(outputDir, { recursive: true });
+  const fullPreviewPackage = getFullPackage("sikkim-darjeeling-9n");
+  if (!fullPreviewPackage) throw new Error("Full preview package not found.");
+  fullPreviewPackage.heroImage = snapshot.heroImage || "/pdf-assets/sikkim-valley.jpg";
+  fullPreviewPackage.gallery = snapshot.gallery || [];
 
-  const [quotation, brochure] = await Promise.all([
+  const [quotation, brochure, packageBrochure] = await Promise.all([
     renderQuotationPdf(sample),
     renderQuotationBrochurePdf(sample),
+    renderPackageBrochurePdf(fullPreviewPackage),
   ]);
 
   await Promise.all([
     fs.writeFile(path.join(outputDir, "bandhan-quotation-sample.pdf"), quotation),
     fs.writeFile(path.join(outputDir, "bandhan-trip-brochure-sample.pdf"), brochure),
+    fs.writeFile(path.join(outputDir, "bandhan-package-brochure-sample.pdf"), packageBrochure),
   ]);
 
   console.log(`Quotation: ${quotation.byteLength} bytes`);
   console.log(`Brochure: ${brochure.byteLength} bytes`);
+  console.log(`Package brochure: ${packageBrochure.byteLength} bytes`);
 }
 
 main().catch((error) => {

@@ -36,36 +36,32 @@ export const HEADER_HEIGHT = 54;
 /** Compact brand lockup for covers and continuation pages. */
 export function drawBrandMark(
   doc: PdfDoc,
-  options: { x?: number; y?: number; dark?: boolean } = {}
+  options: { x?: number; y?: number; dark?: boolean; width?: number } = {}
 ) {
   const x = options.x ?? MARGIN;
   const y = options.y ?? 14;
   const dark = options.dark ?? false;
-  doc.roundedRect(x, y + 1, 18, 18, dark ? C.gold : C.primary, 5);
-  doc.textAt("B", {
+  const width = options.width ?? (dark ? 104 : 86);
+  const height = width * (212 / 584);
+
+  if (doc.brandLogo) {
+    if (!dark) doc.rect(x - 6, y - 3, width + 12, height + 6, C.primary);
+    doc.page.drawImage(doc.brandLogo, {
+      x,
+      y: PAGE_HEIGHT - y - height,
+      width,
+      height,
+    });
+    return;
+  }
+
+  doc.textAt(COMPANY.name, {
     x,
     y: y + 4,
-    width: 18,
-    size: 11,
-    bold: true,
-    align: "center",
-    color: dark ? C.primary : C.white,
-  });
-  doc.textAt(COMPANY.name, {
-    x: x + 26,
-    y,
     size: 12,
     bold: true,
     color: dark ? C.white : C.primary,
     family: "serif",
-  });
-  doc.textAt(COMPANY.tagline.toUpperCase(), {
-    x: x + 27,
-    y: y + 16,
-    size: 4.8,
-    bold: true,
-    color: dark ? C.gold : C.goldDark,
-    charSpacing: 0.65,
   });
 }
 
@@ -103,13 +99,11 @@ export function drawDocHeader(
 export function drawDocFooter(doc: PdfDoc, pageIndex: number, label?: string) {
   doc.rect(0, FOOTER_TOP, PAGE_WIDTH, FOOTER_HEIGHT, C.white);
   doc.rule(FOOTER_TOP, C.border, MARGIN, CONTENT_WIDTH, 0.7);
-  drawBrandMark(doc, { y: FOOTER_TOP + 6 });
-  // The brand mark's tagline sits on its own baseline 16pt below its top, so
-  // the contact line has to clear that or the two print over each other.
+  drawBrandMark(doc, { y: FOOTER_TOP + 7, width: 60 });
   doc.textAt(`${COMPANY.phoneLabel}  ·  ${COMPANY.email}  ·  ${COMPANY.website}`, {
-    x: MARGIN,
-    y: FOOTER_TOP + 32,
-    size: 6.5,
+    x: MARGIN + 80,
+    y: FOOTER_TOP + 17,
+    size: 5.8,
     color: C.muted,
   });
   doc.textAt(label ? `${label}  ·  ${pageIndex + 1}` : `Page ${pageIndex + 1}`, {
