@@ -64,6 +64,8 @@ export interface PackageFaq {
 export interface PackageGalleryImage {
   image: string;
   caption: string;
+  /** True on stand-in artwork padded in by `lib/placeholderImages`. */
+  placeholder?: boolean;
 }
 
 export interface PackageAddon {
@@ -102,6 +104,10 @@ export interface TourPackage {
   price: string;
   highlights: string[];
   category: string;
+  /** Primary destination label used by catalogue filtering and quotations. */
+  destination?: string;
+  /** Overlapping commercial collections; geographic category remains separate. */
+  travelStyles?: TravelStyle[];
   isPopular?: boolean;
   tagline?: string;
   overview?: string;
@@ -117,9 +123,10 @@ export interface TourPackage {
   gallery?: PackageGalleryImage[];
   faqs?: PackageFaq[];
   pricing?: PackagePricing;
-  brochureUrl?: string;
   status?: "draft" | "active";
 }
+
+export type TravelStyle = "group" | "customized" | "seasonal" | "special-departure";
 
 export interface WhyChooseItem {
   id: string;
@@ -926,16 +933,86 @@ const packageCatalogue: TourPackage[] = [
       { image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800", caption: "Mountain passes near Lachung" },
     ],
     itinerary: [
-      { day: 1, title: "NJP / Bagdogra / Siliguri to Gangtok", description: "Meet-and-greet transfer and hotel check-in.", meals: "—", stay: "Gangtok" },
-      { day: 2, title: "Tsomgo Lake & New Baba Mandir", description: "Excursion to Tsomgo Lake, New Baba Mandir and Nathula Pass (permit-dependent).", meals: "Breakfast", stay: "Gangtok" },
-      { day: 3, title: "Gangtok to Lachung", description: "Singhik View Point, Seven Sisters Waterfall and Naga Waterfall en route to Lachung.", meals: "Breakfast", stay: "Lachung" },
-      { day: 4, title: "Yumthang Valley", description: "Drive to the rhododendron meadows of Yumthang Valley, the Valley of Flowers.", meals: "Breakfast", stay: "Lachung" },
-      { day: 5, title: "Lachung to Gangtok", description: "Return drive via Bheema Falls and Twin Falls.", meals: "Breakfast", stay: "Gangtok" },
-      { day: 6, title: "Gangtok City Tour — Pelling", description: "Handicraft Centre, Flower Show and Chorten Stupa, then drive to Pelling.", meals: "Breakfast", stay: "Pelling" },
-      { day: 7, title: "Pelling Local Sightseeing", description: "Khecheopalri Lake, Pemayangtse Monastery, Rabdentse Ruins and the Sky Walk.", meals: "Breakfast", stay: "Pelling" },
-      { day: 8, title: "Pelling to Darjeeling via Namchi", description: "Samdruptse Stupa and the Char Dham replica.", meals: "Breakfast", stay: "Darjeeling" },
-      { day: 9, title: "Darjeeling Local Sightseeing", description: "Tiger Hill sunrise, Ghoom Monastery, Batasia Loop and the Himalayan Mountaineering Institute.", meals: "Breakfast", stay: "Darjeeling" },
-      { day: 10, title: "Darjeeling to NJP / Bagdogra / Siliguri", description: "Transfer for your return journey.", meals: "Breakfast", stay: "—" },
+      {
+        day: 1,
+        title: "NJP / Bagdogra / Siliguri to Gangtok",
+        description:
+          "Meet-and-greet on arrival, then a scenic hill transfer to Gangtok. Check in, unwind after the climb, and enjoy an evening free to explore MG Marg at your own pace.",
+        meals: "—",
+        stay: "Gangtok",
+      },
+      {
+        day: 2,
+        title: "Tsomgo Lake, New Baba Mandir & Nathula",
+        description:
+          "Full-day high-altitude excursion to glacial Tsomgo Lake and New Baba Mandir, with Nathula Pass subject to permit and weather. Return to Gangtok by evening.",
+        meals: "Breakfast",
+        stay: "Gangtok",
+      },
+      {
+        day: 3,
+        title: "Gangtok to Lachung",
+        description:
+          "Drive north through Singhik View Point, Seven Sisters Waterfall and Naga Waterfall into the alpine village of Lachung. Evening at leisure in the cool mountain air.",
+        meals: "Breakfast",
+        stay: "Lachung",
+      },
+      {
+        day: 4,
+        title: "Yumthang Valley — Valley of Flowers",
+        description:
+          "Morning drive into the rhododendron meadows of Yumthang Valley. Spend time among open pastures and mountain views before returning to Lachung for the night.",
+        meals: "Breakfast",
+        stay: "Lachung",
+      },
+      {
+        day: 5,
+        title: "Lachung to Gangtok",
+        description:
+          "Descend via Bheema Falls and Twin Falls back to Gangtok. Afternoon free for cafés, local markets or simply resting after the North Sikkim loop.",
+        meals: "Breakfast",
+        stay: "Gangtok",
+      },
+      {
+        day: 6,
+        title: "Gangtok City Tour — onward to Pelling",
+        description:
+          "Morning city highlights including the Handicraft Centre, Flower Show and Chorten Stupa, then a scenic transfer across West Sikkim to Pelling.",
+        meals: "Breakfast",
+        stay: "Pelling",
+      },
+      {
+        day: 7,
+        title: "Pelling Local Sightseeing",
+        description:
+          "Visit sacred Khecheopalri Lake, Pemayangtse Monastery, the Rabdentse Ruins and the glass Sky Walk for sweeping Kanchenjunga views.",
+        meals: "Breakfast",
+        stay: "Pelling",
+      },
+      {
+        day: 8,
+        title: "Pelling to Darjeeling via Namchi",
+        description:
+          "Travel via Namchi to see the towering Samdruptse statue and the Char Dham complex, then continue into the tea-country hills of Darjeeling.",
+        meals: "Breakfast",
+        stay: "Darjeeling",
+      },
+      {
+        day: 9,
+        title: "Darjeeling Local Sightseeing",
+        description:
+          "Optional pre-dawn Tiger Hill sunrise, then Ghoom Monastery, Batasia Loop, the Himalayan Mountaineering Institute and a leisurely stroll on the Mall.",
+        meals: "Breakfast",
+        stay: "Darjeeling",
+      },
+      {
+        day: 10,
+        title: "Darjeeling to NJP / Bagdogra / Siliguri",
+        description:
+          "Breakfast at the hotel, then a downhill transfer to NJP railway station or Bagdogra Airport for your onward journey.",
+        meals: "Breakfast",
+        stay: "—",
+      },
     ],
     inclusions: [
       "Double sharing accommodation, breakfast/lunch/dinner",
@@ -1030,9 +1107,9 @@ const packageCatalogue: TourPackage[] = [
     overview:
       "Paris's Eiffel Tower, Versailles and a day at Disneyland, followed by Geneva, the Jungfraujoch cable-car excursion, Mount Titlis's Cliff Walk and Rhine Falls near Zurich.",
     heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
-    bestTime: "April to October",
+    bestTime: "March to October",
     startingPoint: "Paris Airport",
-    groupSize: "2+ guests",
+    groupSize: "Group departures — 8, 16 & 27 March 2027",
     themes: ["City", "Mountains", "Family"],
     gallery: [
       { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "Paris landmarks" },
@@ -1630,55 +1707,10 @@ const packageCatalogue: TourPackage[] = [
   },
 ];
 
-/**
- * Original package brochures supplied in /public. Keeping this mapping beside
- * the catalogue makes every public package traceable to its source document.
- */
-const packageBrochureFiles: Record<string, string> = {
-  "bali-island-dreams": "Bali- The Island of Dreams 6N 7D.pdf",
-  "3-sisters-tour": "3 Sisters Tour.pdf",
-  "4-sisters-tour": "4 Sisters Tour.pdf",
-  "amazing-thailand": "Amazing Thailand 4N 5D.pdf",
-  "andaman-tour": "Andaman Tour for Web.pdf",
-  "andaman-baratang-tour": "Andaman with Baratang Tour_for Web.pdf",
-  "ayodhya-varanasi": "Ayodhya- Varanasi GIT for Web.pdf",
-  "singapore-malaysia-best": "Best of Singapore Malaysia.pdf",
-  "bhutan-tour": "Bhutan 07N08D.pdf",
-  "eastern-europe-highlights": "Eastern Europe Highlights.pdf",
-  "grand-tour-europe": "Grand Tour of Europe.pdf",
-  "kerala-kanyakumari": "Kerala with Kanyakumari.. for Web.pdf",
-  "mesmerizing-vietnam": "Mesmerizing Vietnam  7N 8D.pdf",
-  "rajasthan-marwad": "Rajasthan Marwad_For web.pdf",
-  "singapore-malaysia-thailand": "SMT 9N 10D.pdf",
-  "sampurna-karnataka": "Sampurna Karnataka_for Web.pdf",
-  "sikkim-darjeeling-6n": "Sikkim Darjeeling 06N07D.pdf",
-  "sikkim-darjeeling-9n": "Sikkim Darjeeling 09N10D.pdf",
-  "south-india-temple-tour": "South India Temple Tour for Web.pdf",
-  "special-kerala": "Special Kerala for Web.pdf",
-  "swiss-paris-highlights": "Swiss & Paris Highlights.pdf",
-  "best-of-austria": "Best of Austria - Vienna - Salzburg - Innsbruck – Vienna 7N8D.docx",
-  "classic-italy": "Classic Italy - Milan – Venice – Florence – Rome 6N7D.docx",
-  "london-edinburgh-bliss": "London & Edinburgh Bliss - London & Edinburgh 7N8D.docx",
-  "paris-swiss-delights": "Paris & Swiss Delights - Paris – Zurich 6N7D.docx",
-  "splendid-germany": "Splendid Germany - Munich – Stuttgart – Frankfurt 6N7D.docx",
-  "turkish-wonders": "Turkish Wonders - 7 Nights & 8 Days.docx",
-  "south-african-delights": "South African Delights 6N7D.docx",
-  "japan-autumn-delights": "Japan Autumn Delights – 8 Nights & 9 Days.docx",
-  "scandinavia-northern-lights": "Highlights of Scandinavia with Northern Lights.docx",
-  "best-of-georgia": "Best of Georgia 6N 7D.docx",
-  "best-of-europe-2027": "Best of Europe - 2027.docx",
-  "azerbaijan-highlights": "Azerbaijan Highlights - Baku - Gabala - Baku (Shahdag Included) - 6N & 7D.docx",
-  "almaty-bliss": "Almaty.docx",
-};
-
-export const featuredPackages: TourPackage[] = packageCatalogue.map((pkg) => {
-  const brochureFile = packageBrochureFiles[pkg.id];
-  return {
-    ...pkg,
-    status: pkg.status ?? "active",
-    brochureUrl: brochureFile ? `/${encodeURIComponent(brochureFile)}` : undefined,
-  };
-});
+export const featuredPackages: TourPackage[] = packageCatalogue.map((pkg) => ({
+  ...pkg,
+  status: pkg.status ?? "active",
+}));
 
 export const whyChooseUs: WhyChooseItem[] = [
   {

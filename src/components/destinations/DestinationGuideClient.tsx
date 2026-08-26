@@ -1,37 +1,25 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
-  ArrowUpRight,
-  Calendar,
+  CalendarDays,
   Check,
   Clock3,
-  MapPin,
+  Expand,
   Plane,
   Sparkles,
   Sun,
   Users,
 } from "lucide-react";
-import Navbar from "@/components/common/Navbar";
+import PageShell from "@/components/ui/PageShell";
 import { Container } from "@/components/ui/Container";
 import type { Destination, DestinationExperience, DestinationRouteStop, DestinationSeason } from "@/data/mockData";
 import { useCollection } from "@/lib/admin/store";
-import { Reveal } from "./Reveal";
-import {
-  Compass,
-  CornerFlourish,
-  DottedRoute,
-  InkUnderline,
-  LeafSprig,
-  MountainSilhouette,
-  PaperPlane,
-  SunMark,
-  TopoPattern,
-  WaveDivider,
-} from "./Decor";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { Lightbox } from "@/components/ui/Lightbox";
 
 type GuideProfile = {
   duration: string;
@@ -130,505 +118,238 @@ function prepareGuide(destination: Destination) {
   };
 }
 
-/* ---------------------------------- bits ---------------------------------- */
-
-function StatPill({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: React.ElementType;
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="group relative flex flex-col gap-2 px-5 py-4 sm:px-6 sm:py-5">
-      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold/15 text-gold ring-1 ring-inset ring-gold/20 transition-transform duration-300 group-hover:-translate-y-0.5">
-        <Icon size={18} />
-      </span>
-      <div>
-        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-foreground-light">{label}</p>
-        <p className="mt-0.5 text-sm font-bold leading-snug text-primary">{value}</p>
-      </div>
-    </div>
-  );
-}
-
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex items-center gap-2.5">
-      <span className="h-px w-8 bg-accent" />
-      <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-accent">{children}</p>
-    </div>
-  );
-}
-
-/* --------------------------------- page ----------------------------------- */
+const sectionLinks = [
+  { id: "overview", label: "Overview" },
+  { id: "experiences", label: "Experiences" },
+  { id: "route", label: "Suggested route" },
+  { id: "seasons", label: "When to go" },
+  { id: "gallery", label: "Gallery" },
+];
 
 export default function DestinationGuideClient({ id }: { id: string }) {
   const { items } = useCollection<Destination>("destinations");
+  const [galleryIndex, setGalleryIndex] = useState<number | null>(null);
   const destination = useMemo(() => items.find((item) => item.id === id && item.status !== "draft"), [id, items]);
 
   if (!destination) {
     return (
-      <div className="min-h-screen bg-sand">
-        <Navbar />
-        <main className="flex min-h-screen items-center justify-center px-6 pt-24 text-center">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-accent">Destination unavailable</p>
-            <h1 className="mt-3 font-heading text-3xl font-extrabold text-primary">This guide is off the map.</h1>
-            <Link href="/destinations" className="mt-6 inline-flex rounded-full bg-primary px-5 py-3 text-sm font-bold text-white">
-              Explore destinations
-            </Link>
-          </div>
-        </main>
-      </div>
+      <PageShell tone="sand" offsetTop mainClassName="flex items-center justify-center px-6 py-24 text-center">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-widest text-accent">Destination unavailable</p>
+          <h1 className="mt-3 font-heading text-3xl font-extrabold text-primary">This guide is off the map.</h1>
+          <Link href="/destinations" className="mt-6 inline-flex rounded-full bg-primary px-5 py-3 text-sm font-bold text-white">Explore destinations</Link>
+        </div>
+      </PageShell>
     );
   }
 
   const guide = prepareGuide(destination);
   const bookingHref = `/book?type=destination&id=${encodeURIComponent(destination.id)}`;
-  const isNature = (destination.tag || "").toLowerCase() === "nature" || (destination.themes || []).some((t) => t.toLowerCase() === "nature");
+  const guideSections = destination.faqs?.length ? [...sectionLinks, { id: "faqs", label: "FAQs" }] : sectionLinks;
+  const heroLabels = [...new Set([destination.country || destination.region || "India", destination.tag, ...guide.themes].filter(Boolean))];
+  const facts = [
+    { label: "Ideal duration", value: guide.duration, icon: Clock3 },
+    { label: "Best time", value: guide.bestTime, icon: CalendarDays },
+    { label: "Start from", value: guide.startingPoint, icon: Plane },
+    { label: "Best for", value: destination.groupSize || "Couples, families & friends", icon: Users },
+  ];
+  const gallerySlides = guide.gallery.map((image, index) => ({ image, title: destination.name, caption: guide.experiences[index]?.title || `${destination.name} travel moment` }));
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#f7f5f1] text-primary">
-      <Navbar />
-      <main>
-        {/* ============================ HERO ============================ */}
-        <section className="relative isolate flex min-h-[100svh] items-end overflow-hidden bg-primary">
-          {/* background image */}
-          <div className="absolute inset-0">
-            <Image src={destination.image} alt={destination.name} fill priority sizes="100vw" className="object-cover opacity-70" />
-            <div className="absolute inset-0 bg-ink-deep/60" />
-            <div className="absolute inset-0 bg-ink-deep/50" />
+    <PageShell tone="custom" className="destination-detail bg-sand-light">
+      <header className="relative flex min-h-[86svh] items-end overflow-hidden pt-28 sm:min-h-[720px] sm:pt-0 lg:min-h-[780px]">
+        <Image src={destination.image} alt={destination.name} fill priority sizes="100vw" className="object-cover object-center" />
+        <div className="pointer-events-none absolute inset-0 bg-ink-deep/55" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-deep via-ink-deep/25 to-ink-deep/20" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-white/25" />
+
+        <Container className="relative pb-12 sm:pb-16 lg:pb-20">
+          <nav className="mb-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/60" aria-label="Breadcrumb">
+            <Link href="/destinations" className="transition-colors hover:text-gold">← Destinations</Link>
+          </nav>
+          <p className="mb-5 text-[10px] font-bold uppercase tracking-[0.16em] text-gold">
+            {heroLabels.join(" · ")}
+          </p>
+          <h1 className="max-w-6xl break-words font-heading text-[2.4rem] font-extrabold leading-[1.04] tracking-[-0.035em] text-white min-[420px]:text-5xl sm:text-6xl lg:text-[4.5rem]">
+            {destination.name}
+          </h1>
+          <p className="mt-6 max-w-4xl text-sm leading-7 text-white/80 sm:text-lg sm:leading-8">{destination.tagline || destination.description}</p>
+
+          <div className="mt-10 grid w-full grid-cols-2 border-y border-white/20 sm:grid-cols-4">
+            {facts.map((fact) => {
+              const Icon = fact.icon;
+              return (
+                <div key={fact.label} className="min-w-0 border-b border-r border-white/15 px-0 py-4 pr-4 last:border-r-0 even:pl-4 sm:border-b-0 sm:px-5 sm:first:pl-0">
+                  <span className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.16em] text-gold"><Icon size={12} strokeWidth={1.7} />{fact.label}</span>
+                  <span className="mt-1.5 block text-xs font-medium leading-5 text-white sm:text-sm">{fact.value}</span>
+                </div>
+              );
+            })}
           </div>
+        </Container>
+      </header>
 
-          {/* decorative floating shapes */}
-          <LeafSprig className="pointer-events-none absolute right-[6%] top-[22%] hidden h-28 w-28 text-gold/30 md:block" />
-          <Compass className="pointer-events-none absolute left-[4%] top-[18%] hidden h-40 w-40 text-white/10 lg:block" />
+      <div className="sticky top-16 z-30 border-b border-primary/10 bg-[#fbfaf7]/95 backdrop-blur-xl sm:top-[76px]">
+        <Container className="flex items-center gap-2 py-3">
+          <nav className="flex min-w-0 flex-1 items-center gap-1 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="Destination sections">
+            {guideSections.map((section) => (
+              <a key={section.id} href={`#${section.id}`} className="whitespace-nowrap border-b border-transparent px-3 py-2 text-[10px] font-bold uppercase tracking-[0.15em] text-foreground-muted transition-colors hover:border-gold-dark hover:text-primary sm:px-4">{section.label}</a>
+            ))}
+          </nav>
+          <Link href={bookingHref} className="ml-auto inline-flex shrink-0 items-center gap-2 whitespace-nowrap bg-primary px-4 py-3 text-[10px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-gold hover:text-primary sm:px-6">
+            Plan my trip <ArrowRight size={14} />
+          </Link>
+        </Container>
+      </div>
 
-          {/* topo texture overlay */}
-          <TopoPattern className="pointer-events-none absolute inset-0 h-full w-full text-white/[0.04]" />
-
-          <Container className="relative z-10 w-full pt-28 pb-32 sm:pb-40">
-            {/* breadcrumb */}
-            <nav className="mb-auto pt-2 text-xs font-semibold text-white/55" aria-label="Breadcrumb">
-              <Link href="/" className="transition-colors hover:text-gold">
-                Home
-              </Link>
-              <span className="mx-2">/</span>
-              <Link href="/destinations" className="transition-colors hover:text-gold">
-                Destinations
-              </Link>
-              <span className="mx-2">/</span>
-              <span className="text-gold">{destination.name}</span>
-            </nav>
-
-            <div className="mt-16 max-w-3xl">
-              <div className="mb-5 flex flex-wrap items-center gap-2 opacity-0" style={{ animationDelay: "0.1s" }}>
-                {destination.tag && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-gold px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-primary">
-                    {isNature && <LeafSprig className="h-3.5 w-3.5" />}
-                    {destination.tag}
-                  </span>
-                )}
-                {destination.country && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur-sm">
-                    <MapPin size={11} /> {destination.country}
-                  </span>
-                )}
-              </div>
-
-              <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold opacity-0" style={{ animationDelay: "0.2s" }}>
-                A Bandhan destination guide
-              </p>
-
-              <h1
-                className="mt-4 font-heading text-4xl font-extrabold leading-[0.96] text-white opacity-0 min-[380px]:text-5xl sm:text-7xl sm:leading-[0.92] lg:text-8xl"
-                style={{ animationDelay: "0.3s" }}
-              >
-                {destination.name}
-              </h1>
-
-              <InkUnderline className="mt-6 h-3 w-44 text-gold opacity-0" style={{ animationDelay: "0.55s" }} />
-
-              <p
-                className="mt-6 max-w-2xl text-base leading-relaxed text-white/85 sm:text-xl opacity-0"
-                style={{ animationDelay: "0.45s" }}
-              >
-                {destination.tagline || destination.description}
-              </p>
-
-              <div
-                className="mt-9 flex flex-col items-start gap-x-7 gap-y-4 opacity-0 sm:flex-row sm:flex-wrap sm:items-center"
-                style={{ animationDelay: "0.6s" }}
-              >
-                <Link
-                  href={bookingHref}
-                  className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-gold px-7 py-3.5 text-sm font-bold text-primary shadow-lg shadow-gold/20 transition-all duration-300 hover:bg-gold-light hover:shadow-gold/30 sm:w-auto"
-                >
-                  Build my trip
-                  <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
-                </Link>
-                <span className="text-sm text-white/70">
-                  Indicative trips from <strong className="text-gold">{destination.price}</strong>
-                </span>
-              </div>
-            </div>
-          </Container>
-
-          {/* bottom wave */}
-          <div className="pointer-events-none absolute bottom-0 left-0 right-0 z-10 h-16 text-[#f7f5f1] sm:h-20">
-            <WaveDivider className="h-full w-full" />
-          </div>
-        </section>
-
-        {/* ======================= QUICK STATS BAR ======================= */}
-        <section className="relative z-20 -mt-2 pb-6">
-          <Container>
-            <div className="grid divide-y divide-slate-100 overflow-hidden rounded-[1.5rem] border border-slate-100 bg-white shadow-[0_24px_70px_-40px_rgba(7,32,60,0.4)] sm:grid-cols-2 sm:divide-y-0 sm:divide-x lg:grid-cols-4">
-              <StatPill icon={Clock3} label="Ideal trip length" value={guide.duration} />
-              <StatPill icon={Sun} label="Best time to travel" value={guide.bestTime} />
-              <StatPill icon={Plane} label="Recommended gateway" value={guide.startingPoint} />
-              <StatPill icon={Users} label="Best for" value={destination.groupSize || "Couples, families & friends"} />
-            </div>
-          </Container>
-        </section>
-
-        {/* ========================= OVERVIEW ========================= */}
-        <section className="relative py-16 sm:py-24">
-          <Compass className="pointer-events-none absolute -right-10 top-10 h-72 w-72 text-primary/[0.04]" />
-          <Container>
-            <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_340px]">
-              <article>
-                <Reveal>
-                  <SectionLabel>The character of the place</SectionLabel>
-                  <h2 className="mt-4 max-w-3xl font-heading text-3xl font-extrabold leading-[1.05] text-primary sm:text-5xl">
-                    {guide.characterTitle || `Travel ${destination.name} with room to feel it.`}
-                  </h2>
-                </Reveal>
-
-                <Reveal delay={120}>
-                  <div className="mt-8 max-w-3xl space-y-5 text-base leading-relaxed text-foreground-muted sm:text-lg">
-                    {guide.overview.map((paragraph) => (
-                      <p key={paragraph}>{paragraph}</p>
+      <section className="bg-[#fbfaf7] py-16 sm:py-24">
+        <Container className="grid grid-cols-1 items-start gap-14 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-16">
+          <div className="min-w-0 space-y-20 sm:space-y-28">
+            <ScrollReveal>
+              <section id="overview" className="scroll-mt-28">
+                <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">The destination</span>
+                <h2 className="mt-3 font-heading text-4xl font-extrabold leading-tight tracking-[-0.03em] text-primary sm:text-5xl">{guide.characterTitle || `Travel ${destination.name} with room to feel it.`}</h2>
+                <div className="mt-6 space-y-5 text-sm leading-7 text-foreground-muted sm:text-base sm:leading-8">
+                  {guide.overview.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                </div>
+                <figure className="relative mt-10 h-[280px] w-full overflow-hidden bg-sand-dark sm:h-[420px]">
+                  <Image src={guide.gallery[0]} alt={`${destination.name} landscape`} fill sizes="(max-width: 1023px) 100vw, 70vw" className="object-cover" />
+                  <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-deep/85 to-transparent px-5 pb-5 pt-16 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80">{destination.name}</figcaption>
+                </figure>
+                {guide.themes.length > 0 ? (
+                  <div className="mt-10 border-y border-primary/15 sm:grid sm:grid-cols-2">
+                    {guide.themes.map((theme, index) => (
+                      <div key={theme} className="flex items-start gap-4 border-b border-primary/10 py-5 last:border-b-0 sm:px-5 sm:first:pl-0 sm:[&:nth-child(odd)]:border-r">
+                        <span className="font-heading text-xl font-extrabold text-gold-dark">{String(index + 1).padStart(2, "0")}</span>
+                        <span className="pt-1 text-sm font-semibold leading-6 text-primary">{theme}</span>
+                      </div>
                     ))}
                   </div>
-                </Reveal>
+                ) : null}
+              </section>
+            </ScrollReveal>
 
-                {guide.themes.length > 0 && (
-                  <Reveal delay={200}>
-                    <div className="mt-8 flex flex-wrap gap-2.5">
-                      {guide.themes.map((theme) => (
-                        <span
-                          key={theme}
-                          className="rounded-full border border-primary/10 bg-white px-4 py-2 text-xs font-bold text-primary shadow-soft transition-transform duration-300 hover:-translate-y-0.5"
-                        >
-                          {theme}
-                        </span>
-                      ))}
-                    </div>
-                  </Reveal>
-                )}
-              </article>
-
-              {/* sticky plan card */}
-              <Reveal delay={150}>
-                <aside className="relative overflow-hidden rounded-[1.75rem] bg-primary p-7 text-white shadow-premium lg:sticky lg:top-28">
-                  <TopoPattern className="pointer-events-none absolute inset-0 h-full w-full text-white/[0.05]" />
-                  <CornerFlourish className="absolute right-3 top-3 h-12 w-12 text-gold/40" />
-                  <div className="relative">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold">Plan with clarity</p>
-                    <h3 className="mt-3 font-heading text-2xl font-bold">{guide.planningTitle || "Make the guide yours."}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-slate-300">
-                      {guide.planningDescription || "We shape a day-by-day plan around your dates, budget, hotel style and who is travelling."}
-                    </p>
-                    <div className="mt-6 space-y-3 border-t border-white/10 pt-5 text-sm">
-                      {(guide.planningPoints?.length ? guide.planningPoints : ["Private transfers and handpicked stays", "Flexible pacing and optional experiences", "Support from first enquiry to departure"]).map((item) => (
-                        <p key={item} className="flex gap-2.5 text-slate-200">
-                          <Check className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
-                          {item}
-                        </p>
-                      ))}
-                    </div>
-                    <Link
-                      href={bookingHref}
-                      className="group mt-7 inline-flex items-center gap-2 text-sm font-bold text-gold transition-colors hover:text-gold-light"
-                    >
-                      Start planning
-                      <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
-                    </Link>
-                  </div>
-                </aside>
-              </Reveal>
-            </div>
-          </Container>
-        </section>
-
-        {/* ===================== SIGNATURE EXPERIENCES ===================== */}
-        <section className="relative py-16 sm:py-20">
-          <Container>
-            <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-              <Reveal>
-                <div>
-                  <SectionLabel>Signature experiences</SectionLabel>
-                  <h2 className="mt-4 max-w-xl font-heading text-3xl font-extrabold leading-tight text-primary sm:text-4xl">
-                    What a well-planned trip feels like
-                  </h2>
+            <ScrollReveal>
+              <section id="experiences" className="scroll-mt-28">
+                <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">Signature moments</span>
+                <h2 className="mt-3 font-heading text-4xl font-extrabold tracking-[-0.03em] text-primary sm:text-5xl">Experiences worth travelling for</h2>
+                <div className="mt-8 grid border-t border-primary/15 sm:grid-cols-2">
+                  {guide.experiences.map((experience, index) => (
+                    <article key={experience.title} className="border-b border-primary/15 py-7 sm:px-6 sm:[&:nth-child(odd)]:border-r sm:[&:nth-child(odd)]:pl-0">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-gold-dark">Experience {String(index + 1).padStart(2, "0")}</span>
+                      <h3 className="mt-3 font-heading text-2xl font-extrabold text-primary">{experience.title}</h3>
+                      <p className="mt-3 text-sm leading-7 text-foreground-muted">{experience.description}</p>
+                    </article>
+                  ))}
                 </div>
-              </Reveal>
-              <Reveal delay={120}>
-                <p className="max-w-md text-sm leading-relaxed text-foreground-muted">
-                  Not a checklist. These are the moments we use to give your route its own rhythm.
-                </p>
-              </Reveal>
-            </div>
+              </section>
+            </ScrollReveal>
 
-            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {guide.experiences.map((experience, index) => (
-                <Reveal key={experience.title} delay={index * 90}>
-                  <article className="group relative flex min-h-[20rem] flex-col overflow-hidden rounded-[1.5rem] bg-primary p-6 text-white shadow-soft">
-                    <Image
-                      src={guide.gallery[index % guide.gallery.length]}
-                      alt={experience.title}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-cover opacity-50 transition-all duration-[900ms] ease-out group-hover:scale-110 group-hover:opacity-60"
-                    />
-                    <div className="absolute inset-0 bg-ink-deep/60" />
-                    <div className="relative flex h-full flex-col justify-end">
-                      <span className="mb-auto inline-flex h-9 w-fit items-center rounded-full bg-white/10 px-3 text-xs font-extrabold text-gold ring-1 ring-inset ring-white/15 backdrop-blur-sm">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <h3 className="font-heading text-xl font-bold leading-snug">{experience.title}</h3>
-                      <p className="mt-2.5 text-sm leading-relaxed text-slate-200">{experience.description}</p>
-                      <span className="mt-4 inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gold opacity-100 transition-all duration-300 sm:opacity-0 sm:group-hover:opacity-100">
-                        Explore <ArrowUpRight size={13} />
-                      </span>
-                    </div>
-                  </article>
-                </Reveal>
-              ))}
-            </div>
-          </Container>
-        </section>
-
-        {/* ======================= SUGGESTED FLOW ======================= */}
-        <section className="relative overflow-hidden py-16 sm:py-24">
-          <MountainSilhouette className="pointer-events-none absolute bottom-0 left-0 h-40 w-full text-primary/[0.04]" />
-          <Container>
-            <div className="overflow-hidden rounded-[2rem] border border-primary/10 bg-white shadow-premium">
-              <div className="grid lg:grid-cols-[0.85fr_1.15fr]">
-                {/* left intro panel */}
-                <div className="relative flex flex-col justify-between gap-8 overflow-hidden bg-primary p-8 text-white lg:p-10">
-                  <TopoPattern className="pointer-events-none absolute inset-0 h-full w-full text-white/[0.05]" />
-                  <PaperPlane className="relative h-9 w-9 text-gold" />
-                  <div className="relative">
-                    <SectionLabel>
-                      <span className="text-gold">Suggested flow</span>
-                    </SectionLabel>
-                    <h2 className="mt-4 font-heading text-3xl font-extrabold leading-tight">
-                      A route with the right amount of breathing room.
-                    </h2>
-                    <p className="mt-4 text-sm leading-relaxed text-slate-300">
-                      This is a starting shape, not a fixed package. Add a beach stay, slow down in the hills, or shorten the route around your dates.
-                    </p>
-                    <Link
-                      href={bookingHref}
-                      className="group mt-7 inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3 text-sm font-bold text-primary transition-all duration-300 hover:bg-gold-light"
-                    >
-                      Talk through this route
-                      <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
-                    </Link>
-                  </div>
-                  <DottedRoute className="relative h-8 w-full text-gold/50" />
+            <ScrollReveal>
+              <section id="route" className="scroll-mt-28">
+                <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">Suggested flow</span>
+                <div className="mt-3 flex flex-wrap items-end justify-between gap-4 border-b border-primary/15 pb-7">
+                  <h2 className="font-heading text-4xl font-extrabold tracking-[-0.03em] text-primary sm:text-5xl">A route with room to breathe</h2>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-foreground-muted">Fully customisable</span>
                 </div>
-
-                {/* right timeline */}
-                <ol className="relative p-8 lg:p-10">
-                  {/* vertical line */}
-                  <span className="absolute left-[3.4rem] top-12 bottom-12 w-px bg-accent/25" />
+                <ol>
                   {guide.route.map((stop, index) => (
-                    <li key={stop.title} className="relative grid grid-cols-[2.5rem_1fr] gap-5 pb-8 last:pb-0">
-                      <div className="relative">
-                        <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-accent text-xs font-extrabold text-white shadow-lg shadow-accent/25">
-                          {String(index + 1).padStart(2, "0")}
-                        </span>
-                      </div>
-                      <div className="border-b border-slate-100 pb-6 last:border-0 last:pb-0">
-                        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-accent">{stop.label}</p>
-                        <h3 className="mt-1.5 text-lg font-bold text-primary">{stop.title}</h3>
-                        <p className="mt-2 text-sm leading-relaxed text-foreground-muted">{stop.description}</p>
-                      </div>
+                    <li key={`${stop.label}-${stop.title}`} className="grid gap-4 border-b border-primary/10 py-7 sm:grid-cols-[90px_minmax(0,1fr)] sm:gap-7">
+                      <div><span className="font-heading text-3xl font-extrabold text-gold-dark">{String(index + 1).padStart(2, "0")}</span><span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.15em] text-foreground-muted">{stop.label}</span></div>
+                      <div><h3 className="font-heading text-2xl font-extrabold text-primary">{stop.title}</h3><p className="mt-2 text-sm leading-7 text-foreground-muted">{stop.description}</p></div>
                     </li>
                   ))}
                 </ol>
-              </div>
-            </div>
-          </Container>
-        </section>
+              </section>
+            </ScrollReveal>
 
-        {/* ========================= WHEN TO GO ========================= */}
-        <section className="relative py-16 sm:py-20">
-          <Container>
-            <Reveal>
-              <SectionLabel>When to go</SectionLabel>
-              <h2 className="mt-4 max-w-2xl font-heading text-3xl font-extrabold leading-tight text-primary sm:text-4xl">
-                Choose the version of {destination.name} you want to experience.
-              </h2>
-            </Reveal>
-
-            <div className="mt-10 grid gap-5 md:grid-cols-3">
-              {guide.seasons.map((season, index) => (
-                <Reveal key={season.title} delay={index * 110}>
-                  <article className="group relative h-full overflow-hidden rounded-[1.5rem] border border-primary/5 bg-white px-7 py-8 shadow-soft transition-all duration-500 hover:-translate-y-1.5 hover:shadow-premium">
-                    <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-gold transition-transform duration-500 group-hover:scale-x-100" />
-                    <SunMark className="h-9 w-9 text-gold transition-transform duration-500 group-hover:rotate-90" />
-                    <span className="mt-5 block text-[10px] font-bold uppercase tracking-[0.18em] text-accent">
-                      Season {index + 1}
-                    </span>
-                    <h3 className="mt-2.5 font-heading text-xl font-bold text-primary">{season.title}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-foreground-muted">{season.detail}</p>
-                  </article>
-                </Reveal>
-              ))}
-            </div>
-          </Container>
-        </section>
-
-        {/* ===================== GALLERY + DESIGNER NOTES ===================== */}
-        <section className="relative py-16 sm:py-20">
-          <Container>
-            <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr]">
-              <Reveal>
-                <div>
-                  {guide.gallery.length > 1 && (
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="group relative col-span-2 min-h-[300px] overflow-hidden rounded-[1.5rem] bg-primary sm:min-h-[440px]">
-                        <Image
-                          src={guide.gallery[0]}
-                          alt={`${destination.name} landscape`}
-                          fill
-                          sizes="(max-width: 1024px) 100vw, 60vw"
-                          className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105"
-                        />
-                        <div className="absolute left-4 top-4 rounded-full bg-white/85 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-primary backdrop-blur-sm">
-                          {destination.name}
-                        </div>
-                      </div>
-                      {guide.gallery.slice(1, 3).map((image, index) => (
-                        <div
-                          key={image}
-                          className="group relative min-h-44 overflow-hidden rounded-[1.25rem] bg-primary"
-                        >
-                          <Image
-                            src={image}
-                            alt={`${destination.name} travel moment ${index + 2}`}
-                            fill
-                            sizes="(max-width: 640px) 50vw, 30vw"
-                            className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </Reveal>
-
-              <Reveal delay={140}>
-                <aside className="relative h-full overflow-hidden rounded-[1.75rem] border border-primary/10 bg-sand-dark p-8">
-                  <CornerFlourish className="absolute right-3 top-3 h-12 w-12 text-accent/30" />
-                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gold/25 text-primary ring-1 ring-inset ring-gold/30">
-                    <Sparkles size={18} />
-                  </span>
-                  <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.2em] text-accent">Travel designer&apos;s notes</p>
-                  <h2 className="mt-3 font-heading text-2xl font-extrabold leading-tight text-primary">
-                    Small details, better journeys.
-                  </h2>
-                  <ul className="mt-6 space-y-4">
-                    {guide.notes.map((note) => (
-                      <li key={note} className="flex gap-3 text-sm leading-relaxed text-foreground-muted">
-                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-                        {note}
-                      </li>
-                    ))}
-                  </ul>
-                </aside>
-              </Reveal>
-            </div>
-          </Container>
-        </section>
-
-        {/* ============================= FAQ ============================= */}
-        {destination.faqs?.length ? (
-          <section className="relative py-16 sm:py-20">
-            <Container>
-              <Reveal className="max-w-4xl">
-                <SectionLabel>Before you book</SectionLabel>
-                <h2 className="mt-4 font-heading text-3xl font-extrabold text-primary sm:text-4xl">
-                  Frequently asked questions
-                </h2>
-                <div className="mt-7 divide-y divide-slate-200 overflow-hidden rounded-2xl border border-slate-100 bg-white px-6 shadow-soft">
-                  {destination.faqs.map((faq) => (
-                    <details key={faq.question} className="group py-5">
-                      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 pr-2 text-sm font-bold text-primary">
-                        {faq.question}
-                        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-primary/15 text-accent transition-transform duration-300 group-open:rotate-45">
-                          +
-                        </span>
-                      </summary>
-                      <p className="mt-3 text-sm leading-relaxed text-foreground-muted">{faq.answer}</p>
-                    </details>
+            <ScrollReveal>
+              <section id="seasons" className="scroll-mt-28">
+                <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">When to go</span>
+                <h2 className="mt-3 font-heading text-4xl font-extrabold tracking-[-0.03em] text-primary sm:text-5xl">Choose your season</h2>
+                <div className="mt-8 divide-y divide-primary/10 border-y border-primary/15">
+                  {guide.seasons.map((season) => (
+                    <article key={season.title} className="grid gap-3 py-6 sm:grid-cols-[60px_190px_minmax(0,1fr)] sm:items-start sm:gap-6">
+                      <Sun size={22} className="text-gold-dark" />
+                      <h3 className="font-heading text-xl font-extrabold text-primary">{season.title}</h3>
+                      <p className="text-sm leading-7 text-foreground-muted">{season.detail}</p>
+                    </article>
                   ))}
                 </div>
-              </Reveal>
-            </Container>
-          </section>
-        ) : null}
+              </section>
+            </ScrollReveal>
 
-        {/* ============================= CTA ============================= */}
-        <section className="relative px-4 pb-20 sm:px-6 sm:pb-28 lg:px-8">
-          <div className="mx-auto max-w-7xl">
-            <div className="relative isolate overflow-hidden rounded-[2rem] bg-primary px-6 py-14 text-center text-white shadow-premium sm:px-12 sm:py-20">
-              <Image
-                src={destination.image}
-                alt=""
-                fill
-                sizes="100vw"
-                className="-z-10 object-cover opacity-20"
-              />
-              <div className="-z-10 absolute inset-0 bg-ink-deep/70" />
-              <LeafSprig className="pointer-events-none absolute left-6 top-6 h-12 w-12 text-gold/40" />
-              <LeafSprig className="pointer-events-none absolute bottom-6 right-6 h-12 w-12 rotate-180 text-gold/40" />
-
-              <Reveal>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-gold">Ready when you are</p>
-                <h2 className="mx-auto mt-3 max-w-3xl font-heading text-3xl font-extrabold leading-tight sm:text-5xl">
-                  Let&apos;s make {destination.name} feel like your trip.
-                </h2>
-                <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-slate-300 sm:text-base">
-                  Share your dates and travel style. We will turn the ideas in this guide into a considered, bookable itinerary.
-                </p>
-                <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-                  <Link
-                    href={bookingHref}
-                    className="group inline-flex items-center gap-2 rounded-full bg-gold px-8 py-4 text-sm font-bold text-primary shadow-lg shadow-gold/20 transition-all duration-300 hover:bg-gold-light hover:shadow-gold/30"
-                  >
-                    Start planning this trip
-                    <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
-                  </Link>
-                  <Link
-                    href="/contact"
-                    className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/5 px-7 py-4 text-sm font-bold text-white backdrop-blur-sm transition-colors hover:bg-white/10"
-                  >
-                    <Calendar size={15} /> Talk to a designer
-                  </Link>
+            <ScrollReveal>
+              <section id="gallery" className="scroll-mt-28">
+                <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">A sense of place</span>
+                <h2 className="mt-3 font-heading text-4xl font-extrabold tracking-[-0.03em] text-primary sm:text-5xl">See {destination.name}</h2>
+                <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                  {guide.gallery.slice(0, 6).map((image, index) => (
+                    <button key={`${image}-${index}`} type="button" onClick={() => setGalleryIndex(index)} className={`group relative overflow-hidden bg-sand-dark text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-gold ${index === 0 ? "col-span-2 min-h-[300px] sm:min-h-[440px]" : "min-h-44 sm:min-h-[220px]"}`} aria-label={`View ${destination.name} image ${index + 1}, enlarged`}>
+                      <Image src={image} alt={`${destination.name} travel moment ${index + 1}`} fill sizes="(max-width: 640px) 100vw, 50vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                      <span className="absolute bottom-3 right-3 flex h-9 w-9 items-center justify-center bg-white/90 text-primary"><Expand size={15} /></span>
+                    </button>
+                  ))}
                 </div>
-              </Reveal>
-            </div>
+              </section>
+            </ScrollReveal>
+
+            {destination.faqs?.length ? (
+              <ScrollReveal>
+                <section id="faqs" className="scroll-mt-28">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">Before you travel</span>
+                  <h2 className="mt-3 font-heading text-4xl font-extrabold tracking-[-0.03em] text-primary sm:text-5xl">Frequently asked questions</h2>
+                  <div className="mt-8 divide-y divide-primary/10 border-y border-primary/15">
+                    {destination.faqs.map((faq) => (
+                      <details key={faq.question} className="group py-5">
+                        <summary className="flex cursor-pointer list-none items-center justify-between gap-5 text-sm font-bold text-primary">{faq.question}<span className="text-xl font-light text-gold-dark transition-transform group-open:rotate-45">+</span></summary>
+                        <p className="max-w-3xl pt-4 text-sm leading-7 text-foreground-muted">{faq.answer}</p>
+                      </details>
+                    ))}
+                  </div>
+                </section>
+              </ScrollReveal>
+            ) : null}
           </div>
-        </section>
-      </main>
-    </div>
+
+          <aside className="space-y-6 lg:sticky lg:top-36">
+            <div className="border border-primary/15 bg-white p-7 shadow-sm">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold-dark">Plan this destination</p>
+              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.12em] text-foreground-muted">Indicative trips from</p>
+              <p className="mt-1 font-heading text-4xl font-extrabold text-primary">{destination.price}</p>
+              <p className="mt-4 text-sm leading-7 text-foreground-muted">{guide.planningDescription || "We shape a day-by-day plan around your dates, budget, hotel style and travel party."}</p>
+              <div className="mt-6 space-y-3 border-t border-primary/10 pt-5">
+                {(guide.planningPoints?.length ? guide.planningPoints : ["Private transfers and handpicked stays", "Flexible pacing and optional experiences", "Support from enquiry to departure"]).map((item) => (
+                  <p key={item} className="flex gap-2.5 text-sm leading-6 text-primary"><Check className="mt-1 h-4 w-4 shrink-0 text-gold-dark" />{item}</p>
+                ))}
+              </div>
+              <Link href={bookingHref} className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2 bg-primary px-5 text-xs font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-gold hover:text-primary">Plan my trip <ArrowRight size={15} /></Link>
+              <Link href="/contact" className="mt-3 inline-flex min-h-12 w-full items-center justify-center border border-primary/20 px-5 text-xs font-bold uppercase tracking-[0.15em] text-primary transition-colors hover:border-primary hover:bg-primary hover:text-white">Talk to a designer</Link>
+            </div>
+
+            <div className="border border-primary/10 bg-sand-dark p-7">
+              <Sparkles size={20} className="text-gold-dark" />
+              <p className="mt-5 text-[10px] font-bold uppercase tracking-[0.2em] text-gold-dark">Designer notes</p>
+              <ul className="mt-4 space-y-4">
+                {guide.notes.map((note) => <li key={note} className="border-b border-primary/10 pb-4 text-sm leading-6 text-foreground-muted last:border-0 last:pb-0">{note}</li>)}
+              </ul>
+            </div>
+          </aside>
+        </Container>
+      </section>
+
+      <section className="relative overflow-hidden bg-primary py-20 text-white sm:py-28">
+        <Image src={destination.image} alt="" fill sizes="100vw" className="object-cover opacity-20" />
+        <div className="pointer-events-none absolute inset-0 bg-ink-deep/70" />
+        <Container className="relative text-center">
+          <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold">Ready when you are</p>
+          <h2 className="mx-auto mt-4 max-w-4xl font-heading text-4xl font-extrabold tracking-[-0.03em] sm:text-6xl">Make {destination.name} your journey.</h2>
+          <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/70 sm:text-base">Share your dates and travel style. We will turn this guide into a considered, bookable itinerary.</p>
+          <Link href={bookingHref} className="mt-8 inline-flex min-h-12 items-center gap-2 bg-gold px-8 text-xs font-bold uppercase tracking-[0.16em] text-primary transition-colors hover:bg-white">Start planning <ArrowRight size={15} /></Link>
+        </Container>
+      </section>
+
+      <Lightbox slides={gallerySlides} index={galleryIndex} onClose={() => setGalleryIndex(null)} onNavigate={setGalleryIndex} />
+    </PageShell>
   );
 }

@@ -40,6 +40,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${inter.variable} ${poppins.variable} ${devanagari.variable} h-full antialiased`}
     >
       <body

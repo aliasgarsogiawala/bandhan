@@ -8,7 +8,7 @@ interface RouteParams {
   params: Promise<{ id: string }>;
 }
 
-const DOC_TYPES: DocumentType[] = ["quotation", "invoice", "itinerary", "voucher", "other"];
+const DOC_TYPES: DocumentType[] = ["quotation", "invoice", "receipt", "itinerary", "voucher", "other"];
 
 export async function POST(request: Request, { params }: RouteParams) {
   if (!isDbConfigured()) {

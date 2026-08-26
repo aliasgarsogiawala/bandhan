@@ -9,8 +9,10 @@ import type { BookedFor } from "./types";
  * someone else arranged the trip, that arranger is the **booker**:
  *
  *   self   — traveller and booker are the same person, so there is no booker
- *   guest  — a customer booking for family, friends or colleagues
  *   client — an agent booking for their client; the agent is the booker
+ *   guest  — legacy: a customer booking for someone else. No route creates
+ *            these any more (the public site books personally; arranging for
+ *            others is an agent journey), but existing rows still read back.
  *
  * A traveller booked by someone else often has no email or phone of their own
  * to give (a child, a parent, a corporate guest), so those fall back to the
@@ -39,15 +41,6 @@ export interface BookingParty {
   relation: string | null;
   notifyBooker: boolean;
 }
-
-/** Relationship options offered for a "booking for someone else" journey. */
-export const GUEST_RELATIONS = [
-  "Family",
-  "Friend",
-  "Colleague",
-  "Corporate guest",
-  "Other",
-] as const;
 
 export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 

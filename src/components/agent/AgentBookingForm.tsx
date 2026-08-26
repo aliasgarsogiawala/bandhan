@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { BedDouble, Briefcase, Check, Users } from "lucide-react";
+import { BedDouble, Briefcase, CalendarDays, Check, CircleDollarSign, MapPinned, Sparkles, Users } from "lucide-react";
 import Counter from "@/components/booking/Counter";
 import { useCollection } from "@/lib/admin/store";
 import type { Destination, TourPackage } from "@/data/mockData";
@@ -152,6 +152,23 @@ export default function AgentBookingForm({ mode = "agent" }: { mode?: "agent" | 
     indicative: true,
   });
   const travellerCount = totalTravellers(travellers);
+  const tripSelected = Boolean(
+    travelDate &&
+      ((basis === "package" && selectedPackage) ||
+        (basis === "destination" && selectedDestination) ||
+        (basis === "departure" && selectedDeparture) ||
+        (basis === "custom" && customDestination.trim().length > 1))
+  );
+  const customerComplete = Boolean(
+    client.name.trim().length > 1 &&
+      (!isAdmin || (client.email.includes("@") && client.phone.replace(/\D/g, "").length >= 8))
+  );
+  const formSteps = [
+    { label: "Customer", complete: customerComplete, href: "#booking-customer" },
+    { label: "Journey", complete: tripSelected, href: "#booking-journey" },
+    { label: "Travellers", complete: travellerCount > 0, href: "#booking-travellers" },
+    { label: "Review", complete: customerComplete && tripSelected && travellerCount > 0, href: "#booking-review" },
+  ];
 
   const selectBasis = (next: Basis) => {
     setBasis(next);
@@ -161,44 +178,51 @@ export default function AgentBookingForm({ mode = "agent" }: { mode?: "agent" | 
     setAddonIds([]);
   };
 
+  const showError = (message: string) => {
+    setError(message);
+    window.requestAnimationFrame(() => {
+      document.getElementById("booking-form-error")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  };
+
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
     setError("");
 
     if (client.name.trim().length < 2) {
-      setError(isAdmin ? "Please enter the customer's name." : "Please enter your client's name.");
+      showError(isAdmin ? "Please enter the customer's name." : "Please enter your client's name.");
       return;
     }
     if (isAdmin && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(client.email.trim())) {
-      setError("Please enter a valid customer email address.");
+      showError("Please enter a valid customer email address.");
       return;
     }
     if (isAdmin && client.phone.replace(/\D/g, "").length < 8) {
-      setError("Please enter a valid customer phone number.");
+      showError("Please enter a valid customer phone number.");
       return;
     }
     if (basis === "package" && !selectedPackage) {
-      setError("Select the package your client is booking.");
+      showError("Select the package your client is booking.");
       return;
     }
     if (basis === "destination" && !selectedDestination) {
-      setError("Select a destination.");
+      showError("Select a destination.");
       return;
     }
     if (basis === "departure" && !selectedDeparture) {
-      setError("Select a group departure.");
+      showError("Select a group departure.");
       return;
     }
     if (basis === "custom" && customDestination.trim().length < 2) {
-      setError("Enter the destination your client wants.");
+      showError("Enter the destination your client wants.");
       return;
     }
     if (!travelDate.trim()) {
-      setError("Enter the travel date.");
+      showError("Enter the travel date.");
       return;
     }
     if (selectedDeparture && travellerCount > selectedDeparture.seats_left) {
-      setError(
+      showError(
         `Only ${selectedDeparture.seats_left} seat${selectedDeparture.seats_left === 1 ? " is" : "s are"} currently available for this departure.`
       );
       return;
@@ -236,26 +260,43 @@ export default function AgentBookingForm({ mode = "agent" }: { mode?: "agent" | 
       });
       const data = await response.json();
       if (!response.ok || !data.ok) {
-        setError(data.error || "Could not create the booking.");
+        showError(data.error || "Could not create the booking.");
         return;
       }
       router.push(`/${mode}/bookings/${data.booking.id}`);
     } catch {
-      setError("Network error. Please try again.");
+      showError("Network error. Please try again.");
     } finally {
       setBusy(false);
     }
   };
 
   return (
-    <form onSubmit={submit} className="space-y-6">
+    <form onSubmit={submit} className="space-y-6 pb-8">
       {error ? (
-        <div className="rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+        <div id="booking-form-error" role="alert" aria-live="assertive" className="scroll-mt-24 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
           {error}
         </div>
       ) : null}
 
-      <section className="rounded-2xl border border-slate-100 bg-white p-6">
+      <section className="relative overflow-hidden rounded-[24px] bg-primary p-5 text-white shadow-xl shadow-primary/10 sm:p-7">
+        <div className="pointer-events-none absolute -right-12 -top-16 h-44 w-44 rounded-full bg-accent/25 blur-3xl" />
+        <div className="relative flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <span className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-gold"><Sparkles size={13} /> Guided booking setup</span>
+            <h2 className="mt-2 font-heading text-2xl font-semibold">Build a complete booking file</h2>
+            <p className="mt-1 max-w-xl text-sm leading-6 text-white/60">Capture the lead traveller, journey and party details. Pricing updates live as you work.</p>
+          </div>
+          <div className="grid grid-cols-4 gap-2 sm:min-w-[390px]">
+            {formSteps.map((step, index) => <a key={step.label} href={step.href} className="rounded-xl py-1 text-center transition hover:bg-white/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"><span className={`mx-auto flex h-8 w-8 items-center justify-center rounded-full border text-xs font-bold ${step.complete ? "border-emerald-300/30 bg-emerald-400/20 text-emerald-200" : "border-white/15 bg-white/5 text-white/50"}`}>{step.complete ? <Check size={14} /> : index + 1}</span><span className={`mt-1.5 block text-[9px] font-bold uppercase tracking-wider ${step.complete ? "text-white/80" : "text-white/35"}`}>{step.label}</span></a>)}
+          </div>
+        </div>
+      </section>
+
+      <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_330px]">
+        <div className="space-y-6">
+
+      <section id="booking-customer" className="scroll-mt-24 rounded-[24px] border border-slate-200/80 bg-white p-5 shadow-sm sm:p-7">
         <div className="flex items-center gap-2">
           <Briefcase size={18} className="text-accent" />
           <h2 className="font-heading text-base font-bold text-primary">
@@ -315,7 +356,7 @@ export default function AgentBookingForm({ mode = "agent" }: { mode?: "agent" | 
         ) : null}
       </section>
 
-      <section className="rounded-2xl border border-slate-100 bg-white p-6">
+      <section id="booking-journey" className="scroll-mt-24 rounded-[24px] border border-slate-200/80 bg-white p-5 shadow-sm sm:p-7">
         <h2 className="font-heading text-base font-bold text-primary">What are they booking?</h2>
         <div className="mt-4 flex flex-wrap gap-2">
           {(
@@ -410,10 +451,11 @@ export default function AgentBookingForm({ mode = "agent" }: { mode?: "agent" | 
           <label className="space-y-2">
             <span className={labelClass}>Travel date</span>
             <input
+              type="date"
               value={travelDate}
               onChange={(event) => setTravelDate(event.target.value)}
               className={inputClass}
-              placeholder="e.g. 12 October 2026"
+              min={new Date().toISOString().slice(0, 10)}
             />
           </label>
           <label className="space-y-2">
@@ -487,7 +529,7 @@ export default function AgentBookingForm({ mode = "agent" }: { mode?: "agent" | 
         ) : null}
       </section>
 
-      <section className="rounded-2xl border border-slate-100 bg-white p-6">
+      <section id="booking-travellers" className="scroll-mt-24 rounded-[24px] border border-slate-200/80 bg-white p-5 shadow-sm sm:p-7">
         <div className="flex items-center gap-2">
           <Users size={18} className="text-accent" />
           <h2 className="font-heading text-base font-bold text-primary">Travellers and rooms</h2>
@@ -561,7 +603,7 @@ export default function AgentBookingForm({ mode = "agent" }: { mode?: "agent" | 
         </label>
       </section>
 
-      <section className="rounded-2xl border border-slate-100 bg-white p-6">
+      <section id="booking-review" className="scroll-mt-24 rounded-[24px] border border-slate-200/80 bg-white p-5 shadow-sm sm:p-7">
         <h2 className="font-heading text-base font-bold text-primary">Notes and reference</h2>
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
           {!isAdmin ? (
@@ -610,25 +652,41 @@ export default function AgentBookingForm({ mode = "agent" }: { mode?: "agent" | 
         ) : null}
       </section>
 
-      <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-primary p-6 text-white">
-        <div>
-          <span className="text-[10px] font-bold uppercase tracking-wider text-gold">
-            Indicative total
-          </span>
-          <p className="mt-1 text-2xl font-extrabold">{formatMoney(quote.total)}</p>
-          <p className="mt-1 text-xs text-slate-300">
-            {travellerCount} traveller{travellerCount === 1 ? "" : "s"} · advance{" "}
-            {formatMoney(quote.depositAmount)}
-          </p>
         </div>
-        <button
-          type="submit"
-          disabled={busy}
-          className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-bold text-white transition-colors hover:bg-accent-dark disabled:opacity-50"
-        >
-          {busy ? "Creating…" : "Create booking"} <Check size={16} />
-        </button>
+
+        <aside className="space-y-4 xl:sticky xl:top-6">
+          <div className="overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-lg shadow-slate-200/50">
+            <div className="bg-primary p-5 text-white">
+              <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-gold">Live booking summary</span>
+              <p className="mt-2 font-heading text-xl font-semibold leading-snug">{tripSelected ? snapshot.title : "Choose a journey"}</p>
+              <p className="mt-1 text-xs text-white/50">Indicative until an admin confirms pricing</p>
+            </div>
+            <div className="space-y-4 p-5">
+              <SummaryRow icon={MapPinned} label="Destination" value={snapshot.destination} />
+              <SummaryRow icon={CalendarDays} label="Travel" value={travelDate ? formatFormDate(travelDate) : "Date to confirm"} />
+              <SummaryRow icon={Users} label="Party" value={`${travellerCount} traveller${travellerCount === 1 ? "" : "s"} · ${rooms.singleRooms + rooms.doubleRooms + rooms.tripleRooms} room${rooms.singleRooms + rooms.doubleRooms + rooms.tripleRooms === 1 ? "" : "s"}`} />
+              <div className="border-t border-dashed border-slate-200 pt-4">
+                <div className="flex items-end justify-between gap-4"><span className="text-xs font-bold uppercase tracking-wider text-slate-400">Indicative total</span><strong className="font-heading text-2xl text-primary">{formatMoney(quote.total)}</strong></div>
+                <div className="mt-2 flex justify-between text-xs text-foreground-muted"><span>Advance payable</span><span className="font-bold text-primary">{formatMoney(quote.depositAmount)}</span></div>
+              </div>
+              <button type="submit" disabled={busy} className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-accent px-6 text-sm font-bold text-white shadow-md shadow-accent/15 transition hover:-translate-y-0.5 hover:bg-accent-dark disabled:translate-y-0 disabled:opacity-50">
+                {busy ? "Creating booking…" : "Create booking"} <Check size={16} />
+              </button>
+              <p className="text-center text-[11px] leading-4 text-foreground-muted">Creates the file and opens it in the operations workspace.</p>
+            </div>
+          </div>
+          <div className="rounded-2xl border border-blue-100 bg-blue-50 p-4 text-xs leading-5 text-blue-800"><strong className="flex items-center gap-1.5"><CircleDollarSign size={14} /> Price control</strong><span className="mt-1 block text-blue-700/75">You can revise pricing, add documents and send the quotation from the booking workspace.</span></div>
+        </aside>
       </div>
     </form>
   );
+}
+
+function SummaryRow({ icon: Icon, label, value }: { icon: React.ComponentType<{ size?: number }>; label: string; value: string }) {
+  return <div className="flex items-start gap-3"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-sand text-accent"><Icon size={16} /></span><span className="min-w-0"><span className="block text-[10px] font-bold uppercase tracking-wider text-slate-400">{label}</span><span className="mt-0.5 block truncate text-sm font-semibold text-primary">{value}</span></span></div>;
+}
+
+function formatFormDate(value: string) {
+  const date = new Date(`${value.slice(0, 10)}T00:00:00`);
+  return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 }

@@ -3,8 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
+import PageShell from "@/components/ui/PageShell";
 import { Container } from "@/components/ui/Container";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
 import {
@@ -18,6 +17,7 @@ import PdfPreviewModal from "@/components/ui/PdfPreviewModal";
 const DOC_LABELS: Record<string, string> = {
   quotation: "Quotation",
   invoice: "Invoice",
+  receipt: "Payment Receipt",
   itinerary: "Itinerary",
   voucher: "Voucher",
   other: "Document",
@@ -50,11 +50,8 @@ export default function AccountBookingDetailPage() {
     : -1;
 
   return (
-    <div className="min-h-screen bg-sand flex flex-col overflow-x-hidden">
-      <Navbar onEnquiryClick={enquire} />
-
-      <main className="flex-1 py-28 sm:py-32">
-        <Container className="max-w-3xl space-y-8">
+    <PageShell tone="sand" offsetTop mainClassName="py-14 sm:py-16" onEnquiryClick={enquire}>
+      <Container className="max-w-3xl space-y-8">
           <Link href="/account" className="text-sm font-semibold text-accent hover:text-accent-dark">
             &larr; Back to My Bookings
           </Link>
@@ -221,6 +218,30 @@ export default function AccountBookingDetailPage() {
                       <a href={`/api/bookings/${booking.id}/brochure?download=1`} className="text-primary">Download</a>
                     </div>
                   </div>
+                  <div className="rounded-2xl border border-primary/10 bg-white p-5">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-accent">Travel document</span>
+                    <h3 className="mt-1 font-heading text-lg font-bold text-primary">Standalone itinerary</h3>
+                    <p className="mt-2 text-xs leading-relaxed text-foreground-muted">Your day-by-day route in a travel-ready PDF.</p>
+                    <div className="mt-4 flex gap-3 text-xs font-bold"><a href={`/api/bookings/${booking.id}/documents/itinerary`} target="_blank" rel="noreferrer" className="text-accent">Preview</a><a href={`/api/bookings/${booking.id}/documents/itinerary?download=1`} className="text-primary">Download</a></div>
+                  </div>
+                  {booking.price_amount ? <div className="rounded-2xl border border-primary/10 bg-white p-5">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-accent">Accounts</span>
+                    <h3 className="mt-1 font-heading text-lg font-bold text-primary">Invoice</h3>
+                    <p className="mt-2 text-xs leading-relaxed text-foreground-muted">Verified booking value and payment reference.</p>
+                    <div className="mt-4 flex gap-3 text-xs font-bold"><a href={`/api/bookings/${booking.id}/documents/invoice`} target="_blank" rel="noreferrer" className="text-accent">Preview</a><a href={`/api/bookings/${booking.id}/documents/invoice?download=1`} className="text-primary">Download</a></div>
+                  </div> : null}
+                  {["confirmed", "completed"].includes(booking.status) ? <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-700">Confirmed</span>
+                    <h3 className="mt-1 font-heading text-lg font-bold text-primary">Travel voucher</h3>
+                    <p className="mt-2 text-xs leading-relaxed text-foreground-muted">Your confirmation for hotels and service partners.</p>
+                    <div className="mt-4 flex gap-3 text-xs font-bold"><a href={`/api/bookings/${booking.id}/documents/voucher`} target="_blank" rel="noreferrer" className="text-emerald-700">Preview</a><a href={`/api/bookings/${booking.id}/documents/voucher?download=1`} className="text-primary">Download</a></div>
+                  </div> : null}
+                  {booking.payment_status === "received" ? <div className="rounded-2xl border border-gold/30 bg-gold/10 p-5">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-gold-dark">Payment recorded</span>
+                    <h3 className="mt-1 font-heading text-lg font-bold text-primary">Payment receipt</h3>
+                    <p className="mt-2 text-xs leading-relaxed text-foreground-muted">A downloadable receipt for your records.</p>
+                    <div className="mt-4 flex gap-3 text-xs font-bold"><a href={`/api/bookings/${booking.id}/documents/receipt`} target="_blank" rel="noreferrer" className="text-gold-dark">Preview</a><a href={`/api/bookings/${booking.id}/documents/receipt?download=1`} className="text-primary">Download</a></div>
+                  </div> : null}
                 </div>
                 {booking.documents.length === 0 ? (
                   <p className="text-sm text-foreground-muted font-sans">
@@ -268,8 +289,7 @@ export default function AccountBookingDetailPage() {
               </div>
             </>
           )}
-        </Container>
-      </main>
+      </Container>
 
       {booking ? (
         <PdfPreviewModal
@@ -280,8 +300,6 @@ export default function AccountBookingDetailPage() {
           onClose={() => setBrochurePreviewOpen(false)}
         />
       ) : null}
-
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

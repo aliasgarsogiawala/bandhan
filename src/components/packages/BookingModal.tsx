@@ -3,8 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
-import { GUEST_RELATIONS } from "@/lib/bookings/party";
-import type { BookedFor } from "@/lib/bookings/types";
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -20,10 +18,6 @@ const initialForm = {
   contactName: "",
   contactEmail: "",
   contactPhone: "",
-  bookerName: "",
-  bookerEmail: "",
-  bookerPhone: "",
-  relation: GUEST_RELATIONS[0] as string,
   travelDate: "",
   travellersCount: "2",
   travellerNames: "",
@@ -43,7 +37,6 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   seatsLeft,
 }) => {
   const [form, setForm] = useState(initialForm);
-  const [bookedFor, setBookedFor] = useState<BookedFor>("self");
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -54,7 +47,6 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   if (isOpen && !wasOpen) {
     setWasOpen(true);
     setForm({ ...initialForm, travelDate: initialTravelDate || "" });
-    setBookedFor("self");
     setTermsAccepted(false);
     setError("");
     setBookingCode(null);
@@ -75,8 +67,6 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       window.removeEventListener("keydown", closeOnEscape);
     };
   }, [isOpen, onClose]);
-
-  const bookingForSomeoneElse = bookedFor === "guest";
 
   if (!isOpen) return null;
 
@@ -105,16 +95,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           travellersCount: form.travellersCount,
           travellerNames: form.travellerNames,
           specialRequirements: form.specialRequirements,
-          bookedFor,
           contact: {
             name: form.contactName,
             email: form.contactEmail,
             phone: form.contactPhone,
           },
-          booker: bookingForSomeoneElse
-            ? { name: form.bookerName, email: form.bookerEmail, phone: form.bookerPhone }
-            : undefined,
-          relation: bookingForSomeoneElse ? form.relation : undefined,
           termsAccepted,
         }),
       });
@@ -221,36 +206,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   {error}
                 </div>
               )}
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-primary uppercase">
-                  Who is this booking for?
-                </label>
-                <div className="grid grid-cols-2 gap-2">
-                  {(
-                    [
-                      ["self", "Myself"],
-                      ["guest", "Someone else"],
-                    ] as const
-                  ).map(([value, label]) => (
-                    <button
-                      key={value}
-                      type="button"
-                      onClick={() => setBookedFor(value)}
-                      className={`rounded-xl border px-4 py-2.5 text-sm font-bold transition-colors ${
-                        bookedFor === value
-                          ? "bg-primary text-white border-primary"
-                          : "bg-white text-primary border-slate-200 hover:border-primary/40"
-                      }`}
-                    >
-                      {label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
               <div className="space-y-4 rounded-2xl border border-slate-100 bg-slate-50/40 p-4">
                 <p className="text-xs font-bold uppercase tracking-wider text-foreground-muted">
-                  {bookingForSomeoneElse ? "Lead traveller" : "Your details"}
+                  Your details
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
@@ -261,18 +219,18 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                       required
                       value={form.contactName}
                       onChange={handleChange}
-                      placeholder={bookingForSomeoneElse ? "Who is travelling" : "Enter your name"}
+                      placeholder="Enter your name"
                       className={fieldClass}
                     />
                   </div>
                   <div className="space-y-1">
                     <label className="text-xs font-semibold text-primary uppercase">
-                      Phone Number {bookingForSomeoneElse && <span className="normal-case font-medium text-foreground-muted">(optional)</span>}
+                      Phone Number
                     </label>
                     <input
                       type="tel"
                       name="contactPhone"
-                      required={!bookingForSomeoneElse}
+                      required
                       value={form.contactPhone}
                       onChange={handleChange}
                       placeholder="E.g. +91 98765 43210"
@@ -283,89 +241,19 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
                 <div className="space-y-1">
                   <label className="text-xs font-semibold text-primary uppercase">
-                    Email Address {bookingForSomeoneElse && <span className="normal-case font-medium text-foreground-muted">(optional)</span>}
+                    Email Address
                   </label>
                   <input
                     type="email"
                     name="contactEmail"
-                    required={!bookingForSomeoneElse}
+                    required
                     value={form.contactEmail}
                     onChange={handleChange}
                     placeholder="name@example.com"
                     className={fieldClass}
                   />
                 </div>
-                {bookingForSomeoneElse && (
-                  <p className="text-xs text-foreground-muted">
-                    No email or phone for them? Leave it blank and we&apos;ll use yours.
-                  </p>
-                )}
               </div>
-
-              {bookingForSomeoneElse && (
-                <div className="space-y-4 rounded-2xl border border-accent/20 bg-accent/5 p-4">
-                  <p className="text-xs font-bold uppercase tracking-wider text-accent">
-                    Your details — all updates come to you
-                  </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <label className="text-xs font-semibold text-primary uppercase">Your Name</label>
-                      <input
-                        type="text"
-                        name="bookerName"
-                        required
-                        value={form.bookerName}
-                        onChange={handleChange}
-                        placeholder="Enter your name"
-                        className={fieldClass}
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-xs font-semibold text-primary uppercase">Your Phone</label>
-                      <input
-                        type="tel"
-                        name="bookerPhone"
-                        required
-                        value={form.bookerPhone}
-                        onChange={handleChange}
-                        placeholder="E.g. +91 98765 43210"
-                        className={fieldClass}
-                      />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <label className="text-xs font-semibold text-primary uppercase">Your Email</label>
-                      <input
-                        type="email"
-                        name="bookerEmail"
-                        required
-                        value={form.bookerEmail}
-                        onChange={handleChange}
-                        placeholder="name@example.com"
-                        className={fieldClass}
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-xs font-semibold text-primary uppercase">
-                        They are my
-                      </label>
-                      <select
-                        name="relation"
-                        value={form.relation}
-                        onChange={handleChange}
-                        className={fieldClass}
-                      >
-                        {GUEST_RELATIONS.map((relation) => (
-                          <option key={relation} value={relation}>
-                            {relation}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              )}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
@@ -426,9 +314,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   className="mt-0.5 h-4 w-4 accent-accent"
                 />
                 <span className="text-xs leading-relaxed text-foreground-muted">
-                  {bookingForSomeoneElse
-                    ? "I confirm I have the traveller's consent to share their details, and I accept the booking and cancellation terms."
-                    : "I confirm my details are correct and accept the booking and cancellation terms."}
+                  I confirm my details are correct and accept the booking and cancellation
+                  terms.
                 </span>
               </label>
 

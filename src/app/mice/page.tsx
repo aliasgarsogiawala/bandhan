@@ -19,8 +19,7 @@ import {
   Users,
   UtensilsCrossed,
 } from "lucide-react";
-import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
+import PageShell from "@/components/ui/PageShell";
 import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import MiceHero from "@/components/mice/MiceHero";
@@ -252,11 +251,9 @@ const faqs = [
 
 export default function MicePage() {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-white">
-      <Navbar />
+    <PageShell tone="white">
       <MiceHero />
 
-      <main>
         <section className="border-b border-primary/10 py-20 sm:py-24 lg:py-28">
           <Container>
             <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
@@ -690,9 +687,6 @@ export default function MicePage() {
             </div>
           </Container>
         </section>
-      </main>
-
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

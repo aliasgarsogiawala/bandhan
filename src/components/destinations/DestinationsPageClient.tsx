@@ -3,30 +3,33 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
 import { Container } from "@/components/ui/Container";
-import { SectionTitle } from "@/components/ui/SectionTitle";
+import PageShell from "@/components/ui/PageShell";
+import PageHero from "@/components/ui/PageHero";
 import type { Destination } from "@/data/mockData";
 import { useCollection } from "@/lib/admin/store";
+import { placeholderImage } from "@/lib/placeholderImages";
 
 export default function DestinationsPageClient() {
   const { items } = useCollection<Destination>("destinations");
   const destinations = items.filter((destination) => destination.status !== "draft");
 
   return (
-    <div className="flex min-h-screen flex-col overflow-x-hidden bg-sand">
-      <Navbar />
-      <main className="pt-32 pb-20 sm:pt-40">
-        <Container>
-          <SectionTitle
-            badge="Explore the world"
-            title="All Popular Destinations"
-            description="Browse every destination currently available for planning with Bandhan Tours."
-            className="mx-auto max-w-2xl text-center"
-          />
+    <PageShell tone="sand">
+      <PageHero
+        align="center"
+        priority
+        eyebrow="Explore the world"
+        title="All popular destinations"
+        description="Browse every destination currently available for planning with Bandhan Tours."
+        image="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=90&w=3200"
+        imageAlt=""
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Destinations" }]}
+      />
 
-          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="py-16 sm:py-20">
+        <Container>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {destinations.map((dest) => (
               <Link
                 key={dest.id}
@@ -34,7 +37,7 @@ export default function DestinationsPageClient() {
                 className="group relative h-[340px] overflow-hidden rounded-3xl border border-slate-100/50 bg-primary shadow-soft transition-all duration-500 hover:-translate-y-1 hover:shadow-xl sm:h-[380px]"
               >
                 <Image
-                  src={dest.image}
+                  src={dest.image || placeholderImage(dest.id)}
                   alt={dest.name}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -65,13 +68,12 @@ export default function DestinationsPageClient() {
           </div>
 
           {destinations.length === 0 && (
-            <div className="mt-12 rounded-3xl border border-slate-200 bg-white p-12 text-center text-sm text-foreground-muted">
+            <div className="rounded-3xl border border-slate-200 bg-white p-12 text-center text-sm text-foreground-muted">
               No destinations are currently available.
             </div>
           )}
         </Container>
-      </main>
-      <Footer />
-    </div>
+      </section>
+    </PageShell>
   );
 }

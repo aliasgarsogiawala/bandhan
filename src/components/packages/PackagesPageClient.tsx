@@ -4,11 +4,11 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowUpRight, CalendarClock, MapPin, Search, X } from "lucide-react";
-import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
+import { ArrowUpRight, CalendarClock, MapPin, Search, Star, X } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import PageShell from "@/components/ui/PageShell";
+import PageHero from "@/components/ui/PageHero";
 import type { TourPackage } from "@/data/mockData";
 import { getFullPackageForPackage } from "@/data/packageDetails";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
@@ -16,9 +16,15 @@ import { useCollection } from "@/lib/admin/store";
 import { fuzzySearch } from "@/lib/fuzzySearch";
 import {
   CATEGORY_TABS as TABS,
+  TRAVEL_STYLE_FILTERS,
   matchesCategory,
+  matchesTravelStyle,
+  packageDestinationLabel,
+  packageTravelStyles,
   parseCategoryParam,
+  parseTravelStyle,
   type CategoryTab,
+  type TravelStyleFilter,
 } from "@/lib/packageCategory";
 import {
   BUDGET_RANGES,
@@ -59,6 +65,13 @@ export const PackagesPageClient: React.FC = () => {
   const [month, setMonth] = useState(resolvedMonth.value);
   const monthWasRolledForward = resolvedMonth.rolledForward && month === resolvedMonth.value;
   const [query, setQuery] = useState(searchParams.get("search") || "");
+  const [destination, setDestination] = useState(searchParams.get("destination") || "all");
+  const [travelStyle, setTravelStyle] = useState<TravelStyleFilter>(() => parseTravelStyle(searchParams.get("style")));
+  const [featuredOnly, setFeaturedOnly] = useState(searchParams.get("featured") === "1");
+  const destinations = React.useMemo(
+    () => [...new Set(packages.filter((pkg) => pkg.status !== "draft").map(packageDestinationLabel))].sort((a, b) => a.localeCompare(b)),
+    [packages]
+  );
 
   // Keep the address bar in step with the visible filters, so the link a
   // traveller copies or bookmarks reproduces what they are actually looking at.
@@ -71,8 +84,11 @@ export const PackagesPageClient: React.FC = () => {
     if (month) params.set("month", month);
     if (duration !== "all") params.set("duration", duration);
     if (budget !== "all") params.set("budget", budget);
+    if (destination !== "all") params.set("destination", destination);
+    if (travelStyle !== "all") params.set("style", travelStyle);
+    if (featuredOnly) params.set("featured", "1");
     return params.toString();
-  }, [query, activeTab, month, duration, budget]);
+  }, [query, activeTab, month, duration, budget, destination, travelStyle, featuredOnly]);
 
   React.useEffect(() => {
     router.replace(`/packages${filterQuery ? `?${filterQuery}` : ""}`, { scroll: false });
@@ -98,177 +114,201 @@ export const PackagesPageClient: React.FC = () => {
   const filteredPackages = searchedPackages
     .filter((pkg) => pkg.status !== "draft")
     .filter((pkg) => matchesCategory(pkg.category, activeTab))
+    .filter((pkg) => destination === "all" || packageDestinationLabel(pkg) === destination)
+    .filter((pkg) => matchesTravelStyle(pkg, travelStyle))
+    .filter((pkg) => !featuredOnly || Boolean(pkg.isPopular))
     .filter((pkg) => withinBudget(parsePrice(pkg.price)))
     .filter((pkg) => withinDuration(parseDurationDays(pkg.duration)))
     .filter((pkg) => bestTimeCoversMonth(pkg.bestTime, monthFilter));
 
   return (
-    <div className="package-catalogue min-h-screen bg-sand-light flex flex-col overflow-x-hidden">
-      <Navbar onEnquiryClick={() => handleEnquire("")} />
+    <PageShell tone="sand" className="package-catalogue" onEnquiryClick={() => handleEnquire("")}>
+      <PageHero
+        size="lg"
+        priority
+        eyebrow="Tour packages"
+        title={
+          <>
+            Journeys worth <span className="text-gold">packing for</span>
+          </>
+        }
+        description="Every itinerary below is hand-built by our destination designers — real routes we travel ourselves, with stays and moments we would book for our own families."
+        image="https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=90&w=3200"
+        imageAlt=""
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Tour packages" }]}
+        toolbar={
+          <>
+            {/* Search box */}
+            <div className="relative max-w-xl">
+              <label className="sr-only" htmlFor="package-search">
+                Search packages
+              </label>
+              <Search
+                size={17}
+                className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-white/50"
+              />
+              <input
+                id="package-search"
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search by destination, title or theme…"
+                className="min-h-12 w-full rounded-[8px] border border-white/20 bg-ink-deep/35 py-3 pl-11 pr-10 text-base text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-gold sm:text-sm"
+              />
+              {query && (
+                <button
+                  type="button"
+                  onClick={() => setQuery("")}
+                  aria-label="Clear search"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors"
+                >
+                  <X size={16} />
+                </button>
+              )}
+            </div>
 
-      {/* Page hero */}
-      <header className="relative bg-primary pt-32 pb-16 sm:pt-36 sm:pb-20 overflow-hidden">
-        {/* Background image */}
-        <Image
-          src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=90&w=3200"
-          alt=""
-          fill
-          priority
-          className="object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-ink/80" />
-        {/* Soft radial glows echoing the brand palette */}
+            {/* Filter tabs */}
+            <div className="inline-flex max-w-full flex-wrap gap-1 rounded-[8px] border border-white/15 bg-white/10 p-1 backdrop-blur-md mt-4">
+              {TABS.map((tab) => (
+                <button
+                  key={tab.key}
+                  onClick={() => setActiveTab(tab.key)}
+                  className={`min-h-11 rounded-[5px] px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all duration-300 sm:px-6 ${
+                    activeTab === tab.key
+                      ? "bg-gold text-primary shadow-md"
+                      : "text-white/70 hover:text-white"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
 
-        <Container className="relative">
-          <nav className="text-xs font-semibold uppercase tracking-wider text-white/60 mb-4" aria-label="Breadcrumb">
-            <Link href="/" className="hover:text-gold transition-colors">
-              Home
-            </Link>
-            <span className="mx-2">/</span>
-            <span className="text-gold">Tour Packages</span>
-          </nav>
-          <h1 className="font-heading text-4xl font-extrabold leading-[1.05] tracking-[-0.015em] text-white min-[380px]:text-5xl sm:text-6xl md:text-7xl">
-            Journeys Worth <span className="text-gold">Packing For</span>
-          </h1>
-          <p className="mt-4 max-w-2xl text-base sm:text-lg text-slate-300 font-sans leading-relaxed">
-            Every itinerary below is hand-built by our destination designers —
-            real routes we travel ourselves, with stays and moments we would
-            book for our own families.
-          </p>
+            <div className="mt-4 flex max-w-full gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="Journey style">
+              {TRAVEL_STYLE_FILTERS.map((style) => (
+                <button
+                  key={style.key}
+                  type="button"
+                  onClick={() => setTravelStyle(style.key)}
+                  aria-pressed={travelStyle === style.key}
+                  className={`min-h-10 shrink-0 rounded-full border px-4 py-2 text-[10px] font-bold uppercase tracking-[0.12em] transition-colors ${travelStyle === style.key ? "border-gold bg-gold text-primary" : "border-white/20 bg-ink-deep/25 text-white/75 hover:border-gold/60 hover:text-gold"}`}
+                >
+                  {style.label}
+                </button>
+              ))}
+            </div>
 
-          {/* Search box */}
-          <div className="relative mt-8 max-w-xl">
-            <label className="sr-only" htmlFor="package-search">
-              Search packages
-            </label>
-            <Search
-              size={17}
-              className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-white/50"
-            />
-            <input
-              id="package-search"
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search by destination, title or theme…"
-              className="min-h-12 w-full rounded-[8px] border border-white/20 bg-ink-deep/35 py-3 pl-11 pr-10 text-base text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-gold sm:text-sm"
-            />
-            {query && (
+            {/* Budget & duration filters */}
+            <div className="flex flex-wrap gap-3 mt-4">
+              <label className="sr-only" htmlFor="destination-filter">Filter by destination</label>
+              <select
+                id="destination-filter"
+                value={destination}
+                onChange={(event) => setDestination(event.target.value)}
+                className="min-h-11 max-w-full rounded-[6px] border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/90 backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
+              >
+                <option value="all" className="text-primary">Any Destination</option>
+                {destinations.map((item) => <option key={item} value={item} className="text-primary">{item}</option>)}
+              </select>
+              <label className="sr-only" htmlFor="budget-filter">
+                Filter by budget
+              </label>
+              <select
+                id="budget-filter"
+                value={budget}
+                onChange={(e) => setBudget(e.target.value as BudgetKey)}
+                className="min-h-11 rounded-[6px] border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/90 backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
+              >
+                {BUDGET_RANGES.map((range) => (
+                  <option key={range.key} value={range.key} className="text-primary">
+                    {range.label}
+                  </option>
+                ))}
+              </select>
+
+              <label className="sr-only" htmlFor="duration-filter">
+                Filter by duration
+              </label>
+              <select
+                id="duration-filter"
+                value={duration}
+                onChange={(e) => setDuration(e.target.value as DurationKey)}
+                className="min-h-11 rounded-[6px] border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/90 backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
+              >
+                {DURATION_RANGES.map((range) => (
+                  <option key={range.key} value={range.key} className="text-primary">
+                    {range.label}
+                  </option>
+                ))}
+              </select>
+
+              <label className="sr-only" htmlFor="month-filter">
+                Filter by travel month
+              </label>
+              <select
+                id="month-filter"
+                value={month}
+                onChange={(e) => setMonth(e.target.value)}
+                className="min-h-11 rounded-[6px] border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/90 backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
+              >
+                <option value="" className="text-primary">
+                  Any Month
+                </option>
+                {TRAVEL_MONTHS.map((m) => (
+                  <option key={m.value} value={m.value} className="text-primary">
+                    {m.label}
+                  </option>
+                ))}
+              </select>
+
               <button
                 type="button"
-                onClick={() => setQuery("")}
-                aria-label="Clear search"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors"
+                onClick={() => setFeaturedOnly((current) => !current)}
+                aria-pressed={featuredOnly}
+                className={`inline-flex min-h-11 items-center gap-2 rounded-[6px] border px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors ${featuredOnly ? "border-gold bg-gold text-primary" : "border-white/15 bg-white/10 text-white/90 hover:border-gold/60"}`}
               >
-                <X size={16} />
+                <Star size={13} className={featuredOnly ? "fill-primary" : ""} /> Featured
               </button>
+
+              {(budget !== "all" || duration !== "all" || month || query || destination !== "all" || travelStyle !== "all" || featuredOnly || activeTab !== "all") && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setBudget("all");
+                    setDuration("all");
+                    setMonth("");
+                    setQuery("");
+                    setDestination("all");
+                    setTravelStyle("all");
+                    setFeaturedOnly(false);
+                    setActiveTab("all");
+                  }}
+                  className="inline-flex items-center gap-1.5 rounded-[6px] border border-white/15 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/70 transition-colors hover:border-gold/50 hover:text-gold"
+                >
+                  <X size={13} />
+                  Clear filters
+                </button>
+              )}
+            </div>
+
+            {monthWasRolledForward && (
+              <p className="mt-3 flex items-center gap-2 text-xs text-white/70" role="status">
+                <CalendarClock size={14} className="shrink-0 text-gold" />
+                <span>
+                  {resolvedMonth.requestedLabel ?? "That travel month"} has passed — showing{" "}
+                  <span className="font-semibold text-gold">
+                    {TRAVEL_MONTHS.find((m) => m.value === month)?.label}
+                  </span>{" "}
+                  instead.
+                </span>
+              </p>
             )}
-          </div>
-
-          {/* Filter tabs */}
-          <div className="inline-flex max-w-full flex-wrap gap-1 rounded-[8px] border border-white/15 bg-white/10 p-1 backdrop-blur-md mt-4">
-            {TABS.map((tab) => (
-              <button
-                key={tab.key}
-                onClick={() => setActiveTab(tab.key)}
-                className={`min-h-11 rounded-[5px] px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all duration-300 sm:px-6 ${
-                  activeTab === tab.key
-                    ? "bg-gold text-primary shadow-md"
-                    : "text-white/70 hover:text-white"
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Budget & duration filters */}
-          <div className="flex flex-wrap gap-3 mt-4">
-            <label className="sr-only" htmlFor="budget-filter">
-              Filter by budget
-            </label>
-            <select
-              id="budget-filter"
-              value={budget}
-              onChange={(e) => setBudget(e.target.value as BudgetKey)}
-              className="min-h-11 rounded-[6px] border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/90 backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
-            >
-              {BUDGET_RANGES.map((range) => (
-                <option key={range.key} value={range.key} className="text-primary">
-                  {range.label}
-                </option>
-              ))}
-            </select>
-
-            <label className="sr-only" htmlFor="duration-filter">
-              Filter by duration
-            </label>
-            <select
-              id="duration-filter"
-              value={duration}
-              onChange={(e) => setDuration(e.target.value as DurationKey)}
-              className="min-h-11 rounded-[6px] border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/90 backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
-            >
-              {DURATION_RANGES.map((range) => (
-                <option key={range.key} value={range.key} className="text-primary">
-                  {range.label}
-                </option>
-              ))}
-            </select>
-
-            <label className="sr-only" htmlFor="month-filter">
-              Filter by travel month
-            </label>
-            <select
-              id="month-filter"
-              value={month}
-              onChange={(e) => setMonth(e.target.value)}
-              className="min-h-11 rounded-[6px] border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/90 backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
-            >
-              <option value="" className="text-primary">
-                Any Month
-              </option>
-              {TRAVEL_MONTHS.map((m) => (
-                <option key={m.value} value={m.value} className="text-primary">
-                  {m.label}
-                </option>
-              ))}
-            </select>
-
-            {(budget !== "all" || duration !== "all" || month || query) && (
-              <button
-                type="button"
-                onClick={() => {
-                  setBudget("all");
-                  setDuration("all");
-                  setMonth("");
-                  setQuery("");
-                }}
-                className="inline-flex items-center gap-1.5 rounded-[6px] border border-white/15 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/70 transition-colors hover:border-gold/50 hover:text-gold"
-              >
-                <X size={13} />
-                Clear filters
-              </button>
-            )}
-          </div>
-
-          {monthWasRolledForward && (
-            <p className="mt-3 flex items-center gap-2 text-xs text-white/70" role="status">
-              <CalendarClock size={14} className="shrink-0 text-gold" />
-              <span>
-                {resolvedMonth.requestedLabel ?? "That travel month"} has passed — showing{" "}
-                <span className="font-semibold text-gold">
-                  {TRAVEL_MONTHS.find((m) => m.value === month)?.label}
-                </span>{" "}
-                instead.
-              </span>
-            </p>
-          )}
-        </Container>
-      </header>
+          </>
+        }
+      />
 
       {/* Packages grid */}
-      <main className="flex-1 bg-sand-light py-14 sm:py-20">
+      <section className="bg-sand-light py-14 sm:py-20">
         <Container>
           {filteredPackages.length === 0 && (
             <div className="text-center py-16">
@@ -315,7 +355,7 @@ export const PackagesPageClient: React.FC = () => {
                         </span>
                       )}
                       <span className="absolute top-4 right-4 rounded-[4px] bg-white/90 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary backdrop-blur-md">
-                        {pkg.category}
+                        {packageTravelStyles(pkg)[0]?.replace("-", " ") || pkg.category}
                       </span>
                       <span className="absolute bottom-4 right-4 rounded-[4px] bg-primary/90 px-3.5 py-1 text-xs font-semibold text-white shadow-sm backdrop-blur-md">
                         {pkg.duration}
@@ -394,10 +434,8 @@ export const PackagesPageClient: React.FC = () => {
             </div>
           </ScrollReveal>
         </Container>
-      </main>
-
-      <Footer />
-    </div>
+      </section>
+    </PageShell>
   );
 };
 

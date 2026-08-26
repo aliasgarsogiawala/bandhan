@@ -1,9 +1,8 @@
 import React from "react";
-import Image from "next/image";
 import type { Metadata } from "next";
 import TestimonialsSection from "@/components/testimonials/TestimonialsSection";
-import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
+import PageShell from "@/components/ui/PageShell";
+import PageHero from "@/components/ui/PageHero";
 
 export const metadata: Metadata = {
   title: "Guest Testimonials & Reviews | Bandhan Tours",
@@ -13,36 +12,19 @@ export const metadata: Metadata = {
 
 export default function TestimonialsPage() {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-slate-950">
-      <Navbar />
-      <main>
-      {/* Top Page Banner */}
-      <div className="relative overflow-hidden border-b border-white/10 pb-12 pt-32 text-center sm:pt-36">
-        <Image
-          src="https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=90&w=3200"
-          alt=""
-          fill
-          priority
-          className="object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-ink-deep/80" />
-        <div className="relative max-w-4xl mx-auto px-4">
-          <span className="text-xs font-bold text-gold uppercase tracking-widest bg-gold/10 px-3 py-1 rounded-full border border-gold/30">
-            Authentic Guest Feedback
-          </span>
-          <h1 className="font-heading font-extrabold text-3xl sm:text-5xl text-white mt-4">
-            Traveller Stories & Reviews
-          </h1>
-          <p className="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto mt-3 font-light">
-            Discover why thousands of couples, families, and solo travellers trust Bandhan Tours to craft their dream vacations.
-          </p>
-        </div>
-      </div>
+    <PageShell tone="ink">
+      <PageHero
+        align="center"
+        priority
+        eyebrow="Authentic guest feedback"
+        title="Traveller stories & reviews"
+        description="Discover why thousands of couples, families, and solo travellers trust Bandhan Tours to craft their dream vacations."
+        image="https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=90&w=3200"
+        imageAlt=""
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Testimonials" }]}
+      />
 
-      {/* Main Section */}
       <TestimonialsSection />
-      </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

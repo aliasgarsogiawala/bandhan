@@ -542,13 +542,27 @@ export async function updateManagedBookingDetails(
         infants = ${patch.travellers.infants},
         room_configuration = ${JSON.stringify(patch.rooms)}::jsonb,
         package_snapshot = ${JSON.stringify(packageSnapshot)}::jsonb,
+        status = CASE
+          WHEN locked.status IN ('quoted', 'approved', 'payment_pending') THEN 'reviewing'
+          ELSE locked.status
+        END,
+        quotation_status = CASE
+          WHEN locked.status IN ('quoted', 'approved', 'payment_pending') THEN 'expired'
+          ELSE quotation_status
+        END,
         updated_at = now()
       FROM locked
       WHERE bookings.id = locked.id
       RETURNING bookings.*
     ), history AS (
       INSERT INTO booking_status_history (booking_id, from_status, to_status, note, changed_by)
-      SELECT locked.id, locked.status, locked.status, 'Booking and traveller details updated', ${changedBy}
+      SELECT locked.id, locked.status, updated.status,
+        CASE
+          WHEN locked.status IN ('quoted', 'approved', 'payment_pending')
+            THEN 'Booking details updated; previous quotation requires revision'
+          ELSE 'Booking and traveller details updated'
+        END,
+        ${changedBy}
       FROM locked JOIN updated ON updated.id = locked.id
       RETURNING id
     )

@@ -118,7 +118,7 @@ export interface BookingHistoryEntry {
   created_at: string;
 }
 
-export type DocumentType = "quotation" | "invoice" | "itinerary" | "voucher" | "other";
+export type DocumentType = "quotation" | "invoice" | "receipt" | "itinerary" | "voucher" | "other";
 
 export interface BookingDocument {
   id: string;

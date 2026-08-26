@@ -102,7 +102,7 @@ function drawHeader(doc: PdfDoc, input: BookingConfirmationInput, issued: string
   }
 
   const right = { x: MARGIN, width: CONTENT_WIDTH, align: "right" as const };
-  doc.textAt("BOOKING CONFIRMATION", {
+  doc.textAt((input.documentLabel || "Booking Confirmation").toUpperCase(), {
     ...right,
     y: compact ? 15 : 18,
     size: compact ? 8 : 10,
@@ -110,7 +110,7 @@ function drawHeader(doc: PdfDoc, input: BookingConfirmationInput, issued: string
     color: C.white,
     charSpacing: 1.1,
   });
-  doc.textAt(input.bookingCode, {
+  doc.textAt(input.documentNumber || input.bookingCode, {
     ...right,
     y: compact ? 27 : 32,
     size: compact ? 9 : 13,
@@ -290,6 +290,7 @@ export async function renderBookingConfirmationPdf(
 ): Promise<Uint8Array> {
   const {
     bookingCode,
+    introText = "Your booking is confirmed. Please keep this voucher with you for the duration of your trip — our team and on-ground partners will use the reference above for all assistance.",
     packageTitle,
     destination,
     travelDate,
@@ -327,8 +328,7 @@ export async function renderBookingConfirmationPdf(
 
   // ---- Confirmation banner ----
   const titleLines = doc.wrap(packageTitle, CONTENT_WIDTH - 34, 15, true);
-  const blurb =
-    "Your booking is confirmed. Please keep this voucher with you for the duration of your trip — our team and on-ground partners will use the reference above for all assistance.";
+  const blurb = introText;
   const blurbLines = doc.wrap(blurb, CONTENT_WIDTH - 34, 8.5);
   const bannerHeight = 16 + titleLines.length * 19 + blurbLines.length * 13 + 12;
 

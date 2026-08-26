@@ -3,7 +3,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { ArrowLeft, ArrowRight, CalendarDays, CircleDollarSign, FileText, Mail, MapPin, Phone, ReceiptText, ShieldCheck, Upload, Users } from "lucide-react";
 import BookingPartyPanel from "@/components/booking/BookingPartyPanel";
+import { uploadFiles } from "@/lib/uploadthing";
 import { formatMoney, parseMoney, type RoomConfiguration, type TravellerBreakdown } from "@/lib/bookings/pricing";
 import { BOOKING_STATUS_LABELS, BOOKING_STATUS_PIPELINE } from "@/lib/bookings/types";
 import type { BookingDetail, DocumentType, NotificationChannel } from "@/lib/bookings/types";
@@ -16,6 +18,7 @@ const labelClass = "block text-xs font-bold uppercase tracking-wider text-primar
 const DOC_TYPES: Array<{ value: DocumentType; label: string }> = [
   { value: "quotation", label: "Quotation" },
   { value: "invoice", label: "Invoice" },
+  { value: "receipt", label: "Receipt" },
   { value: "itinerary", label: "Itinerary" },
   { value: "voucher", label: "Voucher" },
   { value: "other", label: "Other" },
@@ -179,6 +182,30 @@ export default function AdminBookingDetailPage() {
     }
   };
 
+  const uploadDocument = async (file: File | undefined) => {
+    if (!file) return;
+    setBusy("document-upload");
+    setNotice(null);
+    try {
+      const uploaded = await uploadFiles("documentUploader", { files: [file] });
+      const url = uploaded[0]?.url;
+      if (!url) throw new Error("The upload did not return a document URL.");
+      const response = await fetch(`/api/agent/bookings/${params.id}/documents`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ docType, url }),
+      });
+      const data = await response.json();
+      if (!response.ok || !data.ok) throw new Error(data.error || "Could not attach the document.");
+      await refresh();
+      setNotice({ tone: "success", text: "Document uploaded and added to the customer file." });
+    } catch (error) {
+      setNotice({ tone: "error", text: error instanceof Error ? error.message : "Could not upload the document." });
+    } finally {
+      setBusy("");
+    }
+  };
+
   const notifyCustomer = async () => {
     if (!customerMessage.trim()) return;
     setBusy("notification");
@@ -243,20 +270,12 @@ export default function AdminBookingDetailPage() {
   const isClosed = ["rejected", "cancelled", "completed"].includes(booking.status);
   const isTerminalFailure = booking.status === "rejected" || booking.status === "cancelled";
   const currentIndex = BOOKING_STATUS_PIPELINE.indexOf(booking.status);
-  const canEditDetails = ["new", "reviewing"].includes(booking.status);
+  const canEditDetails = ["new", "reviewing", "quoted", "approved", "payment_pending"].includes(booking.status);
   const activeAgents = agents.filter((agent) => agent.status === "active" || agent.id === booking.agent_id);
   const assignedAgent = agents.find((agent) => agent.id === booking.agent_id);
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <Link href="/admin/bookings" className="inline-flex min-h-11 items-center text-sm font-semibold text-accent hover:text-accent-dark">
-          &larr; Back to Bookings
-        </Link>
-        <span className="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-bold uppercase tracking-wider text-primary">
-          {BOOKING_STATUS_LABELS[booking.status]}
-        </span>
-      </div>
+    <div className="space-y-6 pb-10">
 
       {notice ? (
         <div
@@ -271,58 +290,63 @@ export default function AdminBookingDetailPage() {
         </div>
       ) : null}
 
-      <section className="rounded-2xl border border-slate-100 bg-white p-5 sm:p-6">
-        <div className="flex flex-wrap items-start justify-between gap-5">
-          <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-muted">
-              {booking.type === "customized" ? "Custom trip" : "Standard booking"} · {booking.booking_code}
-            </span>
-            <h1 className="mt-1 font-heading text-2xl font-bold text-primary">
-              {booking.package_title || booking.destination || "Trip request"}
-            </h1>
-            <p className="mt-1 text-xs text-foreground-muted">Quotation {booking.quotation_number}</p>
+      <section className="relative overflow-hidden rounded-[28px] bg-primary p-5 text-white shadow-xl shadow-primary/10 sm:p-8">
+        <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-accent/20 blur-3xl" />
+        <div className="relative">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <Link href="/admin/bookings" className="inline-flex min-h-10 items-center gap-2 text-xs font-bold text-white/60 transition hover:text-white"><ArrowLeft size={15} /> Booking queue</Link>
+            <span className="rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-white">{BOOKING_STATUS_LABELS[booking.status]}</span>
           </div>
-          <label className="min-w-56 space-y-1.5">
-            <span className={labelClass}>Assigned agent</span>
+          <div className="mt-6 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-2xl">
+              <span className="font-mono text-xs font-bold tracking-wider text-gold">{booking.booking_code} · {booking.type === "customized" ? "CUSTOM JOURNEY" : "STANDARD BOOKING"}</span>
+              <h1 className="mt-2 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">{booking.package_title || booking.destination || "Trip request"}</h1>
+              <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-xs text-white/60">
+                <a href={`mailto:${booking.contact_email}`} className="inline-flex items-center gap-1.5 transition hover:text-white"><Mail size={14} /> {booking.contact_email}</a>
+                <a href={`tel:${booking.contact_phone}`} className="inline-flex items-center gap-1.5 transition hover:text-white"><Phone size={14} /> {booking.contact_phone}</a>
+              </div>
+            </div>
+            <label id="booking-owner" className="min-w-60 scroll-mt-24 space-y-1.5">
+              <span className="block text-[10px] font-bold uppercase tracking-wider text-white/45">Booking owner</span>
             <select
               aria-label="Assigned agent"
               value={booking.agent_id || ""}
               disabled={Boolean(busy)}
               onChange={(event) => void changeAssignment(event.target.value)}
-              className={inputClass}
+              className="min-h-11 w-full rounded-xl border border-white/15 bg-white/10 px-3 text-sm font-semibold text-white outline-none focus:border-accent [&>option]:text-primary"
             >
               <option value="">Unassigned</option>
               {activeAgents.map((agent) => (
                 <option key={agent.id} value={agent.id}>{agent.name}</option>
               ))}
             </select>
-          </label>
-        </div>
+            </label>
+          </div>
 
-        <div className="mt-6 grid grid-cols-2 gap-4 text-sm sm:grid-cols-3 lg:grid-cols-6">
-          <Info label="Travel date" value={booking.travel_date || "TBC"} />
-          <Info label="Travellers" value={String(booking.travellers_count ?? "—")} />
-          <Info label="Duration" value={booking.duration_label || "TBC"} />
-          <Info label="Price" value={booking.price_amount || "Pending"} />
-          <Info label="Payment" value={booking.payment_status === "received" ? "Received" : "Pending"} />
-          <Info label="Agent" value={assignedAgent?.name || "Unassigned"} />
-        </div>
+          <div className="mt-7 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3 lg:grid-cols-6">
+            <HeroInfo icon={CalendarDays} label="Travel date" value={formatDisplayDate(booking.travel_date)} />
+            <HeroInfo icon={Users} label="Travellers" value={String(booking.travellers_count ?? "—")} />
+            <HeroInfo icon={MapPin} label="Destination" value={booking.destination || "TBC"} />
+            <HeroInfo icon={CircleDollarSign} label="Price" value={booking.price_amount ? formatMoney(parseMoney(booking.price_amount)) : "Pending"} />
+            <HeroInfo icon={ReceiptText} label="Payment" value={booking.payment_status === "received" ? "Received" : "Pending"} />
+            <HeroInfo icon={ShieldCheck} label="Owner" value={assignedAgent?.name || "Unassigned"} />
+          </div>
 
-        <div className="mt-7 border-t border-slate-100 pt-5">
-          <span className={`${labelClass} mb-3`}>Booking pipeline</span>
+          <div className="mt-7 border-t border-white/10 pt-5">
+          <span className="mb-3 block text-[10px] font-bold uppercase tracking-[0.16em] text-white/40">Booking pipeline</span>
           {isTerminalFailure ? (
-            <span className="inline-flex rounded-full border border-red-200 bg-red-50 px-4 py-2 text-sm font-bold text-red-700">
+            <span className="inline-flex rounded-full border border-red-300/25 bg-red-400/15 px-4 py-2 text-sm font-bold text-red-100">
               {BOOKING_STATUS_LABELS[booking.status]}
             </span>
           ) : (
-            <div className="flex flex-wrap gap-2">
+            <div className="grid gap-2 sm:grid-cols-4 xl:grid-cols-7">
               {BOOKING_STATUS_PIPELINE.map((status, index) => (
                 <span
                   key={status}
-                  className={`rounded-full border px-3 py-1.5 text-xs font-bold ${
+                  className={`rounded-full border px-3 py-2 text-center text-[10px] font-bold uppercase tracking-wide ${
                     index <= currentIndex
-                      ? "border-primary bg-primary text-white"
-                      : "border-slate-200 bg-slate-50 text-slate-400"
+                      ? "border-accent/40 bg-accent text-white"
+                      : "border-white/10 bg-white/5 text-white/35"
                   }`}
                 >
                   {BOOKING_STATUS_LABELS[status]}
@@ -330,16 +354,23 @@ export default function AdminBookingDetailPage() {
               ))}
             </div>
           )}
+          </div>
         </div>
       </section>
 
+      {!isClosed ? <NextAction status={booking.status} assigned={Boolean(booking.agent_id)} /> : null}
+
+      <nav aria-label="Booking workspace sections" className="flex gap-2 overflow-x-auto rounded-2xl border border-slate-200/80 bg-white p-2 shadow-sm">
+        {[{ href: "#trip-details", label: "Trip details" }, { href: "#workflow", label: "Workflow" }, { href: "#documents", label: "Documents" }, { href: "#communication", label: "Communication" }, { href: "#audit", label: "Audit trail" }].map((item) => <a key={item.href} href={item.href} className="whitespace-nowrap rounded-xl px-3.5 py-2 text-xs font-bold text-slate-600 transition hover:bg-sand hover:text-primary">{item.label}</a>)}
+      </nav>
+
       <BookingPartyPanel booking={booking} />
 
-      <section className="rounded-2xl border border-slate-100 bg-white p-5 sm:p-6">
+      <section id="trip-details" className="rounded-[24px] border border-slate-200/80 bg-white p-5 shadow-sm sm:p-7">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <h2 className="font-heading text-base font-bold text-primary">Trip and traveller details</h2>
-            <p className="mt-1 text-xs text-foreground-muted">Edit these details during verification, before pricing is confirmed.</p>
+            <p className="mt-1 text-xs text-foreground-muted">Revise traveller or trip data when needed. Changes after quoting automatically invalidate the old quotation.</p>
           </div>
           {canEditDetails ? (
             <button
@@ -350,7 +381,7 @@ export default function AdminBookingDetailPage() {
               {editing ? "Close editor" : "Edit details"}
             </button>
           ) : (
-            <span className="text-xs font-semibold text-foreground-muted">Locked after pricing</span>
+            <span className="text-xs font-semibold text-foreground-muted">Locked after confirmation</span>
           )}
         </div>
 
@@ -361,7 +392,7 @@ export default function AdminBookingDetailPage() {
               <Field label="Email"><input type="email" value={draft.contactEmail} onChange={(event) => setDraft({ ...draft, contactEmail: event.target.value })} className={inputClass} /></Field>
               <Field label="Phone"><input type="tel" value={draft.contactPhone} onChange={(event) => setDraft({ ...draft, contactPhone: event.target.value })} className={inputClass} /></Field>
               <Field label="Destination"><input value={draft.destination} onChange={(event) => setDraft({ ...draft, destination: event.target.value })} className={inputClass} /></Field>
-              <Field label="Travel date"><input value={draft.travelDate} onChange={(event) => setDraft({ ...draft, travelDate: event.target.value })} className={inputClass} /></Field>
+              <Field label="Travel date"><input type="date" value={draft.travelDate.slice(0, 10)} disabled={Boolean(booking.departure_id)} onChange={(event) => setDraft({ ...draft, travelDate: event.target.value })} className={inputClass} /></Field>
               <Field label="Departure city"><input value={draft.departureCity} onChange={(event) => setDraft({ ...draft, departureCity: event.target.value })} className={inputClass} /></Field>
               <Field label="Duration"><input value={draft.durationLabel} onChange={(event) => setDraft({ ...draft, durationLabel: event.target.value })} className={inputClass} /></Field>
               <Field label="Budget preference"><input value={draft.budget} onChange={(event) => setDraft({ ...draft, budget: event.target.value })} className={inputClass} /></Field>
@@ -401,7 +432,7 @@ export default function AdminBookingDetailPage() {
         )}
       </section>
 
-      <section className="rounded-2xl border border-slate-100 bg-white p-5 sm:p-6">
+      <section id="workflow" className="rounded-[24px] border border-slate-200/80 bg-white p-5 shadow-sm sm:p-7">
         <h2 className="font-heading text-base font-bold text-primary">Workflow controls</h2>
         <div className="mt-5 grid gap-4 lg:grid-cols-2">
           <div className="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
@@ -435,13 +466,17 @@ export default function AdminBookingDetailPage() {
         </div>
       </section>
 
-      <section className="rounded-2xl border border-slate-100 bg-white p-5 sm:p-6">
+      <section id="documents" className="rounded-[24px] border border-slate-200/80 bg-white p-5 shadow-sm sm:p-7">
         <h2 className="font-heading text-base font-bold text-primary">Customer documents</h2>
         <p className="mt-1 text-xs text-foreground-muted">Generated files always use the latest saved traveller and pricing data.</p>
-        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <DocumentCard title="Personalised quotation" description="Traveller pricing, advance, balance, and validity." preview={`/api/bookings/${booking.id}/quotation`} download={`/api/bookings/${booking.id}/quotation?download=1`} />
-          <DocumentCard title="Trip brochure" description="Itinerary, inclusions, rooms, and party details." preview={`/api/bookings/${booking.id}/brochure`} download={`/api/bookings/${booking.id}/brochure?download=1`} />
-          {booking.status === "confirmed" || booking.status === "completed" ? <DocumentCard title="Booking confirmation" description="Confirmed travel voucher and payment summary." preview={`/api/bookings/${booking.id}/confirmation`} download={`/api/bookings/${booking.id}/confirmation?download=1`} /> : null}
+          <DocumentCard title="Trip brochure" description="Editorial journey overview, itinerary and inclusions." preview={`/api/bookings/${booking.id}/brochure`} download={`/api/bookings/${booking.id}/brochure?download=1`} />
+          <DocumentCard title="Detailed itinerary" description="A clean itinerary-only copy for the travel file." preview={`/api/bookings/${booking.id}/documents/itinerary`} download={`/api/bookings/${booking.id}/documents/itinerary?download=1`} />
+          {booking.price_amount || booking.pricing_snapshot?.total ? <DocumentCard title="Invoice" description="Verified booking value and payment reference." preview={`/api/bookings/${booking.id}/documents/invoice`} download={`/api/bookings/${booking.id}/documents/invoice?download=1`} /> : null}
+          {booking.status === "confirmed" || booking.status === "completed" ? <DocumentCard title="Booking confirmation" description="Confirmed booking and payment summary." preview={`/api/bookings/${booking.id}/confirmation`} download={`/api/bookings/${booking.id}/confirmation?download=1`} /> : null}
+          {booking.status === "confirmed" || booking.status === "completed" ? <DocumentCard title="Travel voucher" description="Presentable service voucher for the journey." preview={`/api/bookings/${booking.id}/documents/voucher`} download={`/api/bookings/${booking.id}/documents/voucher?download=1`} /> : null}
+          {booking.payment_status === "received" ? <DocumentCard title="Payment receipt" description="Customer receipt for the recorded payment." preview={`/api/bookings/${booking.id}/documents/receipt`} download={`/api/bookings/${booking.id}/documents/receipt?download=1`} /> : null}
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
           <button type="button" disabled={Boolean(busy)} onClick={() => void sendBrochure("email")} className="min-h-11 rounded-full border border-primary/20 px-4 py-2 text-xs font-bold text-primary disabled:opacity-50">{busy === "brochure-email" ? "Sending…" : "Email quotation + brochure"}</button>
@@ -460,15 +495,20 @@ export default function AdminBookingDetailPage() {
               ))}
             </ul>
           ) : <p className="mt-2 text-sm text-foreground-muted">No additional documents attached.</p>}
-          <div className="mt-4 grid gap-3 sm:grid-cols-[160px_1fr_auto] sm:items-end">
+          <div className="mt-4 grid gap-3 lg:grid-cols-[160px_1fr_auto_auto] lg:items-end">
             <Field label="Document type"><select value={docType} onChange={(event) => setDocType(event.target.value as DocumentType)} className={inputClass}>{DOC_TYPES.map((type) => <option key={type.value} value={type.value}>{type.label}</option>)}</select></Field>
             <Field label="Secure document URL"><input type="url" value={docUrl} onChange={(event) => setDocUrl(event.target.value)} className={inputClass} placeholder="https://…" /></Field>
             <button type="button" disabled={Boolean(busy) || !docUrl.trim()} onClick={() => void addDocument()} className="min-h-11 rounded-xl bg-primary px-4 py-2.5 text-sm font-bold text-white disabled:opacity-50">{busy === "document" ? "Attaching…" : "Attach"}</button>
+            <label className="inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-bold text-white transition hover:bg-accent-dark">
+              <Upload size={15} /> {busy === "document-upload" ? "Uploading…" : "Upload file"}
+              <input type="file" accept="application/pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg" disabled={Boolean(busy)} onChange={(event) => { void uploadDocument(event.target.files?.[0]); event.currentTarget.value = ""; }} className="sr-only" />
+            </label>
           </div>
+          <p className="mt-2 text-xs text-foreground-muted">Upload PDFs, office documents or scans up to 16MB, or attach a secure HTTPS URL.</p>
         </div>
       </section>
 
-      <section className="rounded-2xl border border-slate-100 bg-white p-5 sm:p-6">
+      <section id="communication" className="rounded-[24px] border border-slate-200/80 bg-white p-5 shadow-sm sm:p-7">
         <h2 className="font-heading text-base font-bold text-primary">Customer communication</h2>
         <p className="mt-1 text-xs text-foreground-muted">Email sends directly when configured; otherwise a ready-to-send draft opens. WhatsApp opens the customer chat.</p>
         <div className="mt-4 grid gap-3 sm:grid-cols-[160px_1fr_auto] sm:items-end">
@@ -489,7 +529,7 @@ export default function AdminBookingDetailPage() {
         ) : null}
       </section>
 
-      <section className="rounded-2xl border border-slate-100 bg-white p-5 sm:p-6">
+      <section id="audit" className="rounded-[24px] border border-slate-200/80 bg-white p-5 shadow-sm sm:p-7">
         <h2 className="font-heading text-base font-bold text-primary">Audit trail</h2>
         {booking.history.length ? (
           <ol className="mt-4 space-y-3">
@@ -512,6 +552,25 @@ function Info({ label, value }: { label: string; value: string }) {
   return <div><span className="block text-[10px] font-bold uppercase tracking-wider text-foreground-muted">{label}</span><span className="mt-1 block font-semibold text-primary">{value}</span></div>;
 }
 
+function HeroInfo({ icon: Icon, label, value }: { icon: React.ComponentType<{ size?: number }>; label: string; value: string }) {
+  return <div className="min-w-0 bg-primary/70 p-3.5"><span className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-white/35"><Icon size={12} /> {label}</span><span className="mt-1.5 block truncate text-xs font-bold text-white sm:text-sm">{value}</span></div>;
+}
+
+function NextAction({ status, assigned }: { status: BookingDetail["status"]; assigned: boolean }) {
+  const action = !assigned
+    ? { title: "Assign a booking owner", detail: "This booking is still unassigned. Give one person responsibility before progressing it.", href: "#booking-owner" }
+    : status === "new"
+      ? { title: "Verify the request", detail: "Check the traveller and journey details, then confirm the final quoted price.", href: "#trip-details" }
+      : status === "reviewing"
+        ? { title: "Confirm pricing", detail: "Finish verification and lock the price to generate the customer-ready quotation.", href: "#workflow" }
+        : status === "quoted"
+          ? { title: "Approve the booking", detail: "Review the confirmed quotation and move the booking forward for payment.", href: "#workflow" }
+          : status === "approved" || status === "payment_pending"
+            ? { title: "Record the payment", detail: "Once funds arrive, record payment to confirm the booking and unlock travel documents.", href: "#workflow" }
+            : { title: "Prepare the travel file", detail: "Send the itinerary, voucher and customer updates, then complete the trip after travel.", href: "#documents" };
+  return <a href={action.href} className="group flex items-center gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-amber-950 transition hover:border-amber-300 hover:bg-amber-100/70"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-700"><ShieldCheck size={17} /></span><div className="min-w-0 flex-1"><span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-amber-700">Recommended next action</span><strong className="mt-1 block text-sm">{action.title}</strong><p className="mt-0.5 text-xs leading-5 text-amber-800/75">{action.detail}</p></div><ArrowRight size={18} className="shrink-0 text-amber-700 transition group-hover:translate-x-1" /></a>;
+}
+
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return <label className="block space-y-1.5"><span className={labelClass}>{label}</span>{children}</label>;
 }
@@ -526,5 +585,11 @@ function ActionButton({ label, tone, disabled, loading, onClick }: { label: stri
 }
 
 function DocumentCard({ title, description, preview, download }: { title: string; description: string; preview: string; download: string }) {
-  return <article className="rounded-xl border border-primary/10 bg-sand/60 p-4"><h3 className="text-sm font-bold text-primary">{title}</h3><p className="mt-1 text-xs leading-relaxed text-foreground-muted">{description}</p><div className="mt-3 flex gap-4 text-xs font-bold"><a href={preview} target="_blank" rel="noreferrer" className="text-accent">Preview</a><a href={download} className="text-primary">Download</a></div></article>;
+  return <article className="group rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-sand/50 p-4 transition hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-md"><a href={preview} target="_blank" rel="noreferrer" aria-label={`Preview ${title}`} className="block"><span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white"><FileText size={16} /></span><h3 className="mt-4 text-sm font-bold text-primary">{title}</h3><p className="mt-1 min-h-10 text-xs leading-relaxed text-foreground-muted">{description}</p></a><div className="mt-3 flex gap-4 border-t border-slate-200/70 pt-3 text-xs font-bold"><a href={preview} target="_blank" rel="noreferrer" className="text-accent hover:underline">Preview</a><a href={download} className="text-primary hover:underline">Download</a></div></article>;
+}
+
+function formatDisplayDate(value: string | null) {
+  if (!value) return "TBC";
+  const date = new Date(`${value.slice(0, 10)}T00:00:00`);
+  return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 }

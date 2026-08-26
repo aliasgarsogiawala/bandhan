@@ -1,17 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
+import PageShell from "@/components/ui/PageShell";
 import { Container } from "@/components/ui/Container";
-import { ArrowRight, CalendarDays, Clock3, Download, Expand, MapPin, Users } from "lucide-react";
+import { ArrowRight, CalendarDays, CheckCircle2, Clock3, Download, Expand, MapPin, Phone, Quote, Star, Users } from "lucide-react";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { Lightbox } from "@/components/ui/Lightbox";
 import type { TourPackage } from "@/data/mockData";
 import type { FullPackage } from "@/data/packageDetails";
+import { testimonialData } from "@/data/testimonialData";
+import { packageDestinationLabel } from "@/lib/packageCategory";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
 import { SecondaryButton } from "@/components/ui/SecondaryButton";
 import PackageServiceDetails from "./PackageServiceDetails";
@@ -76,11 +77,28 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
   relatedPackages,
 }) => {
   const router = useRouter();
-  const [openDay, setOpenDay] = useState<number | null>(() => pkg.itinerary[0]?.day ?? null);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [galleryIndex, setGalleryIndex] = useState<number | null>(null);
 
+  const testimonials = useMemo(() => {
+    const destination = packageDestinationLabel(pkg).toLowerCase();
+    const title = pkg.title.toLowerCase();
+    const exact = testimonialData.filter((item) => {
+      const reviewDestination = item.destination.toLowerCase();
+      const reviewTour = item.tour.toLowerCase();
+      return destination.includes(reviewDestination)
+        || reviewDestination.includes(destination)
+        || title.includes(reviewDestination)
+        || reviewTour.split(/\s+/).some((word) => word.length > 5 && title.includes(word));
+    });
+    const candidates = exact.length ? exact : testimonialData.filter((item) => item.language === "English");
+    return candidates.slice(0, 2);
+  }, [pkg]);
+
   const enquire = () => router.push(contactEnquiryHref(pkg.title));
+  // The catalogue brochure for this trip — no booking required. A brochure
+  // personalised with traveller names comes out of the booking engine instead.
+  const brochureHref = `/api/packages/${encodeURIComponent(pkg.id)}/brochure?v=1`;
 
   const quickFacts = [
     { label: "Duration", value: pkg.duration, icon: Clock3 },
@@ -93,6 +111,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
     ...(pkg.itinerary.length ? [{ id: "itinerary", label: "Itinerary" }] : []),
     { id: "inclusions", label: "What's Included" },
     ...(pkg.gallery.length ? [{ id: "gallery", label: "Gallery" }] : []),
+    ...(testimonials.length ? [{ id: "reviews", label: "Reviews" }] : []),
     ...(pkg.faqs.length ? [{ id: "faqs", label: "FAQs" }] : []),
   ];
   const sidebarHighlights = pkg.inclusions.length
@@ -100,144 +119,128 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
     : ["Itinerary tailored to your dates", "Hand-picked stays and transfers", "On-trip assistance from our team"];
 
   return (
-    <div className="package-detail min-h-screen bg-sand-light flex flex-col overflow-x-hidden">
-      <Navbar onEnquiryClick={enquire} />
+    <PageShell tone="custom" className="package-detail bg-sand-light" onEnquiryClick={enquire}>
 
-      {/* Immersive hero */}
-      <header className="relative flex min-h-[72svh] items-end pt-28 sm:h-[72vh] sm:min-h-[580px] sm:max-h-[760px] sm:pt-0">
+      {/* Editorial image-led hero shared by every package page. */}
+      <header className="relative flex min-h-[86svh] items-end overflow-hidden pt-28 sm:min-h-[720px] sm:pt-0 lg:min-h-[780px]">
         <Image
           src={pkg.heroImage}
           alt={pkg.title}
           fill
           priority
           sizes="100vw"
-          className="object-cover"
+          className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-ink-deep/60" />
+        <div className="pointer-events-none absolute inset-0 bg-ink-deep/55" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-deep via-ink-deep/25 to-ink-deep/20" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-white/25" />
 
-        <Container className="relative pb-9 sm:pb-14">
+        <Container className="relative pb-12 sm:pb-16 lg:pb-20">
           <nav
-            className="text-xs font-semibold uppercase tracking-wider text-white/70 mb-5"
+            className="mb-4 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/60"
             aria-label="Breadcrumb"
           >
-            <Link href="/" className="hover:text-gold transition-colors">
-              Home
+            <Link href="/packages" className="transition-colors hover:text-gold">
+              ← Tour Packages
             </Link>
-            <span className="mx-2">/</span>
-            <Link href="/packages" className="hover:text-gold transition-colors">
-              Tour Packages
-            </Link>
-            <span className="mx-2">/</span>
-            <span className="hidden text-gold sm:inline">{pkg.title}</span>
           </nav>
 
-          <div className="flex flex-wrap items-center gap-2 mb-4">
-            <span className="px-3 py-1 bg-gold text-primary rounded-full text-[10px] font-bold uppercase tracking-wider">
-              {pkg.category}
-            </span>
-            {pkg.isPopular && (
-              <span className="px-3 py-1 bg-accent text-white rounded-full text-[10px] font-bold uppercase tracking-wider">
-                Popular
-              </span>
-            )}
-            {pkg.themes.map((theme) => (
-              <span
-                key={theme}
-                className="px-3 py-1 bg-white/15 backdrop-blur-md text-white rounded-full text-[10px] font-bold uppercase tracking-wider border border-white/20"
-              >
-                {theme}
-              </span>
-            ))}
-          </div>
+          <p className="mb-5 text-[10px] font-bold uppercase tracking-[0.16em] text-gold">
+            {[pkg.category, ...pkg.themes].join(" · ")}
+          </p>
 
-          <h1 className="max-w-5xl break-words font-heading text-3xl font-extrabold leading-[1.04] tracking-[-0.02em] text-white min-[380px]:text-4xl sm:text-5xl lg:text-[4rem]">
+          <h1 className="max-w-6xl break-words font-heading text-[2.4rem] font-extrabold leading-[1.04] tracking-[-0.035em] text-white min-[420px]:text-5xl sm:text-6xl lg:text-[4.5rem]">
             {pkg.title}
           </h1>
-          <p className="mt-4 max-w-2xl font-sans text-sm leading-relaxed text-slate-200 sm:text-xl">
+          <p className="mt-6 max-w-4xl text-sm leading-7 text-white/80 sm:text-lg sm:leading-8">
             {pkg.tagline}
           </p>
 
-          <div className="mt-8 grid max-w-4xl grid-cols-2 overflow-hidden rounded-[8px] border border-white/15 bg-ink-deep/45 backdrop-blur-md sm:grid-cols-4">
+          <div className="mt-10 grid w-full grid-cols-2 border-y border-white/20 sm:grid-cols-4">
             {quickFacts.map((fact) => {
               const Icon = fact.icon;
               return (
               <div
                 key={fact.label}
-                className="min-w-0 border-b border-r border-white/10 px-4 py-3 last:border-r-0 sm:border-b-0"
+                className="min-w-0 border-b border-r border-white/15 px-0 py-4 pr-4 last:border-r-0 even:pl-4 sm:border-b-0 sm:px-5 sm:first:pl-0"
               >
-                <span className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-gold"><Icon size={12} />{fact.label}</span>
-                <span className="mt-1 block truncate text-sm font-semibold text-white">{fact.value}</span>
+                <span className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.16em] text-gold"><Icon size={12} strokeWidth={1.7} />{fact.label}</span>
+                <span className="mt-1.5 block text-xs font-medium leading-5 text-white sm:text-sm">{fact.value}</span>
               </div>
               );
             })}
           </div>
-
-          {pkg.brochureUrl && (
-            <a
-              href={pkg.brochureUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-[5px] border border-white/30 bg-white/10 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md transition hover:border-gold hover:bg-gold hover:text-primary"
-            >
-              <Download size={15} /> View original brochure
-            </a>
-          )}
         </Container>
       </header>
 
-      {/* Sticky in-page section nav */}
-      <div className="sticky top-16 z-30 border-b border-primary/10 bg-white/95 shadow-soft backdrop-blur-xl sm:top-[76px]">
-        <Container className="flex items-center gap-2 py-2.5">
+      {/* In-page section nav. Sits under the hero and scrolls away with it. */}
+      <div className="border-b border-primary/10 bg-[#fbfaf7]">
+        <Container className="flex items-center gap-2 py-3">
           <nav className="flex min-w-0 flex-1 items-center gap-1 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="Package sections">
           {sectionLinks.map((section) => (
             <a
               key={section.id}
               href={`#${section.id}`}
-              className="whitespace-nowrap rounded-[4px] px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-foreground-muted transition-colors duration-300 hover:bg-sand-dark hover:text-primary sm:px-4 sm:text-xs"
+              className="whitespace-nowrap border-b border-transparent px-3 py-2 text-[10px] font-bold uppercase tracking-[0.15em] text-foreground-muted transition-colors duration-300 hover:border-gold-dark hover:text-primary sm:px-4"
             >
               {section.label}
             </a>
           ))}
           </nav>
+          <a
+            href={`${brochureHref}&download=1`}
+            className="ml-auto inline-flex shrink-0 items-center gap-2 whitespace-nowrap border border-primary/25 px-3 py-3 text-[10px] font-bold uppercase tracking-[0.15em] text-primary transition-colors duration-300 hover:border-primary hover:bg-primary hover:text-white sm:px-5"
+          >
+            <Download size={13} aria-hidden="true" /> Brochure
+          </a>
+          {/* The sticky price card in the sidebar carries Book Now from `lg`
+              up, so this one only appears where that card is out of view. */}
           <Link
             href={`/book?type=package&id=${encodeURIComponent(pkg.id)}`}
-            className="ml-auto inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-[5px] bg-accent px-4 py-2.5 text-[10px] font-bold uppercase tracking-wider text-white transition-colors duration-300 hover:bg-accent-dark sm:px-5 sm:text-xs"
+            className="ml-2 inline-flex shrink-0 items-center gap-2 whitespace-nowrap bg-primary px-4 py-3 text-[10px] font-bold uppercase tracking-[0.15em] text-white transition-colors duration-300 hover:bg-gold hover:text-primary sm:px-6 lg:hidden"
           >
             Book Now <ArrowRight size={14} />
           </Link>
         </Container>
       </div>
 
-      <main className="flex-1 py-12 sm:py-16">
-        <Container className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-12">
-          {/* ——— Main column ——— */}
-          <div className="min-w-0 space-y-14 sm:space-y-16">
+      <section className="bg-[#fbfaf7] py-16 sm:py-24">
+        <Container className="grid grid-cols-1 items-start gap-14 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-16">
+          <div className="min-w-0 space-y-20 sm:space-y-28">
             {/* Overview */}
             <ScrollReveal>
               <section id="overview" className="scroll-mt-28">
-                <span className="text-xs font-bold uppercase tracking-widest text-accent">
-                  Overview
-                </span>
-                <h2 className="mt-2 text-3xl sm:text-4xl font-heading font-extrabold text-primary tracking-[-0.01em]">
-                  The Journey at a Glance
+                <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">The destination</span>
+                <h2 className="mt-3 font-heading text-4xl font-extrabold leading-tight tracking-[-0.03em] text-primary sm:text-5xl">
+                  The journey, thoughtfully composed
                 </h2>
-                <p className="mt-4 max-w-4xl whitespace-pre-line text-sm leading-relaxed text-foreground-muted sm:text-base sm:leading-7">
+                <p className="mt-6 w-full whitespace-pre-line text-sm leading-7 text-foreground-muted sm:text-base sm:leading-8">
                   {pkg.overview || pkg.tagline}
                 </p>
 
-                {pkg.highlights.length > 0 && <div className="mt-8 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-                  {pkg.highlights.map((highlight) => (
-                    <div
-                      key={highlight}
-                      className="flex items-start gap-3 rounded-[6px] border border-primary/10 bg-white px-4 py-3 shadow-soft"
-                    >
-                      <CheckIcon className="text-accent" />
-                      <span className="text-sm font-semibold text-primary">
-                        {highlight}
-                      </span>
-                    </div>
-                  ))}
-                </div>}
+                <figure className="relative mt-10 h-[280px] w-full overflow-hidden bg-sand-dark sm:h-[420px]">
+                  <Image
+                    src={pkg.gallery[0]?.image || pkg.heroImage}
+                    alt={pkg.gallery[0]?.caption || pkg.title}
+                    fill
+                    sizes="(max-width: 1023px) 100vw, 70vw"
+                    className="object-cover"
+                  />
+                  <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-deep/85 to-transparent px-5 pb-5 pt-16 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80">
+                    {pkg.gallery[0]?.caption || pkg.title}
+                  </figcaption>
+                </figure>
+
+                {pkg.highlights.length > 0 && (
+                  <div className="mt-12 border-y border-primary/15 sm:grid sm:grid-cols-2">
+                    {pkg.highlights.map((highlight, index) => (
+                      <div key={highlight} className="flex items-start gap-4 border-b border-primary/10 py-5 last:border-b-0 sm:px-5 sm:first:pl-0 sm:[&:nth-child(odd)]:border-r">
+                        <span className="tabular font-heading text-xl font-extrabold text-gold-dark">{String(index + 1).padStart(2, "0")}</span>
+                        <span className="pt-1 text-sm font-semibold leading-6 text-primary">{highlight}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </section>
             </ScrollReveal>
 
@@ -245,90 +248,43 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
             {pkg.itinerary.length > 0 && (
             <ScrollReveal>
               <section id="itinerary" className="scroll-mt-28">
-                <span className="text-xs font-bold uppercase tracking-widest text-accent">
-                  Day by Day
-                </span>
-                <h2 className="mt-2 text-3xl sm:text-4xl font-heading font-extrabold text-primary tracking-[-0.01em]">
-                  Detailed Itinerary
-                </h2>
+                <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">Day by day</span>
+                <div className="mt-3 flex flex-wrap items-end justify-between gap-4 border-b border-primary/15 pb-7">
+                  <h2 className="font-heading text-4xl font-extrabold tracking-[-0.03em] text-primary sm:text-5xl">Your proposed itinerary</h2>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-foreground-muted">{pkg.itinerary.length} days</span>
+                </div>
 
-                <div className="relative mt-8">
-                  {/* Timeline spine */}
-                  <div
-                    className="absolute bottom-4 left-[19px] top-4 w-px bg-primary/15"
-                    aria-hidden="true"
-                  />
-
-                  <div className="space-y-3">
-                    {pkg.itinerary.map((day) => {
-                      const isOpen = openDay === day.day;
-                      return (
-                        <div key={day.day} className="relative pl-[3.25rem] sm:pl-[3.75rem]">
-                          {/* Day marker */}
-                          <span
-                            className={`absolute left-0 top-3 flex h-10 w-10 items-center justify-center rounded-[6px] border-4 border-sand-light text-xs font-extrabold transition-colors duration-300 ${
-                              isOpen
-                                ? "bg-accent text-white"
-                                : "bg-white text-primary shadow-soft"
-                            }`}
-                            aria-hidden="true"
-                          >
-                            {String(day.day).padStart(2, "0")}
-                          </span>
-
-                          <div
-                            className={`rounded-[8px] border bg-white transition-all duration-300 ${
-                              isOpen
-                                ? "border-accent/30 shadow-premium"
-                                : "border-slate-100/80 shadow-soft"
-                            }`}
-                          >
-                            <button
-                              onClick={() => setOpenDay(isOpen ? null : day.day)}
-                              aria-expanded={isOpen}
-                              className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left sm:px-6 sm:py-5"
-                            >
-                              <div>
-                                <span className="block text-[10px] font-bold uppercase tracking-wider text-accent">
-                                  Day {day.day}
-                                </span>
-                                <span className="block text-sm sm:text-base font-heading font-bold text-primary mt-0.5">
-                                  {day.title}
-                                </span>
-                              </div>
-                              <ChevronIcon open={isOpen} />
-                            </button>
-
-                            <div
-                              className={`grid transition-all duration-300 ease-out ${
-                                isOpen
-                                  ? "grid-rows-[1fr] opacity-100"
-                                  : "grid-rows-[0fr] opacity-0"
-                              }`}
-                            >
-                              <div className="overflow-hidden">
-                                <div className="border-t border-primary/10 px-5 pb-5 pt-1 sm:px-6">
-                                  <p className="whitespace-pre-line break-words pt-3 text-sm leading-7 text-foreground-muted">
-                                    {day.description}
-                                  </p>
-                                  <div className="mt-4 flex flex-wrap gap-2">
-                                    <span className="rounded-[4px] bg-sand-dark px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary/80">
-                                      Meals: {day.meals}
-                                    </span>
-                                    {day.stay && (
-                                      <span className="rounded-[4px] bg-sand-dark px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary/80">
-                                        Overnight: {day.stay}
-                                      </span>
-                                    )}
-                                  </div>
-                                </div>
-                              </div>
+                <div>
+                  {pkg.itinerary.map((day, index) => {
+                    const galleryItem = pkg.gallery.length
+                      ? pkg.gallery[index % pkg.gallery.length]
+                      : undefined;
+                    const image = galleryItem?.image;
+                    const showImage = Boolean(image) && (index === 0 || index % 3 === 2);
+                    return (
+                      <article key={day.day} className="grid gap-5 border-b border-primary/12 py-8 sm:grid-cols-[72px_minmax(0,1fr)] sm:gap-8">
+                        <div>
+                          <span className="block text-[9px] font-bold uppercase tracking-[0.18em] text-gold-dark">Day</span>
+                          <span className="tabular mt-1 block font-heading text-4xl font-extrabold leading-none text-primary">{String(day.day).padStart(2, "0")}</span>
+                        </div>
+                        <div className={showImage ? "grid gap-6 md:grid-cols-[minmax(0,1fr)_260px]" : ""}>
+                          <div>
+                            <h3 className="font-heading text-2xl font-bold leading-tight text-primary">{day.title}</h3>
+                            <p className="mt-3 whitespace-pre-line text-sm leading-7 text-foreground-muted">{day.description}</p>
+                            <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-[10px] font-bold uppercase tracking-[0.13em] text-primary/65">
+                              <span>Meals / {day.meals}</span>
+                              {day.stay && <span>Stay / {day.stay}</span>}
                             </div>
                           </div>
+                          {showImage && (
+                            <div className="relative min-h-36 overflow-hidden bg-sand-dark md:min-h-full">
+                              <Image src={image!} alt={galleryItem?.caption || day.title} fill sizes="260px" className="object-cover" />
+                            </div>
+                          )}
                         </div>
-                      );
-                    })}
-                  </div>
+                      </article>
+                    );
+                  })}
                 </div>
               </section>
             </ScrollReveal>
@@ -337,26 +293,19 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
             {/* Inclusions / Exclusions */}
             <ScrollReveal>
               <section id="inclusions" className="scroll-mt-28">
-                <span className="text-xs font-bold uppercase tracking-widest text-accent">
-                  The Fine Print, Upfront
-                </span>
-                <h2 className="mt-2 text-3xl sm:text-4xl font-heading font-extrabold text-primary tracking-[-0.01em]">
-                  What&apos;s Included
-                </h2>
+                <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">The details</span>
+                <h2 className="mt-3 font-heading text-4xl font-extrabold tracking-[-0.03em] text-primary sm:text-5xl">Everything, clearly arranged</h2>
 
                 <PackageServiceDetails details={pkg.serviceDetails} />
 
-                {(pkg.inclusions.length > 0 || pkg.exclusions.length > 0) && <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2">
-                  {pkg.inclusions.length > 0 && <div className="rounded-[8px] border border-primary/10 bg-white p-6 shadow-soft sm:p-7">
-                    <h3 className="text-base font-heading font-bold text-primary flex items-center gap-2 mb-5">
-                      <CheckIcon className="text-emerald-500 w-5 h-5" />
-                      Inclusions
-                    </h3>
+                {(pkg.inclusions.length > 0 || pkg.exclusions.length > 0) && <div className="mt-10 grid grid-cols-1 gap-10 border-t border-primary/15 pt-8 md:grid-cols-2">
+                  {pkg.inclusions.length > 0 && <div className="md:border-r md:border-primary/12 md:pr-10">
+                    <h3 className="mb-6 font-heading text-2xl font-bold text-primary">Included in your journey</h3>
                     <ul className="space-y-3">
                       {pkg.inclusions.map((item) => (
                         <li
                           key={item}
-                          className="flex items-start gap-3 text-sm text-foreground-muted font-sans"
+                          className="flex items-start gap-3 text-sm leading-6 text-foreground-muted"
                         >
                           <CheckIcon className="text-emerald-500 mt-0.5" />
                           <span>{item}</span>
@@ -365,16 +314,13 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                     </ul>
                   </div>}
 
-                  {pkg.exclusions.length > 0 && <div className="rounded-[8px] border border-primary/10 bg-white p-6 shadow-soft sm:p-7">
-                    <h3 className="text-base font-heading font-bold text-primary flex items-center gap-2 mb-5">
-                      <CrossIcon className="text-accent w-5 h-5" />
-                      Exclusions
-                    </h3>
+                  {pkg.exclusions.length > 0 && <div>
+                    <h3 className="mb-6 font-heading text-2xl font-bold text-primary">Not included</h3>
                     <ul className="space-y-3">
                       {pkg.exclusions.map((item) => (
                         <li
                           key={item}
-                          className="flex items-start gap-3 text-sm text-foreground-muted font-sans"
+                          className="flex items-start gap-3 text-sm leading-6 text-foreground-muted"
                         >
                           <CrossIcon className="text-accent mt-0.5" />
                           <span>{item}</span>
@@ -389,32 +335,28 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
             {/* Gallery */}
             {pkg.gallery.length > 0 && <ScrollReveal>
               <section id="gallery" className="scroll-mt-28">
-                <span className="text-xs font-bold uppercase tracking-widest text-accent">
-                  Postcards From the Route
-                </span>
-                <h2 className="mt-2 text-3xl sm:text-4xl font-heading font-extrabold text-primary tracking-[-0.01em]">
-                  Trip Gallery
-                </h2>
+                <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">Postcards from the route</span>
+                <h2 className="mt-3 font-heading text-4xl font-extrabold tracking-[-0.03em] text-primary sm:text-5xl">A sense of place</h2>
 
-                <div className="mt-8 grid auto-rows-[160px] grid-cols-2 gap-3 sm:auto-rows-[200px]">
+                <div className="mt-10 grid auto-rows-[180px] grid-cols-2 gap-3 sm:auto-rows-[220px] sm:grid-cols-3">
                   {pkg.gallery.map((item, index) => (
                     <button
                       key={item.image + index}
                       type="button"
                       onClick={() => setGalleryIndex(index)}
                       aria-label={`View ${item.caption}, enlarged`}
-                      className={`group relative block cursor-zoom-in overflow-hidden rounded-[6px] transition duration-300 hover:ring-2 hover:ring-gold/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
-                        index === 0 ? "col-span-2 row-span-2 sm:col-span-1" : ""
+                      className={`group relative block cursor-zoom-in overflow-hidden bg-sand-dark transition duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
+                        index === 0 ? "col-span-2 row-span-2" : ""
                       }`}
                     >
                       <Image
                         src={item.image}
                         alt={item.caption}
                         fill
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.06]"
+                        sizes="(max-width: 640px) 50vw, 25vw"
+                        className="object-cover transition-transform duration-700 ease-premium group-hover:scale-[1.06]"
                       />
-                      <div className="absolute inset-0 bg-ink-deep/50 opacity-100 transition-opacity duration-300 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-visible:opacity-100" />
+                      <div className="pointer-events-none absolute inset-0 bg-ink-deep/50 opacity-100 transition-opacity duration-300 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-visible:opacity-100" />
                       <span
                         aria-hidden="true"
                         className="pointer-events-none absolute right-3 top-3 hidden h-10 w-10 items-center justify-center rounded-full bg-gold text-primary opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 sm:flex"
@@ -437,34 +379,68 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
               onNavigate={setGalleryIndex}
             />
 
+            {testimonials.length > 0 && (
+              <ScrollReveal>
+                <section id="reviews" className="scroll-mt-28">
+                  <div className="flex flex-wrap items-end justify-between gap-5">
+                    <div>
+                      <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">Guest book</span>
+                      <h2 className="mt-3 font-heading text-4xl font-extrabold tracking-[-0.03em] text-primary sm:text-5xl">Stories from the road</h2>
+                    </div>
+                    <Link href="/testimonials" className="text-xs font-bold uppercase tracking-[0.14em] text-accent hover:text-accent-dark">
+                      Read all reviews →
+                    </Link>
+                  </div>
+                  <div className="mt-10 grid gap-5 md:grid-cols-2">
+                    {testimonials.map((item) => (
+                      <article key={item.id} className="relative overflow-hidden border border-primary/12 bg-white p-6 shadow-soft sm:p-7">
+                        <Quote className="absolute -right-3 -top-4 h-24 w-24 text-gold/10" strokeWidth={1} aria-hidden="true" />
+                        <div className="relative flex items-center justify-between gap-3">
+                          <div className="flex" aria-label={`${item.rating} out of 5 stars`}>
+                            {Array.from({ length: 5 }, (_, index) => (
+                              <Star key={index} size={13} className={index < item.rating ? "fill-gold text-gold" : "text-primary/15"} />
+                            ))}
+                          </div>
+                          {item.isVerified ? <span className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.12em] text-emerald-700"><CheckCircle2 size={12} /> Verified traveller</span> : null}
+                        </div>
+                        <blockquote className="relative mt-5 text-base leading-7 text-foreground-muted sm:text-lg sm:leading-8">“{item.shortReview || item.review}”</blockquote>
+                        <div className="relative mt-6 flex items-center gap-3 border-t border-primary/10 pt-5">
+                          <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full bg-sand-dark">
+                            <Image src={item.profileImage} alt="" fill sizes="44px" className="object-cover" />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="truncate text-sm font-bold text-primary">{item.name}</p>
+                            <p className="truncate text-[10px] uppercase tracking-[0.12em] text-foreground-muted">{item.tour} · {item.travelMonth}</p>
+                          </div>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </section>
+              </ScrollReveal>
+            )}
+
             {/* FAQs */}
             {pkg.faqs.length > 0 && <ScrollReveal>
               <section id="faqs" className="scroll-mt-28">
-                <span className="text-xs font-bold uppercase tracking-widest text-accent">
-                  Good to Know
-                </span>
-                <h2 className="mt-2 text-3xl sm:text-4xl font-heading font-extrabold text-primary tracking-[-0.01em]">
-                  Frequently Asked Questions
-                </h2>
+                <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">Good to know</span>
+                <h2 className="mt-3 font-heading text-4xl font-extrabold tracking-[-0.03em] text-primary sm:text-5xl">Before you travel</h2>
 
-                <div className="mt-8 space-y-3">
+                <div className="mt-10 border-t border-primary/15">
                   {pkg.faqs.map((faq, index) => {
                     const isOpen = openFaq === index;
                     return (
                       <div
                         key={faq.question}
-                        className={`rounded-[8px] border bg-white transition-all duration-300 ${
-                          isOpen
-                            ? "border-accent/30 shadow-premium"
-                            : "border-slate-100/80 shadow-soft"
-                        }`}
+                        className="border-b border-primary/15"
                       >
                         <button
+                          type="button"
                           onClick={() => setOpenFaq(isOpen ? null : index)}
                           aria-expanded={isOpen}
-                          className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left"
+                          className="flex w-full items-center justify-between gap-4 py-5 text-left"
                         >
-                          <span className="text-sm sm:text-base font-heading font-bold text-primary">
+                          <span className="font-heading text-lg font-bold text-primary sm:text-xl">
                             {faq.question}
                           </span>
                           <ChevronIcon open={isOpen} />
@@ -477,7 +453,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                           }`}
                         >
                           <div className="overflow-hidden">
-                            <p className="px-5 pb-5 text-sm text-foreground-muted font-sans leading-relaxed">
+                            <p className="w-full pb-6 pr-8 text-sm leading-7 text-foreground-muted">
                               {faq.answer}
                             </p>
                           </div>
@@ -490,105 +466,94 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
             </ScrollReveal>}
           </div>
 
-          {/* ——— Sticky booking sidebar ——— */}
-          <aside className="space-y-5 lg:sticky lg:top-28">
-            <div className="overflow-hidden rounded-[8px] border border-primary/10 bg-white shadow-premium">
-              <div className="relative overflow-hidden bg-primary px-6 py-6 text-white">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-gold block">
+          {/* ——— Booking rail. Sticks now that PageShell no longer creates a
+              scroll container, so it tracks the reader down the page. ——— */}
+          <aside id="book" className="space-y-4 scroll-mt-28 lg:sticky lg:top-32">
+            <div className="overflow-hidden border border-primary/12 bg-white shadow-premium">
+              <div className="bg-primary px-7 py-7 text-white">
+                <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-gold">
                   Starting From
                 </span>
-                <div className="flex items-baseline gap-2 mt-1">
-                  <span className="text-3xl font-extrabold font-heading">
+                <div className="mt-2.5 flex items-baseline gap-2">
+                  <span className="tabular font-heading text-[2.5rem] font-extrabold leading-none tracking-[-0.03em]">
                     {pkg.price}
                   </span>
-                  <span className="text-xs text-slate-300">per person</span>
+                  <span className="text-xs text-white/55">per person</span>
                 </div>
-                <span className="text-xs text-slate-300 block mt-1">
+                <span className="mt-2 block text-xs text-white/55">
                   {pkg.duration} · twin sharing
                 </span>
               </div>
 
-              <div className="space-y-5 p-6">
-                <div className="rounded-[6px] border border-gold/35 bg-gold/10 p-4">
-                  <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">Make this trip yours</p>
-                  <p className="mt-1.5 text-xs leading-relaxed text-foreground-muted">Dates, hotels, room type and daily pace can be adjusted before you book.</p>
-                </div>
+              <div className="space-y-5 p-7">
+                <p className="border-l-2 border-gold pl-4 text-xs leading-relaxed text-foreground-muted">
+                  Dates, hotels, room type and daily pace can all be adjusted before you book.
+                </p>
 
-                <ul className="space-y-2.5">
+                <ul className="space-y-2.5 border-t border-primary/10 pt-5">
                   {sidebarHighlights.map((item) => (
-                    <li
-                      key={item}
-                      className="flex items-start gap-2.5 text-xs text-foreground-muted font-sans"
-                    >
-                      <CheckIcon className="text-emerald-500 mt-0.5" />
-                      <span className="line-clamp-2">{item}</span>
+                    <li key={item} className="flex items-start gap-2.5 text-xs leading-5 text-foreground-muted">
+                      <CheckIcon className="mt-0.5 text-emerald-500" />
+                      <span>{item}</span>
                     </li>
                   ))}
                 </ul>
 
-                <Link
-                  href={`/book?type=package&id=${encodeURIComponent(pkg.id)}`}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-[5px] bg-accent px-6 py-3 text-sm font-bold text-white transition hover:bg-accent-dark"
-                >
-                  Book Now <ArrowRight size={16} />
-                </Link>
-
-                <SecondaryButton
-                  variant="outline-navy"
-                  size="md"
-                  fullWidth
-                  onClick={enquire}
-                  className="rounded-[5px]"
-                >
-                  Enquire About This Tour
-                </SecondaryButton>
-
-                <a
-                  href="tel:+919422332610"
-                  className="flex w-full items-center justify-center gap-2 rounded-[5px] border border-primary/20 px-6 py-3 text-sm font-semibold text-primary transition-all duration-300 hover:border-primary hover:bg-primary hover:text-white"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="15"
-                    height="15"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
+                <div className="space-y-2.5 pt-1">
+                  <Link
+                    href={`/book?type=package&id=${encodeURIComponent(pkg.id)}`}
+                    className="hidden w-full items-center justify-center gap-2 bg-primary px-6 py-3.5 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition-colors duration-300 hover:bg-gold hover:text-primary lg:inline-flex"
                   >
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                  </svg>
-                  Talk to a Trip Designer
-                </a>
+                    Book Now <ArrowRight size={15} />
+                  </Link>
 
-                <p className="text-[11px] text-foreground-light text-center font-sans leading-relaxed">
+                  <a
+                    href={`${brochureHref}&download=1`}
+                    className="flex w-full items-center justify-center gap-2 border border-primary/15 px-6 py-3 text-xs font-semibold text-primary transition-colors duration-300 hover:border-primary hover:bg-primary hover:text-white"
+                  >
+                    <Download size={14} strokeWidth={2} aria-hidden="true" />
+                    Download Brochure
+                  </a>
+
+                  <SecondaryButton
+                    variant="outline-navy"
+                    size="md"
+                    fullWidth
+                    onClick={enquire}
+                    className="rounded-none"
+                  >
+                    Enquire About This Tour
+                  </SecondaryButton>
+
+                  <a
+                    href="tel:+919422332610"
+                    className="flex w-full items-center justify-center gap-2 border border-primary/15 px-6 py-3 text-xs font-semibold text-primary transition-colors duration-300 hover:border-primary hover:bg-primary hover:text-white"
+                  >
+                    <Phone size={14} strokeWidth={2} aria-hidden="true" />
+                    Talk to a Trip Designer
+                  </a>
+                </div>
+
+                <p className="text-center text-[11px] leading-relaxed text-foreground-light">
                   No advance needed to enquire · Free itinerary customisation ·
                   Response within 24 hours
                 </p>
               </div>
             </div>
 
-            {/* Trust card */}
-            <div className="rounded-[8px] border border-primary/10 bg-sand-dark/60 p-6">
-              <h3 className="text-sm font-heading font-bold text-primary mb-4">
-                Why book with Bandhan?
-              </h3>
-              <ul className="space-y-3 text-xs text-foreground-muted font-sans">
-                <li className="flex items-start gap-2.5">
-                  <CheckIcon className="text-gold-dark mt-0.5" />
-                  <span>15+ years crafting group & custom tours</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <CheckIcon className="text-gold-dark mt-0.5" />
-                  <span>5,000+ happy travellers and counting</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <CheckIcon className="text-gold-dark mt-0.5" />
-                  <span>24×7 on-tour support in every destination</span>
-                </li>
+            {/* Trust points */}
+            <div className="border border-primary/12 px-6 py-5">
+              <ul className="space-y-3 text-xs text-foreground-muted">
+                {[
+                  "15+ years crafting group & custom tours",
+                  "5,000+ happy travellers and counting",
+                  "24×7 on-tour support in every destination",
+                ].map((point) => (
+                  <li key={point} className="flex items-start gap-2.5">
+                    <CheckIcon className="mt-0.5 text-gold-dark" />
+                    <span>{point}</span>
+                  </li>
+                ))}
               </ul>
             </div>
           </aside>
@@ -596,16 +561,12 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
 
         {/* Related packages */}
         {relatedPackages.length > 0 && (
-          <Container className="mt-20 sm:mt-28">
+          <Container className="mt-24 border-t border-primary/15 pt-16 sm:mt-32 sm:pt-20">
             <ScrollReveal>
               <div className="flex items-end justify-between gap-4 mb-8">
                 <div>
-                  <span className="text-xs font-bold uppercase tracking-widest text-accent">
-                    Keep Exploring
-                  </span>
-                  <h2 className="mt-2 text-3xl sm:text-4xl font-heading font-extrabold text-primary tracking-[-0.01em]">
-                    You May Also Like
-                  </h2>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">Keep exploring</span>
+                  <h2 className="mt-3 font-heading text-4xl font-extrabold tracking-[-0.03em] text-primary sm:text-5xl">Journeys you may also like</h2>
                 </div>
                 <Link
                   href="/packages"
@@ -630,26 +591,26 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                 </Link>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                 {relatedPackages.map((related) => (
                   <Link
                     key={related.id}
                     href={`/packages/${related.id}`}
-                    className="group relative h-64 overflow-hidden rounded-[8px] shadow-soft transition-all duration-500 hover:-translate-y-1 hover:shadow-xl motion-reduce:hover:translate-y-0"
+                    className="group relative h-80 overflow-hidden bg-sand-dark transition-all duration-500 hover:-translate-y-1 hover:shadow-xl motion-reduce:hover:translate-y-0"
                   >
                     <Image
                       src={related.image}
                       alt={related.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 33vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="object-cover transition-transform duration-700 ease-premium group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-ink-deep/55" />
-                    <div className="absolute bottom-0 left-0 right-0 p-5">
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink-deep via-ink-deep/20 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-6">
                       <span className="text-[10px] font-bold uppercase tracking-wider text-gold block">
                         {related.duration}
                       </span>
-                      <h3 className="text-base font-heading font-bold text-white mt-1 group-hover:text-gold transition-colors duration-300 line-clamp-2">
+                      <h3 className="mt-2 line-clamp-2 font-heading text-xl font-bold leading-tight text-white transition-colors duration-300 group-hover:text-gold">
                         {related.title}
                       </h3>
                       <span className="text-xs text-slate-300 mt-1 block">
@@ -665,11 +626,8 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
             </ScrollReveal>
           </Container>
         )}
-      </main>
-
-      <Footer />
-
-    </div>
+      </section>
+    </PageShell>
   );
 };
 

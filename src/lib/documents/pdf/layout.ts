@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { PDFDocument, PDFFont, PDFPage, rgb, type RGB } from "pdf-lib";
+import { PDFDocument, PDFFont, PDFPage, StandardFonts, rgb, type RGB } from "pdf-lib";
 import fontkit from "@pdf-lib/fontkit";
 
 /**
@@ -57,6 +57,8 @@ export interface TextOptions {
   y?: number;
   size?: number;
   bold?: boolean;
+  /** Editorial headings use a restrained serif; body copy stays in DejaVu Sans. */
+  family?: "sans" | "serif";
   color?: RGB;
   /** Extra tracking between characters, for uppercase labels. */
   charSpacing?: number;
@@ -69,6 +71,8 @@ export class PdfDoc {
   readonly doc: PDFDocument;
   readonly regular: PDFFont;
   readonly bold: PDFFont;
+  readonly serif: PDFFont;
+  readonly serifBold: PDFFont;
   page: PDFPage;
   /** Cursor, measured from the top of the page downwards. */
   y = MARGIN;
@@ -77,10 +81,18 @@ export class PdfDoc {
   /** Invoked after every page break so documents can repaint their chrome. */
   onNewPage: ((doc: PdfDoc, pageIndex: number) => void) | null = null;
 
-  private constructor(doc: PDFDocument, regular: PDFFont, bold: PDFFont) {
+  private constructor(
+    doc: PDFDocument,
+    regular: PDFFont,
+    bold: PDFFont,
+    serif: PDFFont,
+    serifBold: PDFFont
+  ) {
     this.doc = doc;
     this.regular = regular;
     this.bold = bold;
+    this.serif = serif;
+    this.serifBold = serifBold;
     this.page = doc.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
   }
 
@@ -88,26 +100,41 @@ export class PdfDoc {
     const doc = await PDFDocument.create();
     doc.registerFontkit(fontkit);
     const bytes = await loadFontBytes();
-    const [regular, bold] = await Promise.all([
+    const [regular, bold, serif, serifBold] = await Promise.all([
       doc.embedFont(bytes.regular, { subset: true }),
       doc.embedFont(bytes.bold, { subset: true }),
+      doc.embedFont(StandardFonts.TimesRoman),
+      doc.embedFont(StandardFonts.TimesRomanBold),
     ]);
-    return new PdfDoc(doc, regular, bold);
+    return new PdfDoc(doc, regular, bold, serif, serifBold);
   }
 
-  font(bold?: boolean): PDFFont {
+  font(bold?: boolean, family: "sans" | "serif" = "sans"): PDFFont {
+    if (family === "serif") return bold ? this.serifBold : this.serif;
     return bold ? this.bold : this.regular;
   }
 
   /** Width of `text` when rendered at `size`. */
-  measure(text: string, size: number, bold?: boolean, charSpacing = 0): number {
+  measure(
+    text: string,
+    size: number,
+    bold?: boolean,
+    charSpacing = 0,
+    family: "sans" | "serif" = "sans"
+  ): number {
     const str = clean(text);
-    const base = this.font(bold).widthOfTextAtSize(str, size);
+    const base = this.font(bold, family).widthOfTextAtSize(str, size);
     return base + (charSpacing ? charSpacing * Math.max(0, str.length - 1) : 0);
   }
 
   /** Greedy word wrap; also honours explicit newlines. */
-  wrap(text: string, maxWidth: number, size: number, bold?: boolean): string[] {
+  wrap(
+    text: string,
+    maxWidth: number,
+    size: number,
+    bold?: boolean,
+    family: "sans" | "serif" = "sans"
+  ): string[] {
     const lines: string[] = [];
     for (const paragraph of clean(text).split("\n")) {
       const words = paragraph.split(/\s+/).filter(Boolean);
@@ -118,7 +145,7 @@ export class PdfDoc {
       let line = words[0];
       for (const word of words.slice(1)) {
         const candidate = `${line} ${word}`;
-        if (this.measure(candidate, size, bold) <= maxWidth) {
+        if (this.measure(candidate, size, bold, 0, family) <= maxWidth) {
           line = candidate;
         } else {
           lines.push(line);
@@ -149,6 +176,7 @@ export class PdfDoc {
       y = this.y,
       size = 10,
       bold = false,
+      family = "sans",
       color = rgb(0, 0, 0),
       charSpacing = 0,
       align = "left",
@@ -160,7 +188,7 @@ export class PdfDoc {
 
     let startX = x;
     if (align !== "left") {
-      const textWidth = this.measure(str, size, bold, charSpacing);
+      const textWidth = this.measure(str, size, bold, charSpacing, family);
       startX = align === "right" ? x + width - textWidth : x + (width - textWidth) / 2;
     }
 
@@ -169,14 +197,14 @@ export class PdfDoc {
     const baseline = PAGE_HEIGHT - y - size * 0.82;
 
     if (!charSpacing) {
-      this.page.drawText(str, { x: startX, y: baseline, size, font: this.font(bold), color });
+      this.page.drawText(str, { x: startX, y: baseline, size, font: this.font(bold, family), color });
       return;
     }
 
     let cursorX = startX;
     for (const char of str) {
-      this.page.drawText(char, { x: cursorX, y: baseline, size, font: this.font(bold), color });
-      cursorX += this.font(bold).widthOfTextAtSize(char, size) + charSpacing;
+      this.page.drawText(char, { x: cursorX, y: baseline, size, font: this.font(bold, family), color });
+      cursorX += this.font(bold, family).widthOfTextAtSize(char, size) + charSpacing;
     }
   }
 
@@ -195,7 +223,7 @@ export class PdfDoc {
       x = MARGIN,
     } = opts;
 
-    const lines = this.wrap(text, maxWidth, size, opts.bold);
+    const lines = this.wrap(text, maxWidth, size, opts.bold, opts.family);
     for (const line of lines) {
       this.ensure(lineHeight);
       this.textAt(line, { ...opts, x, y: this.y, width: maxWidth });
@@ -206,6 +234,27 @@ export class PdfDoc {
   }
 
   rect(x: number, y: number, width: number, height: number, color: RGB, opacity = 1): void {
+    this.page.drawRectangle({
+      x,
+      y: PAGE_HEIGHT - y - height,
+      width,
+      height,
+      color,
+      opacity,
+    });
+  }
+
+  /** Soft card surface; pdf-lib's rectangle primitive keeps output lightweight. */
+  roundedRect(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    color: RGB,
+    radius = 10,
+    opacity = 1
+  ): void {
+    void radius;
     this.page.drawRectangle({
       x,
       y: PAGE_HEIGHT - y - height,

@@ -4,12 +4,13 @@ import React, { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
 import { Container } from "@/components/ui/Container";
+import PageShell from "@/components/ui/PageShell";
+import PageHero from "@/components/ui/PageHero";
 import { useCollection } from "@/lib/admin/store";
 import type { BlogPost } from "@/lib/admin/types";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
+import { placeholderImage } from "@/lib/placeholderImages";
 
 export const BlogPostClient: React.FC<{ slug: string }> = ({ slug }) => {
   const router = useRouter();
@@ -38,9 +39,7 @@ export const BlogPostClient: React.FC<{ slug: string }> = ({ slug }) => {
 
   if (ready && (!post || !post.isPublished)) {
     return (
-      <div className="min-h-screen bg-sand flex flex-col">
-        <Navbar onEnquiryClick={() => router.push(contactEnquiryHref(""))} />
-        <main className="flex-1 flex items-center justify-center pt-32 pb-20">
+      <PageShell tone="sand" offsetTop mainClassName="flex items-center justify-center pb-20 pt-8" onEnquiryClick={() => router.push(contactEnquiryHref(""))}>
           <div className="text-center">
             <p className="text-5xl mb-4">🧭</p>
             <h1 className="text-2xl font-heading font-bold text-primary">Article not found</h1>
@@ -52,60 +51,38 @@ export const BlogPostClient: React.FC<{ slug: string }> = ({ slug }) => {
               Back to all articles
             </Link>
           </div>
-        </main>
-        <Footer />
-      </div>
+      </PageShell>
     );
   }
 
   return (
-    <div className="min-h-screen bg-sand flex flex-col overflow-x-hidden">
-      <Navbar onEnquiryClick={() => router.push(contactEnquiryHref(""))} />
-
-      {/* Hero */}
-      <header className="relative bg-primary pt-32 pb-16 sm:pt-36 sm:pb-20 overflow-hidden">
-        {/* Background image */}
-        <Image
-          src={post?.coverImage || "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=90&w=3200"}
-          alt=""
-          fill
-          priority
-          className="object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-ink-deep/75" />
-        <Container className="relative max-w-3xl">
-          <nav className="text-xs font-semibold uppercase tracking-wider text-white/60 mb-4" aria-label="Breadcrumb">
-            <Link href="/" className="hover:text-gold transition-colors">Home</Link>
-            <span className="mx-2">/</span>
-            <Link href="/blog" className="hover:text-gold transition-colors">Blog</Link>
-          </nav>
-          {post?.category && (
-            <span className="inline-block bg-gold text-primary text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4">
-              {post.category}
-            </span>
+    <PageShell tone="sand" onEnquiryClick={() => router.push(contactEnquiryHref(""))}>
+      <PageHero
+        priority
+        eyebrow={post?.category}
+        title={post?.title ?? "Loading…"}
+        image={post?.coverImage || "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=90&w=3200"}
+        imageAlt=""
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }]}
+      >
+        <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-300">
+          {post?.author && <span className="font-semibold text-white">{post.author}</span>}
+          {post?.date && (
+            <>
+              <span className="h-1 w-1 rounded-full bg-slate-400" />
+              <span>{post.date}</span>
+            </>
           )}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold text-white leading-tight">
-            {post?.title ?? "Loading…"}
-          </h1>
-          <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-300">
-            {post?.author && <span className="font-semibold text-white">{post.author}</span>}
-            {post?.date && (
-              <>
-                <span className="w-1 h-1 rounded-full bg-slate-400" />
-                <span>{post.date}</span>
-              </>
-            )}
-            {post?.readTime && (
-              <>
-                <span className="w-1 h-1 rounded-full bg-slate-400" />
-                <span>{post.readTime}</span>
-              </>
-            )}
-          </div>
-        </Container>
-      </header>
+          {post?.readTime && (
+            <>
+              <span className="h-1 w-1 rounded-full bg-slate-400" />
+              <span>{post.readTime}</span>
+            </>
+          )}
+        </div>
+      </PageHero>
 
-      <main className="flex-1 py-12 sm:py-16 bg-sand-bg/40">
+      <section className="bg-sand-bg/40 py-12 sm:py-16">
         <Container className="max-w-3xl">
           {/* Cover */}
           {post?.coverImage && (
@@ -155,11 +132,7 @@ export const BlogPostClient: React.FC<{ slug: string }> = ({ slug }) => {
                   className="group bg-white overflow-hidden shadow-soft hover:shadow-lg transition-all border border-slate-100/50"
                 >
                   <div className="relative h-40 overflow-hidden">
-                    {p.coverImage ? (
-                      <Image src={p.coverImage} alt={p.title} fill sizes="(max-width: 640px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-700" />
-                    ) : (
-                      <div className="w-full h-full bg-primary/10" />
-                    )}
+                    <Image src={p.coverImage || placeholderImage(p.id)} alt={p.title} fill sizes="(max-width: 640px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-700" />
                   </div>
                   <div className="p-4">
                     <h3 className="text-sm font-heading font-bold text-primary leading-snug group-hover:text-accent transition-colors line-clamp-2">
@@ -172,10 +145,8 @@ export const BlogPostClient: React.FC<{ slug: string }> = ({ slug }) => {
             </div>
           </Container>
         )}
-      </main>
-
-      <Footer />
-    </div>
+      </section>
+    </PageShell>
   );
 };
 

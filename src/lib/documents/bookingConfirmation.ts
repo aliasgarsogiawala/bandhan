@@ -13,6 +13,9 @@ import { BOOKING_STATUS_LABELS } from "@/lib/bookings/types";
  */
 export interface BookingConfirmationInput {
   bookingCode: string;
+  documentLabel?: string;
+  documentNumber?: string;
+  introText?: string;
   /** Trip title, e.g. "Kerala Backwaters Escape". */
   packageTitle: string;
   destination?: string | null;
@@ -126,6 +129,9 @@ function bulletList(items: string[]): string {
 export function buildBookingConfirmationDocument(input: BookingConfirmationInput): string {
   const {
     bookingCode,
+    documentLabel = "Booking Confirmation",
+    documentNumber = bookingCode,
+    introText = "Your booking is confirmed. Please keep this voucher with you for the duration of your trip — our team and on-ground partners will use the reference above for all assistance.",
     packageTitle,
     destination,
     travelDate,
@@ -151,7 +157,7 @@ export function buildBookingConfirmationDocument(input: BookingConfirmationInput
   } = input;
 
   const names = parseNames(travellerNames);
-  const title = `Booking Confirmation — ${bookingCode} — ${COMPANY.name}`;
+  const title = `${documentLabel} — ${documentNumber} — ${COMPANY.name}`;
 
   const tripDetails: Array<[string, string]> = [];
   if (destination) tripDetails.push(["Destination", destination]);
@@ -320,8 +326,8 @@ export function buildBookingConfirmationDocument(input: BookingConfirmationInput
         <div class="tagline">${escapeHtml(COMPANY.tagline)}</div>
       </div>
       <div class="doc-meta">
-        <div class="doc-type">Booking Confirmation</div>
-        <div class="doc-code">${escapeHtml(bookingCode)}</div>
+        <div class="doc-type">${escapeHtml(documentLabel)}</div>
+        <div class="doc-code">${escapeHtml(documentNumber)}</div>
         <div>Issued ${escapeHtml(formatIssued(issuedAt))}</div>
       </div>
     </div>
@@ -330,7 +336,7 @@ export function buildBookingConfirmationDocument(input: BookingConfirmationInput
     <div class="content">
       <div class="banner">
         <h1>${escapeHtml(packageTitle)}</h1>
-        <p>Your booking is confirmed. Please keep this voucher with you for the duration of your trip — our team and on-ground partners will use the reference above for all assistance.</p>
+        <p>${escapeHtml(introText)}</p>
       </div>
 
       <section>

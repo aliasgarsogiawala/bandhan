@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
 import { Container } from "@/components/ui/Container";
+import PageShell from "@/components/ui/PageShell";
+import PageHero from "@/components/ui/PageHero";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { useAuth } from "@/lib/auth/useAuth";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
@@ -40,23 +40,17 @@ export default function AccountPage() {
   const bookingsLoading = Boolean(user) && bookings === null;
 
   return (
-    <div className="min-h-screen bg-sand flex flex-col overflow-x-hidden">
-      <Navbar onEnquiryClick={enquire} />
+    <PageShell tone="sand" onEnquiryClick={enquire}>
+      <PageHero
+        size="sm"
+        eyebrow="My account"
+        title="My bookings"
+        description="Track your standard bookings and customized trip requests here."
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "My account" }]}
+      />
 
-      <main className="flex-1 py-28 sm:py-32">
+      <section className="py-14 sm:py-20">
         <Container className="max-w-3xl">
-          <div className="mb-10">
-            <span className="text-xs font-bold uppercase tracking-widest text-accent">
-              My Account
-            </span>
-            <h1 className="mt-2 text-3xl sm:text-4xl font-heading font-extrabold text-primary">
-              My Bookings
-            </h1>
-            <p className="mt-3 text-foreground-muted font-sans text-sm">
-              Track your standard bookings and customized trip requests here.
-            </p>
-          </div>
-
           {loading ? (
             <p className="text-center text-sm text-foreground-muted py-10">Loading…</p>
           ) : !user ? (
@@ -131,9 +125,7 @@ export default function AccountPage() {
           )}
           {user ? <AccountProfilePanel user={user} onProfileSaved={refresh} /> : null}
         </Container>
-      </main>
-
-      <Footer />
-    </div>
+      </section>
+    </PageShell>
   );
 }

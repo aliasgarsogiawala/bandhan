@@ -15,6 +15,7 @@ import {
   FileText,
   Mail,
   MapPin,
+  Package,
   ReceiptText,
   Send,
   ShieldCheck,
@@ -39,6 +40,7 @@ import {
   type TravellerBreakdown,
 } from "@/lib/bookings/pricing";
 import { EMAIL_RE } from "@/lib/bookings/party";
+import { placeholderImage } from "@/lib/placeholderImages";
 import { saveRecentSearch, useRecentSearches } from "@/lib/recentSearches";
 import Counter from "@/components/booking/Counter";
 import InlineAuthModal from "@/components/booking/InlineAuthModal";
@@ -82,17 +84,15 @@ function SummaryCard({
   return (
     <div className="overflow-hidden rounded-[1.75rem] border border-slate-200/70 bg-white shadow-soft">
       <div className="relative h-36 bg-primary sm:h-44">
-        {image ? (
-          <Image
-            src={image}
-            alt={snapshot.title}
-            fill
-            loading="eager"
-            className="object-cover"
-            sizes="(max-width: 1024px) 100vw, 420px"
-          />
-        ) : null}
-        <div className="absolute inset-0 bg-ink-deep/50" />
+        <Image
+          src={image || placeholderImage(snapshot.title || "custom-trip")}
+          alt=""
+          fill
+          loading="eager"
+          className="object-cover"
+          sizes="(max-width: 1024px) 100vw, 420px"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink-deep/85 via-ink-deep/45 to-ink-deep/20" />
         <div className="absolute bottom-0 p-5 text-white">
           <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gold">
             {snapshot.source === "package"
@@ -160,6 +160,7 @@ export default function BookingEngine() {
   const [sending, setSending] = useState<"email" | "whatsapp" | null>(null);
   const [result, setResult] = useState<BookingResult | null>(null);
   const [brochurePreviewOpen, setBrochurePreviewOpen] = useState(false);
+  const [quotationPreviewOpen, setQuotationPreviewOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const { items: recentSearches, clearRecentSearches } = useRecentSearches();
 
@@ -184,13 +185,9 @@ export default function BookingEngine() {
         ? selectedDestination?.duration
         : "") ||
     "6 Nights / 7 Days";
-  const bookingForSomeoneElse = party.bookedFor === "guest";
   const resolved = resolveParty(party, user);
-  // Whoever we can actually reach: a traveller booked by someone else may have
-  // given no details of their own, in which case the booker's stand in — the
-  // same fallback the API applies when it saves the booking.
-  const deliveryEmail = resolved.traveller.email || resolved.booker?.email || "";
-  const deliveryPhone = resolved.traveller.phone || resolved.booker?.phone || "";
+  const deliveryEmail = resolved.traveller.email;
+  const deliveryPhone = resolved.traveller.phone;
 
   const snapshot: BookingPackageSnapshot = (() => {
     if (source === "package" && fullPackage) return packageSnapshot(fullPackage);
@@ -282,23 +279,10 @@ export default function BookingEngine() {
 
   /** Mirrors the server-side rules in lib/bookings/party.ts. */
   const validateParty = () => {
-    const { traveller, booker } = resolved;
-    if (!bookingForSomeoneElse) {
-      if (traveller.name.trim().length < 2) return "Please enter your full name.";
-      if (!EMAIL_RE.test(traveller.email)) return "Please enter a valid email address.";
-      if (!hasPhone(traveller.phone)) return "Please enter a valid phone number.";
-      return "";
-    }
-    if (traveller.name.trim().length < 2) return "Please enter the lead traveller's name.";
-    if (traveller.email && !EMAIL_RE.test(traveller.email)) {
-      return "Please enter a valid email address for the traveller, or leave it blank.";
-    }
-    if (traveller.phone && !hasPhone(traveller.phone)) {
-      return "Please enter a valid phone number for the traveller, or leave it blank.";
-    }
-    if (!booker || booker.name.trim().length < 2) return "Please enter your name.";
-    if (!EMAIL_RE.test(booker.email)) return "Please enter a valid email address for yourself.";
-    if (!hasPhone(booker.phone)) return "Please enter a valid phone number for yourself.";
+    const { traveller } = resolved;
+    if (traveller.name.trim().length < 2) return "Please enter your full name.";
+    if (!EMAIL_RE.test(traveller.email)) return "Please enter a valid email address.";
+    if (!hasPhone(traveller.phone)) return "Please enter a valid phone number.";
     return "";
   };
 
@@ -341,6 +325,10 @@ export default function BookingEngine() {
   };
 
   const submit = async (options?: { skipAuthGate?: boolean }) => {
+    if (!user && !options?.skipAuthGate) {
+      setShowAuthModal(true);
+      return;
+    }
     const validation = validateStep();
     if (validation) {
       setError(validation);
@@ -351,10 +339,6 @@ export default function BookingEngine() {
     // that and only updates on this component's next render, so callers
     // that already know sign-in just succeeded pass skipAuthGate instead of
     // waiting on it.
-    if (source === "custom" && !user && !options?.skipAuthGate) {
-      setShowAuthModal(true);
-      return;
-    }
     setSubmitting(true);
     setError("");
     if (source === "custom" && customDestination.trim()) {
@@ -385,11 +369,7 @@ export default function BookingEngine() {
           travellerNames: tripNotes.travellerNames,
           budget: source === "custom" ? formatMoney(budgetPerAdult) : undefined,
           specialRequirements: tripNotes.requirements,
-          bookedFor: party.bookedFor,
           contact: resolved.traveller,
-          booker: resolved.booker || undefined,
-          relation: bookingForSomeoneElse ? party.relation : undefined,
-          notifyBooker: party.notifyBooker,
           termsAccepted,
         }),
       });
@@ -487,14 +467,13 @@ export default function BookingEngine() {
                     Traveller-wise rates, room plan, advance, balance, validity and commercial notes.
                   </p>
                   <div className="mt-5 grid grid-cols-2 gap-2">
-                    <a
-                      href={result.quotationUrl}
-                      target="_blank"
-                      rel="noreferrer"
+                    <button
+                      type="button"
+                      onClick={() => setQuotationPreviewOpen(true)}
                       className="flex min-h-11 items-center justify-center gap-1.5 rounded-full bg-white px-3 text-xs font-bold text-primary transition hover:bg-gold"
                     >
                       <FileText size={15} /> Preview
-                    </a>
+                    </button>
                     <a
                       href={`${result.quotationUrl}&download=1`}
                       className="flex min-h-11 items-center justify-center gap-1.5 rounded-full border border-white/25 px-3 text-xs font-bold text-white transition hover:border-gold hover:text-gold"
@@ -617,6 +596,13 @@ export default function BookingEngine() {
           </div>
         </div>
         <PdfPreviewModal
+          isOpen={quotationPreviewOpen}
+          title={`${snapshot.title} quotation`}
+          url={result.quotationUrl}
+          downloadUrl={`${result.quotationUrl}&download=1`}
+          onClose={() => setQuotationPreviewOpen(false)}
+        />
+        <PdfPreviewModal
           isOpen={brochurePreviewOpen}
           title={`${snapshot.title} brochure`}
           url={result.brochureUrl}
@@ -629,20 +615,20 @@ export default function BookingEngine() {
 
   return (
     <div className="relative isolate mx-auto max-w-7xl pointer-events-auto">
-      <div className="mb-7 grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
-        <div>
-          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-accent">
-            Plan · Price · Personalise
-          </p>
-          <h1 className="mt-2 max-w-3xl font-heading text-3xl font-extrabold leading-[1.05] text-primary sm:text-5xl">
-            Build your holiday proposal
-          </h1>
-          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-foreground-muted sm:text-base">
-            Shape the trip in five simple steps and get an instant estimate, quotation and
-            personalised brochure—without paying anything today.
-          </p>
-        </div>
-        <div className="grid grid-cols-3 gap-2 lg:w-[390px]">
+      <div className="mb-6">
+        <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-accent">
+          {source === "custom" ? "Your trip · Your pace · Your story" : "Plan · Price · Personalise"}
+        </p>
+        <h1 className="mt-2 max-w-2xl font-heading text-3xl font-extrabold leading-[1.08] tracking-[-0.02em] text-primary sm:text-[2.75rem]">
+          {source === "custom" ? "Let's design a journey around you" : "Build your holiday proposal"}
+        </h1>
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-foreground-muted sm:text-base">
+          {source === "custom"
+            ? "Tell us where you want to go, when you want to travel, and how you like to explore. Our travel designer will turn your idea into a considered itinerary."
+            : "Shape the trip in five simple steps and get an instant estimate, quotation and personalised brochure—without paying anything today."}
+        </p>
+
+        <ul className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 border-y border-slate-200/80 py-3.5">
           {[
             [ShieldCheck, "No payment", "until verified"],
             [ReceiptText, "Instant quote", "clear pricing"],
@@ -650,50 +636,100 @@ export default function BookingEngine() {
           ].map(([Icon, title, detail]) => {
             const FeatureIcon = Icon as typeof ShieldCheck;
             return (
-              <div key={String(title)} className="rounded-2xl border border-white/80 bg-white/75 p-3 shadow-sm backdrop-blur">
-                <FeatureIcon size={16} className="text-accent" />
-                <strong className="mt-2 block text-[11px] text-primary sm:text-xs">{String(title)}</strong>
-                <span className="mt-0.5 hidden text-[10px] text-foreground-muted sm:block">{String(detail)}</span>
-              </div>
+              <li key={String(title)} className="flex items-center gap-2.5">
+                <FeatureIcon size={16} className="shrink-0 text-accent" aria-hidden="true" />
+                <span className="text-xs text-primary sm:text-[13px]">
+                  <strong className="font-bold">{String(title)}</strong>{" "}
+                  <span className="text-foreground-muted">{String(detail)}</span>
+                </span>
+              </li>
             );
           })}
-        </div>
+        </ul>
       </div>
 
-      <div className="mb-5 rounded-2xl border border-slate-200/70 bg-white/90 p-2 shadow-soft backdrop-blur">
-        <div className="flex items-center justify-between gap-3 px-2 pb-2 pt-1 sm:hidden">
+      {source === "custom" ? (
+        <div className="mb-5 flex items-start gap-4 rounded-2xl border border-gold/40 bg-gold/[0.07] p-4 sm:p-5">
+          <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-[11px] font-bold text-gold">
+            01
+          </span>
+          <div className="min-w-0">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-accent">
+              A real person takes it from here
+            </p>
+            <p className="mt-1.5 max-w-3xl text-sm leading-6 text-foreground-muted">
+              Submit your brief and it goes to our admin desk first. We assign the right travel
+              consultant, who will contact you to refine the route and confirm live availability.
+            </p>
+          </div>
+        </div>
+      ) : null}
+
+      {!authLoading && !user ? (
+        <div className="mb-5 flex flex-col gap-3 rounded-2xl border border-accent/20 bg-accent/5 px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm font-semibold text-primary">
+            Sign in is required before you can {source === "custom" ? "submit this trip brief" : "book this package"}.
+          </p>
+          <button
+            type="button"
+            onClick={() => setShowAuthModal(true)}
+            className="inline-flex min-h-10 shrink-0 items-center justify-center rounded-full bg-primary px-4 py-2 text-xs font-bold text-white transition hover:bg-accent"
+          >
+            Sign in to continue
+          </button>
+        </div>
+      ) : null}
+
+      <div className="mb-6 rounded-2xl border border-slate-200/70 bg-white/90 px-3 py-3 shadow-soft backdrop-blur sm:px-4">
+        <div className="flex items-center justify-between gap-3 pb-3 sm:hidden">
           <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-accent">
             Step {step + 1} of {steps.length}
           </span>
           <span className="truncate text-xs font-bold text-primary">{steps[step]}</span>
         </div>
-        <div className="grid grid-cols-5 gap-1 sm:flex">
-          {steps.map((label, index) => (
-            <button
-              type="button"
-              key={label}
-              onClick={() => index < step && setStep(index)}
-              aria-current={index === step ? "step" : undefined}
-              aria-label={`Step ${index + 1}: ${label}`}
-              className={`flex min-w-0 flex-col items-center justify-center gap-1 rounded-xl px-1 py-2 text-center text-xs font-bold sm:flex-1 sm:flex-row sm:justify-start sm:gap-2 sm:px-4 sm:py-3 sm:text-left ${
-                index === step
-                  ? "bg-primary text-white"
-                  : index < step
-                    ? "text-emerald-700"
-                    : "text-foreground-light"
-              }`}
-            >
-              <span
-                className={`flex h-6 w-6 items-center justify-center rounded-full ${
-                  index < step ? "bg-emerald-100" : "bg-white/10"
-                }`}
-              >
-                {index < step ? <Check size={13} /> : index + 1}
-              </span>
-              <span className="hidden sm:inline">{label}</span>
-            </button>
-          ))}
-        </div>
+        <ol className="flex items-center">
+          {steps.map((label, index) => {
+            const done = index < step;
+            const current = index === step;
+            return (
+              <li key={label} className="flex min-w-0 flex-1 items-center last:flex-none">
+                <button
+                  type="button"
+                  onClick={() => done && setStep(index)}
+                  disabled={!done}
+                  aria-current={current ? "step" : undefined}
+                  aria-label={`Step ${index + 1}: ${label}`}
+                  className={`flex min-w-0 shrink-0 items-center gap-2 rounded-full py-1.5 pl-1.5 pr-1.5 text-xs font-bold transition sm:pr-3.5 ${
+                    current
+                      ? "bg-primary text-white"
+                      : done
+                        ? "text-emerald-700 hover:bg-emerald-50"
+                        : "text-foreground-light"
+                  }`}
+                >
+                  <span
+                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] ${
+                      current
+                        ? "bg-white/15 text-white"
+                        : done
+                          ? "bg-emerald-100 text-emerald-700"
+                          : "border border-slate-200 text-foreground-light"
+                    }`}
+                  >
+                    {done ? <Check size={13} /> : index + 1}
+                  </span>
+                  <span className="hidden truncate sm:inline">{label}</span>
+                </button>
+                {index < steps.length - 1 && (
+                  <span
+                    aria-hidden="true"
+                    className={`mx-1.5 h-px min-w-2 flex-1 sm:mx-2.5 ${done ? "bg-emerald-200" : "bg-slate-200"}`}
+                  />
+                )}
+              </li>
+            );
+          })}
+        </ol>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
@@ -714,28 +750,38 @@ export default function BookingEngine() {
               <div className="mt-6 grid gap-3 sm:grid-cols-3">
                 {(
                   [
-                    ["package", "Tour package", "Book a structured itinerary"],
-                    ["destination", "Destination", "Design around a location"],
-                    ["custom", "Custom trip", "Start from your own idea"],
+                    ["package", "Tour package", "Book a structured itinerary", Package],
+                    ["destination", "Destination", "Design around a location", MapPin],
+                    ["custom", "Custom trip", "Start from your own idea", Sparkles],
                   ] as const
-                ).map(([value, label, hint]) => (
-                  <button
-                    type="button"
-                    key={value}
-                    onClick={() => selectSource(value)}
-                    className={`rounded-2xl border p-4 text-left transition ${
-                      source === value
-                        ? "border-primary bg-primary text-white shadow-lg"
-                        : "border-slate-200 hover:border-primary/30"
-                    }`}
-                  >
-                    <Sparkles size={20} className={source === value ? "text-gold" : "text-accent"} />
-                    <strong className="mt-3 block text-sm">{label}</strong>
-                    <span className={`mt-1 block text-xs ${source === value ? "text-slate-300" : "text-foreground-muted"}`}>
-                      {hint}
-                    </span>
-                  </button>
-                ))}
+                ).map(([value, label, hint, Icon]) => {
+                  const selected = source === value;
+                  return (
+                    <button
+                      type="button"
+                      key={value}
+                      onClick={() => selectSource(value)}
+                      aria-pressed={selected}
+                      className={`rounded-2xl border p-4 text-left transition ${
+                        selected
+                          ? "border-primary bg-primary text-white shadow-lg"
+                          : "border-slate-200 hover:border-primary/40 hover:bg-sand-light"
+                      }`}
+                    >
+                      <span
+                        className={`flex h-9 w-9 items-center justify-center rounded-xl ${
+                          selected ? "bg-white/15 text-gold" : "bg-accent/10 text-accent"
+                        }`}
+                      >
+                        <Icon size={18} aria-hidden="true" />
+                      </span>
+                      <strong className="mt-3 block text-sm">{label}</strong>
+                      <span className={`mt-1 block text-xs ${selected ? "text-slate-300" : "text-foreground-muted"}`}>
+                        {hint}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
 
               <div className="mt-7">
@@ -945,7 +991,7 @@ export default function BookingEngine() {
               <div className="mt-7 grid gap-5 sm:grid-cols-2">
                 <label className="space-y-2 sm:col-span-2">
                   <span className="text-xs font-bold uppercase tracking-wider text-primary">
-                    {bookingForSomeoneElse ? "All traveller names" : "Co-traveller names"}
+                    Co-traveller names
                   </span>
                   <textarea rows={3} value={tripNotes.travellerNames} onChange={(event) => setTripNotes((current) => ({ ...current, travellerNames: event.target.value }))} className={inputClass} placeholder="One traveller per line; names can also be added later." />
                 </label>
@@ -977,30 +1023,14 @@ export default function BookingEngine() {
                 </div>
                 <div className="rounded-2xl border border-slate-200 p-4">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-muted">
-                    Booked by
+                    Party
                   </span>
-                  {resolved.booker ? (
-                    <>
-                      <strong className="mt-1 block text-sm text-primary">
-                        {resolved.booker.name}
-                        <span className="ml-2 rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-accent">
-                          {party.relation}
-                        </span>
-                      </strong>
-                      <span className="mt-0.5 block text-xs text-foreground-muted">
-                        {resolved.booker.email} · {resolved.booker.phone}
-                      </span>
-                      <span className="mt-1 block text-xs text-foreground-muted">
-                        {party.notifyBooker
-                          ? "Copied on every update."
-                          : "Not copied on traveller updates."}
-                      </span>
-                    </>
-                  ) : (
-                    <strong className="mt-1 block text-sm text-primary">
-                      Yourself — you&apos;re travelling on this booking
-                    </strong>
-                  )}
+                  <strong className="mt-1 block text-sm text-primary">
+                    {travellerCount} traveller{travellerCount === 1 ? "" : "s"}
+                  </strong>
+                  <span className="mt-0.5 block text-xs text-foreground-muted">
+                    Booked in your own name
+                  </span>
                 </div>
               </div>
 
@@ -1036,10 +1066,8 @@ export default function BookingEngine() {
               <label className="mt-6 flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 p-4">
                 <input type="checkbox" checked={termsAccepted} onChange={(event) => setTermsAccepted(event.target.checked)} className="mt-1 h-4 w-4 accent-accent" />
                 <span className="text-xs leading-relaxed text-foreground-muted">
-                  {bookingForSomeoneElse
-                    ? "I confirm the traveller information is correct and that I have their consent to book on their behalf and share their details. "
-                    : "I confirm the traveller information is correct. "}
-                  I understand this is an indicative quotation subject to live availability, and I
+                  I confirm the traveller information is correct. I understand this is an
+                  indicative quotation subject to live availability, and I
                   accept the booking, amendment and cancellation terms that will be confirmed
                   before payment.
                 </span>
@@ -1069,7 +1097,14 @@ export default function BookingEngine() {
               </button>
             ) : (
               <button type="button" onClick={() => submit()} disabled={submitting} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-accent px-7 py-3 text-sm font-bold text-white shadow-lg shadow-accent/15 transition hover:-translate-y-0.5 hover:bg-accent-dark disabled:opacity-50">
-                {submitting ? "Creating proposal..." : "Create quotation & brochure"} <FileText size={16} />
+                {submitting
+                  ? source === "custom"
+                    ? "Creating proposal..."
+                    : "Creating booking..."
+                  : source === "custom"
+                    ? "Create quotation & brochure"
+                    : "Book now"}{" "}
+                {source === "custom" ? <FileText size={16} /> : <Check size={16} />}
               </button>
             )}
           </div>
@@ -1102,10 +1137,10 @@ export default function BookingEngine() {
       <InlineAuthModal
         open={showAuthModal}
         onClose={() => setShowAuthModal(false)}
-        onSuccess={() => {
+        onSuccess={async () => {
           setShowAuthModal(false);
-          refreshAuth();
-          submit({ skipAuthGate: true });
+          await refreshAuth();
+          await submit({ skipAuthGate: true });
         }}
       />
     </div>

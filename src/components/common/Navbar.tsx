@@ -72,6 +72,11 @@ function useSearchSuggestions(query: string, limit = 6): Suggestion[] {
 
 interface NavbarProps {
   onEnquiryClick?: () => void;
+  /**
+   * Paint the bar solid before any scrolling. Pages that open on a light
+   * surface rather than a dark hero need this for the links to stay legible.
+   */
+  solidAtTop?: boolean;
 }
 
 const PACKAGE_GROUPS = [
@@ -112,7 +117,7 @@ const PACKAGE_GROUPS = [
   },
 ];
 
-export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forceSolid = false }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isPackagesOpen, setIsPackagesOpen] = useState(false);
@@ -128,11 +133,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
   const { user, signOut } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
-  const solidAtTop =
-    pathname === "/destinations" ||
-    pathname === "/book" ||
-    pathname === "/mice" ||
-    pathname?.startsWith("/account");
+  // `/mice` opens on its own light editorial hero; every other light-topped
+  // page tells us so through the shell's `solidAtTop` prop.
+  const solidAtTop = forceSolid || pathname === "/mice";
   const openEnquiry = onEnquiryClick || (() => router.push("/contact"));
   const { items: recentSearches, saveRecentSearch, clearRecentSearches } = useRecentSearches();
   const suggestions = useSearchSuggestions(searchQuery);
@@ -351,13 +354,20 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick }) => {
               </button>
 
               {/* Destination mega menu — grouped to match the live Bandhan navigation. */}
+              {/*
+                The closed panel keeps its layout box (`invisible`, so the open
+                transition has something to animate from), and that box is over
+                a thousand pixels wide. Without `pointer-events-none` the
+                wrapper silently swallows every click landing in the top-left of
+                the page beneath it.
+              */}
               <div
-                className="absolute left-[-10.5rem] top-full w-[min(1120px,calc(100vw-3rem))] pt-4"
+                className="pointer-events-none absolute left-[-10.5rem] top-full w-[min(1120px,calc(100vw-3rem))] pt-4"
               >
                 <div
                   className={`overflow-hidden rounded-b-3xl rounded-t-md border border-slate-200 border-r-4 border-r-accent bg-white shadow-[0_26px_70px_-22px_rgba(3,16,32,0.35)] transition-all duration-300 origin-top-left ${
                   isPackagesOpen
-                    ? "opacity-100 translate-y-0 visible"
+                    ? "pointer-events-auto opacity-100 translate-y-0 visible"
                     : "pointer-events-none invisible -translate-y-2 opacity-0"
                 }`}
                 >

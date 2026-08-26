@@ -6,6 +6,8 @@ import { useParams } from "next/navigation";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { SecondaryButton } from "@/components/ui/SecondaryButton";
 import BookingPartyPanel from "@/components/booking/BookingPartyPanel";
+import BookingDetailsEditor from "@/components/agent/BookingDetailsEditor";
+import { uploadFiles } from "@/lib/uploadthing";
 import {
   BOOKING_STATUS_LABELS,
   BOOKING_STATUS_PIPELINE,
@@ -19,6 +21,7 @@ import type {
 const DOC_TYPES: { value: DocumentType; label: string }[] = [
   { value: "quotation", label: "Quotation" },
   { value: "invoice", label: "Invoice" },
+  { value: "receipt", label: "Receipt" },
   { value: "itinerary", label: "Itinerary" },
   { value: "voucher", label: "Voucher" },
   { value: "other", label: "Other" },
@@ -98,6 +101,28 @@ export default function AgentBookingDetailPage() {
       }
       setDocUrl("");
       await refresh();
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const uploadDocument = async (file: File | undefined) => {
+    if (!file) return;
+    setBusy(true);
+    try {
+      const uploaded = await uploadFiles("documentUploader", { files: [file] });
+      const url = uploaded[0]?.url;
+      if (!url) throw new Error("The file upload did not return a URL.");
+      const res = await fetch(`/api/agent/bookings/${params.id}/documents`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ docType, url }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.error || "Could not attach document.");
+      await refresh();
+    } catch (uploadError) {
+      alert(uploadError instanceof Error ? uploadError.message : "Could not upload the document.");
     } finally {
       setBusy(false);
     }
@@ -222,6 +247,7 @@ export default function AgentBookingDetailPage() {
       </div>
 
       <BookingPartyPanel booking={booking} />
+      <BookingDetailsEditor key={booking.updated_at} booking={booking} busy={busy} onSave={patch} />
 
       {/* Actions */}
       <div className="bg-white rounded-2xl border border-slate-100 p-6 space-y-4">
@@ -306,7 +332,7 @@ export default function AgentBookingDetailPage() {
           <p className="mt-1 text-xs text-foreground-muted">
             Both files use the saved itinerary, exact traveller configuration, rooms, price breakdown and terms.
           </p>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             <div className="rounded-xl bg-primary p-4 text-white">
               <p className="text-sm font-bold">Personalised quotation</p>
               <p className="mt-1 text-[11px] text-slate-300">Commercial summary and traveller-wise price.</p>
@@ -322,6 +348,26 @@ export default function AgentBookingDetailPage() {
                 <a href={`/api/bookings/${booking.id}/brochure`} target="_blank" rel="noreferrer" className="text-accent">Preview</a>
                 <a href={`/api/bookings/${booking.id}/brochure?download=1`} className="text-primary">Download</a>
               </div>
+            </div>
+            <div className="rounded-xl border border-primary/10 bg-white/70 p-4">
+              <p className="text-sm font-bold text-primary">Standalone itinerary</p>
+              <p className="mt-1 text-[11px] text-foreground-muted">A travel-ready itinerary PDF for the confirmed party.</p>
+              <div className="mt-3 flex gap-3 text-xs font-bold"><a href={`/api/bookings/${booking.id}/documents/itinerary`} target="_blank" rel="noreferrer" className="text-accent">Preview</a><a href={`/api/bookings/${booking.id}/documents/itinerary?download=1`} className="text-primary">Download</a></div>
+            </div>
+            <div className="rounded-xl border border-primary/10 bg-white/70 p-4">
+              <p className="text-sm font-bold text-primary">Invoice</p>
+              <p className="mt-1 text-[11px] text-foreground-muted">Verified booking value and payment reference.</p>
+              <div className="mt-3 flex gap-3 text-xs font-bold"><a href={`/api/bookings/${booking.id}/documents/invoice`} target="_blank" rel="noreferrer" className="text-accent">Preview</a><a href={`/api/bookings/${booking.id}/documents/invoice?download=1`} className="text-primary">Download</a></div>
+            </div>
+            <div className={`rounded-xl border p-4 ${["confirmed", "completed"].includes(booking.status) ? "border-primary/10 bg-white/70" : "border-slate-200 bg-slate-100/70 opacity-60"}`}>
+              <p className="text-sm font-bold text-primary">Travel voucher</p>
+              <p className="mt-1 text-[11px] text-foreground-muted">Available after confirmation.</p>
+              {["confirmed", "completed"].includes(booking.status) ? <div className="mt-3 flex gap-3 text-xs font-bold"><a href={`/api/bookings/${booking.id}/documents/voucher`} target="_blank" rel="noreferrer" className="text-accent">Preview</a><a href={`/api/bookings/${booking.id}/documents/voucher?download=1`} className="text-primary">Download</a></div> : null}
+            </div>
+            <div className={`rounded-xl border p-4 ${booking.payment_status === "received" ? "border-emerald-200 bg-emerald-50" : "border-slate-200 bg-slate-100/70 opacity-60"}`}>
+              <p className="text-sm font-bold text-primary">Payment receipt</p>
+              <p className="mt-1 text-[11px] text-foreground-muted">Generated when payment is recorded.</p>
+              {booking.payment_status === "received" ? <div className="mt-3 flex gap-3 text-xs font-bold"><a href={`/api/bookings/${booking.id}/documents/receipt`} target="_blank" rel="noreferrer" className="text-emerald-700">Preview</a><a href={`/api/bookings/${booking.id}/documents/receipt?download=1`} className="text-primary">Download</a></div> : null}
             </div>
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
@@ -359,11 +405,15 @@ export default function AgentBookingDetailPage() {
             className="flex-1 min-w-[200px] px-3 py-2 rounded-xl border border-slate-200 text-sm"
           />
           <PrimaryButton size="sm" variant="navy" isLoading={busy} onClick={addDocument}>
-            Attach
+            Attach URL
           </PrimaryButton>
+          <label className="inline-flex min-h-10 cursor-pointer items-center rounded-full bg-accent px-4 py-2 text-xs font-bold text-white transition hover:bg-accent-dark">
+            Upload file
+            <input type="file" accept="application/pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg" disabled={busy} onChange={(event) => { void uploadDocument(event.target.files?.[0]); event.currentTarget.value = ""; }} className="sr-only" />
+          </label>
         </div>
         <p className="text-xs text-foreground-muted">
-          The generated proposal is always available at <code>/api/bookings/{booking.id}/brochure</code>.
+          Upload PDFs, office documents or scans up to 16MB, or attach a secure HTTPS document URL.
         </p>
       </div>
 

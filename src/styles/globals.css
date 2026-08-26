@@ -20,6 +20,88 @@ body {
   background: rgba(254, 209, 79, 0.32);
 }
 
+/* ---------------------------------------------------------------------------
+   Typographic finish
+   The single largest difference between "a website" and "a considered one" is
+   how lines break. Browsers break headings greedily, which strands one word on
+   the last line of an otherwise wide headline; `balance` evens the rag out.
+   `pretty` does the cheaper orphan-only pass, which is what body copy wants.
+   ------------------------------------------------------------------------ */
+:where(h1, h2, h3, h4, blockquote) {
+  text-wrap: balance;
+}
+
+:where(p, li, figcaption, dd) {
+  text-wrap: pretty;
+}
+
+/* Poppins ships fairly loose by default. Tightening the display sizes is what
+   makes large headings read as set rather than typed — small sizes keep their
+   natural spacing so they stay legible. */
+:where(h1, h2) {
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures;
+}
+
+/* Tabular figures wherever numbers are compared down a column — prices, day
+   counts, stats. Proportional digits make aligned numbers look misaligned. */
+:where(.tabular) {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------------------------------------------------------
+   Interaction finish
+   ------------------------------------------------------------------------ */
+
+/* One focus treatment everywhere, in the brand gold, instead of the browser
+   default outline in some places and an ad-hoc ring in others. Only ever shown
+   for keyboard users. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+  border-radius: 1px;
+}
+
+/* Grey flash on tap reads as cheap on touch devices; components supply their
+   own active states. */
+:where(a, button, [role="button"]) {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Anchored sections clear the sticky navbar instead of landing under it. */
+:where([id]) {
+  scroll-margin-top: 6rem;
+}
+
+/* Scrollbar in the palette rather than system grey. Firefox first, then the
+   WebKit/Blink pseudo-elements. */
+@media (min-width: 768px) {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(7, 32, 60, 0.28) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(7, 32, 60, 0.22);
+    border: 3px solid transparent;
+    background-clip: content-box;
+    border-radius: 99px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(7, 32, 60, 0.38);
+  }
+}
+
 a,
 button,
 input,
@@ -89,6 +171,10 @@ textarea {
   --radius-2xl: 1.5rem;
   --radius-3xl: 2rem;
 
+  /* Decelerating curve for anything the eye tracks — image zooms, panel
+     reveals, hover lifts. Linear and `ease` both read as mechanical at the
+     durations this site uses. Exposed as `ease-premium`. */
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* The assistant enters as a bottom sheet on touch-sized screens and as a
@@ -171,6 +257,12 @@ textarea {
 }
 
 @supports (animation-timeline: view()) {
+  .about-page .scroll-reveal {
+    animation: about-scroll-reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+  }
+
   .package-catalogue .scroll-reveal,
   .package-detail .scroll-reveal {
     animation: package-scroll-reveal linear both;
@@ -179,7 +271,19 @@ textarea {
   }
 }
 
+@keyframes about-scroll-reveal {
+  from {
+    opacity: 0.08;
+    transform: translate3d(0, 34px, 0) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .about-page .scroll-reveal,
   .package-catalogue .scroll-reveal,
   .package-detail .scroll-reveal {
     animation: none !important;

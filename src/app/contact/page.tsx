@@ -1,13 +1,12 @@
 "use client";
 
 import React, { Suspense, useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
 import { Container } from "@/components/ui/Container";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import PageShell from "@/components/ui/PageShell";
+import PageHero from "@/components/ui/PageHero";
 import { submitEnquiry } from "@/lib/admin/store";
 
 const bentoIcon = (
@@ -106,43 +105,38 @@ function ContactContent() {
   };
 
   return (
-    <div className="min-h-screen bg-sand flex flex-col overflow-x-hidden selection:bg-accent/20 selection:text-accent-dark">
-      <Navbar onEnquiryClick={scrollToForm} />
-
-      {/* Hero */}
-      <section className="relative w-full pt-40 pb-24 sm:pt-48 sm:pb-28 overflow-hidden bg-primary">
-        <Image
-          src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=90&w=3200"
-          alt=""
-          fill
-          priority
-          className="object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-ink-deep/75" />
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_20%_20%,rgba(254,209,79,0.25),transparent_45%),radial-gradient(circle_at_80%_60%,rgba(254,209,79,0.2),transparent_40%)]" />
-        <Container className="relative z-10 flex flex-col items-center text-center text-white">
-          <span className="px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-gold text-xs font-semibold uppercase tracking-widest mb-6 inline-block">
-            We&apos;d Love To Hear From You
-          </span>
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold mb-6 leading-[1.05] max-w-3xl tracking-[-0.015em] text-white [text-shadow:0_2px_24px_rgba(3,16,32,0.45)] font-heading">
-            Let&apos;s Plan Your Next Adventure
-          </h1>
-          <p className="text-base sm:text-lg text-slate-200 max-w-2xl font-light leading-relaxed mb-10">
-            Have a question about a package, group booking, or a custom itinerary? Our travel designers are just a message away.
-          </p>
-          <div className="flex w-full max-w-xs flex-col justify-center gap-3 sm:w-auto sm:max-w-none sm:flex-row sm:flex-wrap">
+    <PageShell tone="sand" className="selection:bg-accent/20 selection:text-accent-dark" onEnquiryClick={scrollToForm}>
+      <PageHero
+        size="lg"
+        align="center"
+        priority
+        eyebrow="We'd love to hear from you"
+        title="Let's plan your next adventure"
+        description="Have a question about a package, group booking, or a custom itinerary? Our travel designers are just a message away."
+        image="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=90&w=3200"
+        imageAlt=""
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
+        actions={
+          <>
             <PrimaryButton variant="coral" size="lg" onClick={scrollToForm} className="w-full sm:w-auto">
               Start an Enquiry
             </PrimaryButton>
-            <a href="https://wa.me/919422332610" target="_blank" rel="noreferrer" className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/25 bg-white/10 px-6 py-3 text-sm font-bold text-white backdrop-blur transition hover:bg-white/20 sm:w-auto">
+            <a
+              href="https://wa.me/919422332610"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/25 bg-white/10 px-6 py-3 text-sm font-bold text-white backdrop-blur transition hover:bg-white/20 sm:w-auto"
+            >
               WhatsApp Us
             </a>
-          </div>
-          <div className="mt-12 grid w-full max-w-3xl grid-cols-1 gap-3 text-left sm:grid-cols-3">
-            {[ ["24 hours", "Typical response time"], ["No pressure", "Free trip planning"], ["One team", "From first idea to return"] ].map(([value, label]) => <div key={label} className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3 backdrop-blur-sm"><p className="font-heading text-base font-bold text-gold">{value}</p><p className="mt-0.5 text-xs text-slate-300">{label}</p></div>)}
-          </div>
-        </Container>
-      </section>
+          </>
+        }
+        stats={[
+          { value: "24 hours", label: "Typical response time" },
+          { value: "No pressure", label: "Free trip planning" },
+          { value: "One team", label: "From first idea to return" },
+        ]}
+      />
 
       <section className="relative overflow-hidden border-y border-slate-200 bg-white py-20 text-primary sm:py-28">
         <div className="absolute inset-y-0 left-0 w-1 bg-gold" aria-hidden="true" />
@@ -391,9 +385,7 @@ function ContactContent() {
           </div>
         </Container>
       </section>
-
-      <Footer />
-    </div>
+    </PageShell>
   );
 }
 

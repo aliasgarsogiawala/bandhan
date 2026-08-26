@@ -18,7 +18,7 @@ const inputClass =
 interface InlineAuthModalProps {
   open: boolean;
   onClose: () => void;
-  onSuccess: () => void;
+  onSuccess: () => void | Promise<void>;
 }
 
 export function InlineAuthModal({ open, onClose, onSuccess }: InlineAuthModalProps) {
@@ -65,7 +65,7 @@ export function InlineAuthModal({ open, onClose, onSuccess }: InlineAuthModalPro
         return;
       }
       setLoading(false);
-      onSuccess();
+      await onSuccess();
     } catch {
       setError("Something went wrong. Please try again.");
       setLoading(false);
@@ -87,7 +87,7 @@ export function InlineAuthModal({ open, onClose, onSuccess }: InlineAuthModalPro
         <div className="mb-6">
           <h2 id="inline-auth-title" className="pr-10 font-heading text-xl font-bold text-primary">{copy.title}</h2>
           <p className="mt-1.5 text-sm text-foreground-muted">
-            Your custom trip details are saved — nothing you&apos;ve entered will be lost.
+            Sign in to submit your booking and keep it available in My Account.
           </p>
         </div>
 

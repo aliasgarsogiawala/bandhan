@@ -2,8 +2,11 @@ import { NextResponse } from "next/server";
 import { isDbConfigured } from "@/lib/db";
 import { actorCanManageBooking, actorCanViewBooking, getActor } from "@/lib/bookings/authz";
 import { findAgentById } from "@/lib/auth/agents";
+import { findUserByEmail } from "@/lib/auth/users";
 import { getDepartureById } from "@/lib/departures/db";
-import { parseMoney } from "@/lib/bookings/pricing";
+import { EMAIL_RE } from "@/lib/bookings/party";
+import { parseMoney, type RoomConfiguration, type TravellerBreakdown } from "@/lib/bookings/pricing";
+import type { Booking } from "@/lib/bookings/types";
 import {
   assignAgent,
   getBookingById,
@@ -12,6 +15,7 @@ import {
   setRemarks,
   updateStatus,
   SoldOutError,
+  updateManagedBookingDetails,
 } from "@/lib/bookings/db";
 
 interface RouteParams {
@@ -27,7 +31,23 @@ type Action =
   | "cancel"
   | "markPaymentReceived"
   | "setRemarks"
-  | "complete";
+  | "complete"
+  | "updateDetails";
+
+interface DetailsInput {
+  contactName?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  destination?: string;
+  travelDate?: string;
+  departureCity?: string;
+  durationLabel?: string;
+  travellerNames?: string;
+  budget?: string;
+  specialRequirements?: string;
+  travellers?: Partial<TravellerBreakdown>;
+  rooms?: Partial<RoomConfiguration>;
+}
 
 interface PatchBody {
   action?: Action;
@@ -35,6 +55,7 @@ interface PatchBody {
   remarks?: string;
   note?: string;
   agentId?: string;
+  details?: DetailsInput;
 }
 
 export async function PATCH(request: Request, { params }: RouteParams) {
@@ -140,11 +161,18 @@ export async function PATCH(request: Request, { params }: RouteParams) {
         booking = (await updateStatus(id, "completed", actor.label, body.note)) ?? existing;
         break;
       }
+      case "updateDetails": {
+        booking = (await updateDetails(id, existing, body.details, actor.label)) ?? existing;
+        break;
+      }
       default:
         return NextResponse.json({ ok: false, error: "Unknown action." }, { status: 400 });
     }
     return NextResponse.json({ ok: true, booking });
   } catch (error) {
+    if (error instanceof UserInputError) {
+      return NextResponse.json({ ok: false, error: error.message }, { status: 400 });
+    }
     if (error instanceof SoldOutError) {
       return NextResponse.json({ ok: false, error: error.message }, { status: 409 });
     }
@@ -155,6 +183,9 @@ export async function PATCH(request: Request, { params }: RouteParams) {
 
 function validateWorkflowAction(action: Action | undefined, status: string): string | null {
   if (!action || ["assign", "assignTo", "setRemarks"].includes(action)) return null;
+  if (action === "updateDetails" && !["new", "reviewing", "quoted", "approved", "payment_pending"].includes(status)) {
+    return "Confirmed or closed bookings cannot be edited.";
+  }
   if (action === "setPricing" && !["new", "reviewing", "quoted"].includes(status)) {
     return "Pricing can only be confirmed while the request is under review.";
   }
@@ -174,4 +205,74 @@ function validateWorkflowAction(action: Action | undefined, status: string): str
     return "This booking is already closed.";
   }
   return null;
+}
+
+async function updateDetails(
+  id: string,
+  existing: Booking,
+  input: DetailsInput | undefined,
+  changedBy: string
+): Promise<Booking | null> {
+  if (!input) throw new UserInputError("Missing booking details.");
+  const contactName = (input.contactName || "").trim();
+  const contactEmail = (input.contactEmail || "").trim().toLowerCase();
+  const contactPhone = (input.contactPhone || "").trim();
+  if (contactName.length < 2) throw new UserInputError("Enter the lead traveller's name.");
+  if (!EMAIL_RE.test(contactEmail)) throw new UserInputError("Enter a valid email address.");
+  if (contactPhone.replace(/\D/g, "").length < 8) throw new UserInputError("Enter a valid phone number.");
+  const travelDate = (input.travelDate || "").trim();
+  if (!travelDate) throw new UserInputError("Enter the travel date.");
+  if (existing.departure_id && travelDate !== existing.travel_date) {
+    throw new UserInputError("The date is locked to its group departure. Select a different departure by creating a revised booking.");
+  }
+  if (!existing.package_title && !(input.destination || "").trim()) {
+    throw new UserInputError("Enter the destination.");
+  }
+
+  const travellers: TravellerBreakdown = {
+    adults: safeCount(input.travellers?.adults, 1),
+    childrenWithBed: safeCount(input.travellers?.childrenWithBed),
+    childrenWithoutBed: safeCount(input.travellers?.childrenWithoutBed),
+    infants: safeCount(input.travellers?.infants),
+  };
+  const total = travellers.adults + travellers.childrenWithBed + travellers.childrenWithoutBed + travellers.infants;
+  if (total < 1) throw new UserInputError("Add at least one traveller.");
+  const rooms: RoomConfiguration = {
+    singleRooms: safeCount(input.rooms?.singleRooms),
+    doubleRooms: safeCount(input.rooms?.doubleRooms),
+    tripleRooms: safeCount(input.rooms?.tripleRooms),
+  };
+  if (rooms.singleRooms + rooms.doubleRooms + rooms.tripleRooms < 1) {
+    throw new UserInputError("Add at least one room.");
+  }
+  if (existing.departure_id) {
+    const departure = await getDepartureById(existing.departure_id);
+    if (!departure || departure.seats_left < total) {
+      throw new UserInputError(departure ? `Only ${departure.seats_left} seats remain on this departure.` : "The selected departure is no longer available.");
+    }
+  }
+
+  const customer = await findUserByEmail(contactEmail);
+  return updateManagedBookingDetails(id, {
+    contactName,
+    contactEmail,
+    contactPhone,
+    destination: input.destination,
+    travelDate,
+    departureCity: input.departureCity,
+    durationLabel: input.durationLabel,
+    travellerNames: input.travellerNames,
+    budget: input.budget,
+    specialRequirements: input.specialRequirements,
+    travellers,
+    rooms,
+    userId: customer?.id ?? null,
+  }, changedBy);
+}
+
+class UserInputError extends Error {}
+
+function safeCount(value: unknown, fallback = 0) {
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? Math.min(99, Math.max(0, Math.floor(numeric))) : fallback;
 }

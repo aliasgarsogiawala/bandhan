@@ -35,12 +35,7 @@ interface CreateBookingBody {
   pricingSnapshot?: QuoteSnapshot;
   packageSnapshot?: BookingPackageSnapshot;
   termsAccepted?: boolean;
-  /** "self" or "guest" — agent journeys go through /api/agent/bookings. */
-  bookedFor?: string;
   contact?: PartyContactInput;
-  booker?: PartyContactInput;
-  relation?: string;
-  notifyBooker?: boolean;
 }
 
 export async function POST(request: Request) {
@@ -66,28 +61,23 @@ export async function POST(request: Request) {
 
   const userId = await getSessionUserId();
 
-  if (bookingSource === "custom" && !userId) {
+  if (!userId) {
     return NextResponse.json(
-      { ok: false, error: "Please sign in to submit a customized trip request." },
+      { ok: false, error: "Please sign in before submitting a booking." },
       { status: 401 }
     );
   }
 
-  // A "booking for myself" from a signed-in customer is stamped with their
-  // account identity rather than whatever the form posted; only the phone is
-  // taken from the form. Booking for someone else keeps the two parties apart.
+  // Public bookings are always personal: the customer is the traveller. A
+  // signed-in customer is stamped with their account identity rather than
+  // whatever the form posted; only the phone is taken from the form. Arranging
+  // travel for someone else is an agent journey — /api/agent/bookings.
   const account = userId ? await findUserById(userId) : null;
   let party;
   try {
     party = normalizeParty(
-      {
-        bookedFor: body.bookedFor,
-        contact: body.contact,
-        booker: body.booker,
-        relation: body.relation,
-        notifyBooker: body.notifyBooker,
-      },
-      { account, allow: ["self", "guest"] }
+      { bookedFor: "self", contact: body.contact },
+      { account, allow: ["self"] }
     );
   } catch (error) {
     if (error instanceof PartyError) return fail(error.message);
@@ -137,10 +127,7 @@ export async function POST(request: Request) {
       packageSnapshot: body.packageSnapshot,
       termsAccepted: body.termsAccepted,
       party,
-      createdNote:
-        party.bookedFor === "guest"
-          ? `Request submitted by ${party.booker?.name} for ${party.contact.name}`
-          : "Request submitted",
+      createdNote: "Request submitted",
     });
     return NextResponse.json({
       ok: true,

@@ -4,6 +4,7 @@ import type {
   PackagePricing,
   TourPackage,
 } from "@/data/mockData";
+import { packageDestinationLabel } from "@/lib/packageCategory";
 
 export type BookingSource = "package" | "destination" | "custom";
 
@@ -203,7 +204,7 @@ export function packageSnapshot(pkg: TourPackage): BookingPackageSnapshot {
     source: "package",
     id: pkg.id,
     title: pkg.title,
-    destination: pkg.title,
+    destination: packageDestinationLabel(pkg),
     category: pkg.category,
     duration: pkg.duration,
     tagline: pkg.tagline,

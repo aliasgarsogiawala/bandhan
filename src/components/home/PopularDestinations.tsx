@@ -9,6 +9,7 @@ import { SectionTitle } from "@/components/ui/SectionTitle";
 import { Stagger, StaggerItem } from "@/components/ui/Stagger";
 import type { Destination } from "@/data/mockData";
 import { useCollection } from "@/lib/admin/store";
+import { placeholderImage } from "@/lib/placeholderImages";
 
 export const PopularDestinations: React.FC = () => {
   const { items } = useCollection<Destination>("destinations");
@@ -44,7 +45,7 @@ export const PopularDestinations: React.FC = () => {
                 className="group block overflow-hidden rounded-lg border border-primary/10 bg-white transition-colors hover:border-primary/25"
               >
                 <div className="relative aspect-[4/3] overflow-hidden bg-sand">
-                  <Image src={dest.image} alt={dest.name} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+                  <Image src={dest.image || placeholderImage(dest.id)} alt={dest.name} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
                   {dest.tag && <span className="absolute left-3 top-3 rounded-md bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary shadow-sm">{dest.tag}</span>}
                 </div>
                 <div className="p-5">

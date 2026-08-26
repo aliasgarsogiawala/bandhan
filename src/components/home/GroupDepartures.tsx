@@ -8,7 +8,11 @@ import { SectionTitle } from "@/components/ui/SectionTitle";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { Stagger, StaggerItem } from "@/components/ui/Stagger";
 import BookingModal from "@/components/packages/BookingModal";
-import type { DepartureStatus, GroupDeparture } from "@/lib/departures/types";
+import {
+  getDepartureUrgency,
+  type DepartureStatus,
+  type GroupDeparture,
+} from "@/lib/departures/types";
 
 const departureVisuals = [
   {
@@ -143,7 +147,11 @@ export const GroupDepartures: React.FC = () => {
               Math.max(0, ((totalSeats - seatsLeft) / totalSeats) * 100)
             );
             const visual = getDepartureVisual(departure.destination);
-            const status = statusStyles[departure.status];
+            const urgency = getDepartureUrgency(
+              departure.seats_left,
+              departure.total_seats
+            );
+            const status = statusStyles[urgency?.status ?? departure.status];
 
             return (
               <StaggerItem key={departure.id} as="article" y={28}>
@@ -162,7 +170,7 @@ export const GroupDepartures: React.FC = () => {
                       className={`absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.12em] ${status.badge}`}
                     >
                       <span className={`h-1.5 w-1.5 rounded-full ${status.dot}`} />
-                      {status.label}
+                      {urgency?.label ?? status.label}
                     </span>
 
                     <div className="absolute inset-x-4 bottom-4 text-white">

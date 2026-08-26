@@ -144,7 +144,7 @@ CREATE INDEX IF NOT EXISTS booking_status_history_booking_id_idx ON booking_stat
 CREATE TABLE IF NOT EXISTS booking_documents (
   id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   booking_id  uuid NOT NULL REFERENCES bookings(id) ON DELETE CASCADE,
-  doc_type    text NOT NULL, -- quotation | invoice | itinerary | voucher | other
+  doc_type    text NOT NULL, -- quotation | invoice | receipt | itinerary | voucher | other
   url         text NOT NULL,
   uploaded_by text NOT NULL,
   created_at  timestamptz NOT NULL DEFAULT now()

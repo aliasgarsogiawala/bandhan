@@ -5,14 +5,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Search, X } from "lucide-react";
-import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
 import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import PageShell from "@/components/ui/PageShell";
+import PageHero from "@/components/ui/PageHero";
 import { useCollection } from "@/lib/admin/store";
 import type { BlogPost } from "@/lib/admin/types";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
 import { fuzzySearch } from "@/lib/fuzzySearch";
+import { placeholderImage } from "@/lib/placeholderImages";
 
 const ALL = "All";
 
@@ -37,89 +38,75 @@ export const BlogListClient: React.FC = () => {
   const postHref = (post: BlogPost) => `/blog/${post.slug || post.id}`;
 
   return (
-    <div className="min-h-screen bg-sand flex flex-col overflow-x-hidden">
-      <Navbar onEnquiryClick={() => router.push(contactEnquiryHref(""))} />
-
-      {/* Page hero */}
-      <header className="relative bg-primary pt-32 pb-16 sm:pt-36 sm:pb-20 overflow-hidden">
-        {/* Background image */}
-        <Image
-          src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=90&w=3200"
-          alt=""
-          fill
-          priority
-          className="object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-ink/80" />
-
-        <Container className="relative">
-          <nav className="text-xs font-semibold uppercase tracking-wider text-white/60 mb-4" aria-label="Breadcrumb">
-            <Link href="/" className="hover:text-gold transition-colors">
-              Home
-            </Link>
-            <span className="mx-2">/</span>
-            <span className="text-gold">Blog</span>
-          </nav>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-extrabold text-white leading-tight">
-            Travel Stories & <span className="text-gold">Guides</span>
-          </h1>
-          <p className="mt-4 max-w-2xl text-base sm:text-lg text-slate-300 font-sans leading-relaxed">
-            Field notes, seasonal guides, and honest advice from the designers who
-            plan our journeys — everything we learn on the road, shared with you.
-          </p>
-
-          {/* Search box */}
-          <div className="relative mt-8 max-w-md">
-            <label className="sr-only" htmlFor="blog-search">
-              Search articles
-            </label>
-            <Search
-              size={17}
-              className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-white/50"
-            />
-            <input
-              id="blog-search"
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search articles by title or topic…"
-              className="min-h-12 w-full rounded-full border border-white/15 bg-white/10 py-3 pl-11 pr-10 text-base text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-gold sm:text-sm"
-            />
-            {query && (
-              <button
-                type="button"
-                onClick={() => setQuery("")}
-                aria-label="Clear search"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors"
-              >
-                <X size={16} />
-              </button>
-            )}
-          </div>
-
-          {/* Category filter */}
-          {categories.length > 1 && (
-            <div className="inline-flex max-w-full flex-wrap gap-1 p-1 bg-white/10 backdrop-blur-md rounded-3xl sm:rounded-full border border-white/15 mt-8">
-              {categories.map((cat) => (
+    <PageShell tone="sand" onEnquiryClick={() => router.push(contactEnquiryHref(""))}>
+      <PageHero
+        size="lg"
+        priority
+        eyebrow="Blog"
+        title={
+          <>
+            Travel stories & <span className="text-gold">guides</span>
+          </>
+        }
+        description="Field notes, seasonal guides, and honest advice from the designers who plan our journeys — everything we learn on the road, shared with you."
+        image="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=90&w=3200"
+        imageAlt=""
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Blog" }]}
+        toolbar={
+          <>
+            {/* Search box */}
+            <div className="relative max-w-md">
+              <label className="sr-only" htmlFor="blog-search">
+                Search articles
+              </label>
+              <Search
+                size={17}
+                className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-white/50"
+              />
+              <input
+                id="blog-search"
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search articles by title or topic…"
+                className="min-h-12 w-full rounded-full border border-white/15 bg-white/10 py-3 pl-11 pr-10 text-base text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-gold sm:text-sm"
+              />
+              {query && (
                 <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`min-h-11 rounded-full px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all duration-300 sm:px-6 ${
-                    activeCategory === cat
-                      ? "bg-gold text-primary shadow-md"
-                      : "text-white/70 hover:text-white"
-                  }`}
+                  type="button"
+                  onClick={() => setQuery("")}
+                  aria-label="Clear search"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors"
                 >
-                  {cat}
+                  <X size={16} />
                 </button>
-              ))}
+              )}
             </div>
-          )}
-        </Container>
-      </header>
+
+            {/* Category filter */}
+            {categories.length > 1 && (
+              <div className="inline-flex max-w-full flex-wrap gap-1 p-1 bg-white/10 backdrop-blur-md rounded-3xl sm:rounded-full border border-white/15 mt-8">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`min-h-11 rounded-full px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all duration-300 sm:px-6 ${
+                      activeCategory === cat
+                        ? "bg-gold text-primary shadow-md"
+                        : "text-white/70 hover:text-white"
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            )}
+          </>
+        }
+      />
 
       {/* Posts grid */}
-      <main className="flex-1 py-16 sm:py-20 bg-sand-bg/40">
+      <section className="bg-sand-bg/40 py-16 sm:py-20">
         <Container>
           {ready && visible.length === 0 ? (
             <p className="text-center text-foreground-muted py-16">
@@ -136,17 +123,13 @@ export const BlogListClient: React.FC = () => {
                     className="group bg-white overflow-hidden shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-500 flex flex-col h-full border border-slate-100/50"
                   >
                     <div className="relative h-56 overflow-hidden">
-                      {post.coverImage ? (
-                        <Image
-                          src={post.coverImage}
-                          alt={post.title}
-                          fill
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          className="object-cover group-hover:scale-105 transition-transform duration-700"
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-primary/10" />
-                      )}
+                      <Image
+                        src={post.coverImage || placeholderImage(post.id)}
+                        alt={post.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
                       {post.category && (
                         <span className="absolute top-4 left-4 bg-gold text-primary text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">
                           {post.category}
@@ -183,10 +166,8 @@ export const BlogListClient: React.FC = () => {
             </div>
           )}
         </Container>
-      </main>
-
-      <Footer />
-    </div>
+      </section>
+    </PageShell>
   );
 };
 

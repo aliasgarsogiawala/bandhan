@@ -187,8 +187,8 @@ function validateWorkflowAction(action: AdminAction, booking: Booking): string |
     return "This booking can no longer be rejected. Cancel it instead if appropriate.";
   }
   if (action === "cancel" && terminal) return "This booking is already closed.";
-  if (action === "updateDetails" && !["new", "reviewing"].includes(status)) {
-    return "Traveller and trip details can only be edited before pricing is confirmed.";
+  if (action === "updateDetails" && !["new", "reviewing", "quoted", "approved", "payment_pending"].includes(status)) {
+    return "Confirmed or closed bookings cannot be edited.";
   }
   return null;
 }

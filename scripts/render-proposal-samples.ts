@@ -11,7 +11,11 @@ if (!previewPackage) throw new Error("Preview package not found.");
 
 const snapshot = packageSnapshot(previewPackage);
 // Keep local QA deterministic and independent of external image hosts.
-snapshot.heroImage = undefined;
+snapshot.heroImage = "/pdf-assets/sikkim-valley.jpg";
+snapshot.gallery = [
+  { image: "/pdf-assets/sikkim-valley.jpg", caption: "Yumthang Valley, Sikkim" },
+  { image: "/pdf-assets/himalayan-pass.jpg", caption: "Himalayan roads near Lachung" },
+];
 
 const sample: Booking = {
   id: "preview-booking",
