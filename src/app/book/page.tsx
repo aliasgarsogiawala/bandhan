@@ -8,14 +8,14 @@ export default function BookPage() {
     <PageShell
       tone="custom"
       offsetTop
-      className="bg-[radial-gradient(circle_at_top_right,rgba(247,185,70,0.12),transparent_30%),linear-gradient(180deg,#f7f3eb_0%,#f3efe7_100%)]"
+      className="bg-[radial-gradient(circle_at_top_right,rgba(254,209,79,0.10),transparent_34%),linear-gradient(180deg,#F8F5F1_0%,#F3EFE9_100%)]"
       mainClassName="pb-16 sm:pb-24"
     >
       <Container>
         <Suspense
           fallback={
-            <div className="rounded-3xl bg-white p-12 text-center text-sm text-foreground-muted shadow-soft">
-              Preparing the booking engine...
+            <div className="border border-primary/12 bg-white p-12 text-center text-sm text-foreground-muted shadow-premium">
+              Preparing the booking engine…
             </div>
           }
         >

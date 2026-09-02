@@ -18,7 +18,7 @@ export default async function BookingConfirmationPage({ params }: ConfirmationPa
 
   const userId = await getSessionUserId();
   if (!userId) {
-    redirect(`/signin?redirect=${encodeURIComponent(`/account/bookings/${id}/confirmation`)}`);
+    redirect(`/signin?from=${encodeURIComponent(`/account/bookings/${id}/confirmation`)}`);
   }
 
   const booking = await getBookingById(id);
@@ -36,22 +36,22 @@ export default async function BookingConfirmationPage({ params }: ConfirmationPa
 
         <section className="mt-8 overflow-hidden rounded-[8px] border border-primary/10 bg-white shadow-premium">
           <div className="bg-primary px-6 py-10 text-center text-white sm:px-10 sm:py-12">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-400/15 text-emerald-300">
-              <CheckCircle2 size={36} strokeWidth={2.5} />
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-[6px] bg-emerald-400/15 text-emerald-300">
+              <CheckCircle2 size={32} strokeWidth={2.5} />
             </div>
             <p className="mt-5 text-[10px] font-bold uppercase tracking-[0.22em] text-gold">
               Payment received
             </p>
-            <h1 className="mt-2 font-heading text-3xl font-extrabold sm:text-4xl">
+            <h1 className="mt-2 font-heading text-3xl font-extrabold leading-[1.1] tracking-[-0.025em] sm:text-[2.5rem]">
               Your trip is confirmed
             </h1>
-            <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-300">
-              Booking <strong className="text-white">{booking.booking_code}</strong> for {booking.package_title || booking.destination || "your trip"}.
+            <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-white/65">
+              Booking <strong className="tabular font-bold text-white">{booking.booking_code}</strong> for {booking.package_title || booking.destination || "your trip"}.
             </p>
           </div>
 
           <div className="p-6 sm:p-9">
-            <dl className="mt-7 grid gap-px overflow-hidden rounded-[6px] border border-primary/10 bg-primary/10 sm:grid-cols-2">
+            <dl className="grid gap-px overflow-hidden rounded-[6px] border border-primary/10 bg-primary/10 sm:grid-cols-2">
               {[
                 ["Trip", booking.package_title || booking.destination || "Bandhan Tours holiday"],
                 ["Travel date", booking.travel_date || "To be confirmed"],
@@ -62,23 +62,23 @@ export default async function BookingConfirmationPage({ params }: ConfirmationPa
               ].map(([label, value]) => (
                 <div key={label} className="bg-white p-4">
                   <dt className="text-[9px] font-bold uppercase tracking-[0.16em] text-foreground-light">{label}</dt>
-                  <dd className="mt-1 text-sm font-semibold text-primary">{value}</dd>
+                  <dd className="tabular mt-1.5 text-sm font-bold text-primary">{value}</dd>
                 </div>
               ))}
             </dl>
 
             <div className="mt-7 grid gap-3 sm:grid-cols-2">
-              <a href={`/api/bookings/${booking.id}/confirmation`} target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-[5px] bg-primary px-5 py-3 text-sm font-bold text-white hover:bg-primary-light">
-                <FileText size={17} /> Preview confirmation PDF
+              <a href={`/api/bookings/${booking.id}/confirmation`} target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-[4px] bg-primary px-6 py-3.5 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition-colors duration-300 hover:bg-gold hover:text-primary">
+                <FileText size={15} /> Preview PDF
               </a>
-              <a href={`/api/bookings/${booking.id}/confirmation?download=1`} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-[5px] border border-primary/20 px-5 py-3 text-sm font-bold text-primary hover:border-accent hover:text-accent">
-                <Download size={17} /> Download confirmation
+              <a href={`/api/bookings/${booking.id}/confirmation?download=1`} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-[4px] border border-primary/20 px-6 py-3.5 text-[11px] font-bold uppercase tracking-[0.16em] text-primary transition-colors duration-300 hover:border-primary hover:bg-primary hover:text-white">
+                <Download size={15} /> Download
               </a>
             </div>
 
             <div className="mt-7 flex flex-wrap justify-between gap-4 border-t border-primary/10 pt-6">
-              <Link href={`/account/bookings/${booking.id}`} className="text-sm font-bold text-accent hover:text-accent-dark">← Back to booking</Link>
-              <Link href="/packages" className="text-sm font-bold text-primary hover:text-accent">Explore more trips →</Link>
+              <Link href={`/account/bookings/${booking.id}`} className="text-[11px] font-bold uppercase tracking-[0.14em] text-accent transition-colors hover:text-accent-dark">← Back to booking</Link>
+              <Link href="/packages" className="text-[11px] font-bold uppercase tracking-[0.14em] text-primary transition-colors hover:text-accent">Explore more trips →</Link>
             </div>
           </div>
         </section>

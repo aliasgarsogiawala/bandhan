@@ -3,17 +3,14 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
-import { PrimaryButton } from "@/components/ui/PrimaryButton";
+import { Field, fieldClass } from "@/components/booking/fields";
 
 type Mode = "signin" | "signup";
 
 const COPY: Record<Mode, { title: string; cta: string; endpoint: string }> = {
-  signin: { title: "Sign in", cta: "Sign In & Continue", endpoint: "/api/auth/login" },
-  signup: { title: "Create your account", cta: "Sign Up & Continue", endpoint: "/api/auth/signup" },
+  signin: { title: "Sign in", cta: "Sign in & continue", endpoint: "/api/auth/login" },
+  signup: { title: "Create your account", cta: "Sign up & continue", endpoint: "/api/auth/signup" },
 };
-
-const inputClass =
-  "w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-accent font-medium text-sm transition-colors text-primary bg-slate-50/50";
 
 interface InlineAuthModalProps {
   open: boolean;
@@ -73,25 +70,38 @@ export function InlineAuthModal({ open, onClose, onSuccess }: InlineAuthModalPro
   };
 
   return createPortal(
-    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-primary/60 p-0 backdrop-blur-sm sm:p-4">
-      <div className="relative h-[100dvh] max-h-[100dvh] w-full max-w-md overflow-y-auto bg-white px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-[max(1.25rem,env(safe-area-inset-top))] shadow-2xl sm:h-auto sm:max-h-[calc(100dvh-2rem)] sm:rounded-3xl sm:p-8" role="dialog" aria-modal="true" aria-labelledby="inline-auth-title">
+    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-ink-deep/70 p-0 backdrop-blur-sm sm:p-4">
+      <div
+        className="relative h-[100dvh] max-h-[100dvh] w-full max-w-md overflow-y-auto border-primary/12 bg-white px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-[max(1.5rem,env(safe-area-inset-top))] shadow-premium sm:h-auto sm:max-h-[calc(100dvh-2rem)] sm:rounded-[6px] sm:border sm:p-8"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="inline-auth-title"
+      >
         <button
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="absolute right-2 top-[max(0.5rem,env(safe-area-inset-top))] flex h-11 w-11 items-center justify-center rounded-full text-foreground-muted hover:bg-sand hover:text-primary sm:right-4 sm:top-4"
+          className="absolute right-2 top-[max(0.5rem,env(safe-area-inset-top))] flex h-11 w-11 items-center justify-center rounded-[4px] text-foreground-muted transition-colors hover:bg-sand hover:text-primary sm:right-4 sm:top-4"
         >
           <X size={18} />
         </button>
 
         <div className="mb-6">
-          <h2 id="inline-auth-title" className="pr-10 font-heading text-xl font-bold text-primary">{copy.title}</h2>
-          <p className="mt-1.5 text-sm text-foreground-muted">
+          <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-accent">
+            One last step
+          </span>
+          <h2
+            id="inline-auth-title"
+            className="mt-2 pr-10 font-heading text-xl font-bold tracking-[-0.02em] text-primary"
+          >
+            {copy.title}
+          </h2>
+          <p className="mt-2 text-sm leading-6 text-foreground-muted">
             Sign in to submit your booking and keep it available in My Account.
           </p>
         </div>
 
-        <div className="mb-6 flex gap-1 rounded-full bg-sand p-1">
+        <div className="mb-6 grid grid-cols-2 gap-px border border-primary/12 bg-primary/12">
           {(["signin", "signup"] as const).map((m) => (
             <button
               key={m}
@@ -100,28 +110,44 @@ export function InlineAuthModal({ open, onClose, onSuccess }: InlineAuthModalPro
                 setMode(m);
                 setError("");
               }}
-              className={`flex-1 rounded-full px-4 py-2 text-xs font-bold uppercase tracking-wider transition ${
-                mode === m ? "bg-primary text-white shadow" : "text-foreground-muted hover:text-primary"
+              aria-pressed={mode === m}
+              className={`px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.14em] transition-colors duration-200 ${
+                mode === m
+                  ? "bg-primary text-white"
+                  : "bg-white text-foreground-muted hover:bg-sand-light hover:text-primary"
               }`}
             >
-              {m === "signin" ? "Sign In" : "Sign Up"}
+              {m === "signin" ? "Sign in" : "Sign up"}
             </button>
           ))}
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           {mode === "signup" && (
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-primary uppercase tracking-wide">Full Name</label>
-              <input type="text" required autoComplete="name" value={form.name} onChange={update("name")} placeholder="Your name" className={inputClass} />
-            </div>
+            <Field label="Full name">
+              <input
+                type="text"
+                required
+                autoComplete="name"
+                value={form.name}
+                onChange={update("name")}
+                placeholder="Your name"
+                className={fieldClass}
+              />
+            </Field>
           )}
-          <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-primary uppercase tracking-wide">Email</label>
-            <input type="email" required autoComplete="email" value={form.email} onChange={update("email")} placeholder="name@example.com" className={inputClass} />
-          </div>
-          <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-primary uppercase tracking-wide">Password</label>
+          <Field label="Email">
+            <input
+              type="email"
+              required
+              autoComplete="email"
+              value={form.email}
+              onChange={update("email")}
+              placeholder="name@example.com"
+              className={fieldClass}
+            />
+          </Field>
+          <Field label="Password">
             <input
               type="password"
               required
@@ -129,19 +155,26 @@ export function InlineAuthModal({ open, onClose, onSuccess }: InlineAuthModalPro
               value={form.password}
               onChange={update("password")}
               placeholder={mode === "signup" ? "At least 8 characters" : "Your password"}
-              className={inputClass}
+              className={fieldClass}
             />
-          </div>
+          </Field>
 
           {error && (
-            <p className="text-sm text-accent-dark bg-accent/10 border border-accent/20 rounded-xl px-4 py-2.5">
+            <p
+              role="alert"
+              className="border-l-2 border-accent bg-accent/[0.07] px-4 py-3 text-sm leading-6 text-accent-dark"
+            >
               {error}
             </p>
           )}
 
-          <PrimaryButton type="submit" variant="navy" fullWidth size="md" isLoading={loading}>
-            {copy.cta}
-          </PrimaryButton>
+          <button
+            type="submit"
+            disabled={loading}
+            className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-[4px] bg-primary px-6 py-3.5 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition-colors duration-300 hover:bg-gold hover:text-primary disabled:cursor-not-allowed disabled:opacity-55"
+          >
+            {loading ? "Please wait…" : copy.cta}
+          </button>
         </form>
       </div>
     </div>,

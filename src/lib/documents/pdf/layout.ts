@@ -270,6 +270,58 @@ export class PdfDoc {
     });
   }
 
+  /**
+   * Vertical gradient wash, approximated with stacked bands.
+   *
+   * pdf-lib has no gradient primitive, so cover scrims were a single flat
+   * rectangle — which laid a hard seam straight across the photograph wherever
+   * the band began.
+   *
+   * Bands are nested rather than tiled: every band shares the edge the darkness
+   * peaks at, so there is no boundary between two differently-shaded
+   * rectangles to show a seam. Nesting means opacity compounds, so each band's
+   * own alpha is solved backwards from the cumulative curve we actually want:
+   * for a target `C(j)`, drawing `a(j) = 1 - (1 - C(j)) / (1 - C(j-1))` leaves
+   * exactly `C(j)` on the page.
+   *
+   * `curve` shapes that target. It defaults to quadratic, so the wash begins
+   * imperceptibly and deepens toward the anchored edge — a linear ramp starts
+   * with a visible step at the scrim's outer edge, which is the very artefact
+   * this replaces.
+   *
+   * @param peak Opacity reached at the anchored edge.
+   * @param anchor Which edge the darkness peaks at.
+   */
+  scrim(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    color: RGB,
+    peak = 0.85,
+    anchor: "top" | "bottom" = "bottom",
+    bands = 64,
+    curve = 2
+  ): void {
+    const slice = height / bands;
+    let previous = 0;
+    for (let i = 0; i < bands; i += 1) {
+      const target = peak * Math.pow((i + 1) / bands, curve);
+      const alpha = 1 - (1 - target) / (1 - previous);
+      previous = target;
+      if (alpha <= 0.0015) continue;
+      // Each successive band retreats from the light edge, so a point `j`
+      // slices in from it lies under exactly `j + 1` bands and carries the
+      // cumulative `C(j)` the alphas were solved for.
+      const inset = i * slice;
+      if (anchor === "bottom") {
+        this.rect(x, y + inset, width, height - inset, color, alpha);
+      } else {
+        this.rect(x, y, width, height - inset, color, alpha);
+      }
+    }
+  }
+
   strokeRect(x: number, y: number, width: number, height: number, color: RGB, thickness = 0.7): void {
     this.page.drawRectangle({
       x,

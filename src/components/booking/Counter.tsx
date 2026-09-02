@@ -18,26 +18,42 @@ export default function Counter({
   max?: number;
   onChange: (value: number) => void;
 }) {
+  const atMin = value <= min;
+  const atMax = value >= max;
+
+  // One button treatment for both ends. The old stepper filled the plus in
+  // navy and outlined the minus, which read as "add" being the safe action and
+  // "remove" being secondary — they are the same weight of decision.
+  const control =
+    "flex h-10 w-10 items-center justify-center border border-primary/15 text-primary transition-colors duration-200 hover:border-primary hover:bg-primary hover:text-white disabled:border-primary/8 disabled:bg-transparent disabled:text-foreground-light disabled:hover:bg-transparent disabled:hover:text-foreground-light";
+
   return (
-    <div className="flex items-center justify-between gap-4 rounded-2xl border border-slate-200 bg-white p-4">
-      <div>
+    <div className="flex items-center justify-between gap-4 border border-primary/12 bg-white px-4 py-3.5 transition-colors duration-200 focus-within:border-primary/30">
+      <div className="min-w-0">
         <p className="text-sm font-bold text-primary">{label}</p>
         <p className="mt-0.5 text-xs text-foreground-muted">{hint}</p>
       </div>
-      <div className="flex items-center gap-3">
+      <div className="flex shrink-0 items-center">
         <button
           type="button"
           onClick={() => onChange(Math.max(min, value - 1))}
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-primary hover:border-primary"
+          disabled={atMin}
+          className={`${control} rounded-l-[4px]`}
           aria-label={`Remove ${label}`}
         >
           <Minus size={15} />
         </button>
-        <span className="w-5 text-center text-sm font-extrabold text-primary">{value}</span>
+        <span
+          aria-live="polite"
+          className="tabular w-11 border-y border-primary/15 py-[0.6875rem] text-center text-sm font-extrabold text-primary"
+        >
+          {value}
+        </span>
         <button
           type="button"
           onClick={() => onChange(Math.min(max, value + 1))}
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-white hover:bg-accent"
+          disabled={atMax}
+          className={`${control} rounded-r-[4px]`}
           aria-label={`Add ${label}`}
         >
           <Plus size={15} />

@@ -285,7 +285,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "3-sisters-tour",
     title: "3 Sisters Tour — Assam, Meghalaya & Arunachal Pradesh",
-    image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800",
+    image: "/pdf-assets/kanchenjunga-darjeeling.jpg",
     duration: "11 Nights / 12 Days",
     price: "₹57,000",
     highlights: ["Kaziranga elephant & jeep safari", "Living Root Bridge, Mawlynnong", "Tawang Monastery & Bumla Pass", "Sela Pass & Nathula border region"],
@@ -294,7 +294,7 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Assam's tea gardens, Meghalaya's living bridges and Arunachal's Himalayan passes in one grand loop.",
     overview:
       "A comprehensive 12-day loop through Assam, Meghalaya and Arunachal Pradesh — from Kamakhya Temple and Kaziranga's rhinos to the cleanest village in Asia and the high-altitude monastery town of Tawang near the China border.",
-    heroImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "/pdf-assets/kanchenjunga-darjeeling.jpg",
     bestTime: "September to December",
     startingPoint: "Guwahati Airport",
     groupSize: "2+ guests",
@@ -893,8 +893,8 @@ const packageCatalogue: TourPackage[] = [
     groupSize: "2+ guests",
     themes: ["Mountains", "Culture", "Scenic"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800", caption: "Himalayan valleys of Sikkim" },
-      { image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800", caption: "Alpine lakes and mountain passes" },
+      { image: "/pdf-assets/kanchenjunga-darjeeling.jpg", caption: "Kangchenjunga from Darjeeling - EJH / public domain" },
+      { image: "/pdf-assets/yumthang-valley-sikkim.jpg", caption: "Yumthang Valley - Soumyajit Pramanick / CC BY-SA" },
     ],
     itinerary: [
       { day: 1, title: "NJP / Bagdogra / Siliguri to Gangtok", description: "Meet-and-greet transfer and hotel check-in in Gangtok.", meals: "—", stay: "Gangtok" },
@@ -915,7 +915,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "sikkim-darjeeling-9n",
     title: "Sikkim Darjeeling — Gangtok, Lachung & Darjeeling",
-    image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800",
+    image: "/pdf-assets/yumthang-valley-sikkim.jpg",
     duration: "9 Nights / 10 Days",
     price: "₹52,500",
     highlights: ["Yumthang Valley — Valley of Flowers", "Tsomgo Lake & Nathula Pass", "Pelling Sky Walk", "Tiger Hill sunrise, Darjeeling"],
@@ -923,14 +923,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "The extended Sikkim loop, reaching all the way to Lachung and the Yumthang Valley.",
     overview:
       "A longer version of the Sikkim–Darjeeling circuit that pushes north to Lachung and the rhododendron meadows of Yumthang Valley, before looping back through Pelling and Darjeeling.",
-    heroImage: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "/pdf-assets/yumthang-valley-sikkim.jpg",
     bestTime: "March to May, September to December",
     startingPoint: "Bagdogra Airport / NJP",
     groupSize: "2+ guests",
     themes: ["Mountains", "Culture", "Scenic"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800", caption: "Yumthang Valley, Sikkim" },
-      { image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800", caption: "Mountain passes near Lachung" },
+      { image: "/pdf-assets/yumthang-valley-sikkim.jpg", caption: "Yumthang Valley - Soumyajit Pramanick / CC BY-SA" },
+      { image: "/pdf-assets/kanchenjunga-darjeeling.jpg", caption: "Kangchenjunga from Darjeeling - EJH / public domain" },
     ],
     itinerary: [
       {
@@ -1707,10 +1707,78 @@ const packageCatalogue: TourPackage[] = [
   },
 ];
 
-export const featuredPackages: TourPackage[] = packageCatalogue.map((pkg) => ({
-  ...pkg,
-  status: pkg.status ?? "active",
-}));
+/**
+ * Adds a practical second paragraph to every catalogue itinerary day.
+ *
+ * The package data already records the factual route and included visits. These
+ * notes add the operational context travellers usually ask for without inventing
+ * hotel names, fixed timings or inclusions that have not been contracted.
+ */
+function itineraryTravelNote(day: ItineraryDay, index: number, totalDays: number): string {
+  const text = `${day.title} ${day.description}`.toLowerCase();
+  const isFinalDay = index === totalDays - 1;
+
+  if (isFinalDay || /departure|airport|railway|return flight|onward journey/.test(text)) {
+    return "Travel note: Your final pickup time will be matched to the confirmed flight or train schedule. Keep photo ID, tickets and essential medicines in your hand luggage, and allow for the standard hotel check-out time.";
+  }
+
+  if (/arrival|welcome|check-in|check in/.test(text)) {
+    return "Travel note: A local representative will coordinate the arrival pickup and hotel transfer. Standard check-in time applies, so early arrivals may have a short wait; the rest of the day is intentionally kept light.";
+  }
+
+  if (/flight|fly to|by air/.test(text)) {
+    return "Travel note: Flight timing and baggage allowance are subject to the operating airline. The airport transfer will be planned around the confirmed schedule, with sightseeing adjusted if the flight timing changes.";
+  }
+
+  if (/ferry|cruise|speedboat|boat|island|houseboat/.test(text)) {
+    return "Travel note: Carry a small day bag for the crossing and keep valuables protected from spray. Boarding time, sailing sequence and water activities remain subject to sea conditions and local authority clearance.";
+  }
+
+  if (/safari|national park|wildlife|jungle|elephant ride/.test(text)) {
+    return "Travel note: Safari zone, vehicle and entry time are assigned by the forest authority and cannot be guaranteed in advance. Carry original photo ID, avoid bright clothing and follow the naturalist's safety instructions.";
+  }
+
+  if (/pass|snow|glacier|mountain|altitude|tawang|lachung|yumthang|nathula|shymbulak|kolsai/.test(text)) {
+    return "Travel note: This is a weather-sensitive mountain day. Carry original photo ID, a warm layer, water and any prescribed medication; permits, road access and the order of stops may change at short notice.";
+  }
+
+  if (/temple|darshan|monastery|church|mosque|shrine|cathedral|gurudwara/.test(text)) {
+    return "Travel note: Dress modestly and keep footwear easy to remove. Entry queues, prayer timings and local restrictions can affect the sequence of visits, while special darshan or rituals are included only when specifically listed.";
+  }
+
+  if (/beach|snorkel|water sport|coral|swim/.test(text)) {
+    return "Travel note: Pack sun protection, a towel and suitable footwear in a day bag. Swimming and water sports depend on weather and safety conditions, and optional activities are payable locally unless specifically included.";
+  }
+
+  if (/transfer|drive| to |en route|onward/.test(text)) {
+    return "Travel note: This is primarily a travel day, with comfort and meal stops planned along the route. Driving time can vary with traffic, road and weather conditions; hotel check-in follows on arrival.";
+  }
+
+  if (/sightseeing|city tour|museum|fort|palace|heritage|walking tour|old town/.test(text)) {
+    return "Travel note: Expect a moderately paced day with periods of walking and standing. The local guide may reorder visits around opening hours, traffic and crowd levels while retaining the listed sightseeing.";
+  }
+
+  if (/leisure|free time|shopping|market/.test(text)) {
+    return "Travel note: This time is left flexible for rest or independent plans. Transport, meals and paid attractions during leisure time are not included unless they are specifically mentioned in the package services.";
+  }
+
+  return "Travel note: The day's sequence may be adjusted locally for opening hours, traffic or weather. Your tour manager will confirm the reporting time, meeting point and any clothing or document requirements the evening before.";
+}
+
+function withDetailedItinerary(pkg: TourPackage): TourPackage {
+  const itinerary = pkg.itinerary?.map((day, index, days) => ({
+    ...day,
+    description: `${day.description}\n\n${itineraryTravelNote(day, index, days.length)}`,
+  }));
+
+  return {
+    ...pkg,
+    itinerary,
+    status: pkg.status ?? "active",
+  };
+}
+
+export const featuredPackages: TourPackage[] = packageCatalogue.map(withDetailedItinerary);
 
 export const whyChooseUs: WhyChooseItem[] = [
   {

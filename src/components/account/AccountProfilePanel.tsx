@@ -4,6 +4,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import type { AuthUser } from "@/lib/auth/useAuth";
 import type { Announcement, Enquiry } from "@/lib/admin/types";
 import { useCollection } from "@/lib/admin/store";
+import { Field, fieldClass } from "@/components/booking/fields";
 
 interface Traveller {
   id: string;
@@ -13,8 +14,8 @@ interface Traveller {
   relationship: string | null;
 }
 
-const inputClass =
-  "w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-primary outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/10";
+const submitClass =
+  "inline-flex min-h-12 items-center justify-center rounded-[4px] px-6 py-3.5 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition-colors duration-300 disabled:cursor-not-allowed disabled:opacity-55";
 
 async function readJson(response: Response) {
   const data = (await response.json().catch(() => ({}))) as Record<string, unknown>;
@@ -22,8 +23,40 @@ async function readJson(response: Response) {
   return data;
 }
 
-export function AccountProfilePanel({ user, onProfileSaved }: { user: AuthUser; onProfileSaved: () => Promise<void> }) {
-  const [profile, setProfile] = useState({ name: user.name, email: user.email, phone: user.phone || "" });
+function Panel({
+  title,
+  description,
+  children,
+}: {
+  title: string;
+  description?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="border border-primary/12 bg-white shadow-premium">
+      <header className="border-b border-primary/10 px-5 py-5 sm:px-7">
+        <h2 className="font-heading text-lg font-bold tracking-[-0.02em] text-primary">{title}</h2>
+        {description ? (
+          <p className="mt-1.5 text-sm leading-6 text-foreground-muted">{description}</p>
+        ) : null}
+      </header>
+      <div className="px-5 py-6 sm:px-7">{children}</div>
+    </section>
+  );
+}
+
+export function AccountProfilePanel({
+  user,
+  onProfileSaved,
+}: {
+  user: AuthUser;
+  onProfileSaved: () => Promise<void>;
+}) {
+  const [profile, setProfile] = useState({
+    name: user.name,
+    email: user.email,
+    phone: user.phone || "",
+  });
   const [travellers, setTravellers] = useState<Traveller[]>([]);
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [traveller, setTraveller] = useState({ name: "", relationship: "", email: "", phone: "" });
@@ -40,7 +73,9 @@ export function AccountProfilePanel({ user, onProfileSaved }: { user: AuthUser; 
         setTravellers((travellerData.travellers as Traveller[]) || []);
         setEnquiries((enquiryData.enquiries as Enquiry[]) || []);
       })
-      .catch((error) => setMessage(error instanceof Error ? error.message : "Could not load account details."));
+      .catch((error) =>
+        setMessage(error instanceof Error ? error.message : "Could not load account details.")
+      );
   }, []);
 
   async function saveProfile(event: FormEvent) {
@@ -104,65 +139,170 @@ export function AccountProfilePanel({ user, onProfileSaved }: { user: AuthUser; 
       {announcements.length > 0 ? (
         <section className="space-y-3">
           {announcements.map((item) => (
-            <a key={item.id} href={item.link || undefined} className="block rounded-2xl border border-accent/20 bg-accent/5 p-4">
+            <a
+              key={item.id}
+              href={item.link || undefined}
+              className="block border-l-2 border-accent bg-accent/[0.06] px-4 py-3.5 transition-colors duration-200 hover:bg-accent/10"
+            >
               <p className="font-heading font-bold text-primary">{item.title}</p>
-              <p className="mt-1 text-sm text-foreground-muted">{item.message}</p>
+              <p className="mt-1 text-sm leading-6 text-foreground-muted">{item.message}</p>
             </a>
           ))}
         </section>
       ) : null}
 
-      <section className="rounded-3xl border border-slate-100 bg-white p-5 shadow-soft sm:p-7">
-        <h2 className="font-heading text-xl font-bold text-primary">Profile</h2>
-        <form onSubmit={saveProfile} className="mt-4 grid gap-3 sm:grid-cols-2">
-          <input className={inputClass} value={profile.name} onChange={(e) => setProfile({ ...profile, name: e.target.value })} placeholder="Full name" required />
-          <input className={inputClass} type="email" value={profile.email} onChange={(e) => setProfile({ ...profile, email: e.target.value })} placeholder="Email" required />
-          <input className={inputClass} value={profile.phone} onChange={(e) => setProfile({ ...profile, phone: e.target.value })} placeholder="Phone" />
-          <button disabled={busy} className="rounded-xl bg-primary px-4 py-2.5 text-sm font-bold text-white disabled:opacity-50">Save profile</button>
+      <Panel title="Profile">
+        <form onSubmit={saveProfile} className="grid gap-5 sm:grid-cols-2">
+          <Field label="Full name">
+            <input
+              className={fieldClass}
+              autoComplete="name"
+              value={profile.name}
+              onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+              placeholder="Your name"
+              required
+            />
+          </Field>
+          <Field label="Email">
+            <input
+              className={fieldClass}
+              type="email"
+              autoComplete="email"
+              value={profile.email}
+              onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+              placeholder="name@example.com"
+              required
+            />
+          </Field>
+          <Field label="Phone" className="sm:col-span-2">
+            <input
+              className={fieldClass}
+              type="tel"
+              autoComplete="tel"
+              value={profile.phone}
+              onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
+              placeholder="+91 98765 43210"
+            />
+          </Field>
+          <div className="sm:col-span-2">
+            <button
+              disabled={busy}
+              className={`${submitClass} bg-primary hover:bg-gold hover:text-primary`}
+            >
+              Save profile
+            </button>
+          </div>
         </form>
-      </section>
+      </Panel>
 
-      <section className="rounded-3xl border border-slate-100 bg-white p-5 shadow-soft sm:p-7">
-        <h2 className="font-heading text-xl font-bold text-primary">Saved travellers</h2>
-        <p className="mt-1 text-sm text-foreground-muted">Keep details for family and friends you regularly book for.</p>
+      <Panel
+        title="Saved travellers"
+        description="Keep details for family and friends you regularly book for."
+      >
         {travellers.length > 0 ? (
-          <div className="mt-4 grid gap-2 sm:grid-cols-2">
+          <ul className="mb-6 grid gap-px border border-primary/12 bg-primary/12 sm:grid-cols-2">
             {travellers.map((item) => (
-              <div key={item.id} className="rounded-2xl border border-slate-100 bg-sand/40 p-4">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="font-bold text-primary">{item.name}</p>
-                    <p className="text-xs text-foreground-muted">{[item.relationship, item.email, item.phone].filter(Boolean).join(" · ")}</p>
-                  </div>
-                  <button type="button" disabled={busy} onClick={() => void removeTraveller(item.id)} className="text-xs font-bold text-red-600">Remove</button>
+              <li key={item.id} className="flex items-start justify-between gap-3 bg-white p-4">
+                <div className="min-w-0">
+                  <p className="text-sm font-bold text-primary">{item.name}</p>
+                  <p className="mt-1 break-words text-xs leading-5 text-foreground-muted">
+                    {[item.relationship, item.email, item.phone].filter(Boolean).join(" · ") ||
+                      "No contact details saved"}
+                  </p>
                 </div>
-              </div>
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={() => void removeTraveller(item.id)}
+                  className="shrink-0 text-[10px] font-bold uppercase tracking-[0.12em] text-foreground-light transition-colors hover:text-accent disabled:opacity-50"
+                >
+                  Remove
+                </button>
+              </li>
             ))}
-          </div>
+          </ul>
         ) : null}
-        <form onSubmit={addTraveller} className="mt-4 grid gap-3 sm:grid-cols-2">
-          <input className={inputClass} value={traveller.name} onChange={(e) => setTraveller({ ...traveller, name: e.target.value })} placeholder="Traveller name" required />
-          <input className={inputClass} value={traveller.relationship} onChange={(e) => setTraveller({ ...traveller, relationship: e.target.value })} placeholder="Relationship" />
-          <input className={inputClass} type="email" value={traveller.email} onChange={(e) => setTraveller({ ...traveller, email: e.target.value })} placeholder="Email (optional)" />
-          <input className={inputClass} value={traveller.phone} onChange={(e) => setTraveller({ ...traveller, phone: e.target.value })} placeholder="Phone (optional)" />
-          <button disabled={busy} className="rounded-xl bg-accent px-4 py-2.5 text-sm font-bold text-white disabled:opacity-50 sm:col-span-2">Add traveller</button>
-        </form>
-      </section>
 
-      <section className="rounded-3xl border border-slate-100 bg-white p-5 shadow-soft sm:p-7">
-        <h2 className="font-heading text-xl font-bold text-primary">My enquiries</h2>
-        {enquiries.length === 0 ? <p className="mt-3 text-sm text-foreground-muted">No enquiries linked to this account yet.</p> : (
-          <div className="mt-4 space-y-2">
-            {enquiries.map((item) => (
-              <div key={item.id} className="flex items-start justify-between gap-3 rounded-2xl border border-slate-100 p-4">
-                <div><p className="font-bold text-primary">{item.destination || item.subject || "Travel enquiry"}</p><p className="text-xs text-foreground-muted">{new Date(item.createdAt).toLocaleDateString("en-IN")}</p></div>
-                <span className="rounded-full bg-slate-100 px-3 py-1 text-[10px] font-bold uppercase text-slate-600">{item.status}</span>
-              </div>
-            ))}
+        <form onSubmit={addTraveller} className="grid gap-5 sm:grid-cols-2">
+          <Field label="Traveller name">
+            <input
+              className={fieldClass}
+              value={traveller.name}
+              onChange={(e) => setTraveller({ ...traveller, name: e.target.value })}
+              placeholder="Full name"
+              required
+            />
+          </Field>
+          <Field label="Relationship">
+            <input
+              className={fieldClass}
+              value={traveller.relationship}
+              onChange={(e) => setTraveller({ ...traveller, relationship: e.target.value })}
+              placeholder="e.g. Spouse, Parent"
+            />
+          </Field>
+          <Field label="Email" hint="Optional">
+            <input
+              className={fieldClass}
+              type="email"
+              value={traveller.email}
+              onChange={(e) => setTraveller({ ...traveller, email: e.target.value })}
+              placeholder="name@example.com"
+            />
+          </Field>
+          <Field label="Phone" hint="Optional">
+            <input
+              className={fieldClass}
+              type="tel"
+              value={traveller.phone}
+              onChange={(e) => setTraveller({ ...traveller, phone: e.target.value })}
+              placeholder="+91 98765 43210"
+            />
+          </Field>
+          <div className="sm:col-span-2">
+            <button disabled={busy} className={`${submitClass} bg-accent hover:bg-accent-dark`}>
+              Add traveller
+            </button>
           </div>
+        </form>
+      </Panel>
+
+      <Panel title="My enquiries">
+        {enquiries.length === 0 ? (
+          <p className="text-sm text-foreground-muted">
+            No enquiries linked to this account yet.
+          </p>
+        ) : (
+          <ul className="border border-primary/12">
+            {enquiries.map((item, index) => (
+              <li
+                key={item.id}
+                className={`flex items-start justify-between gap-3 p-4 ${
+                  index ? "border-t border-primary/10" : ""
+                }`}
+              >
+                <div className="min-w-0">
+                  <p className="text-sm font-bold text-primary">
+                    {item.destination || item.subject || "Travel enquiry"}
+                  </p>
+                  <p className="tabular mt-1 text-xs text-foreground-muted">
+                    {new Date(item.createdAt).toLocaleDateString("en-IN")}
+                  </p>
+                </div>
+                <span className="shrink-0 border border-primary/15 bg-sand px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-foreground-muted">
+                  {item.status}
+                </span>
+              </li>
+            ))}
+          </ul>
         )}
-      </section>
-      {message ? <p role="status" className="text-center text-sm font-semibold text-primary">{message}</p> : null}
+      </Panel>
+
+      {message ? (
+        <p role="status" className="text-center text-sm font-semibold text-primary">
+          {message}
+        </p>
+      ) : null}
     </div>
   );
 }

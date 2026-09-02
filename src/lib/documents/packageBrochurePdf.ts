@@ -1,12 +1,12 @@
 import type { FullPackage } from "@/data/packageDetails";
 import { COMPANY } from "@/lib/email/company";
-import { CONTENT_WIDTH, MARGIN, PAGE_HEIGHT, PAGE_WIDTH, PdfDoc } from "./pdf/layout";
+import { CONTENT_WIDTH, MARGIN, PdfDoc } from "./pdf/layout";
 import { drawImageCover, loadProposalImage } from "./pdf/images";
 import {
   C,
   FOOTER_TOP,
   bullets,
-  drawBrandMark,
+  drawBrochureCover,
   drawDocFooter,
   drawDocHeader,
   drawItineraryDay,
@@ -27,7 +27,7 @@ import {
  * `quotationBrochurePdf.ts` for that one.
  */
 
-const EYEBROW = "Trip brochure";
+const EYEBROW = "Holiday brochure";
 
 function slug(value: string): string {
   return value
@@ -50,26 +50,6 @@ function attachChrome(doc: PdfDoc, pkg: FullPackage) {
   };
 }
 
-function drawCoverMeta(doc: PdfDoc, rows: Array<[string, string]>, top: number) {
-  const height = 112;
-  doc.rect(MARGIN, top, CONTENT_WIDTH, height, C.primary, 0.9);
-  doc.rule(top, C.gold, MARGIN, CONTENT_WIDTH, 1);
-  doc.rule(top + height, C.gold, MARGIN, CONTENT_WIDTH, 1);
-  const colWidth = (CONTENT_WIDTH - 40) / 3;
-  rows.forEach(([label, value], index) => {
-    const col = index % 3;
-    const row = Math.floor(index / 3);
-    const x = MARGIN + 16 + col * (colWidth + 12);
-    const y = top + 16 + row * 50;
-    if (col > 0) doc.rect(x - 10, top + 12 + row * 50, 0.6, 36, C.white, 0.25);
-    labelValue(doc, label, value, x, y, colWidth, {
-      dark: true,
-      valueSize: 9.5,
-      valueLines: 2,
-    });
-  });
-}
-
 export async function renderPackageBrochurePdf(pkg: FullPackage): Promise<Uint8Array> {
   const doc = await PdfDoc.create();
   attachChrome(doc, pkg);
@@ -90,42 +70,12 @@ export async function renderPackageBrochurePdf(pkg: FullPackage): Promise<Uint8A
   const images = loaded.filter((image): image is NonNullable<typeof image> => Boolean(image));
 
   // ── Cover ──────────────────────────────────────────────────────────────
-  doc.rect(0, 0, PAGE_WIDTH, PAGE_HEIGHT, C.primary);
-  if (images[0]) {
-    drawImageCover(doc, images[0], 0, 0, PAGE_WIDTH, PAGE_HEIGHT, 0.92);
-    doc.rect(0, 0, PAGE_WIDTH, PAGE_HEIGHT, C.primary, 0.34);
-    doc.rect(0, 430, PAGE_WIDTH, 412, C.primary, 0.72);
-  }
-
-  drawBrandMark(doc, { y: 20, dark: true, width: 112 });
-  doc.textAt(`${(pkg.category || "Journey").toUpperCase()}  /  PACKAGE BROCHURE`, {
-    x: MARGIN,
-    y: 36,
-    width: CONTENT_WIDTH,
-    align: "right",
-    size: 6.4,
-    bold: true,
-    color: C.gold,
-    charSpacing: 0.8,
-  });
-
-  const titleLines = doc.wrap(pkg.title, CONTENT_WIDTH - 30, 28, true);
-  let coverY = 500;
-  for (const line of titleLines.slice(0, 3)) {
-    doc.textAt(line, { x: MARGIN, y: coverY, size: 28, bold: true, color: C.white });
-    coverY += 33;
-  }
-  if (pkg.tagline) {
-    coverY += 6;
-    for (const line of doc.wrap(pkg.tagline, CONTENT_WIDTH - 40, 10).slice(0, 3)) {
-      doc.textAt(line, { x: MARGIN, y: coverY, size: 9.5, color: C.white });
-      coverY += 15;
-    }
-  }
-
-  drawCoverMeta(
-    doc,
-    [
+  drawBrochureCover(doc, {
+    image: images[0] || null,
+    reference: `${pkg.category || "Journey"}  /  ${pkg.duration || "Tailor-made holiday"}`,
+    title: pkg.title,
+    tagline: pkg.tagline,
+    meta: [
       ["Duration", pkg.duration || "To be confirmed"],
       ["Starting from", `${pkg.price} per person`],
       ["Best time", pkg.bestTime || "Year-round"],
@@ -133,19 +83,11 @@ export async function renderPackageBrochurePdf(pkg: FullPackage): Promise<Uint8A
       ["Group size", pkg.groupSize || "2+ guests"],
       ["Category", pkg.category || "Journey"],
     ],
-    Math.min(Math.max(coverY + 22, 650), PAGE_HEIGHT - 170)
-  );
-
-  doc.textAt(`${COMPANY.phoneLabel}  /  ${COMPANY.email}  /  ${COMPANY.website}`, {
-    x: MARGIN,
-    y: PAGE_HEIGHT - 25,
-    size: 6.5,
-    color: C.white,
   });
 
   // ── The journey ────────────────────────────────────────────────────────
   doc.addPage();
-  sectionHeading(doc, "Trip overview", pkg.destination || pkg.title);
+  sectionHeading(doc, "About this trip", pkg.destination || pkg.title);
   doc.paragraph(
     pkg.overview ||
       pkg.tagline ||
@@ -173,7 +115,7 @@ export async function renderPackageBrochurePdf(pkg: FullPackage): Promise<Uint8A
   }
 
   if (pkg.highlights?.length) {
-    sectionHeading(doc, "Route highlights", "Key experiences");
+    sectionHeading(doc, "Highlights", "What you will see");
     pkg.highlights.forEach((highlight, index) => {
       doc.ensure(27);
       doc.rule(doc.y + 23, C.border, MARGIN, CONTENT_WIDTH, 0.5);
@@ -188,8 +130,8 @@ export async function renderPackageBrochurePdf(pkg: FullPackage): Promise<Uint8A
     doc.addPage();
     sectionHeading(
       doc,
+      "Itinerary",
       "Day by day",
-      "The itinerary",
       `${itinerary.length} day${itinerary.length === 1 ? "" : "s"}`
     );
 
@@ -213,8 +155,7 @@ export async function renderPackageBrochurePdf(pkg: FullPackage): Promise<Uint8A
     itinerary.forEach((item, index) => {
       drawItineraryDay(doc, item, {
         isLast: index === itinerary.length - 1,
-        totalDays: itinerary.length,
-        image: images.length ? images[index % images.length] : undefined,
+        image: undefined,
       });
     });
   }
@@ -222,9 +163,10 @@ export async function renderPackageBrochurePdf(pkg: FullPackage): Promise<Uint8A
   // ── Price ──────────────────────────────────────────────────────────────
   // The published starting rate only — a costed quotation needs dates, party
   // size and room plan, which arrive with a booking.
+  if (itinerary.length) doc.addPage();
   doc.ensure(112);
   doc.y += 6;
-  sectionHeading(doc, "Pricing", "Published starting price", "All amounts in INR");
+  sectionHeading(doc, "From price", "Package price", "All amounts in INR");
   const priceTop = doc.y;
   doc.rect(MARGIN, priceTop, CONTENT_WIDTH, 92, C.primary);
   doc.rect(MARGIN, priceTop, 4, 92, C.gold);
@@ -253,7 +195,7 @@ export async function renderPackageBrochurePdf(pkg: FullPackage): Promise<Uint8A
 
   // ── Inclusions / exclusions ────────────────────────────────────────────
   if (pkg.inclusions?.length || pkg.exclusions?.length) {
-    sectionHeading(doc, "Services", "Included and not included");
+    sectionHeading(doc, "Price details", "What is included");
     splitLists(
       doc,
       "Inclusions",
@@ -266,7 +208,7 @@ export async function renderPackageBrochurePdf(pkg: FullPackage): Promise<Uint8A
   // ── Next steps ─────────────────────────────────────────────────────────
   // Booking instructions close the brochure on a deliberate, image-led page.
   doc.addPage();
-  sectionHeading(doc, "Booking process", "How to proceed");
+  sectionHeading(doc, "Planning your holiday", "How to book");
   bullets(doc, [
     "Tell us your preferred travel dates and how many are travelling.",
     "We confirm the hotel category, room plan, transport and sightseeing for your dates.",
@@ -279,15 +221,14 @@ export async function renderPackageBrochurePdf(pkg: FullPackage): Promise<Uint8A
   const closingTop = doc.y;
   doc.rect(MARGIN, closingTop, CONTENT_WIDTH, 84, C.primary);
   doc.rect(MARGIN, closingTop, 4, 84, C.gold);
-  doc.textAt("CONTACT BANDHAN TOURS", {
+  doc.textAt("Interested in this trip?", {
     x: MARGIN + 18,
     y: closingTop + 16,
-    size: 7.5,
+    size: 8,
     bold: true,
     color: C.gold,
-    charSpacing: 0.85,
   });
-  doc.textAt("Plan this trip with our reservations team", {
+  doc.textAt("Call or write to our reservations team", {
     x: MARGIN + 18,
     y: closingTop + 34,
     size: 13,

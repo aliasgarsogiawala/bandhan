@@ -8,6 +8,7 @@ import {
   PdfDoc,
   hex,
 } from "./pdf/layout";
+import { drawBrandMark } from "./pdf/chrome";
 import type { BookingConfirmationInput } from "./bookingConfirmation";
 
 /**
@@ -82,18 +83,19 @@ function drawHeader(doc: PdfDoc, input: BookingConfirmationInput, issued: string
   doc.rect(0, 0, PAGE_WIDTH, height, C.primary);
   doc.rect(0, height, PAGE_WIDTH, 3, C.gold);
 
-  doc.textAt(COMPANY.name, {
-    x: MARGIN,
-    y: compact ? 14 : 20,
-    size: compact ? 12 : 17,
-    bold: true,
-    color: C.white,
+  // `dark` skips the navy plate the mark paints on light surfaces — the
+  // masthead is already navy. Falls back to the wordmark if the logo is
+  // missing from the bundle.
+  drawBrandMark(doc, {
+    y: compact ? 11 : 14,
+    dark: true,
+    width: compact ? 70 : 94,
   });
 
   if (!compact) {
     doc.textAt(COMPANY.tagline.toUpperCase(), {
       x: MARGIN,
-      y: 42,
+      y: 52,
       size: 7,
       bold: true,
       color: C.gold,
@@ -128,22 +130,17 @@ function drawHeader(doc: PdfDoc, input: BookingConfirmationInput, issued: string
 function drawFooter(doc: PdfDoc, pageIndex: number) {
   doc.rect(0, FOOTER_TOP, PAGE_WIDTH, FOOTER_HEIGHT, C.primary);
 
-  doc.textAt(COMPANY.name, {
-    x: MARGIN,
-    y: FOOTER_TOP + 11,
-    size: 9,
-    bold: true,
-    color: C.white,
-  });
+  drawBrandMark(doc, { y: FOOTER_TOP + 10, dark: true, width: 66 });
+  const footText = MARGIN + 82;
   doc.textAt(COMPANY.address, {
-    x: MARGIN,
-    y: FOOTER_TOP + 24,
+    x: footText,
+    y: FOOTER_TOP + 12,
     size: 7.5,
     color: C.footerText,
   });
   doc.textAt(`${COMPANY.phoneLabel}  ·  ${COMPANY.email}  ·  ${COMPANY.website}`, {
-    x: MARGIN,
-    y: FOOTER_TOP + 35,
+    x: footText,
+    y: FOOTER_TOP + 24,
     size: 7.5,
     color: C.gold,
   });

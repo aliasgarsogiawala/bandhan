@@ -3,10 +3,7 @@
 import { BadgeCheck, Info, Lock } from "lucide-react";
 import type { PartyContact } from "@/lib/bookings/party";
 import type { AuthUser } from "@/lib/auth/useAuth";
-
-const inputClass =
-  "relative z-10 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-primary outline-none transition focus:border-accent focus:ring-4 focus:ring-accent/10";
-const lockedInputClass = `${inputClass} cursor-not-allowed bg-slate-50 text-foreground-muted`;
+import { Field, fieldClass, fieldClassLocked } from "@/components/booking/fields";
 
 /**
  * The public booking engine only ever creates a personal booking — the
@@ -43,7 +40,7 @@ export function resolveParty(draft: PartyDraft, user: AuthUser | null) {
 
 function SignedInBadge({ user }: { user: AuthUser }) {
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-emerald-100 bg-emerald-50/60 px-4 py-3">
+    <div className="flex items-center gap-3 border border-emerald-600/20 bg-emerald-500/[0.07] px-4 py-3.5">
       <BadgeCheck size={20} className="shrink-0 text-emerald-600" />
       <div className="min-w-0">
         <p className="text-sm font-bold text-primary">Signed in as {user.name}</p>
@@ -54,99 +51,76 @@ function SignedInBadge({ user }: { user: AuthUser }) {
   );
 }
 
+function Note({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="flex items-start gap-2.5 text-xs leading-5 text-foreground-muted">
+      <Info size={14} className="mt-px shrink-0 text-accent" aria-hidden="true" />
+      <span>{children}</span>
+    </p>
+  );
+}
+
 export default function TravellerDetailsStep({
   draft,
   onChange,
   user,
-  authLoading,
-  onSignIn,
-  requiresAccount,
 }: {
   draft: PartyDraft;
   onChange: (next: PartyDraft) => void;
   user: AuthUser | null;
-  authLoading: boolean;
-  onSignIn: () => void;
-  /** Custom trips are saved to an account, so the sign-in nudge is shown. */
-  requiresAccount: boolean;
 }) {
   const setTraveller = (patch: Partial<PartyContact>) =>
     onChange({ ...draft, traveller: { ...draft.traveller, ...patch } });
 
   return (
-    <div>
-      <h2 className="font-heading text-2xl font-bold text-primary">Your details</h2>
-      <p className="mt-2 text-sm text-foreground-muted">
-        This trip is booked in your name. Your brochure is personalised with these details and
-        sent to the contact details below.
-      </p>
+    <div className="space-y-6">
+      {user ? <SignedInBadge user={user} /> : null}
 
-      {requiresAccount && !authLoading && !user ? (
-        <div className="mt-6 rounded-2xl border border-gold/40 bg-gold/10 p-4 text-sm text-primary">
-          Custom trips are saved to a customer account so our designers can follow up.{" "}
-          <button
-            type="button"
-            onClick={onSignIn}
-            className="relative z-10 font-bold text-accent underline-offset-2 hover:underline"
-          >
-            Sign in now
-          </button>{" "}
-          or continue — we&apos;ll ask you to sign in when you submit, and everything here stays
-          exactly as you left it.
-        </div>
-      ) : null}
+      <div className="grid gap-5 sm:grid-cols-2">
+        <Field label="Full name">
+          <input
+            value={user ? user.name : draft.traveller.name}
+            disabled={Boolean(user)}
+            onChange={(event) => setTraveller({ name: event.target.value })}
+            className={user ? fieldClassLocked : fieldClass}
+            placeholder="As printed on your ID"
+            autoComplete="name"
+          />
+        </Field>
+        <Field label="Phone">
+          <input
+            type="tel"
+            value={draft.traveller.phone}
+            onChange={(event) => setTraveller({ phone: event.target.value })}
+            className={fieldClass}
+            placeholder="+91 98765 43210"
+            autoComplete="tel"
+          />
+        </Field>
+        <Field label="Email address" className="sm:col-span-2">
+          <input
+            type="email"
+            value={user ? user.email : draft.traveller.email}
+            disabled={Boolean(user)}
+            onChange={(event) => setTraveller({ email: event.target.value })}
+            className={user ? fieldClassLocked : fieldClass}
+            placeholder="name@example.com"
+            autoComplete="email"
+          />
+        </Field>
+      </div>
 
-      <div className="mt-7 space-y-5">
-        {user ? <SignedInBadge user={user} /> : null}
-        <div className="grid gap-5 sm:grid-cols-2">
-          <label className="space-y-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-primary">
-              Full name
-            </span>
-            <input
-              value={user ? user.name : draft.traveller.name}
-              disabled={Boolean(user)}
-              onChange={(event) => setTraveller({ name: event.target.value })}
-              className={user ? lockedInputClass : inputClass}
-              placeholder="As printed on your ID"
-            />
-          </label>
-          <label className="space-y-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-primary">Phone</span>
-            <input
-              type="tel"
-              value={draft.traveller.phone}
-              onChange={(event) => setTraveller({ phone: event.target.value })}
-              className={inputClass}
-              placeholder="+91 98765 43210"
-            />
-          </label>
-          <label className="space-y-2 sm:col-span-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-primary">
-              Email address
-            </span>
-            <input
-              type="email"
-              value={user ? user.email : draft.traveller.email}
-              disabled={Boolean(user)}
-              onChange={(event) => setTraveller({ email: event.target.value })}
-              className={user ? lockedInputClass : inputClass}
-              placeholder="name@example.com"
-            />
-          </label>
-        </div>
+      <div className="space-y-2.5 border-t border-primary/10 pt-5">
         {user ? (
-          <p className="flex items-start gap-2 text-xs leading-relaxed text-foreground-muted">
-            <Info size={14} className="mt-0.5 shrink-0 text-accent" />
+          <Note>
             Your name and email come from your account, so every booking stays under one profile.
             Update them in My Account to change them here.
-          </p>
+          </Note>
         ) : null}
-        <p className="flex items-start gap-2 text-xs leading-relaxed text-foreground-muted">
-          <Info size={14} className="mt-0.5 shrink-0 text-accent" />
+        <Note>
           Travelling with others? Add everyone&apos;s names below — the whole party goes on one
           booking under your name.
-        </p>
+        </Note>
       </div>
     </div>
   );

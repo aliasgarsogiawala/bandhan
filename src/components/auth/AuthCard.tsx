@@ -183,7 +183,10 @@ export function AuthCard({
           {!isAgentPortal && (
             <p className="text-center text-sm text-foreground-muted mt-6">
               {copy.altText}{" "}
-              <Link href={copy.altHref} className="font-semibold text-accent hover:text-accent-dark">
+              <Link
+                href={from === "/" ? copy.altHref : `${copy.altHref}?from=${encodeURIComponent(from)}`}
+                className="font-semibold text-accent hover:text-accent-dark"
+              >
                 {copy.altLabel}
               </Link>
             </p>

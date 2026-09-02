@@ -13,10 +13,10 @@ if (!previewPackage) throw new Error("Preview package not found.");
 
 const snapshot = packageSnapshot(previewPackage);
 // Keep local QA deterministic and independent of external image hosts.
-snapshot.heroImage = "/pdf-assets/sikkim-valley.jpg";
+snapshot.heroImage = "/pdf-assets/yumthang-valley-sikkim.jpg";
 snapshot.gallery = [
-  { image: "/pdf-assets/sikkim-valley.jpg", caption: "Yumthang Valley, Sikkim" },
-  { image: "/pdf-assets/himalayan-pass.jpg", caption: "Himalayan roads near Lachung" },
+  { image: "/pdf-assets/yumthang-valley-sikkim.jpg", caption: "Yumthang Valley - Soumyajit Pramanick / CC BY-SA" },
+  { image: "/pdf-assets/kanchenjunga-darjeeling.jpg", caption: "Kangchenjunga from Darjeeling - EJH / public domain" },
 ];
 
 const sample: Booking = {
@@ -123,7 +123,7 @@ async function main() {
   await fs.mkdir(outputDir, { recursive: true });
   const fullPreviewPackage = getFullPackage("sikkim-darjeeling-9n");
   if (!fullPreviewPackage) throw new Error("Full preview package not found.");
-  fullPreviewPackage.heroImage = snapshot.heroImage || "/pdf-assets/sikkim-valley.jpg";
+  fullPreviewPackage.heroImage = snapshot.heroImage || "/pdf-assets/yumthang-valley-sikkim.jpg";
   fullPreviewPackage.gallery = snapshot.gallery || [];
 
   const [quotation, brochure, packageBrochure] = await Promise.all([

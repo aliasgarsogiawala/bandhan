@@ -65,6 +65,123 @@ export function drawBrandMark(
   });
 }
 
+/**
+ * The full-bleed cover shared by both brochures.
+ *
+ * It is laid out from the bottom up — the meta panel is pinned above the
+ * contact line and the title block stacks on top of it — so a three-line
+ * destination cannot collide with the panel and a one-line one cannot leave a
+ * hole in the middle of the page. The trip brochure and the package brochure
+ * carried separate copies of this and of the meta grid, which is how their
+ * covers drifted apart.
+ */
+export function drawBrochureCover(
+  doc: PdfDoc,
+  options: {
+    image: Awaited<ReturnType<typeof loadProposalImage>>;
+    /** Reference line set opposite the brand mark. */
+    reference: string;
+    /** Optional gold kicker above the title. */
+    eyebrow?: string;
+    title: string;
+    tagline?: string;
+    meta: Array<[string, string]>;
+  }
+) {
+  const metaHeight = 112;
+  const metaTop = PAGE_HEIGHT - 58 - metaHeight;
+
+  // Measured before anything is painted: the scrim needs to know where the
+  // type will land, and the type needs to know where the panel is.
+  const titleLines = doc.wrap(options.title, CONTENT_WIDTH - 30, 28, true).slice(0, 3);
+  const taglineLines = options.tagline
+    ? doc.wrap(options.tagline, CONTENT_WIDTH - 40, 10).slice(0, 2)
+    : [];
+  const blockHeight =
+    (options.eyebrow ? 22 : 0) +
+    titleLines.length * 33 +
+    (taglineLines.length ? 8 + taglineLines.length * 15 : 0);
+  const titleTop = metaTop - 34 - blockHeight;
+
+  doc.rect(0, 0, PAGE_WIDTH, PAGE_HEIGHT, C.primary);
+
+  if (options.image) {
+    drawImageCover(doc, options.image, 0, 0, PAGE_WIDTH, PAGE_HEIGHT, 1);
+    // A light overall wash unifies whatever photograph arrives without
+    // draining it.
+    doc.rect(0, 0, PAGE_WIDTH, PAGE_HEIGHT, C.primary, 0.14);
+    doc.scrim(0, 0, PAGE_WIDTH, 170, C.primary, 0.6, "top");
+
+    // Everything from the title down gets a flat bed, because a gradient alone
+    // cannot promise contrast — it lands wherever the photograph happens to be
+    // bright, and a sunlit foreground behind a tagline is common. The gradient
+    // above it only walks the bed's top edge back into the picture, so it
+    // reads as light falling off rather than as a panel.
+    const bed = 0.68;
+    const fade = 150;
+    doc.scrim(0, titleTop - fade, PAGE_WIDTH, fade, C.primary, bed, "bottom", 64, 1.7);
+    doc.rect(0, titleTop, PAGE_WIDTH, PAGE_HEIGHT - titleTop, C.primary, bed);
+    // The foot of a landscape is usually its brightest part; deepening it
+    // frames the meta panel and keeps the contact line readable.
+    doc.scrim(0, PAGE_HEIGHT - 130, PAGE_WIDTH, 130, C.primary, 0.42, "bottom", 48, 1.4);
+  }
+
+  drawBrandMark(doc, { y: 20, dark: true, width: 112 });
+  doc.textAt(options.reference, {
+    x: MARGIN,
+    y: 32,
+    width: CONTENT_WIDTH,
+    align: "right",
+    size: 7,
+    bold: true,
+    color: C.gold,
+  });
+
+  let y = titleTop;
+  if (options.eyebrow) {
+    doc.rect(MARGIN, y, 34, 2, C.gold);
+    y += 12;
+    doc.textAt(options.eyebrow, { x: MARGIN, y, size: 8, bold: true, color: C.gold });
+    y += 22;
+  }
+  for (const line of titleLines) {
+    doc.textAt(line, { x: MARGIN, y, size: 28, bold: true, color: C.white });
+    y += 33;
+  }
+  if (taglineLines.length) {
+    y += 8;
+    for (const line of taglineLines) {
+      doc.textAt(line, { x: MARGIN, y, size: 9.5, color: C.light });
+      y += 15;
+    }
+  }
+
+  // Meta grid: three columns, hairline-separated, on a gold-ruled panel.
+  doc.rect(MARGIN, metaTop, CONTENT_WIDTH, metaHeight, C.primary, 0.9);
+  doc.rule(metaTop, C.gold, MARGIN, CONTENT_WIDTH, 1);
+  doc.rule(metaTop + metaHeight, C.gold, MARGIN, CONTENT_WIDTH, 1);
+  const colWidth = (CONTENT_WIDTH - 40) / 3;
+  options.meta.forEach(([label, value], index) => {
+    const col = index % 3;
+    const row = Math.floor(index / 3);
+    const x = MARGIN + 16 + col * (colWidth + 12);
+    const rowY = metaTop + 16 + row * 50;
+    if (col > 0) doc.rect(x - 10, metaTop + 12 + row * 50, 0.6, 36, C.white, 0.25);
+    labelValue(doc, label, value, x, rowY, colWidth, {
+      dark: true,
+      valueSize: 9.5,
+      valueLines: 2,
+    });
+  });
+
+  doc.textAt(`${COMPANY.phoneLabel}  /  ${COMPANY.email}  /  ${COMPANY.website}`, {
+    x: MARGIN,
+    y: PAGE_HEIGHT - 25,
+    size: 6.5,
+    color: C.light,
+  });
+}
+
 /** Quiet editorial masthead used on continuation pages. */
 export function drawDocHeader(
   doc: PdfDoc,
@@ -73,15 +190,14 @@ export function drawDocHeader(
   doc.rect(0, 0, PAGE_WIDTH, HEADER_HEIGHT, C.white);
   doc.rule(HEADER_HEIGHT - 1, C.border, MARGIN, CONTENT_WIDTH, 0.7);
   drawBrandMark(doc, { y: 11 });
-  doc.textAt(options.eyebrow.toUpperCase(), {
+  doc.textAt(options.eyebrow, {
     x: MARGIN,
     y: 14,
     width: CONTENT_WIDTH,
     align: "right",
-    size: 7,
+    size: 7.2,
     bold: true,
     color: C.goldDark,
-    charSpacing: 0.85,
   });
   doc.textAt(options.reference, {
     x: MARGIN,
@@ -142,12 +258,11 @@ export function sectionHeading(
   note?: string
 ) {
   doc.ensure(note ? 52 : 44);
-  doc.textAt(eyebrow.toUpperCase(), {
+  doc.textAt(eyebrow, {
     y: doc.y,
-    size: 6.5,
+    size: 7.2,
     bold: true,
-    color: C.goldDark,
-    charSpacing: 1.05,
+    color: C.muted,
   });
   doc.y += 13;
   doc.textAt(title, { y: doc.y, size: 18, bold: false, family: "serif", color: C.primary });
@@ -201,18 +316,25 @@ export function labelValue(
   x: number,
   y: number,
   width: number,
-  options?: { dark?: boolean; valueSize?: number; valueLines?: number }
+  options?: {
+    dark?: boolean;
+    valueSize?: number;
+    valueLines?: number;
+    /** Right-align when the column is pinned to a panel edge rather than a grid. */
+    align?: "left" | "right";
+  }
 ) {
   const dark = options?.dark ?? false;
   const valueSize = options?.valueSize ?? 9;
-  doc.textAt(label.toUpperCase(), {
+  const align = options?.align ?? "left";
+  doc.textAt(label, {
     x,
     y,
     width,
-    size: 6.2,
+    align,
+    size: 6.8,
     bold: true,
     color: dark ? C.gold : C.muted,
-    charSpacing: 0.55,
   });
   const lines = doc.wrap(value || "To be confirmed", width, valueSize, true);
   lines.slice(0, options?.valueLines ?? 2).forEach((line, index) => {
@@ -220,6 +342,7 @@ export function labelValue(
       x,
       y: y + 13 + index * (valueSize + 2.5),
       width,
+      align,
       size: valueSize,
       bold: true,
       color: dark ? C.white : C.primary,
@@ -280,13 +403,12 @@ export function splitLists(
   ) => {
     doc.rect(x, doc.y, colWidth, height, C.sand);
     doc.rect(x, doc.y, 3.5, height, accent);
-    doc.textAt(title.toUpperCase(), {
+    doc.textAt(title, {
       x: x + 14,
       y: doc.y + 12,
-      size: 6.5,
+      size: 7,
       bold: true,
       color: accent,
-      charSpacing: 0.8,
     });
     let textY = doc.y + 30;
     for (const item of items) {
@@ -327,17 +449,16 @@ export function drawItineraryDay(
   },
   options: {
     isLast: boolean;
-    totalDays: number;
     image?: Awaited<ReturnType<typeof loadProposalImage>>;
   }
 ) {
-  const dayLabel = `DAY ${item.day}`;
+  const dayLabel = `Day ${item.day}`;
   const imageWidth = options.image ? 116 : 0;
   const textWidth = CONTENT_WIDTH - 64 - (imageWidth ? imageWidth + 18 : 0);
   const titleLines = doc.wrap(item.title, textWidth, 12, false, "serif").slice(0, 2);
   const description = (item.description || "").trim();
   const descLines = description
-    ? doc.wrap(description, textWidth, 8.2).slice(0, 5)
+    ? doc.wrap(description, textWidth, 8.2).slice(0, 11)
     : [];
   const meals = (item.meals || "").trim();
   const stay = (item.stay || "").trim();
@@ -377,19 +498,9 @@ export function drawItineraryDay(
   doc.textAt(dayLabel, {
     x: cardX + 14,
     y: top + 10,
-    size: 6.5,
+    size: 7.2,
     bold: true,
     color: C.goldDark,
-    charSpacing: 0.9,
-  });
-  doc.textAt(`${item.day} / ${options.totalDays}`, {
-    x: cardX + 14,
-    y: top + 10,
-    width: cardW - 28,
-    align: "right",
-    size: 6.5,
-    bold: true,
-    color: C.muted,
   });
 
   let textY = top + 24;

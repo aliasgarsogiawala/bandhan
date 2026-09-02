@@ -190,7 +190,8 @@ export function validateChatInput(raw: string): ValidatedInput {
 }
 
 function isSafeActionHref(href: string): boolean {
-  if (/^\/(?:packages|destinations|blog|book|plan-trip|contact|testimonials)(?:[/?#]|$)/.test(href)) return true;
+  if (/^\/(?:packages|destinations|blog|book|plan-trip|contact|testimonials|about|mice)(?:[/?#]|$)/.test(href)) return true;
+  if (/^\/#(?:departures|packages|testimonials|contact)/.test(href)) return true;
   if (href === "https://wa.me/919422332610") return true;
   if (href === "tel:+919422332610") return true;
   return false;
@@ -232,6 +233,38 @@ function faqResponse(faq: Faq, ctx: KnowledgeContext): BotResponse {
     response.actions = [{ label: "Plan a custom trip", href: "/plan-trip" }];
   } else if (faq.id === "reviews") {
     response.actions = [{ label: "Read guest reviews", href: "/testimonials" }];
+  } else if (faq.id === "about") {
+    response.actions = [
+      { label: "About Bandhan Tours", href: "/about" },
+      { label: "Contact travel desk", href: "/contact" },
+    ];
+  } else if (faq.id === "location") {
+    response.actions = [{ label: "View contact page", href: "/contact" }];
+  } else if (faq.id === "mice") {
+    response.actions = [
+      { label: "Explore MICE services", href: "/mice" },
+      { label: "Request corporate proposal", href: contactEnquiryHref("MICE & Corporate Enquiry") },
+    ];
+  } else if (faq.id === "offers") {
+    response.actions = [
+      { label: "Browse packages", href: "/packages" },
+      { label: "Enquire for best rate", href: contactEnquiryHref("Discount & Offer Enquiry") },
+    ];
+  } else if (faq.id === "packages") {
+    response.actions = [{ label: "Browse all packages", href: "/packages" }];
+  } else if (faq.id === "domestic") {
+    response.actions = [{ label: "Explore Domestic tours", href: "/packages" }];
+  } else if (faq.id === "northeast") {
+    response.actions = [{ label: "Explore North East tours", href: "/packages" }];
+  } else if (faq.id === "international") {
+    response.actions = [{ label: "Explore International tours", href: "/packages" }];
+  } else if (faq.id === "group") {
+    response.actions = [{ label: "View group departures", href: "/#departures" }];
+  } else if (faq.id === "identity") {
+    response.actions = [
+      { label: "Browse tour packages", href: "/packages" },
+      { label: "Contact travel desk", href: "/contact" },
+    ];
   }
   return response;
 }
@@ -303,20 +336,224 @@ function postSummary(post: BlogPost): BotResponse {
 }
 
 const FAQS: Record<string, Faq> = {
+  identity: {
+    id: "identity",
+    chipLabel: "Who are you?",
+    keywords: [
+      "who are you",
+      "who are u",
+      "who r u",
+      "who is this",
+      "who it is",
+      "who this",
+      "who is miles",
+      "what is miles",
+      "who am i talking to",
+      "who am i chatting with",
+      "who speaks",
+      "who are you talking to",
+      "what is your name",
+      "whats your name",
+      "what s your name",
+      "what is ur name",
+      "whats ur name",
+      "your name",
+      "ur name",
+      "what are you called",
+      "what do i call you",
+      "tell me about yourself",
+      "introduce yourself",
+      "about yourself",
+      "who made you",
+      "who created you",
+      "who built you",
+      "are you a bot",
+      "are you a real person",
+      "are you human",
+      "are you an ai",
+      "are you ai",
+      "are you robot",
+      "are you a robot",
+      "what are you",
+    ],
+    answer:
+      "I'm Miles ✈️, Bandhan Tours' digital travel assistant! I'm here 24/7 to help you discover holiday packages, check itineraries and live pricing, explain inclusions, visas and policies, or connect you directly with our travel specialists in Thane. How can I help you plan your journey?",
+    followups: ["packages", "domestic", "international", "contact"],
+  },
   hello: {
     id: "hello",
     chipLabel: "Say hi",
-    keywords: ["hi", "hey", "hello", "namaste", "yo", "hola"],
-    answer: "Hey there! 👋 How can I help you plan your trip today?",
-    followups: ["packages", "booking", "contact"],
+    keywords: [
+      "hi",
+      "hey",
+      "hello",
+      "namaste",
+      "good morning",
+      "good afternoon",
+      "good evening",
+      "good day",
+      "greetings",
+      "whats up",
+      "what's up",
+      "howdy",
+      "sup",
+      "yo",
+      "hola",
+      "salut",
+    ],
+    answer: "Hey there! 👋 I'm Miles, your travel planning assistant at Bandhan Tours. How can I help you plan your dream holiday today?",
+    followups: ["packages", "domestic", "international", "custom"],
+  },
+  howareyou: {
+    id: "howareyou",
+    chipLabel: "How are you?",
+    keywords: [
+      "how are you",
+      "how are u",
+      "how r u",
+      "how are you doing",
+      "how do you do",
+      "how is it going",
+      "how's it going",
+      "hows it going",
+      "how are things",
+      "how are you today",
+    ],
+    answer: "I'm doing great, thank you for asking! ✈️ Ready and excited to help you plan your next vacation. Where are you dreaming of going?",
+    followups: ["packages", "domestic", "international", "custom"],
+  },
+  help: {
+    id: "help",
+    chipLabel: "How I can help",
+    keywords: [
+      "help",
+      "help me",
+      "what can you do",
+      "how can you help",
+      "what do you do",
+      "features",
+      "capabilities",
+      "guide",
+      "menu",
+      "options",
+      "commands",
+      "how to use",
+      "what can i ask",
+      "i need help",
+      "assistance",
+    ],
+    answer:
+      "Here is what I can help you with:\n• 🏖️ Explore packages across Domestic, North East & International destinations\n• 💰 Check starting prices and package estimates\n• 📋 Look up inclusions, exclusions, hotels, meals & flight details\n• 🛂 Information on visas and travel permits\n• 📅 Group departure dates & custom trip planning\n• 📞 Connect directly with our Thane travel desk via WhatsApp or phone\n\nWhat would you like to explore?",
+    followups: ["packages", "custom", "group", "contact"],
+  },
+  ok: {
+    id: "ok",
+    chipLabel: "Got it!",
+    keywords: [
+      "ok",
+      "okay",
+      "cool",
+      "awesome",
+      "perfect",
+      "got it",
+      "sure",
+      "alright",
+      "great",
+      "nice",
+      "sounds good",
+      "understood",
+      "good bot",
+      "you are awesome",
+      "super",
+      "wonderful",
+      "fine",
+    ],
+    answer: "Glad I could help! 😊 Let me know if you'd like to explore specific packages, customize an itinerary, or talk to our travel team.",
+    followups: ["packages", "custom", "contact"],
+  },
+  thanks: {
+    id: "thanks",
+    chipLabel: "Thanks!",
+    keywords: [
+      "thank",
+      "thanks",
+      "thank you",
+      "thank you so much",
+      "thx",
+      "ty",
+      "cheers",
+      "appreciate",
+      "appreciate it",
+      "great thanks",
+      "thanks a lot",
+      "many thanks",
+    ],
+    answer: "Anytime! 😊 Have a wonderful journey — I'm right here if anything else comes up.",
+    followups: ["packages", "contact"],
+  },
+  bye: {
+    id: "bye",
+    chipLabel: "Goodbye",
+    keywords: [
+      "bye",
+      "goodbye",
+      "see you",
+      "see ya",
+      "cya",
+      "have a nice day",
+      "talk to you later",
+      "ttyl",
+      "farewell",
+      "take care",
+      "good night",
+      "later",
+    ],
+    answer: "Safe travels! ✈️ Have a wonderful day, and come back anytime you need travel ideas or assistance.",
+    followups: ["packages", "contact"],
+  },
+  about: {
+    id: "about",
+    chipLabel: "About Bandhan",
+    keywords: [
+      "about bandhan",
+      "bandhan tours",
+      "about company",
+      "about your company",
+      "about us",
+      "who is bandhan",
+      "what is bandhan",
+      "why bandhan",
+      "why choose bandhan",
+      "company history",
+      "tell me about bandhan",
+      "are you legit",
+      "is bandhan reliable",
+      "reputation",
+      "trustworthy",
+      "trust",
+      "travel agency",
+      "agency",
+      "company",
+    ],
+    answer:
+      "Bandhan Tours is a trusted travel agency based in Thane West, Maharashtra. We specialize in handcrafted domestic tours, North East expeditions, international holidays, fixed group departures, and bespoke family/corporate vacations. With transparent pricing, verified hotels, and dedicated tour leaders, we make every trip seamless.",
+    followups: ["packages", "location", "contact", "reviews"],
   },
   packages: {
     id: "packages",
     chipLabel: "Tour packages",
-    // Singular forms only ("tour" substring-matches "tours" already) —
-    // keeping both would double-count a single occurrence and let this
-    // catch-all FAQ out-score a more specific one like "domestic".
-    keywords: ["package", "tour", "trip", "holiday", "vacation", "itinerary", "destination", "where"],
+    keywords: [
+      "package",
+      "tour",
+      "trip",
+      "holiday",
+      "vacation",
+      "all packages",
+      "itinerary",
+      "browse",
+      "show packages",
+      "explore packages",
+    ],
     answer: (ctx) => {
       const total = ctx.packages.length;
       const domestic = ctx.packages.filter((p) => p.category === "Domestic").length;
@@ -329,28 +566,107 @@ const FAQS: Record<string, Faq> = {
   domestic: {
     id: "domestic",
     chipLabel: "Domestic tours",
-    keywords: ["domestic", "india", "indian", "rajasthan", "kerala", "andaman", "karnataka", "ayodhya", "varanasi", "temple", "kanyakumari", "kashmir", "goa", "himachal"],
+    keywords: [
+      "domestic",
+      "india",
+      "indian",
+      "rajasthan",
+      "kerala",
+      "andaman",
+      "karnataka",
+      "ayodhya",
+      "varanasi",
+      "temple",
+      "kanyakumari",
+      "kashmir",
+      "goa",
+      "himachal",
+      "south india",
+      "marwad",
+      "mewad",
+    ],
     answer: (ctx) => categoryAnswer("domestic", ctx.packages.filter((p) => p.category === "Domestic")),
-    followups: ["northeast", "booking", "price", "contact"],
+    followups: ["northeast", "international", "booking", "contact"],
   },
   northeast: {
     id: "northeast",
     chipLabel: "North East tours",
-    keywords: ["northeast", "north east", "sikkim", "gangtok", "darjeeling", "meghalaya", "shillong", "assam", "arunachal", "nagaland", "manipur", "tripura", "mizoram", "seven sisters", "kaziranga", "tawang"],
+    keywords: [
+      "northeast",
+      "north east",
+      "sikkim",
+      "gangtok",
+      "darjeeling",
+      "meghalaya",
+      "shillong",
+      "assam",
+      "arunachal",
+      "nagaland",
+      "manipur",
+      "tripura",
+      "mizoram",
+      "seven sisters",
+      "kaziranga",
+      "tawang",
+      "smt",
+      "3 sisters",
+      "4 sisters",
+    ],
     answer: (ctx) => categoryAnswer("North East", ctx.packages.filter((p) => p.category === "North East")),
-    followups: ["booking", "price", "contact"],
+    followups: ["permits", "booking", "price", "contact"],
   },
   international: {
     id: "international",
     chipLabel: "International tours",
-    keywords: ["international", "abroad", "overseas", "foreign", "thailand", "bali", "singapore", "malaysia", "bhutan", "vietnam", "europe", "austria", "italy", "germany", "switzerland", "london", "edinburgh", "paris", "dubai", "maldives", "visa"],
+    keywords: [
+      "international",
+      "abroad",
+      "overseas",
+      "foreign",
+      "thailand",
+      "bali",
+      "singapore",
+      "malaysia",
+      "bhutan",
+      "vietnam",
+      "europe",
+      "austria",
+      "italy",
+      "germany",
+      "switzerland",
+      "london",
+      "edinburgh",
+      "paris",
+      "dubai",
+      "maldives",
+      "baku",
+      "azerbaijan",
+      "georgia",
+      "almaty",
+      "japan",
+      "scandinavia",
+      "south africa",
+    ],
     answer: (ctx) => categoryAnswer("international", ctx.packages.filter((p) => p.category === "International")),
-    followups: ["custom", "contact", "booking"],
+    followups: ["visa", "custom", "booking", "contact"],
   },
   booking: {
     id: "booking",
     chipLabel: "How to book",
-    keywords: ["book", "booking", "reserve", "reservation", "enquire", "enquiry", "inquiry", "signup", "register"],
+    keywords: [
+      "book",
+      "booking",
+      "reserve",
+      "reservation",
+      "enquire",
+      "enquiry",
+      "inquiry",
+      "signup",
+      "register",
+      "how to book",
+      "booking process",
+      "how do i book",
+    ],
     answer:
       "Booking is simple: choose a package or build a custom trip, add traveller details, and submit the request. No payment is collected at that stage. A Bandhan agent first verifies live pricing and availability, then sends the confirmed quotation and booking terms for your approval.",
     followups: ["payment", "cancellation", "contact"],
@@ -358,39 +674,92 @@ const FAQS: Record<string, Faq> = {
   payment: {
     id: "payment",
     chipLabel: "Payment & advance",
-    keywords: ["payment", "pay", "advance", "deposit", "installment", "emi", "upi", "card", "money"],
+    keywords: [
+      "payment",
+      "pay",
+      "advance",
+      "deposit",
+      "installment",
+      "emi",
+      "upi",
+      "card",
+      "money",
+      "net banking",
+      "gpay",
+      "phonepe",
+      "bank transfer",
+      "how to pay",
+      "payment options",
+    ],
     answer:
-      "There is no payment just to submit a request. After an agent verifies availability, your quotation shows the exact booking advance and remaining balance. For an approved booking, your Bandhan travel consultant will contact you directly with verified payment instructions. Please do not send money against an unverified price or unsolicited message.",
+      "There is no payment required just to submit an enquiry or booking request. Once availability is confirmed, your quotation clearly outlines the advance deposit and payment schedule. Verified payment instructions (Bank Transfer, UPI, Cards) are provided directly by your dedicated Bandhan consultant.",
     followups: ["booking", "cancellation", "contact"],
   },
   cancellation: {
     id: "cancellation",
     chipLabel: "Cancellation policy",
-    keywords: ["cancel", "cancellation", "refund", "reschedule", "postpone"],
+    keywords: [
+      "cancel",
+      "cancellation",
+      "refund",
+      "reschedule",
+      "postpone",
+      "cancellation policy",
+      "refund policy",
+      "can i cancel",
+    ],
     answer:
-      "Cancellation, amendment, refund and date-change charges vary by package, supplier and departure date. Your exact terms are provided with the confirmed quotation before payment. If you already have a booking, contact the team with your booking reference so they can check the terms that apply to it.",
-    followups: ["contact", "booking"],
+      "Cancellation, amendment, refund and date-change charges vary by package, supplier contracts (airlines, hotels) and departure dates. Detailed terms are provided in your confirmed quotation before any payment is made. If you already have an active booking, contact our team with your booking reference to review your specific terms.",
+    followups: ["contact", "booking", "policies"],
   },
   inclusions: {
     id: "inclusions",
     chipLabel: "What's included?",
-    keywords: ["include", "included", "inclusion", "inclusions", "covered", "come with"],
+    keywords: [
+      "include",
+      "included",
+      "inclusion",
+      "inclusions",
+      "covered",
+      "come with",
+      "what is included",
+      "what's included",
+    ],
     answer:
-      "Inclusions are package-specific. They can cover hotels, meals, transfers, sightseeing, guides, permits, insurance, visas or flights, but you should never assume every item is bundled. Name a package or destination and I'll read its published inclusions for you.",
-    followups: ["flights", "hotels", "visa", "packages"],
+      "Inclusions vary by package — typical inclusions cover accommodation, daily breakfast (and meals as per itinerary), sightseeing tours, AC transfers, and guide services. Name a specific tour (e.g. Bali, Europe, Andaman) and I'll list its exact published inclusions!",
+    followups: ["exclusions", "flights", "hotels", "visa"],
   },
   exclusions: {
     id: "exclusions",
     chipLabel: "What's not included?",
-    keywords: ["exclude", "excluded", "exclusion", "exclusions", "not included", "extra cost", "pay extra", "additional charge"],
+    keywords: [
+      "exclude",
+      "excluded",
+      "exclusion",
+      "exclusions",
+      "not included",
+      "extra cost",
+      "pay extra",
+      "additional charge",
+      "what is excluded",
+    ],
     answer:
-      "Exclusions vary by tour and often include items such as airfare, taxes, visa fees, insurance, tips or personal expenses. Name the package and I'll show its actual published exclusions; the final quotation remains the source of truth before payment.",
-    followups: ["packages", "price", "payment"],
+      "Exclusions typically include personal expenses, optional activities, tips, porterage, meals not stated in the plan, and mandatory GST/TCS where applicable. Name a specific package and I'll show its exact published exclusions.",
+    followups: ["inclusions", "price", "payment"],
   },
   policies: {
     id: "policies",
     chipLabel: "Travel policies",
-    keywords: ["policy", "policies", "terms", "condition", "conditions", "rules", "amendment"],
+    keywords: [
+      "policy",
+      "policies",
+      "terms",
+      "condition",
+      "conditions",
+      "rules",
+      "amendment",
+      "terms and conditions",
+    ],
     answer:
       "Key policy points: prices and inventory are subject to live agent verification; no payment is taken when you submit a request; package inclusions and exclusions vary; and booking, amendment and cancellation terms are confirmed before payment. Visa, passport, permit and insurance requirements depend on the itinerary and traveller. For a binding answer, use the terms on your confirmed quotation.",
     followups: ["cancellation", "visa", "payment", "contact"],
@@ -398,23 +767,107 @@ const FAQS: Record<string, Faq> = {
   group: {
     id: "group",
     chipLabel: "Group departures",
-    keywords: ["group", "departure", "departures", "join", "fixed", "batch", "solo", "together"],
+    keywords: [
+      "group",
+      "groups",
+      "departure",
+      "departures",
+      "join",
+      "fixed",
+      "batch",
+      "solo",
+      "together",
+      "fixed departure",
+      "group tour",
+      "group tours",
+    ],
     answer:
-      "Our group departures are fixed-date tours you can join with a shared tour captain — perfect for solo travellers and families. You'll see live seat availability on the home page under “Upcoming Group Departures.” Want to reserve seats?",
+      "Our group departures are fixed-date tours you can join with a shared tour captain — perfect for solo travellers, couples, and families. You'll see live seat availability on our home page under “Upcoming Group Departures.” Want to reserve seats?",
     followups: ["booking", "packages", "contact"],
   },
   custom: {
     id: "custom",
     chipLabel: "Custom itinerary",
-    keywords: ["custom", "customize", "customise", "tailor", "personalise", "personalize", "flexible", "bespoke"],
+    keywords: [
+      "custom",
+      "customize",
+      "customise",
+      "customized",
+      "customised",
+      "tailor",
+      "tailormade",
+      "tailor-made",
+      "personalise",
+      "personalize",
+      "flexible",
+      "bespoke",
+      "private tour",
+      "own itinerary",
+    ],
     answer:
       "Every package can be reshaped — different dates, hotels, pace, or an entirely new route. Just tell us what you have in mind and we design it around your budget and taste, free of charge. Ready to start planning?",
     followups: ["booking", "contact", "international"],
   },
+  mice: {
+    id: "mice",
+    chipLabel: "Corporate & MICE",
+    keywords: [
+      "mice",
+      "corporate",
+      "company trip",
+      "business trip",
+      "team outing",
+      "incentive",
+      "conference",
+      "events",
+      "team trip",
+      "corporate retreat",
+      "corporate tour",
+      "offsite",
+      "company offsite",
+    ],
+    answer:
+      "We manage end-to-end Corporate Offsites, MICE (Meetings, Incentives, Conferences & Exhibitions), and Team Retreats across domestic and international destinations with luxury stays, conference halls, team-building activities, and event branding.",
+    followups: ["contact", "custom", "packages"],
+  },
+  offers: {
+    id: "offers",
+    chipLabel: "Deals & Offers",
+    keywords: [
+      "offer",
+      "offers",
+      "discount",
+      "discounts",
+      "deal",
+      "deals",
+      "promo",
+      "coupon",
+      "special price",
+      "early bird",
+      "festive discount",
+      "group discount",
+      "any discount",
+    ],
+    answer:
+      "We offer seasonal promotions, early-bird savings, and special group booking discounts! Special rates are also available for families and large groups. Contact our travel desk or submit an enquiry to get the best active quote for your dates.",
+    followups: ["packages", "group", "contact"],
+  },
   price: {
     id: "price",
     chipLabel: "Pricing",
-    keywords: ["price", "pricing", "cost", "budget", "cheap", "expensive", "fee", "charge", "rate"],
+    keywords: [
+      "price",
+      "pricing",
+      "cost",
+      "budget",
+      "cheap",
+      "expensive",
+      "fee",
+      "charge",
+      "rate",
+      "how much",
+      "estimates",
+    ],
     answer: (ctx) => {
       const domestic = priceRange(ctx.packages.filter((p) => p.category === "Domestic"));
       const ne = priceRange(ctx.packages.filter((p) => p.category === "North East"));
@@ -426,53 +879,87 @@ const FAQS: Record<string, Faq> = {
   contact: {
     id: "contact",
     chipLabel: "Talk to a human",
-    keywords: ["contact", "phone", "call", "email", "whatsapp", "reach", "talk", "human", "agent", "number", "speak", "support"],
+    keywords: [
+      "contact",
+      "phone",
+      "call",
+      "email",
+      "whatsapp",
+      "reach",
+      "talk",
+      "human",
+      "agent",
+      "number",
+      "speak",
+      "support",
+      "talk to human",
+      "speak with agent",
+      "customer care",
+      "customer support",
+      "helpline",
+      "talk to someone",
+      "representative",
+    ],
     answer:
-      "You can reach our Thane travel desk directly:\n📞 +91 94223 32610\n✉️ info@bandhantours.com\n💬 WhatsApp: +91 94223 32610\nTypical enquiry response time is within 24 hours.",
+      "You can reach our Thane travel desk directly:\n📞 Phone: +91 94223 32610\n✉️ Email: info@bandhantours.com\n💬 WhatsApp: +91 94223 32610\n\nTypical enquiry response time is within 24 hours, Mon-Sat 10 AM – 7 PM.",
     followups: ["hours", "location", "booking"],
   },
   location: {
     id: "location",
     chipLabel: "Office location",
-    keywords: ["office", "location", "address", "visit", "branch", "kolkata"],
+    keywords: [
+      "office",
+      "location",
+      "address",
+      "visit",
+      "branch",
+      "where is your office",
+      "where are you located",
+      "thane office",
+      "head office",
+      "headquarters",
+      "hq",
+      "where to visit",
+      "thane address",
+    ],
     answer:
-      "We're based in Thane: 226, Lodha Supremus Tower 2, Road No. 22, Wagle Industrial Estate, Thane West – 400604. Pop by during working hours, or reach us online anytime.",
+      "We're based in Thane:\n🏢 226, Lodha Supremus Tower 2, Road No. 22, Wagle Industrial Estate, Thane West, Maharashtra – 400604.\n\nFeel free to visit us during working hours, or connect with us online anytime!",
     followups: ["hours", "contact"],
   },
   hours: {
     id: "hours",
     chipLabel: "Working hours",
-    keywords: ["hours", "timing", "timings", "open", "when", "working"],
+    keywords: [
+      "hours",
+      "timing",
+      "timings",
+      "working hours",
+      "office hours",
+      "office timings",
+      "opening hours",
+      "when are you open",
+      "when do you open",
+      "open hours",
+      "schedule",
+    ],
     answer:
-      "Our office is open Monday to Saturday, 10:00 AM – 7:00 PM. Enquiries sent here or online are answered within 24 hours — even on Sundays.",
+      "Our office is open Monday to Saturday, 10:00 AM – 7:00 PM. Enquiries sent online or via WhatsApp are monitored 7 days a week and answered within 24 hours.",
     followups: ["contact", "location"],
-  },
-  about: {
-    id: "about",
-    chipLabel: "About Bandhan",
-    keywords: ["about", "who", "experience", "years", "trust", "company", "reliable", "safe", "legit"],
-    answer:
-      "Bandhan Tours is a Thane-based travel company offering domestic, North East, international, group and custom journeys. You can explore the published itineraries, read guest testimonials, or speak with the travel desk before making a booking decision.",
-    followups: ["packages", "group", "contact"],
-  },
-  thanks: {
-    id: "thanks",
-    chipLabel: "Thanks!",
-    keywords: ["thank", "thanks", "thx", "appreciate"],
-    answer: "Anytime! 😊 Have a wonderful journey — I'm right here if anything else comes up.",
-    followups: ["packages", "contact"],
-  },
-  bye: {
-    id: "bye",
-    chipLabel: "Goodbye",
-    keywords: ["bye", "goodbye", "see ya", "later"],
-    answer: "Safe travels! ✈️ Come back anytime you need a hand planning.",
-    followups: ["packages", "contact"],
   },
   visa: {
     id: "visa",
     chipLabel: "Visa help",
-    keywords: ["visa", "passport", "immigration", "documents", "document"],
+    keywords: [
+      "visa",
+      "visas",
+      "passport",
+      "immigration",
+      "documents",
+      "document",
+      "visa assistance",
+      "visa required",
+      "is visa included",
+    ],
     answer: (ctx) => {
       const withVisa = ctx.packages.filter((p) => p.category === "International" && p.inclusions?.some((i) => /visa/i.test(i)));
       const note = withVisa.length
@@ -485,23 +972,60 @@ const FAQS: Record<string, Faq> = {
   flights: {
     id: "flights",
     chipLabel: "Flights included?",
-    keywords: ["flight", "flights", "airfare", "air ticket", "airline"],
+    keywords: [
+      "flight",
+      "flights",
+      "airfare",
+      "air ticket",
+      "air tickets",
+      "airline",
+      "airlines",
+      "plane ticket",
+      "are flights included",
+      "ticket included",
+    ],
     answer:
-      "Some packages include flights and others are land-only. Name the exact package or destination and I'll check the published inclusions and exclusions instead of guessing.",
+      "Some of our packages (such as fixed group departures) include return flights, while others are land-only to allow flexible flight bookings from your departure city. Name any package or destination and I'll check its exact flight inclusion details!",
     followups: ["packages", "visa", "price"],
   },
   hotels: {
     id: "hotels",
     chipLabel: "Hotels & meals",
-    keywords: ["hotel", "hotels", "stay", "accommodation", "resort", "meal", "meals", "breakfast", "food", "cuisine"],
+    keywords: [
+      "hotel",
+      "hotels",
+      "stay",
+      "accommodation",
+      "resort",
+      "resorts",
+      "meal",
+      "meals",
+      "breakfast",
+      "lunch",
+      "dinner",
+      "food",
+      "cuisine",
+      "veg food",
+      "jain food",
+      "indian food",
+    ],
     answer:
-      "Hotel category, room basis and meal plan differ by package. The package page and day-by-day itinerary show what is currently published; final hotel names remain subject to the confirmed quotation and availability. Name a tour and I'll check its details.",
+      "Hotel category, room basis and meal plans differ by package. We handpick quality 3-star, 4-star and 5-star properties with daily breakfast. For group and international tours, delicious Indian meals (including pure vegetarian & Jain options) are often arranged. Name a tour and I'll check its specific hotel and meal arrangements!",
     followups: ["packages", "price", "custom"],
   },
   honeymoon: {
     id: "honeymoon",
     chipLabel: "Honeymoon trips",
-    keywords: ["honeymoon", "couple", "romantic", "romance", "anniversary", "wedding trip"],
+    keywords: [
+      "honeymoon",
+      "couple",
+      "couples",
+      "romantic",
+      "romance",
+      "anniversary",
+      "wedding trip",
+      "candlelight",
+    ],
     answer: (ctx) => {
       const romantic = ctx.packages.filter((p) => p.themes?.some((t) => /beach|island|scenic|romantic/i.test(t)));
       return romantic.length
@@ -513,7 +1037,19 @@ const FAQS: Record<string, Faq> = {
   family: {
     id: "family",
     chipLabel: "Family trips",
-    keywords: ["family", "kids", "children", "senior", "elderly", "parents", "child"],
+    keywords: [
+      "family",
+      "families",
+      "kids",
+      "children",
+      "senior",
+      "seniors",
+      "elderly",
+      "parents",
+      "child",
+      "senior citizen",
+      "child friendly",
+    ],
     answer: (ctx) => {
       const familyFriendly = ctx.packages.filter((p) => p.themes?.some((t) => /family/i.test(t)));
       return familyFriendly.length
@@ -525,41 +1061,92 @@ const FAQS: Record<string, Faq> = {
   safety: {
     id: "safety",
     chipLabel: "Is it safe?",
-    keywords: ["safe", "safety", "secure", "insurance", "emergency", "risk"],
+    keywords: [
+      "safe",
+      "safety",
+      "secure",
+      "security",
+      "emergency",
+      "risk",
+      "safe for women",
+      "safe for solo",
+    ],
     answer:
-      "Support, insurance and permit coverage differ by package. Check the exact inclusions before booking, follow current government and local guidance, and disclose medical or mobility needs during enquiry. For an emergency on an active trip, use the contact details in your confirmed travel documents.",
+      "Your safety is our top priority. We partner with verified suppliers, trusted drivers, and certified tour captains. Group departures feature dedicated tour leaders, and on-tour emergency support is available 24/7. Always disclose any medical or mobility needs during enquiry so we can tailor the pacing.",
     followups: ["about", "contact", "booking"],
   },
   permits: {
     id: "permits",
     chipLabel: "Permits (NE/Andaman)",
-    keywords: ["permit", "permits", "ilp", "inner line permit", "restricted area"],
+    keywords: [
+      "permit",
+      "permits",
+      "ilp",
+      "inner line permit",
+      "restricted area",
+      "rap",
+      "protected area",
+      "arunachal permit",
+      "sikkim permit",
+      "north east permit",
+      "northeast permit",
+      "permits for north east",
+    ],
     answer:
-      "Some North East and restricted-area itineraries require permits, and the rules can differ for Indian and foreign nationals. Several published Bandhan packages list permits as included, but this is package-specific. Share nationality and the exact route with the team early so current requirements can be verified.",
+      "Certain North East destinations (like Tawang/Arunachal, Nathula/Sikkim) and island territories require Inner Line Permits (ILP) or Protected Area Permits. Bandhan assists with and arranges permit processing whenever listed in the package inclusions. Just share valid photo IDs and documents during the booking process.",
     followups: ["northeast", "domestic", "contact"],
   },
   reviews: {
     id: "reviews",
     chipLabel: "Reviews & reputation",
-    keywords: ["review", "reviews", "rating", "ratings", "testimonial", "testimonials", "feedback"],
+    keywords: [
+      "review",
+      "reviews",
+      "rating",
+      "ratings",
+      "testimonial",
+      "testimonials",
+      "feedback",
+      "guest reviews",
+      "customer feedback",
+    ],
     answer:
-      "You can read guest stories and ratings on our Testimonials page. For the clearest picture, compare recent reviews for the kind of trip and destination you're considering.",
+      "Our guests consistently rate us highly for thoughtful planning, responsive support, and transparent pricing! You can browse authentic traveler stories and ratings on our Testimonials page.",
     followups: ["about", "packages", "contact"],
   },
   insurance: {
     id: "insurance",
     chipLabel: "Travel insurance",
-    keywords: ["insurance", "insured", "medical cover", "travel cover"],
+    keywords: [
+      "insurance",
+      "insured",
+      "medical cover",
+      "travel cover",
+      "travel insurance",
+      "health insurance",
+    ],
     answer:
-      "Travel insurance is included in some tours and excluded from others. Coverage limits, age eligibility and medical conditions depend on the policy. Name a package and I'll check whether insurance appears in its published inclusions or exclusions; always review the actual policy wording before travel.",
+      "Comprehensive travel insurance is included in many of our international tour packages (covering medical emergencies, baggage loss, etc. for eligible age groups) and can be added to any custom trip. Mention a specific package and I'll verify its published insurance details!",
     followups: ["safety", "packages", "contact"],
   },
   baggage: {
     id: "baggage",
     chipLabel: "Baggage allowance",
-    keywords: ["baggage", "luggage", "suitcase", "check-in", "cabin bag", "weight allowance"],
+    keywords: [
+      "baggage",
+      "luggage",
+      "suitcase",
+      "check-in",
+      "cabin bag",
+      "weight allowance",
+      "bag allowance",
+      "cabin baggage",
+      "check in baggage",
+      "baggage rules",
+      "baggage policy",
+    ],
     answer:
-      "Baggage allowance depends on the airline, fare and any internal transfers in your itinerary. If a published package states an allowance, I can show it; otherwise the confirmed airline ticket and quotation are the source of truth.",
+      "Baggage allowance depends on the airline tickets included in your package (typically 15-20 kg check-in + 7 kg cabin for domestic/regional flights). For vehicle transfers, ample boot space is provided for standard suitcase sizes.",
     followups: ["flights", "packages", "contact"],
   },
 };
@@ -572,48 +1159,181 @@ const FALLBACK_CHIPS = ["packages", "policies", "contact"];
 
 const GREETING =
   "Hi! I'm Miles ✈️, Bandhan Tours' travel assistant. Ask me about destinations, visas, package inclusions or exclusions, cancellations, travel policies, pricing, or booking.";
-const GREETING_CHIPS = ["packages", "inclusions", "visa", "cancellation"];
+const GREETING_CHIPS = ["packages", "domestic", "international", "custom"];
 
-/** Keyword match: short tokens need a whole-word hit, longer ones match as substrings. */
+function isIdentityQuery(raw: string): boolean {
+  const normalized = raw.toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+  const identityPatterns = [
+    /\bwho are (?:you|u)\b/,
+    /\bwho r u\b/,
+    /\bwho is this\b/,
+    /\bwho it is\b/,
+    /\bwho this\b/,
+    /\bwho is miles\b/,
+    /\bwhat is miles\b/,
+    /\bwho am i (?:talking|chatting) with\b/,
+    /\bwho am i (?:talking|speaking) to\b/,
+    /\bwho speaks\b/,
+    /\bwhat is (?:your|ur) name\b/,
+    /\bwhats (?:your|ur) name\b/,
+    /\btell me (?:your|ur) name\b/,
+    /\b(?:your|ur) name\b/,
+    /\bwhat are you called\b/,
+    /\bwhat do i call you\b/,
+    /\btell me about yourself\b/,
+    /\bintroduce yourself\b/,
+    /\babout yourself\b/,
+    /\bwho (?:made|created|built) you\b/,
+    /\bare you (?:a )?(?:bot|robot|ai|human|real person)\b/,
+    /\bwhat are you\b/,
+  ];
+  if (identityPatterns.some((pattern) => pattern.test(normalized))) {
+    if (/\b(?:bandhan|company|agency)\b/.test(normalized)) {
+      return false;
+    }
+    return true;
+  }
+  return /^(?:who are you|who are u|who is this|who it is|what is your name|who is miles|who|miles)$/i.test(normalized);
+}
+
+function isGreetingQuery(raw: string): boolean {
+  const normalized = raw.toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+  const greetingPhrases = [
+    "good morning",
+    "good afternoon",
+    "good evening",
+    "good day",
+    "whats up",
+    "what's up",
+    "howdy",
+    "namaste",
+    "greetings",
+  ];
+  if (greetingPhrases.some((phrase) => normalized.includes(phrase))) return true;
+  return /^(?:hi|hey|hello|yo|hola|namaste|sup|salut)$/i.test(normalized);
+}
+
+function isHowAreYouQuery(raw: string): boolean {
+  const normalized = raw.toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+  return /^(?:how are you|how are u|how r u|how are you doing|how do you do|how is it going|how s it going|hows it going|how are things|how are you today)$/i.test(normalized);
+}
+
+function isHelpQuery(raw: string): boolean {
+  const normalized = raw.toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+  const helpPhrases = [
+    "what can you do",
+    "how can you help",
+    "what do you do",
+    "what can i ask",
+    "how to use",
+    "i need help",
+    "guide me",
+  ];
+  if (helpPhrases.some((phrase) => normalized.includes(phrase))) return true;
+  return /^(?:help|help me|menu|features|capabilities|options|commands|support|guide)$/i.test(normalized);
+}
+
+function isOkQuery(raw: string): boolean {
+  const normalized = raw.toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+  return /^(?:ok|okay|cool|awesome|perfect|got it|sure|alright|great|nice|sounds good|understood|good bot|super|wonderful|fine)$/i.test(normalized);
+}
+
+function isThanksQuery(raw: string): boolean {
+  const normalized = raw.toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+  const thanksPhrases = [
+    "thank you",
+    "thank you so much",
+    "thanks a lot",
+    "many thanks",
+    "appreciate it",
+    "great thanks",
+  ];
+  if (thanksPhrases.some((phrase) => normalized.includes(phrase))) return true;
+  return /^(?:thanks|thank|thx|ty|cheers|appreciate)$/i.test(normalized);
+}
+
+function isByeQuery(raw: string): boolean {
+  const normalized = raw.toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+  const byePhrases = ["goodbye", "see you", "see ya", "cya", "have a nice day", "talk to you later", "ttyl", "farewell", "take care", "good night"];
+  if (byePhrases.some((phrase) => normalized.includes(phrase))) return true;
+  return /^(?:bye|goodbye|cya|later)$/i.test(normalized);
+}
+
+/** Keyword match: calculates match scores with phrase weighting and word boundaries. */
 function findFaq(raw: string): Faq | null {
-  const text = ` ${raw.toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim()} `;
+  const normalized = raw.toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+  const text = ` ${normalized} `;
   let best: Faq | null = null;
   let bestScore = 0;
+
   for (const faq of FAQ_LIST) {
     let score = 0;
+    const matchedTokens = new Set<string>();
+
     for (const kw of faq.keywords) {
-      if (kw.length <= 3) {
-        if (new RegExp(`\\b${kw}\\b`).test(text)) score += 1;
-      } else if (text.includes(kw)) {
+      const isMultiWord = kw.includes(" ");
+      if (isMultiWord) {
+        if (text.includes(` ${kw} `) || normalized === kw) {
+          score += kw.split(/\s+/).length * 4;
+        } else if (text.includes(kw)) {
+          score += 3;
+        }
+      } else if (kw.length <= 3) {
+        if (new RegExp(`\\b${kw}\\b`).test(text) && !matchedTokens.has(kw)) {
+          matchedTokens.add(kw);
+          score += 2;
+        }
+      } else if (new RegExp(`\\b${kw}\\b`).test(text) && !matchedTokens.has(kw)) {
+        matchedTokens.add(kw);
+        score += 3;
+      } else if (text.includes(kw) && !matchedTokens.has(kw)) {
+        matchedTokens.add(kw);
         score += 1;
       }
     }
-    // >= (not >) so that on a tie, the later, more specific FAQ wins over an
-    // earlier, broader one — e.g. "domestic tours" ties "packages" (catch-all,
-    // defined first) with "domestic" (defined later) at one keyword hit each;
-    // the specific answer is the more useful one to show.
+
     if (score > 0 && score >= bestScore) {
       bestScore = score;
       best = faq;
     }
   }
-  return best;
+  return bestScore >= 2 ? best : null;
 }
 
-/** Generic intent words ("tour", "trip", "package"...) are deliberately kept
- * out of the specific-match path below — several of them are literal
- * substrings of real titles (e.g. "3 Sisters Tour"), and a bare "tour"
- * should get the overview answer, not whichever title happens to contain
- * the word "tour". */
-const GENERIC_QUERY_WORDS = new Set([
+/** Common travel and conversational words that should NOT be treated as
+ * destination or package search tokens. */
+const COMMON_TRAVEL_WORDS = new Set([
   "tour", "tours", "trip", "trips", "package", "packages", "holiday", "holidays",
-  "vacation", "itinerary", "destination", "where", "book", "booking", "price",
-  "pricing", "cost", "budget", "contact", "hi", "hello", "hey", "help", "custom",
-  "group", "domestic", "international", "northeast",
+  "vacation", "vacations", "itinerary", "itineraries", "destination", "destinations",
+  "where", "when", "what", "which", "how", "who", "whom", "whose", "why",
+  "book", "booking", "reserve", "reservation", "enquire", "enquiry", "inquiry",
+  "register", "signup", "quote", "quotation", "price", "pricing", "cost", "budget",
+  "cheap", "expensive", "rate", "rates", "fee", "fees", "charge", "charges",
+  "offer", "offers", "discount", "discounts", "deal", "deals", "promo", "coupon",
+  "special", "specials", "best", "top", "delight", "delights", "classic", "amazing", "grand", "highlight", "highlights",
+  "custom", "customise", "customize", "customized", "customised", "tailor", "bespoke",
+  "group", "groups", "departure", "departures", "solo", "batch",
+  "flight", "flights", "airfare", "airline", "airlines", "ticket", "tickets", "airport",
+  "hotel", "hotels", "stay", "stays", "accommodation", "resort", "resorts", "room", "rooms",
+  "meal", "meals", "food", "breakfast", "lunch", "dinner", "restaurant", "cuisine",
+  "include", "included", "inclusion", "inclusions", "exclude", "excluded", "exclusion", "exclusions",
+  "visa", "visas", "passport", "permit", "permits", "ilp", "immigration",
+  "insurance", "insured", "medical", "cover", "coverage", "safety", "safe", "risk",
+  "baggage", "luggage", "suitcase", "checkin", "rules", "rule",
+  "cancel", "cancellation", "refund", "reschedule", "policy", "policies", "terms", "condition", "conditions",
+  "domestic", "international", "northeast", "honeymoon", "family", "corporate", "mice", "senior", "seniors",
+  "north", "south", "east", "west", "central",
+  "contact", "phone", "call", "email", "whatsapp", "human", "agent", "desk", "office", "address",
+  "location", "hours", "timing", "timings", "open", "close", "closed", "about", "company", "review",
+  "reviews", "rating", "ratings", "testimonial", "testimonials", "feedback",
+  "pay", "paying", "payment", "payments", "advance", "deposit", "installment", "emi", "upi", "card", "cards", "bank",
+  "time", "times", "season", "seasons", "month", "months", "day", "days", "night", "nights",
+  "miles", "bot", "assistant", "ai", "robot", "name", "help", "guide", "info", "information",
+  "details", "detail", "thanks", "thank", "hello", "hi", "hey", "goodbye", "bye", "okay", "good",
 ]);
 
 function isGenericQuery(raw: string): boolean {
-  return GENERIC_QUERY_WORDS.has(raw.trim().toLowerCase());
+  return COMMON_TRAVEL_WORDS.has(raw.trim().toLowerCase());
 }
 
 /** Filler words stripped out when extracting the "meaningful" part of a full
@@ -621,21 +1341,24 @@ function isGenericQuery(raw: string): boolean {
 const STOPWORDS = new Set([
   "what", "whats", "is", "are", "the", "a", "an", "of", "for", "to", "in", "on",
   "and", "or", "how", "much", "does", "do", "did", "can", "could", "will", "would",
-  "about", "with", "from", "that", "this", "it", "its", "tell", "me", "give",
+  "about", "with", "without", "from", "that", "this", "it", "its", "tell", "me", "give",
   "show", "have", "has", "need", "needs", "want", "wants", "you", "your", "there",
-  "adult", "adults", "child", "children", "traveller", "travellers", "romantic", "honeymoon",
+  "adult", "adults", "child", "children", "traveller", "travellers", "romantic",
+  "some", "any", "like", "know", "please", "just", "also", "wanting", "via", "per",
+  "through", "using", "mode", "modes", "way", "ways", "option", "options", "visit", "visiting",
+  "go", "going", "travel", "travels", "travelling", "traveling", "see", "view",
 ]);
 
 /** Pulls out the specific, non-generic words from a query — e.g. "what is
  * the price of the europe package" -> ["europe"] — so a whole-sentence
  * question can still be matched against a single destination/package name
- * embedded in it, instead of only matching queries that ARE just that name. */
+ * embedded in it, instead of matching highlight words. */
 function significantTokens(raw: string): string[] {
   return raw
     .toLowerCase()
     .replace(/[^a-z0-9\s]/g, " ")
     .split(/\s+/)
-    .filter((w) => w.length >= 4 && !STOPWORDS.has(w) && !GENERIC_QUERY_WORDS.has(w));
+    .filter((w) => w.length >= 3 && !STOPWORDS.has(w) && !COMMON_TRAVEL_WORDS.has(w));
 }
 
 /** Fuse's normalized score penalises short queries against long titles more
@@ -651,19 +1374,15 @@ function findBySubstringOrFuzzy<T>(
 ): T | null {
   const q = raw.trim().toLowerCase();
   if (q.length < 3) return null;
-  const substringHit = items.find((item) => fields(item).some((f) => f.toLowerCase().includes(q)));
+  const substringHit = items.find((item) => fields(item).some((f) => f && f.toLowerCase().includes(q)));
   if (substringHit) return substringHit;
   const scored = fuzzySearchScored(items, raw, fuzzyKeys, 1);
   return scored.length && scored[0].score <= 0.3 ? scored[0].item : null;
 }
 
-/** All items whose fields contain the given token as a substring — used for
- * full-sentence queries where the whole-query substring check in
- * findBySubstringOrFuzzy can never hit (the field is shorter than the
- * sentence around it). Returns every match, not just the first, since a
- * broad word like "europe" legitimately matches several packages. */
+/** All items whose fields contain the given token as a substring. */
 function findAllByToken<T>(items: T[], token: string, fields: (item: T) => string[]): T[] {
-  return items.filter((item) => fields(item).some((f) => f.toLowerCase().includes(token)));
+  return items.filter((item) => fields(item).some((f) => f && f.toLowerCase().includes(token)));
 }
 
 function multiPackageAnswer(pkgs: TourPackage[]): BotResponse {
@@ -689,22 +1408,21 @@ type PackageQuestion =
 
 function detectPackageQuestions(raw: string): PackageQuestion[] {
   const text = raw.toLowerCase();
-  if (/cancel|refund|reschedul|postpone|amend/.test(text)) return ["cancellation"];
+  const questions: PackageQuestion[] = [];
 
-  const serviceQuestions: PackageQuestion[] = [];
-  if (/\bflight|airfare|air ticket|airline/.test(text)) serviceQuestions.push("flights");
-  if (/\bvisa|passport|immigration/.test(text)) serviceQuestions.push("visa");
-  if (/\bhotel|accommodation|resort|room|stay\b/.test(text)) serviceQuestions.push("hotel");
-  if (/\bmeal|breakfast|lunch|dinner|food\b/.test(text)) serviceQuestions.push("meals");
-  if (/insurance|medical cover|travel cover/.test(text)) serviceQuestions.push("insurance");
-  if (/baggage|luggage|suitcase|check-in|cabin bag/.test(text)) serviceQuestions.push("baggage");
-  if (serviceQuestions.length) return serviceQuestions;
+  if (/\b(?:cancel|cancellation|refund|reschedule|postpone|amend)\b/.test(text)) questions.push("cancellation");
+  if (/\b(?:flight|flights|airfare|air ticket|airline|plane ticket)\b/.test(text)) questions.push("flights");
+  if (/\b(?:visa|visas|passport|immigration)\b/.test(text)) questions.push("visa");
+  if (/\b(?:hotel|hotels|accommodation|resort|resorts|room|stay)\b/.test(text)) questions.push("hotel");
+  if (/\b(?:meal|meals|breakfast|lunch|dinner|food|cuisine|veg|jain)\b/.test(text)) questions.push("meals");
+  if (/\b(?:insurance|medical cover|travel cover|insured)\b/.test(text)) questions.push("insurance");
+  if (/\b(?:baggage|luggage|suitcase|check-in|cabin bag|weight)\b/.test(text)) questions.push("baggage");
+  if (/\b(?:not included|exclude|exclusion|exclusions|extra cost|pay extra|additional charge)\b/.test(text)) questions.push("exclusions");
+  if (/\b(?:include|included|inclusion|inclusions|covered|come with)\b/.test(text)) questions.push("inclusions");
+  if (/\b(?:price|pricing|cost|budget|how much|rate|fee|charge)\b/.test(text)) questions.push("price");
+  if (/\b(?:itinerary|day by day|route|places|sightseeing|schedule|plan)\b/.test(text)) questions.push("itinerary");
 
-  if (/not included|exclude|exclusion|extra cost|pay extra|additional charge/.test(text)) return ["exclusions"];
-  if (/include|inclusion|covered|come with/.test(text)) return ["inclusions"];
-  if (/\bprice|pricing|cost|budget|how much|rate\b/.test(text)) return ["price"];
-  if (/itinerary|day by day|route|places|sightseeing/.test(text)) return ["itinerary"];
-  return [];
+  return Array.from(new Set(questions));
 }
 
 const PACKAGE_DETAIL_PATTERNS: Record<Exclude<PackageQuestion, "inclusions" | "exclusions" | "cancellation" | "price" | "itinerary">, RegExp> = {
@@ -799,14 +1517,47 @@ function packageQuestionsAnswer(pkg: TourPackage, questions: PackageQuestion[]):
     (question): question is Exclude<PackageQuestion, "inclusions" | "exclusions" | "cancellation" | "price" | "itinerary"> =>
       question in PACKAGE_DETAIL_PATTERNS
   );
-  if (serviceQuestions.length !== questions.length) return packageQuestionAnswer(pkg, questions[0]);
+  if (serviceQuestions.length === questions.length) {
+    return {
+      text: `${pkg.title} — published package details:\n\n${serviceQuestions
+        .map((question) => packageServiceDetail(pkg, question))
+        .join("\n\n")}\n\nThe final confirmed quotation takes priority if supplier terms change.`,
+      actions: packageActions(pkg),
+      packageId: pkg.id,
+      chips: ["inclusions", "exclusions", "contact"],
+    };
+  }
+
+  const sections: string[] = [];
+  if (questions.includes("price")) {
+    sections.push(`💰 Price: From ${pkg.price} per person for ${pkg.duration}.`);
+  }
+  if (questions.includes("itinerary")) {
+    const days = (pkg.itinerary ?? []).slice(0, 4).map((day) => `• Day ${day.day}: ${day.title}`);
+    if (days.length) {
+      sections.push(`🗺️ Itinerary overview (${pkg.duration}):\n${days.join("\n")}${(pkg.itinerary?.length ?? 0) > 4 ? "\n• …and more on package page" : ""}`);
+    }
+  }
+  if (questions.includes("inclusions")) {
+    const inc = pkg.inclusions ?? [];
+    sections.push(`📋 Inclusions:\n${listDetails(inc, "Published on package page.")}`);
+  }
+  if (questions.includes("exclusions")) {
+    const exc = pkg.exclusions ?? [];
+    sections.push(`❌ Exclusions:\n${listDetails(exc, "Published on package page.")}`);
+  }
+  for (const sq of serviceQuestions) {
+    sections.push(packageServiceDetail(pkg, sq));
+  }
+  if (questions.includes("cancellation")) {
+    sections.push(`Cancellation terms are subject to departure date and airline/hotel contracts, confirmed on your quotation.`);
+  }
+
   return {
-    text: `${pkg.title} — published package details:\n\n${serviceQuestions
-      .map((question) => packageServiceDetail(pkg, question))
-      .join("\n\n")}\n\nThe final confirmed quotation takes priority if supplier terms change.`,
+    text: `${pkg.title}:\n\n${sections.join("\n\n")}\n\nLive availability and confirmed pricing will be verified by our team before booking.`,
     actions: packageActions(pkg),
     packageId: pkg.id,
-    chips: ["inclusions", "exclusions", "contact"],
+    chips: ["booking", "inclusions", "contact"],
   };
 }
 
@@ -823,47 +1574,84 @@ function answerPublishedPackageFaq(pkg: TourPackage, raw: string): BotResponse |
   };
 }
 
-/** A confident, specific match (a real package, destination, or article
- * title) wins over the generic keyword FAQs below it, so "bali" answers with
- * the actual Bali package instead of the generic "international tours"
- * blurb, and "goa" or "kashmir" (which have no full package yet) still
- * answer from the featured-destinations data instead of falling through. */
+/** Resolve user input against knowledge base, packages, destinations and FAQs. */
 export function resolveResponse(raw: string, ctx: KnowledgeContext, activePackage?: TourPackage | null): BotResponse {
-  const generic = isGenericQuery(raw);
-  const packageQuestions = detectPackageQuestions(raw);
+  const trimmed = raw.trim();
+  if (!trimmed) {
+    return { text: FALLBACK_ANSWER, chips: FALLBACK_CHIPS };
+  }
+
+  // 1. Conversational intent / Persona fast-path when no specific tour search is intended
+  if (isIdentityQuery(trimmed)) {
+    return faqResponse(FAQS.identity, ctx);
+  }
+  if (isGreetingQuery(trimmed)) {
+    return faqResponse(FAQS.hello, ctx);
+  }
+  if (isHowAreYouQuery(trimmed)) {
+    return faqResponse(FAQS.howareyou, ctx);
+  }
+  if (isHelpQuery(trimmed)) {
+    return faqResponse(FAQS.help, ctx);
+  }
+  if (isOkQuery(trimmed)) {
+    return faqResponse(FAQS.ok, ctx);
+  }
+  if (isThanksQuery(trimmed)) {
+    return faqResponse(FAQS.thanks, ctx);
+  }
+  if (isByeQuery(trimmed)) {
+    return faqResponse(FAQS.bye, ctx);
+  }
+
+  const generic = isGenericQuery(trimmed);
+  const packageQuestions = detectPackageQuestions(trimmed);
 
   if (!generic) {
+    const tokens = significantTokens(trimmed);
+
+    // If a package question is asked and a specific destination or package token is mentioned,
+    // match that package and answer the question specifically for it.
+    if (packageQuestions.length && tokens.length > 0) {
+      for (const token of tokens) {
+        const pkgMatches = findAllByToken(ctx.packages, token, (p) => [p.title, p.destination || ""]);
+        if (pkgMatches.length >= 1) {
+          const matchedPackage = pkgMatches[0];
+          const publishedFaq = answerPublishedPackageFaq(matchedPackage, trimmed);
+          if (publishedFaq) return publishedFaq;
+          return packageQuestionsAnswer(matchedPackage, packageQuestions);
+        }
+      }
+    }
+
+    // Direct whole-query match on package
     const pkg = findBySubstringOrFuzzy(
       ctx.packages,
-      raw,
-      (p) => [p.title, ...p.highlights],
-      ["title", "highlights"]
+      trimmed,
+      (p) => [p.title, p.destination || ""],
+      ["title", "destination"]
     );
     if (pkg) {
-      const publishedFaq = answerPublishedPackageFaq(pkg, raw);
+      const publishedFaq = answerPublishedPackageFaq(pkg, trimmed);
       if (publishedFaq) return publishedFaq;
       return packageQuestions.length ? packageQuestionsAnswer(pkg, packageQuestions) : packageSummary(pkg);
     }
 
+    // Direct whole-query match on destination
     const dest = findBySubstringOrFuzzy(
       ctx.destinations,
-      raw,
+      trimmed,
       (d) => [d.name, d.description],
       ["name", "description"]
     );
     if (dest) return destinationSummary(dest);
 
-    // Full-sentence questions ("what is the price of the europe package")
-    // never hit the whole-query substring check above, since a title is
-    // shorter than the sentence around it — so pull out the specific word(s)
-    // and match those instead. A single hit gets the full package/destination
-    // answer (price included); several hits get a filtered list rather than
-    // an arbitrary pick.
-    for (const token of significantTokens(raw)) {
-      const pkgMatches = findAllByToken(ctx.packages, token, (p) => [p.title, ...p.highlights]);
+    // Extract non-generic, specific tokens (e.g. "bali", "kerala", "europe")
+    for (const token of tokens) {
+      const pkgMatches = findAllByToken(ctx.packages, token, (p) => [p.title, p.destination || ""]);
       if (pkgMatches.length === 1) {
         const matchedPackage = pkgMatches[0];
-        const publishedFaq = answerPublishedPackageFaq(matchedPackage, raw);
+        const publishedFaq = answerPublishedPackageFaq(matchedPackage, trimmed);
         if (publishedFaq) return publishedFaq;
         return packageQuestions.length ? packageQuestionsAnswer(matchedPackage, packageQuestions) : packageSummary(matchedPackage);
       }
@@ -874,20 +1662,20 @@ export function resolveResponse(raw: string, ctx: KnowledgeContext, activePackag
     }
   }
 
-  // Follow-up questions such as “Are flights included?” inherit the last
-  // package the customer discussed, which makes the assistant conversational
-  // without sending any personal data to a third-party AI service.
+  // Follow-up questions on an active package
   if (activePackage && packageQuestions.length) {
     return packageQuestionsAnswer(activePackage, packageQuestions);
   }
 
-  const faq = findFaq(raw);
+  // FAQ Knowledge Base match
+  const faq = findFaq(trimmed);
   if (faq) {
     return faqResponse(faq, ctx);
   }
 
+  // Blog post search
   if (!generic) {
-    const post = findBySubstringOrFuzzy(ctx.posts, raw, (p) => [p.title, p.excerpt], ["title", "excerpt"]);
+    const post = findBySubstringOrFuzzy(ctx.posts, trimmed, (p) => [p.title, p.excerpt], ["title", "excerpt"]);
     if (post) return postSummary(post);
   }
 

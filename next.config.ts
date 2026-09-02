@@ -1,10 +1,18 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // The PDF renderer reads its embedded fonts from disk at runtime, so the
-  // .ttf files must be traced into the server bundle for routes that use them.
+  // The PDF renderer reads its fonts, the brand logo and any locally-hosted
+  // artwork from disk at runtime. Every one of those paths is built with
+  // `process.cwd()`, so the tracer cannot see them statically and the files
+  // have to be listed by hand or they simply are not in the deployed bundle.
+  //
+  // `public/pdf-assets` matters as much as the fonts: `PdfDoc.create()` swallows
+  // a missing logo with `.catch(() => null)` and quietly falls back to setting
+  // the company name as text, so an untraced logo does not fail the build or
+  // the request — the brochures just come out unbranded in production while
+  // still looking correct locally.
   outputFileTracingIncludes: {
-    "/api/**": ["src/lib/documents/pdf/fonts/**"],
+    "/api/**": ["src/lib/documents/pdf/fonts/**", "public/pdf-assets/**"],
   },
   images: {
     // AVIF first: roughly 20–30% smaller than WebP at the same visual quality,
