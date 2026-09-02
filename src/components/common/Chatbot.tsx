@@ -1149,6 +1149,25 @@ const FAQS: Record<string, Faq> = {
       "Baggage allowance depends on the airline tickets included in your package (typically 15-20 kg check-in + 7 kg cabin for domestic/regional flights). For vehicle transfers, ample boot space is provided for standard suitcase sizes.",
     followups: ["flights", "packages", "contact"],
   },
+  complaint: {
+    id: "complaint",
+    chipLabel: "Need assistance",
+    keywords: [
+      "bad bot",
+      "stupid bot",
+      "not helpful",
+      "wrong answer",
+      "you are dumb",
+      "useless",
+      "complaint",
+      "speak to manager",
+      "escalate",
+      "frustrated",
+    ],
+    answer:
+      "I'm sorry I couldn't get that right! 🙇 As an automated assistant, I do my best with published travel information. Let me connect you directly with our senior travel consultant in Thane who can personally help you right away.",
+    followups: ["contact", "packages", "custom"],
+  },
 };
 
 const FAQ_LIST = Object.values(FAQS);
@@ -1340,13 +1359,15 @@ function isGenericQuery(raw: string): boolean {
  * sentence query (e.g. "what is the price of the europe package" -> "europe"). */
 const STOPWORDS = new Set([
   "what", "whats", "is", "are", "the", "a", "an", "of", "for", "to", "in", "on",
-  "and", "or", "how", "much", "does", "do", "did", "can", "could", "will", "would",
-  "about", "with", "without", "from", "that", "this", "it", "its", "tell", "me", "give",
-  "show", "have", "has", "need", "needs", "want", "wants", "you", "your", "there",
-  "adult", "adults", "child", "children", "traveller", "travellers", "romantic",
-  "some", "any", "like", "know", "please", "just", "also", "wanting", "via", "per",
-  "through", "using", "mode", "modes", "way", "ways", "option", "options", "visit", "visiting",
-  "go", "going", "travel", "travels", "travelling", "traveling", "see", "view",
+  "and", "or", "how", "much", "many", "more", "most", "few", "several", "each", "every",
+  "long", "short", "does", "do", "did", "can", "could", "will", "would",
+  "about", "with", "without", "from", "that", "this", "it", "its", "they", "them", "their",
+  "tell", "me", "give", "show", "have", "has", "need", "needs", "want", "wants",
+  "you", "your", "there", "adult", "adults", "child", "children", "traveller", "travellers",
+  "romantic", "some", "any", "like", "know", "please", "just", "also", "wanting",
+  "via", "per", "through", "using", "mode", "modes", "way", "ways", "option", "options",
+  "visit", "visiting", "go", "going", "travel", "travels", "travelling", "traveling",
+  "see", "view",
 ]);
 
 /** Pulls out the specific, non-generic words from a query — e.g. "what is
@@ -1404,7 +1425,11 @@ type PackageQuestion =
   | "baggage"
   | "cancellation"
   | "price"
-  | "itinerary";
+  | "itinerary"
+  | "duration"
+  | "bestTime"
+  | "startingPoint"
+  | "groupSize";
 
 function detectPackageQuestions(raw: string): PackageQuestion[] {
   const text = raw.toLowerCase();
@@ -1420,12 +1445,16 @@ function detectPackageQuestions(raw: string): PackageQuestion[] {
   if (/\b(?:not included|exclude|exclusion|exclusions|extra cost|pay extra|additional charge)\b/.test(text)) questions.push("exclusions");
   if (/\b(?:include|included|inclusion|inclusions|covered|come with)\b/.test(text)) questions.push("inclusions");
   if (/\b(?:price|pricing|cost|budget|how much|rate|fee|charge)\b/.test(text)) questions.push("price");
-  if (/\b(?:itinerary|day by day|route|places|sightseeing|schedule|plan)\b/.test(text)) questions.push("itinerary");
+  if (/\b(?:itinerary|day by day|route|places to visit|sightseeing|schedule|plan)\b/.test(text)) questions.push("itinerary");
+  if (/\b(?:duration|how many days|how long|how many nights|number of days|trip length)\b/.test(text)) questions.push("duration");
+  if (/\b(?:best time|best season|best month|when to visit|which month|ideal time|when should i go|weather)\b/.test(text)) questions.push("bestTime");
+  if (/\b(?:starting point|start from|starts from|pickup point|pickup location|departure city|where does it start)\b/.test(text)) questions.push("startingPoint");
+  if (/\b(?:group size|how many people|min pax|minimum pax|how many guests|batch size)\b/.test(text)) questions.push("groupSize");
 
   return Array.from(new Set(questions));
 }
 
-const PACKAGE_DETAIL_PATTERNS: Record<Exclude<PackageQuestion, "inclusions" | "exclusions" | "cancellation" | "price" | "itinerary">, RegExp> = {
+const PACKAGE_DETAIL_PATTERNS: Record<Exclude<PackageQuestion, "inclusions" | "exclusions" | "cancellation" | "price" | "itinerary" | "duration" | "bestTime" | "startingPoint" | "groupSize">, RegExp> = {
   flights: /flight|airfare|air ticket|airport|airline/i,
   visa: /visa|passport|immigration|permit/i,
   hotel: /hotel|accommodation|resort|room|stay/i,
@@ -1441,7 +1470,7 @@ function packageActions(pkg: TourPackage): BotResponse["actions"] {
   ];
 }
 
-function packageServiceDetail(pkg: TourPackage, question: Exclude<PackageQuestion, "inclusions" | "exclusions" | "cancellation" | "price" | "itinerary">): string {
+function packageServiceDetail(pkg: TourPackage, question: Exclude<PackageQuestion, "inclusions" | "exclusions" | "cancellation" | "price" | "itinerary" | "duration" | "bestTime" | "startingPoint" | "groupSize">): string {
   const inclusions = pkg.inclusions ?? [];
   const exclusions = pkg.exclusions ?? [];
   const pattern = PACKAGE_DETAIL_PATTERNS[question];
@@ -1465,6 +1494,34 @@ function packageQuestionAnswer(pkg: TourPackage, question: PackageQuestion): Bot
     packageId: pkg.id,
   };
 
+  if (question === "duration") {
+    return {
+      ...common,
+      text: `${pkg.title} is a ${pkg.duration} journey.${pkg.itinerary?.length ? ` It features a ${pkg.itinerary.length}-day planned route.` : ""}`,
+      chips: ["itinerary", "price", "booking"],
+    };
+  }
+  if (question === "bestTime") {
+    return {
+      ...common,
+      text: `The best time to visit for ${pkg.title} is ${pkg.bestTime || "throughout the year depending on your travel season"}.`,
+      chips: ["itinerary", "price", "booking"],
+    };
+  }
+  if (question === "startingPoint") {
+    return {
+      ...common,
+      text: `${pkg.title} starts from ${pkg.startingPoint || "the designated destination airport / railway station"}. All onward transfers are included as per the itinerary.`,
+      chips: ["flights", "itinerary", "booking"],
+    };
+  }
+  if (question === "groupSize") {
+    return {
+      ...common,
+      text: `${pkg.title} group size: ${pkg.groupSize || "Flexible from 2+ guests for customized bookings or standard group batches for fixed departures."}`,
+      chips: ["custom", "booking", "contact"],
+    };
+  }
   if (question === "inclusions") {
     return {
       ...common,
@@ -1514,7 +1571,7 @@ function packageQuestionAnswer(pkg: TourPackage, question: PackageQuestion): Bot
 function packageQuestionsAnswer(pkg: TourPackage, questions: PackageQuestion[]): BotResponse {
   if (questions.length <= 1) return packageQuestionAnswer(pkg, questions[0] ?? "itinerary");
   const serviceQuestions = questions.filter(
-    (question): question is Exclude<PackageQuestion, "inclusions" | "exclusions" | "cancellation" | "price" | "itinerary"> =>
+    (question): question is Exclude<PackageQuestion, "inclusions" | "exclusions" | "cancellation" | "price" | "itinerary" | "duration" | "bestTime" | "startingPoint" | "groupSize"> =>
       question in PACKAGE_DETAIL_PATTERNS
   );
   if (serviceQuestions.length === questions.length) {
@@ -1529,6 +1586,15 @@ function packageQuestionsAnswer(pkg: TourPackage, questions: PackageQuestion[]):
   }
 
   const sections: string[] = [];
+  if (questions.includes("duration")) {
+    sections.push(`⏱️ Duration: ${pkg.duration}.`);
+  }
+  if (questions.includes("bestTime")) {
+    sections.push(`☀️ Best time to go: ${pkg.bestTime || "All year round"}.`);
+  }
+  if (questions.includes("startingPoint")) {
+    sections.push(`📍 Starts from: ${pkg.startingPoint || "Designated airport / railway station"}.`);
+  }
   if (questions.includes("price")) {
     sections.push(`💰 Price: From ${pkg.price} per person for ${pkg.duration}.`);
   }
@@ -1614,7 +1680,11 @@ export function resolveResponse(raw: string, ctx: KnowledgeContext, activePackag
     // match that package and answer the question specifically for it.
     if (packageQuestions.length && tokens.length > 0) {
       for (const token of tokens) {
-        const pkgMatches = findAllByToken(ctx.packages, token, (p) => [p.title, p.destination || ""]);
+        const pkgMatches = findAllByToken(
+          ctx.packages,
+          token,
+          (p) => [p.title, p.destination || "", ...(p.highlights || []), ...(p.themes || [])]
+        );
         if (pkgMatches.length >= 1) {
           const matchedPackage = pkgMatches[0];
           const publishedFaq = answerPublishedPackageFaq(matchedPackage, trimmed);
@@ -1628,8 +1698,8 @@ export function resolveResponse(raw: string, ctx: KnowledgeContext, activePackag
     const pkg = findBySubstringOrFuzzy(
       ctx.packages,
       trimmed,
-      (p) => [p.title, p.destination || ""],
-      ["title", "destination"]
+      (p) => [p.title, p.destination || "", ...(p.highlights || [])],
+      ["title", "destination", "highlights"]
     );
     if (pkg) {
       const publishedFaq = answerPublishedPackageFaq(pkg, trimmed);
@@ -1644,11 +1714,40 @@ export function resolveResponse(raw: string, ctx: KnowledgeContext, activePackag
       (d) => [d.name, d.description],
       ["name", "description"]
     );
-    if (dest) return destinationSummary(dest);
+    if (dest) {
+      if (packageQuestions.includes("bestTime")) {
+        const post = ctx.posts.find(
+          (p) => p.slug?.includes(dest.id) || p.title.toLowerCase().includes(dest.name.toLowerCase())
+        );
+        if (post) {
+          return {
+            text: `The best time to visit ${dest.name}: ${post.title} — ${post.excerpt}`,
+            actions: [
+              { label: "Read travel guide", href: `/blog/${post.slug || post.id}` },
+              { label: `Explore ${dest.name}`, href: `/destinations/${dest.id}` },
+            ],
+            chips: ["packages", "booking", "custom"],
+          };
+        }
+        return {
+          text: `The best time to visit ${dest.name} is ${dest.bestTime || "throughout the year depending on the season and activities you prefer"}. Starting from ${dest.price} per person.`,
+          actions: [
+            { label: `Explore ${dest.name}`, href: `/destinations/${dest.id}` },
+            { label: "Plan this trip", href: contactEnquiryHref(dest.name) },
+          ],
+          chips: ["packages", "booking", "custom"],
+        };
+      }
+      return destinationSummary(dest);
+    }
 
-    // Extract non-generic, specific tokens (e.g. "bali", "kerala", "europe")
+    // Extract non-generic, specific tokens (e.g. "tawang", "kaziranga", "bali", "kerala", "europe", "havelock")
     for (const token of tokens) {
-      const pkgMatches = findAllByToken(ctx.packages, token, (p) => [p.title, p.destination || ""]);
+      const pkgMatches = findAllByToken(
+        ctx.packages,
+        token,
+        (p) => [p.title, p.destination || "", ...(p.highlights || []), ...(p.themes || [])]
+      );
       if (pkgMatches.length === 1) {
         const matchedPackage = pkgMatches[0];
         const publishedFaq = answerPublishedPackageFaq(matchedPackage, trimmed);
@@ -1658,7 +1757,33 @@ export function resolveResponse(raw: string, ctx: KnowledgeContext, activePackag
       if (pkgMatches.length > 1) return multiPackageAnswer(pkgMatches);
 
       const destMatches = findAllByToken(ctx.destinations, token, (d) => [d.name]);
-      if (destMatches.length === 1) return destinationSummary(destMatches[0]);
+      if (destMatches.length === 1) {
+        const matchedDest = destMatches[0];
+        if (packageQuestions.includes("bestTime")) {
+          const post = ctx.posts.find(
+            (p) => p.slug?.includes(matchedDest.id) || p.title.toLowerCase().includes(matchedDest.name.toLowerCase())
+          );
+          if (post) {
+            return {
+              text: `The best time to visit ${matchedDest.name}: ${post.title} — ${post.excerpt}`,
+              actions: [
+                { label: "Read travel guide", href: `/blog/${post.slug || post.id}` },
+                { label: `Explore ${matchedDest.name}`, href: `/destinations/${matchedDest.id}` },
+              ],
+              chips: ["packages", "booking", "custom"],
+            };
+          }
+          return {
+            text: `The best time to visit ${matchedDest.name} is ${matchedDest.bestTime || "throughout the year depending on the season you prefer"}. Starting from ${matchedDest.price} per person.`,
+            actions: [
+              { label: `Explore ${matchedDest.name}`, href: `/destinations/${matchedDest.id}` },
+              { label: "Plan this trip", href: contactEnquiryHref(matchedDest.name) },
+            ],
+            chips: ["packages", "booking", "custom"],
+          };
+        }
+        return destinationSummary(matchedDest);
+      }
     }
   }
 
