@@ -235,3666 +235,4980 @@ export const destinations: Destination[] = [
 
 const packageCatalogue: TourPackage[] = [
   {
-    "id": "bali-island-dreams",
-    "title": "Bali – The Island of Dreams",
-    "image": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=85&w=1800",
-    "duration": "6 Nights / 7 Days",
-    "price": "₹61,900",
-    "highlights": [
-      "Nusa Penida speedboat island tour",
-      "Uluwatu Temple sunset & Kecak Dance",
-      "Bali Swing & jungle experiences",
-      "Tanjung Benoa water sports"
+    id: "bali-island-dreams",
+    title: "Bali – The Island of Dreams (4N Kuta | 2N Ubud)",
+    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=85&w=1800",
+    duration: "6 Nights / 7 Days",
+    price: "₹61,900",
+    highlights: [
+      "Explore the best of Kuta, Ubud & Nusa Penida",
+      "Traditional Balinese Welcome with Garland",
+      "Tanjung Benoa Water Sports (Jet Ski, Banana Boat & Couple Parasailing)",
+      "Uluwatu Temple Sunset Tour",
+      "Kecak Fire Dance Performance",
+      "Full-Day West Nusa Penida Island Tour by Speedboat",
+      "Visit Kelingking Beach, Broken Beach, Angel's Billabong & Crystal Bay",
+      "Ulun Danu Beratan Temple",
+      "Handara Gate Photo Stop",
+      "Tanah Lot Sea Temple",
+      "Tirta Gangga Water Palace",
+      "Mount Batur View Point, Kintamani",
+      "Tegenungan Waterfall",
+      "Bali Jungle Swing Experience",
+      "Batik Factory & Celuk Village Visit",
+      "Balinese Coffee Plantation",
+      "Ubud Art Market",
     ],
-    "category": "International",
-    "isPopular": true,
-    "tagline": "Temples, jungle swings and speedboat islands across Kuta, Ubud and Nusa Penida.",
-    "overview": "Six nights across Kuta and Ubud combine Bali's signature temples and volcano viewpoints with a full-day speedboat tour of Nusa Penida's Kelingking Beach, Broken Beach and Crystal Bay.",
-    "heroImage": "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "April to October",
-    "startingPoint": "Ngurah Rai International Airport, Denpasar",
-    "groupSize": "Min 25 pax for quoted rate",
-    "themes": [
-      "Beach",
-      "Culture",
-      "Adventure"
+    category: "International",
+    isPopular: true,
+    tagline: "4N Kuta | 2N Ubud · 6N/7D · Fixed Departures from Sep to Apr",
+    overview:
+      "Explore the best of Bali across 4 nights in Kuta and 2 nights in Ubud. Highlights include water sports at Tanjung Benoa, Uluwatu sunset with Kecak Fire Dance, a full-day speedboat excursion to West Nusa Penida (Kelingking Beach, Broken Beach, Angel's Billabong & Crystal Bay), North & West Bali sightseeing (Ulun Danu Beratan, Handara Gate, Tanah Lot), Tirth Ganga Temple, Mount Batur viewpoint at Kintamani, Tegenungan Waterfall, and the Bali Jungle Swing.\n\nTour Departure Dates: Sep 17, 21 | Oct 7, 22 | Nov 6 | Feb 2, 16 | Mar 4, 24, 26 | Apr 1, 18.",
+    heroImage: "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "September to April",
+    startingPoint: "Ngurah Rai International Airport (DPS), Denpasar (Expected arrival time: 16:40 PM)",
+    groupSize: "Min 25 pax for quoted rate",
+    themes: ["Beach", "Culture", "Adventure"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=85&w=1800", caption: "Kuta and Ubud, Bali" },
+      { image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800", caption: "Island-hopping to Nusa Penida" },
     ],
-    "gallery": [
+    itinerary: [
       {
-        "image": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Kuta and Ubud, Bali"
+        day: 1,
+        title: "Arrival in Bali",
+        description:
+          "Upon arrival at Ngurah Rai International Airport (DPS),(Expected arrival time 16:40pm), Meet our representative. Welcome with Garland on arrival. A one-way private transfer will be arranged from the airport to the hotel in Kuta. Later check-in at hotel (Check in at 02:00pm). Rest day for leisure. Overnight stay at Kuta. (L-D)",
+        meals: "Lunch, Dinner",
+        stay: "Kuta",
       },
       {
-        "image": "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Island-hopping to Nusa Penida"
-      }
+        day: 2,
+        title: "Benoa Water Sports – Uluwatu Temple – Kecak Dance",
+        description:
+          "Morning breakfast at the hotel. Visit Tanjung Benoa for a day of water sports (1x Jet ski, 1x Banana Boat Ride & 1x Couple Parasailing). Later proceed to Uluwatu Temple for a beautiful sunset. Explore the temple and surrounding areas, and witness a stunning sunset. In the evening, enjoy the iconic Kecak Dance, a traditional Balinese performance featuring rhythmic chanting and a captivating fire display. Overnight stay at Kuta. (B-L-D)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Kuta",
+      },
+      {
+        day: 3,
+        title: "West Nusa Penida Day Tour",
+        description:
+          "Breakfast at the hotel. Transfer to Sanur Harbor. Speed boat transfer to Nusa Penida Island. West Nusa Penida Highlights: Kelingking Beach, Broken Beach, Angel's Billabong, Crystal Bay. Local snack lunch included. Return by speed boat to Bali. Transfer back to hotel. Overnight stay in Kuta. (B-L-D)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Kuta",
+      },
+      {
+        day: 4,
+        title: "Ulun Danu – Handara Gate – Tanah Lot",
+        description:
+          "After breakfast, Full-day North & West Bali sightseeing: Ulun Danu Beratan Temple (Floating temple on Lake Beratan), Handara Gate (Iconic photo stop), Tanah Lot Temple (Famous sea temple, best for sunset views). Return to hotel. Overnight stay in Kuta. (B-L-D)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Kuta",
+      },
+      {
+        day: 5,
+        title: "Tirth Ganga Temple Visit & Leisure Day",
+        description:
+          "After breakfast, visit the sacred Tirth Ganga Temple and explore its serene surroundings. Spend some time enjoying the peaceful atmosphere and scenic views. The rest of the day is at leisure for personal activities, relaxation, or independent exploration. Overnight stay at the hotel. (B-L-D)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Kuta",
+      },
+      {
+        day: 6,
+        title: "Kintamani – Tegenungan Waterfall – Bali Swing – Ubud",
+        description:
+          "Breakfast at the hotel. Full-day tour covering: Mount Batur Viewing Point, Visit to Batik Factory, Celuk Village (Gold & Silver handicrafts), Coffee Plantation (Balinese coffee tasting), Ubud Art Market, Bali Jungle Swing. Return to hotel. Overnight stay in Ubud. (B-L-D)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Ubud",
+      },
+      {
+        day: 7,
+        title: "Departure",
+        description:
+          "After breakfast, check out from the hotel and transfer to I Gusti Ngurah Rai International Airport for your onward flight. (Expected departure time: 6:00PM). Depart with wonderful memories of your Bali holiday. See you again! (B-L)",
+        meals: "Breakfast, Lunch",
+        stay: "—",
+      },
     ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Arrival in Bali — Traditional Garland Welcome & Coastal Leisure",
-        "description": "Touch down at Ngurah Rai International Airport in Denpasar, where your dedicated Bandhan tour representative greets you with a fragrant frangipani flower garland welcome. Board your private air-conditioned coach for a smooth transfer to your resort in Kuta. Spend your afternoon settling in, relaxing poolside, or taking your first walk along the golden sands of Kuta Beach as the sun dips into the Indian Ocean. In the evening, gather for a delicious Indian dinner at a renowned local restaurant.",
-        "meals": "Lunch, Dinner",
-        "stay": "Kuta"
-      },
-      {
-        "day": 2,
-        "title": "Tanjung Benoa Water Sports — Clifftop Uluwatu Temple & Sunset Kecak Fire Dance",
-        "description": "After a wholesome breakfast, head south to the azure waters of Tanjung Benoa Peninsula for an exhilarating morning of water sports: feel the thrill of a high-speed Jet Ski ride with instructor, a classic Banana Boat splash, and a tandem Parasailing flight over the tropical bay. Following an authentic Indian buffet lunch, journey down to the rugged Bukit Peninsula to visit Uluwatu Temple, perched dramatically 70 metres atop sheer oceanic cliffs. As twilight illuminates the horizon, take your amphitheatre seats for the spellbinding Kecak & Fire Dance performance, accompanied by the hypnotic chanting of 50+ performers enacting the Ramayana epic.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Kuta"
-      },
-      {
-        "day": 3,
-        "title": "West Nusa Penida Island Speedboat Day Tour — Kelingking Cliff & Broken Beach",
-        "description": "Board an early-morning high-speed catamaran from Sanur Harbor across the Badung Strait to the pristine island of Nusa Penida. Hop into private 4x4 island transport to explore world-famous landmarks: gaze down at the iconic T-Rex shaped limestone cliff and turquoise surf of Kelingking Beach, marvel at the natural rock arch spanning Broken Beach, and peer into the emerald infinity pool of Angel's Billabong. Savor a hot local Indonesian/Indian lunch before swimming in the calm, palm-fringed bay of Crystal Bay. Return by speedboat to Bali in the late afternoon for dinner in Kuta.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Kuta"
-      },
-      {
-        "day": 4,
-        "title": "Ulun Danu Beratan Lake Temple — Handara Iconic Gate — Sunset at Tanah Lot",
-        "description": "Journey into the cool central highlands of Bedugul. Arrive at Lake Beratan to marvel at Pura Ulun Danu Beratan, the postcard-famous 17th-century Hindu-Buddhist water temple that appears to float on the misty lake surface. Continue to the iconic Handara Golf Gate for majestic photos framed against emerald mountain peaks. After lunch, wind down through terraced countryside to the southwestern coast to witness Tanah Lot Sea Temple, perched on an offshore wave-swept rock formation, surrounded by crashing tides as the golden sun sets into the horizon.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Kuta"
-      },
-      {
-        "day": 5,
-        "title": "Royal Tirta Gangga Water Palace & Afternoon Leisure in Seminyak",
-        "description": "Travel to East Bali to discover the royal Tirta Gangga Water Palace, constructed in 1946 by the King of Karangasem. Walk across stone stepping-pads laid over ornate ponds teeming with giant golden koi, framed by eleven-tiered fountains and lush tropical flora. Return to Kuta/Seminyak for an afternoon dedicated to relaxation: indulge in a traditional Balinese herbal massage, browse chic boutiques along Seminyak Square, or unwind by the beach shacks before an evening Indian dinner.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Kuta"
-      },
-      {
-        "day": 6,
-        "title": "Kintamani Mount Batur Volcano — Celuk Silver Craft — Bali Jungle Swing — Ubud Transfer",
-        "description": "Check out from Kuta and journey toward the cultural highland capital of Ubud. Stop at Celuk village to watch master goldsmiths and silversmiths at work, and visit a traditional Luwak coffee plantation for sensory tastings. Ascend to the ridge of Kintamani for sweeping panoramic views of active Mount Batur volcano and its glistening caldera lake during an expansive buffet lunch. In the afternoon, soar above lush ravines on the famous Bali Jungle Swing and walk through the stepped green amphitheatre of Tegallalang Rice Terraces, ending with shopping at the Ubud Art Market before checking into your Ubud resort.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Ubud"
-      },
-      {
-        "day": 7,
-        "title": "Ubud Morning Leisure — Departure from Bali",
-        "description": "Enjoy a leisurely final breakfast surrounded by the gentle morning sounds of Ubud's rainforest valley. Enjoy free time for last-minute souvenir shopping on Monkey Forest Road or a peaceful stroll through local artisan stalls. Meet your private chauffeur for your transfer to Ngurah Rai International Airport in Denpasar, boarding your flight home with treasured memories of your Bali adventure.",
-        "meals": "Breakfast, Lunch",
-        "stay": "—"
-      }
+    inclusions: [
+      "Welcome by Garland",
+      "3-star hotel accommodation on double sharing basis",
+      "Daily continental Breakfast at Hotel",
+      "Lunch and Dinner at Indian restaurant with Veg /non-veg set menu",
+      "Daily 1 bottle of mineral water per person during the tour",
+      "Water sport activities (1x Jet ski, 1x Banana Boat Ride & 1x Couple Parasailing)",
+      "Sightseeing as mentioned above",
+      "Tirth Ganga Temple",
+      "Bali Swing",
+      "Bali visa",
+      "Ubud Tour",
+      "English speaking Guide above 20 persons",
+      "Indian Tour Leader above 20 persons throughout the tour",
+      "Complimentary travel insurance up to 59 years of age",
+      "All Tours & Transfer on Private Basis",
     ],
-    "inclusions": [
-      "Traditional garland welcome on arrival",
-      "3-star hotel accommodation on double sharing",
-      "Daily breakfast, lunch and dinner at Indian restaurants",
-      "1L mineral water per person daily",
-      "Water sports: jet ski, banana boat, couple parasailing",
-      "Nusa Penida speedboat day tour, Bali Swing and Ubud tour",
-      "Bali visa, English-speaking guide and Indian tour leader (25+ pax)",
-      "Travel insurance up to 59 years, all transfers on private basis"
+    exclusions: [
+      "Any Airfare",
+      "Airport charges",
+      "5% GST & 2% TCS",
+      "Beverages and other meals are not mentioned above.",
+      "Cost of pre or post tour hotel accommodation",
+      "Tips and porter charges",
+      "Expenses of personal nature such as other taxes, drinks, telephone, shopping, snacks, Porterage and laundry bills etc.",
+      "Any additional expenses incurred due to any flight delay or cancellation, weather conditions, political closures, technical faults etc.",
     ],
-    "exclusions": [
-      "International and domestic airfare, airport charges",
-      "5% GST and 2% TCS",
-      "Beverages and meals not mentioned in the itinerary",
-      "Pre/post-tour accommodation, tips and porterage",
-      "Personal expenses and costs from flight delays or cancellations"
-    ]
+    faqs: [
+      {
+        question: "What is the total tour cost and room sharing pricing?",
+        answer:
+          "The tour cost is based on a minimum of 25 pax:\n• Double sharing basis: ₹61,900/- + 5% GST + 2% TCS per person\n• Single sharing basis: ₹76,900/- + 5% GST + 2% TCS per person\n• Triple sharing basis: ₹60,900/- + 5% GST + 2% TCS per person\n• Child with bed: ₹59,900/- + 5% GST + 2% TCS\n• Child without bed: ₹38,900/- + 5% GST + 2% TCS\n• Child below 3 years: Complimentary",
+      },
+      {
+        question: "What are the confirmed tour departure dates?",
+        answer:
+          "Tour Departure Dates: Sep 17, 21 | Oct 7, 22 | Nov 6 | Feb 2, 16 | Mar 4, 24, 26 | Apr 1, 18.",
+      },
+      {
+        question: "What are the passport, visa, and flight reporting guidelines?",
+        answer:
+          "Passport must be valid for at least 6 months from the return date with a minimum of 2 blank pages. A valid tourist visa is mandatory (Bali visa is included). Report at the airport at least 3 hours before the scheduled departure of your international flight. Standard hotel check-in is 2:00 PM and check-out is 12:00 PM.",
+      },
+      {
+        question: "What is the booking, payment, and cancellation policy?",
+        answer:
+          "A 50% advance payment is required to confirm booking, with the remaining balance due at least 15 days prior to departure.\n\nCancellation charges prior to departure:\n• 121 to 900 days: 10%\n• 91 to 120 days: 15%\n• 61 to 90 days: 20%\n• 46 to 60 days: 30%\n• 31 to 45 days: 40%\n• 21 to 30 days: 50%\n• 11 to 20 days: 75%\n• 0 to 10 days: 100%\nVisa fees, airfare, travel insurance, and non-refundable services apply in addition.",
+      },
+    ],
   },
   {
-    "id": "3-sisters-tour",
-    "title": "3 Sisters Tour — Assam, Meghalaya & Arunachal Pradesh",
-    "image": "/pdf-assets/kanchenjunga-darjeeling.jpg",
-    "duration": "11 Nights / 12 Days",
-    "price": "₹57,000",
-    "highlights": [
-      "Kaziranga elephant & jeep safari",
-      "Living Root Bridge, Mawlynnong",
-      "Tawang Monastery & Bumla Pass",
-      "Sela Pass & Nathula border region"
+    id: "3-sisters-tour",
+    title: "3 Sisters Tour (Assam • Meghalaya • Arunachal Pradesh)",
+    image: "/pdf-assets/kanchenjunga-darjeeling.jpg",
+    duration: "11 Nights / 12 Days",
+    price: "₹57,000",
+    highlights: [
+      "Maa Kamakhya Devi Temple",
+      "Umiam Lake Viewpoint",
+      "Don Bosco Museum & Ward's Lake",
+      "Mawlynnong Village & Living Root Bridge",
+      "Dawki River & Suspension Bridge",
+      "Cherrapunjee: Nohkalikai Falls & Seven Sisters Falls",
+      "Mawsmai Caves & Garden of Caves",
+      "Elephant Safari & Jeep Safari at Kaziranga National Park",
+      "Assamese Cultural Bihu Dance Program",
+      "Tipi Orchidarium (7,500+ orchid species)",
+      "Sela Pass (13,703 ft.) & Sela Lake",
+      "Tawang Monastery & Bumla Pass (China Border)",
+      "Madhuri Lake / Sangetsar Lake",
+      "Tawang War Memorial Light & Sound Show",
+      "Nuranang (Jang) Waterfall & Jaswant Garh War Memorial",
+      "Brahmaputra River Sunset Cruise",
+      "Shree Sankardeva Kalakshetra",
     ],
-    "category": "North East",
-    "isPopular": true,
-    "tagline": "Assam's tea gardens, Meghalaya's living bridges and Arunachal's Himalayan passes in one grand loop.",
-    "overview": "A comprehensive 12-day loop through Assam, Meghalaya and Arunachal Pradesh — from Kamakhya Temple and Kaziranga's rhinos to the cleanest village in Asia and the high-altitude monastery town of Tawang near the China border.",
-    "heroImage": "/pdf-assets/kanchenjunga-darjeeling.jpg",
-    "bestTime": "September to December",
-    "startingPoint": "Guwahati Airport",
-    "groupSize": "2+ guests",
-    "themes": [
-      "Mountains",
-      "Culture",
-      "Wildlife"
+    category: "North East",
+    isPopular: true,
+    tagline: "Guwahati 1N – Shillong 3N – Kaziranga 2N – Dirang 1N – Tawang 2N – Bomdila 1N – Guwahati 1N · 11N/12D",
+    overview:
+      "A magnificent 11 Nights / 12 Days journey across Assam, Meghalaya, and Arunachal Pradesh. Experience sacred temples, misty hill stations, Asia's cleanest village, living root bridges, wildlife safaris in Kaziranga National Park, high-altitude mountain passes including Sela Pass and Bumla Pass, iconic monasteries, cascading waterfalls, and a sunset cruise on the Brahmaputra River.\n\nDeparture Dates: Sep 24, 28 | Oct 01, 04, 12, 21, 24 | Nov 01, 04, 14, 18, 22, 26 | Dec 02, 06, 12, 18, 22.",
+    heroImage: "/pdf-assets/kanchenjunga-darjeeling.jpg",
+    bestTime: "September to December",
+    startingPoint: "Guwahati Airport (18km / 30 min transfer)",
+    groupSize: "Group departures",
+    themes: ["Mountains", "Culture", "Wildlife"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800", caption: "Himalayan foothills of Arunachal Pradesh" },
+      { image: "https://images.unsplash.com/photo-1609920658906-8223bd289001?auto=format&fit=crop&q=85&w=1800", caption: "Misty mornings in Meghalaya" },
     ],
-    "gallery": [
+    itinerary: [
       {
-        "image": "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Himalayan foothills of Arunachal Pradesh"
+        day: 1,
+        title: "Arrival Guwahati by Air – Transfer to Hotel (18km/30 Min.)",
+        description:
+          "Upon arrival at Guwahati Airport, meet and greet with a warm traditional welcome by our representative. After checking in at the hotel and refreshing, visit the Mata Kamakhya Devi Temple for a Mukh Darshan. Return to the hotel for an overnight stay in Guwahati.",
+        meals: "Dinner",
+        stay: "Guwahati",
       },
       {
-        "image": "https://images.unsplash.com/photo-1609920658906-8223bd289001?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Misty mornings in Meghalaya"
-      }
+        day: 2,
+        title: "Guwahati – Shillong by Road (99km/3 hrs.)",
+        description:
+          "After breakfast, proceed to Shillong, the capital of Meghalaya, also known as 'The Scotland of the East'. En route, stop at Umiam Lake Viewpoint, the largest man-made lake in Northeast India. After a 3-hour drive, arrive in Shillong and visit the Don Bosco Museum and Ward's Lake, famous for its garden walks and boating. Check in to the hotel for an overnight stay in Shillong.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Shillong",
+      },
+      {
+        day: 3,
+        title: "Shillong – Mawlynnong - Dawki – Shillong (85km/3 hrs.)",
+        description:
+          "After early breakfast, drive to Mawlynnong, the cleanest village in Asia. Explore the village and enjoy the Sky Walk for a spectacular view of the Living Root Bridge. After lunch, proceed to Dawki, a gateway to Bangladesh, known for its scenic drive through deep gorges. Visit the Umngot River and the suspension bridge. Return back to Shillong for an overnight stay.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Shillong",
+      },
+      {
+        day: 4,
+        title: "Shillong- Cherrapunjee - Shillong (65km/2 hrs.)",
+        description:
+          "After breakfast, drive to Cherrapunjee, known as the wettest place in the world. Enjoy a 1.5-hour scenic drive through pine trees and mist. Visit Nohkalikai Falls, Seven Sisters Falls, Mawsmai Caves, Ramakrishna Mission, and Garden of Caves. Overnight stay in Shillong.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Shillong",
+      },
+      {
+        day: 5,
+        title: "Shillong – Kaziranga National Park (230km/6hrs.)",
+        description:
+          "After breakfast, drive to Kaziranga National Park, home to the world's largest population of one-horned rhinoceroses, along with tigers, elephants, panthers, and birds. Declared a UNESCO World Heritage Site in 1985, it boasts a unique natural environment. En route, visit the Maha Mrityunjay Temple in Nagaon. Overnight stay in Kaziranga.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Kaziranga",
+      },
+      {
+        day: 6,
+        title: "Kaziranga National Park (Jungle Activity)",
+        description:
+          "Begin the day with an early morning Elephant Ride at the Western Range (Bagori). Return to the hotel for breakfast and relaxation. Later, visit the Orchid Park for an authentic Assamese lunch. Afternoon, enjoy a Jeep Safari at the Central Range (Kohora). Evening, enjoy a local cultural program. Overnight stay in Kaziranga.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Kaziranga",
+      },
+      {
+        day: 7,
+        title: "Kaziranga National Park – Dirang (225km/6 hrs.)",
+        description:
+          "After breakfast, visit a nearby tea garden. Later, drive to Dirang. En route, visit the Tipi Orchidarium, home to a glasshouse with over 7,500 species of orchids. Overnight stay in Dirang.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Dirang",
+      },
+      {
+        day: 8,
+        title: "Dirang – Tawang (143km/7 hrs.)",
+        description:
+          "After breakfast, enjoy the scenic views of the beautiful valleys and rivers of Dirang. Later, drive to Tawang via the breathtaking Sela Pass (13,703 ft.) and spend some time at the picturesque Sela Lake. On arrival, check in to the hotel. Overnight stay in Tawang.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Tawang",
+      },
+      {
+        day: 9,
+        title: "Tawang (Bumla Pass Excursion)",
+        description:
+          "After breakfast, proceed for an excursion to Bumla Pass (India–China Border) and Madhuri Lake, offering breathtaking views of the surrounding valleys. In the evening, enjoy the Light and Sound Show at the Tawang War Memorial. Later, enjoy free time for shopping and leisure at your own. Overnight stay in Tawang.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Tawang",
+      },
+      {
+        day: 10,
+        title: "Tawang – Bomdila (180km/6hrs.)",
+        description:
+          "After breakfast, visit the famous Tawang Monastery, one of the largest monasteries in India, founded in the 17th century. Later, drive to Jang to witness the breathtaking Nuranang (Jang) Waterfall. En route, pay homage at the Jaswant Garh War Memorial. Continue your drive to Bomdila. Evening free for shopping and leisure. Overnight stay in Bomdila.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Bomdila",
+      },
+      {
+        day: 11,
+        title: "Bomdila – Guwahati (280km/7.30 hrs.)",
+        description:
+          "Early morning, check out from the Hotel, en route breakfast and proceed to Guwahati. On Arrival, enjoy a river cruise on the mighty Brahmaputra, check in to the hotel, and overnight stay in Guwahati.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Guwahati",
+      },
+      {
+        day: 12,
+        title: "Guwahati Airport",
+        description:
+          "After breakfast, visit the Sri Shankardeva Kalakshetra, a cultural centre showcasing the rich heritage and traditions of Assam. Check out from the hotel and proceed to Guwahati Airport for your onward journey. Tour ends with wonderful memories.",
+        meals: "Breakfast",
+        stay: "—",
+      },
     ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Guwahati Arrival — Maa Kamakhya Devi Temple Darshan",
-        "description": "Arrive at Lokpriya Gopinath Bordoloi International Airport in Guwahati where your dedicated Bandhan tour manager welcomes you. Transfer to your hotel to freshen up before driving up the sacred Nilachal Hills for a special Mukh Darshan at the revered Maa Kamakhya Devi Temple, one of the foremost 51 Shakti Peethas of India. Admire panoramic views of the mighty Brahmaputra River from the hill crest, followed by an evening orientation briefing and welcome dinner at your hotel.",
-        "meals": "—",
-        "stay": "Guwahati"
-      },
-      {
-        "day": 2,
-        "title": "Guwahati to Shillong — Umiam Lake — Don Bosco Museum",
-        "description": "Depart Guwahati after breakfast for a scenic 100 km drive into the pine-covered hills of Meghalaya. Stop at the breathtaking Umiam Lake (Barapani) viewpoint for photography and fresh refreshments. Upon arriving in Shillong, the 'Scotland of the East', visit the world-class Don Bosco Museum of Indigenous Cultures featuring 7 floors of tribal heritage, musical instruments, and traditional attire. Enjoy an evening walk around colonial-era Ward's Lake and the lively markets of Police Bazar before dinner.",
-        "meals": "Breakfast",
-        "stay": "Shillong"
-      },
-      {
-        "day": 3,
-        "title": "Mawlynnong Cleanest Village — Living Root Bridge — Dawki River Boating",
-        "description": "Set off early for Mawlynnong, celebrated as Asia's cleanest village. Stroll through spotless paved lanes lined with orchids and bamboo cane baskets, climb the Sky Walk treehouse for sweeping vistas of the Bangladesh plains, and walk down to Riwai village to marvel at the centuries-old Living Root Bridge crafted from living Ficus elastica trees. Proceed to Dawki on the Indo-Bangladesh border for an unforgettable country boat cruise on the crystal-clear emerald waters of the Umngot River, where boats appear to glide over thin air. Return to Shillong for overnight stay.",
-        "meals": "Breakfast",
-        "stay": "Shillong"
-      },
-      {
-        "day": 4,
-        "title": "Cherrapunjee (Sohra) — Nohkalikai Falls, Mawsmai Cave & Seven Sisters",
-        "description": "Drive south across high Khasi plateaus to Cherrapunjee, historically renowned as one of the wettest places on earth. Stand before the dramatic 1,115-foot plunge of Nohkalikai Falls (India's tallest plunge waterfall) and admire the Seven Sisters Falls cascading down deep limestone gorges. Explore the illuminated limestone caverns of Mawsmai Cave to view ancient stalactites and fossils, followed by a visit to the Garden of Caves with its hidden waterfalls and natural stone bridges before heading back to Shillong.",
-        "meals": "Breakfast",
-        "stay": "Shillong"
-      },
-      {
-        "day": 5,
-        "title": "Shillong to Kaziranga National Park via Maha Mrityunjay Temple",
-        "description": "Descend from Meghalaya's hills and journey east through Assam's lush Brahmaputra valley to Kaziranga National Park (approx. 240 km / 6 hrs), a UNESCO World Heritage biodiversity hotspot. En route, stop at the magnificent 126-foot-tall Maha Mrityunjay Temple in Nagaon, the world's largest Shivling-structured temple. Reach Kaziranga by late afternoon, check into your nature resort, and enjoy evening tea amidst sprawling tea gardens followed by a warm dinner.",
-        "meals": "Breakfast",
-        "stay": "Kaziranga"
-      },
-      {
-        "day": 6,
-        "title": "Kaziranga Elephant & Jeep Safaris — Orchid Park & Traditional Bihu Dance",
-        "description": "Awake before sunrise for an unforgettable early-morning Elephant Safari through the misty grasslands of the Western (Bagori) Range, bringing you within arm's reach of majestic Indian One-Horned Rhinoceroses, wild water buffaloes, and swamp deer. Return to the resort for breakfast, then visit the Kaziranga Orchid and Biodiversity Park to explore over 500 orchid species and savor a traditional 20-item Assamese thali lunch. In the afternoon, embark on an open-top 4x4 Jeep Safari through the Central (Kohora) Range, concluding the day with an evening Bihu folk dance performance at the resort.",
-        "meals": "Breakfast",
-        "stay": "Kaziranga"
-      },
-      {
-        "day": 7,
-        "title": "Kaziranga to Dirang (Arunachal Pradesh) via Tipi Orchidarium",
-        "description": "Bid farewell to Kaziranga and cross the inner border at Bhalukpong into Arunachal Pradesh. Drive along the scenic Kameng River gorge and stop at the Tipi Orchidarium, housing over 7,500 species of exotic orchids in a massive glass pavilion. Continue your ascent through subtropical forests and apple orchards to the peaceful valley of Dirang. Visit the historic 17th-century Dirang Dzong (fortress monastery) and check into your valley-view hotel for dinner.",
-        "meals": "Breakfast",
-        "stay": "Dirang"
-      },
-      {
-        "day": 8,
-        "title": "Dirang to Tawang via Sela Pass (13,703 ft), Sela Lake & Jaswant Garh",
-        "description": "Embark on one of the Himalayas' most legendary high-altitude drives from Dirang to Tawang (140 km / 6 hrs). Wind up hairpin bends to cross the snow-clad Sela Pass at 13,703 feet, pausing at the pristine alpine Sela Lake and the sacred Sela Gate. Pay homage at the Jaswant Garh War Memorial, honoring Rifleman Jaswant Singh Rawat (Maha Vir Chakra) who held off enemy forces in the 1962 war. Marvel at the thunderous 100-metre Nuranang (Jang) Waterfall before arriving in the spiritual fortress town of Tawang for dinner.",
-        "meals": "Breakfast",
-        "stay": "Tawang"
-      },
-      {
-        "day": 9,
-        "title": "Indo-China Border at Bumla Pass (15,200 ft) & Serene Madhuri Lake",
-        "description": "Board local 4x4 mountain vehicles (Sumo/Bolero) for an extraordinary excursion to the snow-covered Indo-China border at Bumla Pass (15,200 ft), standing where Indian and Chinese army posts face each other across the Line of Actual Control. On the return descent, visit the enchanting Madhuri Lake (Sangetsar Tso), famous for dead tree trunks emerging from turquoise glacial waters against snow-capped peaks. In the evening, attend the moving Light & Sound Show at the Tawang War Memorial.",
-        "meals": "Breakfast",
-        "stay": "Tawang"
-      },
-      {
-        "day": 10,
-        "title": "Tawang Monastery — Urgelling Gompa — Scenic Drive to Bomdila",
-        "description": "Dedicate the morning to exploring the majestic 400-year-old Tawang Monastery (Galden Namgyal Lhatse), the second-largest Buddhist monastery in the world, founded in 1681 and home to over 400 lamas, priceless golden scriptures, and a magnificent 28-foot Buddha statue. Visit Urgelling Gompa, the sacred birthplace of the 6th Dalai Lama, before beginning the scenic downhill drive to Bomdila. Check in to your hotel in Bomdila for dinner.",
-        "meals": "Breakfast",
-        "stay": "Bomdila"
-      },
-      {
-        "day": 11,
-        "title": "Bomdila to Guwahati — Brahmaputra Sunset River Cruise",
-        "description": "Descend through the lush hills of West Kameng and cross back into the plains of Assam, arriving in Guwahati by late afternoon. Check into your hotel. In the evening, celebrate the grand conclusion of your Himalayan expedition aboard a luxury river cruise on the mighty Brahmaputra River, taking in panoramic twilight water views, traditional Assamese folk music, and a celebratory farewell dinner.",
-        "meals": "Breakfast",
-        "stay": "Guwahati"
-      },
-      {
-        "day": 12,
-        "title": "Guwahati Cultural Exploration — Airport Transfer & Departure",
-        "description": "Enjoy a leisurely breakfast. Time permitting, visit the Sri Shankardeva Kalakshetra, an expansive cultural center showcasing the rich art, living traditions, and tribal architecture of Assam. Transfer to Lokpriya Gopinath Bordoloi International Airport for your return flight, carrying unforgettable memories of the Seven Sisters' raw beauty.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
+    inclusions: [
+      "All Accommodation 3* Premium Hotels on double sharing basis and as per itinerary",
+      "Breakfast, Lunch & Dinner",
+      "Daily 1 Lt. water bottle per person",
+      "Travel Insurance",
+      "Dawki River Boating",
+      "Thrilling Jeep Safari & Elephant Safari at Kaziranga",
+      "Brahmaputra River Cruise",
+      "All Entry Fees",
+      "Inner Line Permit (ILP)",
+      "Bumla Pass / China Border & Madhuri Lake visit by Sumo / Bolero Car",
+      "Cultural Bihu Dance Program at Kaziranga National Park",
+      "All applicable Transfers & Sightseeing by A/C Force Urbania (A/C does not work in hilly area) vehicle exclusively for guests with all driver allowance & parking fees",
     ],
-    "inclusions": [
-      "3-star premium hotels on double sharing as per itinerary",
-      "Breakfast, lunch and dinner daily, 1L water bottle per day",
-      "Travel insurance, Dawki river boating",
-      "Elephant safari and jeep safari at Kaziranga, Brahmaputra river cruise",
-      "All entry fees, Inner Line Permit, Bumla Pass/Madhuri Lake by Sumo/Bolero",
-      "Cultural Bihu dance program, A/C Force Urbania vehicle with driver and parking"
+    exclusions: [
+      "Airfare / Train Fare",
+      "Any expenses of personal nature like tips, laundry, camera fees, etc.",
+      "Any services not specifically mentioned in inclusions",
     ],
-    "exclusions": [
-      "Airfare or train fare",
-      "Personal expenses such as tips, laundry and camera fees"
-    ]
+    faqs: [
+      {
+        question: "What is the tour package pricing across sharing categories?",
+        answer:
+          "Tour Cost:\n• Double Sharing: ₹57,000/- + 5% GST per person\n• Extra Mattress: ₹50,000/- + 5% GST\n• Child No Bed (5 - 12 yrs): ₹45,000/- + 5% GST\n• Single Occupancy: ₹70,500/- + 5% GST",
+      },
+      {
+        question: "What are the departure dates for the 3 Sisters Tour?",
+        answer:
+          "Departure Dates:\n• Sep: 24, 28\n• Oct: 01, 04, 12, 21, 24\n• Nov: 01, 04, 14, 18, 22, 26\n• Dec: 02, 06, 12, 18, 22",
+      },
+      {
+        question: "What documents and permits are required?",
+        answer:
+          "• Guests must carry any one original Government-issued Photo ID: Passport, Voter ID, Driving License, or Aadhaar Card.\n• Two (2) recent passport-size photographs are mandatory for permit processing.\n• Inner Line Permit (ILP) is mandatory for Arunachal Pradesh and required documents must be submitted well in advance.",
+      },
+      {
+        question: "What are the payment terms and cancellation policy?",
+        answer:
+          "Payment Terms:\n• 30% booking amount required at confirmation.\n• Full balance payment must be completed 15 days prior to departure date.\n\nCancellation Policy:\n• 61 Days or more: 15% of Total tour cost\n• 46–60 Days: 25% of Total tour cost\n• 31–45 Days: 50% of Total tour cost\n• 16–30 Days: 75% of Total tour cost\n• 15 Days or less / No-show: 100% of Total tour cost",
+      },
+    ],
   },
   {
-    "id": "4-sisters-tour",
-    "title": "4 Sisters Tour — Nagaland, Manipur, Tripura & Mizoram",
-    "image": "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&q=85&w=1800",
-    "duration": "9 Nights / 10 Days",
-    "price": "₹59,999",
-    "highlights": [
-      "Kohima War Cemetery",
-      "Loktak Lake, Imphal",
-      "Neermahal & Unakoti rock carvings",
-      "Aizawl's Solomon's Temple & Sky Walk"
+    id: "4-sisters-tour",
+    title: "4 Sisters Tour (Nagaland • Manipur • Tripura • Mizoram)",
+    image: "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&q=85&w=1800",
+    duration: "09 Nights / 10 Days",
+    price: "₹59,999",
+    highlights: [
+      "Kohima War Cemetery & Kohima Village (Bara Basti)",
+      "Khonoma Green Village & Kisama Heritage Village (Hornbill venue)",
+      "Loktak Lake & Keibul Lamjao Floating National Park",
+      "Indian National Army (INA) Museum & Kangla Fort",
+      "Shri Govindaji Temple & Ima Keithel (All-Women's Market)",
+      "Sepahijala Wildlife Sanctuary",
+      "Ujjayanta Palace & Tripura Sundari Temple",
+      "Neermahal Water Palace",
+      "Ancient rock-cut carvings of Unakoti",
+      "Mizoram State Museum & Solomon's Temple, Aizawl",
+      "Durtlang Hills, KV Paradise & Sky Walk",
     ],
-    "category": "North East",
-    "tagline": "The four lesser-travelled sister states — Nagaland, Manipur, Tripura and Mizoram — in one circuit.",
-    "overview": "A 10-day journey through India's least-visited corner: WWII history in Kohima, the floating Loktak Lake in Imphal, the lake palace of Neermahal in Tripura, and Mizoram's hill capital Aizawl.",
-    "heroImage": "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "September to December",
-    "startingPoint": "Dimapur Airport",
-    "groupSize": "2+ guests",
-    "themes": [
-      "Culture",
-      "Heritage",
-      "Off the beaten path"
+    category: "North East",
+    tagline: "Kohima 2N – Imphal 2N – Agartala 2N – Kumarghat 1N – Aizawl 2N · 9N/10D",
+    overview:
+      "An adventurous 9 Nights / 10 Days journey through four captivating North Eastern sister states: Nagaland, Manipur, Tripura, and Mizoram. Explore WWII history and Khonoma green village in Kohima, the floating islands of Loktak Lake and vibrant Ima Keithel women's market in Imphal, the lakeside majesty of Neermahal and sacred temples of Agartala, ancient rock sculptures at Unakoti, and the scenic mountain vistas of Aizawl.\n\nDeparture Dates: Sep 24 | Oct 01, 08, 15, 22, 29 | Nov 05, 12, 19, 24, 26 | Dec 01, 03, 10, 17, 24.",
+    heroImage: "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "September to December",
+    startingPoint: "Dimapur Airport (Approx. 70 KM / 2.5 hrs to Kohima)",
+    groupSize: "Group departures",
+    themes: ["Culture", "Heritage", "Off the beaten path"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&q=85&w=1800", caption: "Hills of Nagaland and Manipur" },
+      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Heritage sites of Tripura" },
     ],
-    "gallery": [
+    itinerary: [
       {
-        "image": "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Hills of Nagaland and Manipur"
+        day: 1,
+        title: "Dimapur – Kohima (70 Kms / 2hrs 30 Min)",
+        description:
+          "Arrive at Dimapur, Meet & Greet with assistance, and proceed to Kohima. On arrival, check in to hotel. Overnight stay in Kohima.",
+        meals: "Dinner",
+        stay: "Kohima",
       },
       {
-        "image": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Heritage sites of Tripura"
-      }
+        day: 2,
+        title: "Kohima (Local Sightseeing)",
+        description:
+          "After breakfast, explore the key attractions of Kohima. Visit the Kohima War Cemetery, a tribute to soldiers who died in World War II, and explore Kohima Village (Bara Basti), one of largest villages in Asia. Head to Khonoma, the first green village of Nagaland, located 21 km from the city, and also stop by Kisama Heritage Village, the venue of the famed Hornbill Festival. Overnight stay in Kohima.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Kohima",
+      },
+      {
+        day: 3,
+        title: "Kohima – Imphal (138 Kms / 5hrs 30 Min)",
+        description:
+          "Morning after breakfast depart for Imphal. Arrival and check in to hotel. Overnight stay in Imphal.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Imphal",
+      },
+      {
+        day: 4,
+        title: "Imphal (Local Sightseeing)",
+        description:
+          "After breakfast, proceed to sightseeing of Imphal covered with Loktak Lake, Keibul Lamjao National Park, Indian National Army Museum, Kangla Fort, Govindaji Temple and Ima Bazaar. Overnight stay in Imphal.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Imphal",
+      },
+      {
+        day: 5,
+        title: "Imphal – Agartala (by Air)",
+        description:
+          "After breakfast, drive to Airport for flight to Agartala. On arrival, pick up and transfer to hotel, explore the city on your own. Overnight stay in Agartala.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Agartala",
+      },
+      {
+        day: 6,
+        title: "Agartala (Local Sightseeing)",
+        description:
+          "After breakfast, proceed to explore Agartala covering Sepahijala Wildlife Sanctuary, Ujjayanta Palace, Tripura Sundari Temple, and Neermahal. Overnight stay in Agartala.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Agartala",
+      },
+      {
+        day: 7,
+        title: "Agartala to Kumarghat (116 kms / 3.30 hrs)",
+        description:
+          "After breakfast proceed to visit Unakoti, a famous heritage site known for its ancient rock-cut carvings. Later transfer to Kumarghat for an overnight stay.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Kumarghat",
+      },
+      {
+        day: 8,
+        title: "Kumarghat to Aizawl (212 Kms / 6 hrs)",
+        description:
+          "After breakfast, depart for Aizawl. Arrival and check in to hotel. Rest for the day. Overnight stay in Aizawl.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Aizawl",
+      },
+      {
+        day: 9,
+        title: "Aizawl (Local Sightseeing)",
+        description:
+          "After breakfast, proceed for Aizawl sightseeing. Visit Mizoram State Museum, Solomon's Temple, Durtlang Hills, KV Paradise & Sky Walk. Overnight stay in Aizawl.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Aizawl",
+      },
+      {
+        day: 10,
+        title: "Aizawl Airport – Hometown",
+        description:
+          "After breakfast transfer to Aizawl Airport. Tour ends with sweet memories.",
+        meals: "Breakfast",
+        stay: "—",
+      },
     ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Dimapur Arrival — Scenic Hill Drive to Kohima (Nagaland)",
-        "description": "Arrive at Dimapur Airport in Nagaland where your Bandhan representative welcomes you. Drive up the winding pine-flanked hills to Kohima, the highland capital of Nagaland situated at 4,737 feet. Check into your hotel, relax with a hot cup of Naga tea, and enjoy an evening walking tour of the local Kohima night bazaar featuring indigenous crafts and organic produce.",
-        "meals": "—",
-        "stay": "Kohima"
-      },
-      {
-        "day": 2,
-        "title": "Kohima War Cemetery — Khonoma Green Village & Kisama Heritage Village",
-        "description": "Visit the historic Commonwealth Kohima War Cemetery, where Allied forces halted the Japanese advance in 1944 on the famous tennis court battleground. Drive to Khonoma, India's first recognized 'Green Village', famed for its self-sustaining alder tree agriculture, stone bastions, and courageous Angami warrior history. Continue to Kisama Heritage Village, the grand open-air venue of the world-famous Hornbill Festival, displaying the distinct traditional morungs (dormitories) of all 17 Naga tribes.",
-        "meals": "Breakfast",
-        "stay": "Kohima"
-      },
-      {
-        "day": 3,
-        "title": "Kohima to Imphal (Manipur) via Mao Border & Kangla Fort",
-        "description": "Depart Kohima and drive south across the scenic Mao border into the lush Manipur valley (approx. 140 km / 4.5 hrs). Arrive in Imphal and visit the historic Kangla Fort on the banks of the Imphal River, the ancient seat of the Meitei kings, housing sacred dragon shrines and royal coronation sites. Check in to your Imphal hotel for dinner.",
-        "meals": "Breakfast",
-        "stay": "Imphal"
-      },
-      {
-        "day": 4,
-        "title": "Floating Loktak Lake — Keibul Lamjao National Park & INA Memorial",
-        "description": "Embark on a full-day excursion to the legendary Loktak Lake, the largest freshwater lake in North East India, famous for its unique floating circular islands of vegetation called 'phumdis'. Visit Keibul Lamjao National Park, the world's only floating national park and last natural sanctuary of the endangered Sangai (dancing deer). Stop at Moirang to visit the historic INA Memorial Complex where Netaji Subhas Chandra Bose's Indian National Army first hoisted the tricolor on Indian soil in 1944. Explore Ima Keithel (Mother's Market) in Imphal, run entirely by over 5,000 women.",
-        "meals": "Breakfast",
-        "stay": "Imphal"
-      },
-      {
-        "day": 5,
-        "title": "Imphal to Agartala (Tripura) by Air — Ujjayanta Palace Exploration",
-        "description": "Transfer to Imphal Airport for your short flight across to Agartala, the royal capital of Tripura. Check into your hotel and embark on an afternoon heritage tour of the magnificent Ujjayanta Palace, a gleaming white neoclassical royal residence built in 1901 by Maharaja Radha Kishore Manikya, set amidst Mughal-style gardens and musical fountains.",
-        "meals": "Breakfast",
-        "stay": "Agartala"
-      },
-      {
-        "day": 6,
-        "title": "Neermahal Water Palace & Sepahijala Wildlife Sanctuary",
-        "description": "Drive to Rudrasagar Lake to board a motorboat to Neermahal ('Water Palace'), North East India's only floating lake palace, blending Hindu and Mughal architectural domes. In the afternoon, visit the lush Sepahijala Wildlife Sanctuary, home to the rare Phayre's Spectacled Langur and clouded leopards, followed by a visit to the sacred 500-year-old Tripura Sundari (Matabari) Temple, one of the 51 Shakti Peethas.",
-        "meals": "Breakfast",
-        "stay": "Agartala"
-      },
-      {
-        "day": 7,
-        "title": "Agartala to Kumarghat via Ancient Unakoti Rock-Cut Carvings",
-        "description": "Journey into the forested hills of North Tripura to witness Unakoti ('One Less than a Crore'), a prehistoric Shaivite pilgrimage site dating from the 7th to 9th centuries. Marvel at the monumental 30-foot bas-relief rock carvings of Lord Shiva (Unakotiswara Kal Bhairava) and Ganesha sculpted directly into sheer jungle rock faces along roaring waterfalls. Proceed to Kumarghat for overnight stay.",
-        "meals": "Breakfast",
-        "stay": "Kumarghat"
-      },
-      {
-        "day": 8,
-        "title": "Kumarghat to Aizawl (Mizoram) Scenic Mountain Drive",
-        "description": "Embark on an exhilarating full-day mountain drive crossing the border into Mizoram, climbing through bamboo forests, mist-shrouded gorges, and ridge-top Mizo villages. Arrive in Aizawl, the dramatically perched cliffside capital of Mizoram situated along a high ridgeline at 3,700 feet. Check in to your hotel and soak in the dazzling evening lights cascading down the valley.",
-        "meals": "Breakfast",
-        "stay": "Aizawl"
-      },
-      {
-        "day": 9,
-        "title": "Aizawl City Tour — Solomon's Temple, Durtlang Hills & Sky Walk",
-        "description": "Explore the pristine white marble architecture of Solomon's Temple, a landmark cathedral seating over 3,000 worshippers. Drive up to Durtlang Hills for panoramic bird's-eye views across the entire Aizawl ridge, visit the Mizoram State Museum to discover tribal textiles and ancient weaponry, and walk out on the glass Sky Walk at KV Paradise, a memorial structure known locally as the 'Taj Mahal of Mizoram'.",
-        "meals": "Breakfast",
-        "stay": "Aizawl"
-      },
-      {
-        "day": 10,
-        "title": "Aizawl Departure — Flight Home",
-        "description": "After breakfast, enjoy free time for shopping at Bara Bazar for hand-woven Mizo Puan textiles and bamboo cane handicrafts. Transfer to Lengpui Airport in Aizawl for your onward flight, concluding an extraordinary voyage through four of India's most mystical and untouched states.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
+    inclusions: [
+      "All accommodation on double sharing as per itinerary",
+      "Daily 1ltr Mineral Water per person",
+      "Inner Line Permit (ILP)",
+      "Breakfast, Lunch and Dinner daily",
+      "All applicable Transfers & Sightseeing by exclusive private vehicle: 17-Seater Force Urbania in Nagaland & Manipur, Innova Crysta in Tripura & Mizoram (point-to-point basis)",
+      "All driver allowance & parking fees",
+      "Travel Insurance",
     ],
-    "inclusions": [
-      "Accommodation on double sharing as per itinerary, 1L water per day",
-      "Inner Line Permit, breakfast, lunch and dinner",
-      "Exclusive private vehicle for all transfers and sightseeing, changing by sector",
-      "Driver allowance, parking fees and travel insurance"
+    exclusions: [
+      "All airfare (including Imphal to Agartala sector)",
+      "Personal expenses such as laundry, tips, telephone calls, etc.",
+      "Adventure activities or optional sightseeing",
+      "Any services not specifically mentioned under inclusions",
+      "Expenses arising due to natural calamities, landslides, roadblocks, political disturbances, or flight delays",
     ],
-    "exclusions": [
-      "All airfare",
-      "Personal expenses such as laundry, tips and telephone calls",
-      "Adventure activities or optional sightseeing"
-    ]
+    faqs: [
+      {
+        question: "What is the tour package pricing across sharing categories?",
+        answer:
+          "Tour Cost:\n• Double Sharing: ₹59,999/- + 5% GST per person\n• Extra Mattress: ₹53,499/- + 5% GST\n• Child No Bed (5 - 12 yrs): ₹48,499/- + 5% GST\n• Single Occupancy: ₹72,999/- + 5% GST",
+      },
+      {
+        question: "What are the departure dates for 4 Sisters Tour?",
+        answer:
+          "Departure Dates:\n• Sep: 24\n• Oct: 01, 08, 15, 22, 29\n• Nov: 05, 12, 19, 24, 26\n• Dec: 01, 03, 10, 17, 24",
+      },
+      {
+        question: "What permits and documents are required for Manipur and Mizoram?",
+        answer:
+          "• Guests must carry any one original Government-issued Photo ID: Passport, Voter ID, Driving Licence, or Aadhaar Card.\n• Four (4) recent passport-size photographs are mandatory for permit processing.\n• Inner Line Permit (ILP) is mandatory for Manipur and Mizoram.",
+      },
+      {
+        question: "What vehicle types are provided during the circuit?",
+        answer:
+          "• Nagaland & Manipur: 17-Seater Force Urbania\n• Tripura & Mizoram: Innova Crysta",
+      },
+      {
+        question: "What is the cancellation policy?",
+        answer:
+          "Cancellation Charges Before Departure:\n• 61 Days or more: 15% of Total tour cost\n• 46–60 Days: 25% of Total tour cost\n• 31–45 Days: 50% of Total tour cost\n• 16–30 Days: 75% of Total tour cost\n• 15 Days or less / No-show: 100% of Total tour cost",
+      },
+    ],
   },
   {
-    "id": "amazing-thailand",
-    "title": "Amazing Thailand — Pattaya & Bangkok",
-    "image": "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=85&w=1800",
-    "duration": "4 Nights / 5 Days",
-    "price": "₹34,900",
-    "highlights": [
+    id: "amazing-thailand",
+    title: "Amazing Thailand — 2N Pattaya | 2N Bangkok",
+    image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=85&w=1800",
+    duration: "4 Nights / 5 Days",
+    price: "₹34,900",
+    highlights: [
+      "Explore the vibrant cities of Bangkok & Pattaya",
       "Alcazar Cabaret Show, Pattaya",
-      "Coral Island speedboat tour",
-      "Golden & Marble Buddha temples",
-      "Safari World & Marine Park"
+      "Coral Island Tour by Speedboat",
+      "Bangkok City & Temple Tour",
+      "Golden Buddha Temple (Wat Traimit)",
+      "Marble Buddha Temple (Wat Benchamabophit)",
+      "Gems Gallery Visit",
+      "Full-Day Safari World & Marine Park",
+      "Daily Breakfast, Lunch & Dinner (as per itinerary)",
+      "Comfortable Hotel Accommodation",
+      "Airport Transfers & Sightseeing as per Itinerary",
     ],
-    "category": "International",
-    "tagline": "A quick, vibrant escape through Pattaya's nightlife and Bangkok's temples and safari parks.",
-    "overview": "A short but full getaway pairing Pattaya's beaches, water sports and famous Alcazar Cabaret Show with Bangkok's gilded temples, jewellery galleries and a full day at Safari World.",
-    "heroImage": "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "November to February",
-    "startingPoint": "Bangkok Airport",
-    "groupSize": "Min 25 pax for quoted rate",
-    "themes": [
-      "Beach",
-      "City",
-      "Family"
+    category: "International",
+    tagline: "2N Pattaya | 2N Bangkok · 4N/5D · Fixed Departures from Sep to Apr",
+    overview:
+      "A vibrant 4 Nights / 5 Days journey across Pattaya and Bangkok. Experience Pattaya's beaches, water sports at Koh Larn Coral Island, and the world-famous Alcazar Cabaret Show, paired with Bangkok's cultural landmarks including the Golden Buddha Temple (Wat Traimit), Marble Buddha Temple (Wat Benchamabophit), Gems Gallery, and a full day at Safari World & Marine Park.\n\nTour Departure Dates: Sep 1, 22 | Oct 6, 20 | Nov 2, 17 | Dec 1, 8 | Jan 1, 17 | Feb 8, 16 | Mar 8, 17 | Apr 8, 18.",
+    heroImage: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "September to April",
+    startingPoint: "Bangkok Airport (Expected Arrival Time: 10:50 AM)",
+    groupSize: "Min 25 pax for quoted rate",
+    themes: ["Beach", "City", "Family"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=85&w=1800", caption: "Pattaya coastline" },
+      { image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800", caption: "Coral Island day trip" },
     ],
-    "gallery": [
+    itinerary: [
       {
-        "image": "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Pattaya coastline"
+        day: 1,
+        title: "Arrival in Bangkok — Transfer to Pattaya",
+        description:
+          "Welcome to Thailand. From airport (Expected Arrival Time: 10:50 AM), proceed to Pattaya. Check in to the hotel and relax (check in at 2:00 PM). Pattaya is the place to go if you are looking for a night to remember. You cannot miss going to a Alcazar Show is one of the city's most famous performances. Alcazar Cabaret Show is a grand artistic delight for all music and dance lovers. See a marvelous combination of music, dance, and costume. Overnight stay at Pattaya. Note: These events draw huge crowds. To avoid missing out, we recommend guests arriving and lining up early. (L-D)",
+        meals: "Lunch, Dinner",
+        stay: "Pattaya",
       },
       {
-        "image": "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Coral Island day trip"
-      }
+        day: 2,
+        title: "Coral Island Tour",
+        description:
+          "Today will proceed to Coral Island tour (subject to weather condition). Escape to the beautiful Koh Larn Coral Island—only a short distance off the Pattaya coast via speedboat. Have a day at your leisure, relax on the beach, or try out some fun water like banana boat ride, jet ski, swimming in the tropical water, etc. on your own expenses. (Do not forget to bring your swimwear, towel, sunglasses, and any personal essentials you may need to enjoy the water comfortably.) Time free for leisure. Overnight stay at hotel in Pattaya. (B-L-D)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Pattaya",
+      },
+      {
+        day: 3,
+        title: "Transfer from Pattaya to Bangkok — City and Temple Tour",
+        description:
+          "After breakfast, check out from the hotel and proceed to Bangkok. En route, enjoy a Bangkok City & Temple Tour covering the famous Golden Buddha Temple (Wat Traimit), home to the world's largest solid gold Buddha statue, and the beautiful Marble Buddha Temple (Wat Benchamabophit), renowned for its stunning Italian marble architecture and serene atmosphere. Your tour will come to an end at Gems Gallery, the largest Jewellery store in the world. Later, transfer to the hotel for check-in. Overnight at Bangkok. (B-L-D)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Bangkok",
+      },
+      {
+        day: 4,
+        title: "Full Day Safari World and Marine Park",
+        description:
+          "Enjoy a visit to Bangkok Safari World, a notable Thailand zoo. Enjoy the services of a guide who introduces you to Safari World's two main attractions — the Safari Park and Marine Park. Observe lions and zebras from your vehicle during a safari tour through African-inspired landscapes; go in search of crocodiles and gorillas on a jungle cruise; and view dolphins, sea lions and orangutans on exhibit and at entertaining animal shows. Overnight at Bangkok. (B-L-D)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Bangkok",
+      },
+      {
+        day: 5,
+        title: "Departure",
+        description:
+          "After breakfast. check-out from the hotel. Later you will be transfer to the Airport to catch your return flight back home. See you again! (B)",
+        meals: "Breakfast",
+        stay: "—",
+      },
     ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Bangkok Arrival — Transfer to Pattaya — World-Famous Alcazar Cabaret Show",
-        "description": "Arrive at Bangkok's Suvarnabhumi Airport where our local tour manager assists you with immigration and boarding your private AC coach for a scenic 2-hour drive along the Gulf of Thailand to the coastal resort city of Pattaya. Check in to your hotel and unwind. In the evening, attend the world-famous Alcazar Cabaret Show — a spectacular theatrical production featuring dazzling lighting, elaborate sequined costumes, and music that rivals the best of Las Vegas. Conclude the night with a delicious Indian dinner.",
-        "meals": "Lunch, Dinner",
-        "stay": "Pattaya"
-      },
-      {
-        "day": 2,
-        "title": "Coral Island (Koh Larn) Speedboat Adventure with Water Sports",
-        "description": "Board a high-speed speedboat across the turquoise Gulf to Coral Island (Koh Larn). Spend a sun-drenched morning swimming in crystalline waters or participating in exhilarating optional water sports including parasailing, sea walking among tropical coral reefs, and banana boat rides. Enjoy a hot Indian buffet lunch served beachside before returning to Pattaya for an afternoon of leisure, pool relaxation, or shopping at Central Festival Mall.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Pattaya"
-      },
-      {
-        "day": 3,
-        "title": "Pattaya to Bangkok — Golden Buddha (Wat Traimit) & Marble Temple Tour",
-        "description": "Check out from Pattaya after breakfast and drive back to the bustling capital of Bangkok. Embark on a guided city and temple tour: visit Wat Traimit to marvel at the solid 5.5-ton Golden Buddha statue dating from the Sukhothai period, and admire the Carrara Italian marble elegance of Wat Benchamabophit (The Marble Temple). Visit the world's largest Gems Gallery with an interactive tram ride, followed by checking into your Bangkok hotel and an evening exploring the night markets.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Bangkok"
-      },
-      {
-        "day": 4,
-        "title": "Full Day at Safari World & Marine Park with Stunt & Dolphin Shows",
-        "description": "Dedicate a thrilling full day to Safari World, Thailand's premier open zoo and leisure park. Drive through the African wilderness in the Safari Park to observe roaming lions, tigers, zebras, and hundreds of giraffes up close. Move into Marine Park for an action-packed series of world-class performances: the Hollywood Cowboy Stunt Show, Dolphin Show, Sea Lion Show, and Orangutan Boxing Show. Enjoy an international buffet lunch inside the park before returning to Bangkok for dinner.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Bangkok"
-      },
-      {
-        "day": 5,
-        "title": "Bangkok Shopping at Indira Market — Airport Departure",
-        "description": "Savor breakfast at your hotel before enjoying free morning time for bargain shopping at Pratunam Market, Platinum Fashion Mall, or MBK Center. Meet your tour manager for your private transfer to Suvarnabhumi Airport for your return flight home, with wonderful memories of Thailand's temples, beaches, and vibrant culture.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
+    inclusions: [
+      "3 Star hotel Accommodation on double/twin sharing basis",
+      "Daily Breakfast at hotel",
+      "Lunch, Dinner at Indian Restaurant",
+      "Coral Island Tour with Lunch on SIC",
+      "Thailand visa on arrival",
+      "Safari World and Marine Park",
+      "Sightseeing Entry tickets as mentioned in the itinerary",
+      "Indian Tour Leader above 20 persons throughout the tour",
+      "English speaking tour guide above 20 persons",
+      "Complimentary Travel insurance up to 59 years of age",
+      "All Tours & Transfer on Private Basis",
     ],
-    "inclusions": [
-      "3-star hotel accommodation on double/twin sharing",
-      "Daily breakfast, lunch and dinner at Indian restaurants",
-      "Coral Island tour with lunch, Thailand visa on arrival",
-      "Safari World and Marine Park entry, sightseeing entry tickets",
-      "Indian tour leader and English-speaking guide (25+ pax)",
-      "Travel insurance up to 59 years, private transfers"
+    exclusions: [
+      "Any Airfare",
+      "Airport Taxes",
+      "5% GST & 2% TCS",
+      "Anything not mentioned above",
+      "Any Activities",
+      "Cost of pre or post tour hotel accommodation",
+      "Expenses of personal nature such as other taxes, drinks, telephone, shopping, snacks, Porterage and laundry bills etc.",
+      "Tips and porter charges",
+      "Any additional expenses incurred due to any flight delay or cancellation, weather conditions, political closures, technical faults etc.",
     ],
-    "exclusions": [
-      "Airfare, airport taxes",
-      "5% GST and 2% TCS",
-      "Personal expenses, tips and porterage",
-      "Costs from flight delays or cancellations"
-    ]
+    faqs: [
+      {
+        question: "What is the total tour cost and sharing pricing?",
+        answer:
+          "The tour cost is based on a minimum of 25 pax:\n• Double sharing basis: ₹34,900/- + 5% GST + 2% TCS per person\n• Single sharing basis: ₹47,900/- + 5% GST + 2% TCS per person\n• Triple sharing basis: ₹33,900/- + 5% GST + 2% TCS per person\n• Child with bed: ₹30,900/- + 5% GST + 2% TCS\n• Child without bed: ₹26,900/- + 5% GST + 2% TCS\n• Child below 3 years: Complimentary",
+      },
+      {
+        question: "What are the confirmed tour departure dates?",
+        answer:
+          "Tour Departure Dates: Sep 1, 22 | Oct 6, 20 | Nov 2, 17 | Dec 1, 8 | Jan 1, 17 | Feb 8, 16 | Mar 8, 17 | Apr 8, 18.",
+      },
+      {
+        question: "What are the passport, visa, and flight reporting guidelines?",
+        answer:
+          "Passport must be valid for at least 6 months from the return date with a minimum of 2 blank pages. A valid tourist visa is mandatory (Thailand visa on arrival is included). Report at the airport at least 3 hours before the scheduled departure of your international flight. Standard hotel check-in is 2:00 PM and check-out is 12:00 PM.",
+      },
+      {
+        question: "What is the booking, payment, and cancellation policy?",
+        answer:
+          "A 50% advance payment is required to confirm booking, with the remaining balance due at least 15 days prior to departure.\n\nCancellation charges prior to departure:\n• 121 to 900 days: 10%\n• 91 to 120 days: 15%\n• 61 to 90 days: 20%\n• 46 to 60 days: 30%\n• 31 to 45 days: 40%\n• 21 to 30 days: 50%\n• 11 to 20 days: 75%\n• 0 to 10 days: 100%\nVisa fees, airfare, travel insurance, and non-refundable services apply in addition.",
+      },
+    ],
   },
   {
-    "id": "andaman-tour",
-    "title": "Andaman Tour",
-    "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=1800",
-    "duration": "5 Nights / 6 Days",
-    "price": "₹33,499",
-    "highlights": [
-      "Cellular Jail Light & Sound Show",
-      "Radhanagar Beach, Havelock Island",
-      "Elephanta Beach snorkeling",
-      "Ross Island colonial ruins"
+    id: "andaman-tour",
+    title: "Andaman Tour (5 Nights / 6 Days)",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=1800",
+    duration: "5 Nights / 6 Days",
+    price: "₹33,499",
+    highlights: [
+      "Port Blair City Tour & Corbyn's Cove Beach",
+      "Cellular Jail Visit & Light & Sound Show",
+      "Inter-Island Cruise to Swaraj Dweep (Havelock Island)",
+      "World-Famous Radhanagar Beach (Asia's Best Beach)",
+      "Kala Pathar Beach scenic black rocks",
+      "Elephanta Beach with Complimentary 5-Minute Snorkeling",
+      "Ferry to Shaheed Dweep (Neil Island)",
+      "Bharatpur Beach & Laxmanpur Beach sunset",
+      "Natural Coral Bridge (Howrah Bridge)",
+      "Ross Island (Netaji Subhash Chandra Bose Island)",
+      "British Colonial Ruins, Japanese Bunkers, Deer & Peacock Park",
+      "Daily Bandhan Special Treats & Farewell Gift Pack",
     ],
-    "category": "Domestic",
-    "isPopular": true,
-    "tagline": "Port Blair's history, Havelock's beaches, and Neil Island's coral bridge in one island-hopping loop.",
-    "overview": "Five nights across Port Blair, Havelock (Swaraj Dweep) and Neil (Shaheed Dweep) covering the Cellular Jail's freedom-struggle history, the world-famous Radhanagar Beach, and complimentary snorkeling at Elephanta Beach.",
-    "heroImage": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "October to May",
-    "startingPoint": "Port Blair Airport",
-    "groupSize": "2+ guests",
-    "themes": [
-      "Beach",
-      "Island",
-      "History"
+    category: "Domestic",
+    isPopular: true,
+    tagline: "Port Blair 2N – Havelock Island 2N – Neil Island 1N · 5N/6D · Fixed Departures",
+    overview:
+      "A tropical 5 Nights / 6 Days getaway across the Andaman Islands. Relive India's freedom struggle at the historic Cellular Jail with its stirring Light & Sound show, cruise turquoise waters to Havelock Island to stroll the powdery sands of world-renowned Radhanagar Beach, enjoy complimentary snorkeling amidst vibrant reefs at Elephanta Beach, explore Neil Island's natural rock bridge, and walk through colonial ruins on Ross Island.\n\nDeparture Dates: Sep 07, 28 | Oct 02, 09, 21 | Nov 12, 27 | Dec 02, 10, 18, 25 (2026).",
+    heroImage: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "October to May",
+    startingPoint: "Port Blair Airport (IXZ) (Arrival before 12:00 PM)",
+    groupSize: "Group departures",
+    themes: ["Beach", "Island", "History"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=1800", caption: "Radhanagar Beach, Havelock Island" },
+      { image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800", caption: "Snorkeling off Elephanta Beach" },
     ],
-    "gallery": [
+    itinerary: [
       {
-        "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Radhanagar Beach, Havelock Island"
+        day: 1,
+        title: "Arrival at Port Blair – City Tour",
+        description:
+          "Upon arrival at Port Blair Airport, meet our representative and transfer to your hotel. After check-in and some relaxation, proceed to visit the beautiful Corbyn's Cove Beach followed by the historic Cellular Jail. In the evening, witness the spectacular Light & Sound Show, which narrates the inspiring story of India's freedom struggle. (Bandhan Special Treat: Welcome Coconut Drink on Arrival). Overnight stay in Port Blair.",
+        meals: "Lunch, Dinner",
+        stay: "Port Blair",
       },
       {
-        "image": "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Snorkeling off Elephanta Beach"
-      }
+        day: 2,
+        title: "Port Blair – Swaraj Dweep (Havelock Island) – Radhanagar Beach",
+        description:
+          "After breakfast, board the cruise to Swaraj Dweep (Havelock Island). Upon arrival, check in to the hotel and later visit the world-famous Radhanagar Beach, renowned for its pristine white sands and crystal-clear waters. The island is also famous for its diving and snorkeling experiences. (Bandhan Special Treat: Fresh Tropical Fruit Platter at Radhanagar Beach). Overnight stay in Swaraj Dweep (Havelock Island).",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Havelock Island",
+      },
+      {
+        day: 3,
+        title: "Kala Pathar Beach & Elephanta Beach Excursion",
+        description:
+          "After breakfast, visit the scenic Kala Pathar Beach, known for its black rocks, turquoise waters and peaceful surroundings. Later proceed to Elephanta Beach, famous for its coral reefs and exciting water sports. Enjoy 5 minutes of complimentary snorkeling amidst vibrant marine life. (Bandhan Special Treat: Beachside Refreshments). Overnight stay in Swaraj Dweep (Havelock Island).",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Havelock Island",
+      },
+      {
+        day: 4,
+        title: "Swaraj Dweep – Shaheed Dweep (Neil Island)",
+        description:
+          "After breakfast, board the ferry to Shaheed Dweep (Neil Island). On arrival, check in to the hotel and explore the island's famous attractions including Bharatpur Beach, Laxmanpur Beach, and the natural rock formation known as Natural Coral Bridge (Howrah Bridge). (Bandhan Special Treat: Ice Cream at Bharatpur Beach & Group Sunset Memories Session at Laxmanpur Beach). Overnight stay in Shaheed Dweep (Neil Island).",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Neil Island",
+      },
+      {
+        day: 5,
+        title: "Shaheed Dweep – Port Blair – Ross Island",
+        description:
+          "After breakfast, board the cruise back to Port Blair. In the afternoon, visit Ross Island (Netaji Subhash Chandra Bose Island), once the administrative headquarters during British rule. Explore its colonial ruins, Japanese bunkers and enjoy spotting deer and peacocks amidst lush greenery. (Bandhan Special Treat: Heritage Walk with Special Tea). Overnight stay in Port Blair.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Port Blair",
+      },
+      {
+        day: 6,
+        title: "Port Blair Departure",
+        description:
+          "After breakfast, check out from the hotel and transfer to Port Blair Airport (departure flight after 2:00 PM) for your onward journey with unforgettable memories of the Andaman Islands. (Bandhan Special Treat: Farewell Gift Pack with Shell Keychain, Group Tour Photograph & Sweet Memories Card).",
+        meals: "Breakfast",
+        stay: "—",
+      },
     ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Port Blair Arrival — Corbyn's Cove Beach & Cellular Jail Light & Sound Show",
-        "description": "Arrive at Veer Savarkar International Airport in Port Blair where our tour coordinator welcomes you. Transfer to your hotel to freshen up before visiting Corbyn's Cove Beach, framed by coconut palms and gentle blue surf. In the late afternoon, tour the historic Cellular Jail (Kalapani), visiting Veer Savarkar's cell and the memorial gallows. As darkness falls, attend the moving Light & Sound Show in the jail courtyard, narrating the poignant saga of India's heroic freedom fighters.",
-        "meals": "Lunch, Dinner",
-        "stay": "Port Blair"
-      },
-      {
-        "day": 2,
-        "title": "Private Cruise to Havelock Island (Swaraj Dweep) — Radhanagar Beach Sunset",
-        "description": "Board a luxury high-speed catamaran cruise from Phoenix Bay Jetty to Swaraj Dweep (Havelock Island). Check into your beachside resort. In the afternoon, head to Radhanagar Beach (Beach No. 7), rated by Time Magazine as one of Asia's best beaches. Stroll barefoot along soft powdery white sands, swim in crystal-clear calm waves, and witness an unforgettable golden sunset reflecting across the Andaman Sea.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Havelock Island"
-      },
-      {
-        "day": 3,
-        "title": "Elephanta Beach Snorkeling Adventure & Scenic Kala Pathar Beach",
-        "description": "Board a motorized boat to Elephanta Beach, renowned for its shallow coral reefs and vibrant marine life. Enjoy a 5-minute complimentary guided snorkeling session to observe live coral formations and colourful tropical fish. Later in the afternoon, visit Kala Pathar Beach, famous for its dramatic contrast of black volcanic rocks against white sand and turquoise water, perfect for relaxed photography.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Havelock Island"
-      },
-      {
-        "day": 4,
-        "title": "Inter-Island Ferry to Neil Island (Shaheed Dweep) — Natural Coral Bridge",
-        "description": "Take a morning inter-island ferry to Shaheed Dweep (Neil Island), the tranquil vegetable bowl of the Andamans. Explore the pristine waters of Bharatpur Beach, ideal for swimming and glass-bottom boat rides, visit the tranquil shell-strewn shores of Laxmanpur Beach, and walk out onto the natural living rock formation known as the Howrah Natural Coral Bridge during low tide.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Neil Island"
-      },
-      {
-        "day": 5,
-        "title": "Return Cruise to Port Blair — Ross Island Colonial Ruins & Japanese Bunkers",
-        "description": "Cruise back to Port Blair in the morning. Embark on a short boat ride to Ross Island (Netaji Subhash Chandra Bose Island), the erstwhile British administrative capital of the islands. Walk through the atmospheric ruins of the Chief Commissioner's House, the old church, bakery, and WWII Japanese bunkers, where friendly spotted deer and peacocks roam freely under ancient banyan trees. Return to Port Blair for shopping at Sagarika Government Emporium.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Port Blair"
-      },
-      {
-        "day": 6,
-        "title": "Departure from Port Blair",
-        "description": "Enjoy a final tropical breakfast at your hotel before your transfer to Veer Savarkar Airport, departing with unforgettable memories of the Andaman archipelago's turquoise waters and historic heritage.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
+    inclusions: [
+      "Accommodation on Double/Triple Sharing basis",
+      "5 Breakfasts, 5 Lunches, 5 Dinners",
+      "All transfers & sightseeing by A/C vehicle",
+      "Professional Tour Manager",
+      "Entrance Tickets",
+      "One Mineral Water Bottle per person per day",
+      "Travel Insurance",
+      "Cruise Tickets (Makruzz / Nautika / Sea Link / ITT Majestic – Base Category)",
+      "Cellular Jail Light & Sound Show Tickets",
+      "Complimentary 5 Minutes Snorkeling at Elephanta Beach",
+      "Visit to Netaji Subhash Chandra Bose Island (Ross Island)",
+      "Visit to World Famous Radhanagar Beach",
+      "Daily Bandhan Special Treats & Farewell Gift Pack",
     ],
-    "inclusions": [
-      "Accommodation on double/triple sharing, all meals",
-      "AC vehicle transfers and sightseeing, professional tour manager",
-      "Entrance tickets, 1 water bottle per day, travel insurance",
-      "Cruise tickets (base category), Cellular Jail Light & Sound Show",
-      "5-minute complimentary snorkeling at Elephanta Beach"
+    exclusions: [
+      "5% GST",
+      "Airfare / Ship Fare",
+      "Guide Charges",
+      "Early Check-in / Late Check-out",
+      "Additional Meals & Sightseeing",
+      "Water Sports Activities (except complimentary snorkeling)",
+      "Auto Rickshaw Charges",
+      "Personal Expenses",
     ],
-    "exclusions": [
-      "5% GST, airfare/ship fare",
-      "Guide charges, early check-in/late check-out",
-      "Water sports beyond complimentary snorkeling",
-      "Personal expenses"
-    ]
+    faqs: [
+      {
+        question: "What is the tour package pricing across sharing categories?",
+        answer:
+          "Tour Cost:\n• Double Occupancy: ₹33,499/- Per Person + 5% GST\n• Single Occupancy: ₹45,399/- Per Person + 5% GST\n• Extra Adult with Extra Bed/Mattress: ₹29,399/- Per Person + 5% GST\n• Extra Child with Extra Bed/Mattress: ₹29,399/- Per Person + 5% GST\n• Extra Adult without Extra Bed/Mattress: ₹23,899/- Per Person + 5% GST",
+      },
+      {
+        question: "What are the departure dates for Andaman Tour?",
+        answer:
+          "Departure Dates 2026:\n• September: 07, 28 September\n• October: 02, 09, 21 October\n• November: 12, 27 November\n• December: 02, 10, 18, 25 December",
+      },
+      {
+        question: "What are the flight timing guidelines and ferry procedures?",
+        answer:
+          "• Arrival at Port Blair Airport should be before 12:00 PM.\n• Departure flight from Port Blair should be after 02:00 PM.\n• Guests must report at the ferry terminal at least 45 minutes before departure with a valid Government Photo ID.\n• Packed breakfast is collected from hotel for early morning ferry departures.",
+      },
+      {
+        question: "What is the cancellation policy?",
+        answer:
+          "Cancellation Charges Before Departure:\n• 121 Days & Above: 5%\n• 91–120 Days: 10%\n• 61–90 Days: 15%\n• 46–60 Days: 25%\n• 31–45 Days: 50%\n• 16–30 Days: 70%\n• 06–15 Days: 80%\n• 00–05 Days / No Show: 100%",
+      },
+    ],
   },
   {
-    "id": "andaman-baratang-tour",
-    "title": "Andaman with Baratang Tour",
-    "image": "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800",
-    "duration": "6 Nights / 7 Days",
-    "price": "₹38,499",
-    "highlights": [
-      "Baratang mangrove creek & mud volcano",
-      "Radhanagar Beach, Havelock Island",
-      "Limestone Caves",
-      "Ross Island colonial ruins"
+    id: "andaman-baratang-tour",
+    title: "Andaman with Baratang Tour (6 Nights / 7 Days)",
+    image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800",
+    duration: "6 Nights / 7 Days",
+    price: "₹38,499",
+    highlights: [
+      "Port Blair City Tour, Corbyn's Cove & Cellular Jail",
+      "Light & Sound Show at Cellular Jail",
+      "Inter-Island Cruise to Swaraj Dweep (Havelock Island)",
+      "World-Famous Radhanagar Beach",
+      "Kala Pathar Beach & Elephanta Beach with Complimentary Snorkeling",
+      "Ferry to Shaheed Dweep (Neil Island) — Bharatpur & Laxmanpur Beach",
+      "Natural Coral Bridge (Howrah Bridge)",
+      "Ross Island (Netaji Subhash Chandra Bose Island)",
+      "Baratang Island Excursion via Andaman Trunk Road (ATR)",
+      "Drive through Jarawa Tribal Reserve",
+      "Mangrove Creek Boat Ride & Middle Strait Ferry",
+      "Limestone Caves exploration",
+      "India's Only Active Mud Volcano",
+      "Daily Bandhan Special Treats & Farewell Gift Pack",
     ],
-    "category": "Domestic",
-    "tagline": "The classic Andaman loop plus a day trip to Baratang's mangroves, limestone caves and mud volcano.",
-    "overview": "Everything in the classic Andaman itinerary — Cellular Jail, Havelock's Radhanagar Beach, Neil Island's coral bridge and Ross Island — plus a full day at Baratang Island, reached through the Jarawa Tribal Reserve.",
-    "heroImage": "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "October to May",
-    "startingPoint": "Port Blair Airport",
-    "groupSize": "2+ guests",
-    "themes": [
-      "Beach",
-      "Island",
-      "Adventure"
+    category: "Domestic",
+    isPopular: true,
+    tagline: "Port Blair 3N – Havelock Island 2N – Neil Island 1N · 6N/7D · Fixed Departures",
+    overview:
+      "A comprehensive 6 Nights / 7 Days expedition across the Andaman archipelago including the pristine wilderness of Baratang Island. Highlights include Cellular Jail's sound and light spectacle, luxury inter-island cruise to Havelock's Radhanagar Beach, complimentary coral snorkeling at Elephanta Beach, Neil Island's natural rock formation bridge, Ross Island's peacocks and colonial history, plus an early morning jungle safari across the Jarawa Reserve to Baratang for thrilling mangrove boat rides, limestone caves, and India's only active mud volcano.\n\nDeparture Dates: Sep 06, 26 | Oct 02, 09, 21 | Nov 12, 18, 25 | Dec 02, 18, 25 (2026).",
+    heroImage: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "October to May",
+    startingPoint: "Port Blair Airport (IXZ) (Arrival before 12:00 PM)",
+    groupSize: "Group departures",
+    themes: ["Beach", "Island", "Nature", "Adventure"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800", caption: "Baratang Mangrove Creek" },
+      { image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=1800", caption: "Radhanagar Beach, Havelock" },
     ],
-    "gallery": [
+    itinerary: [
       {
-        "image": "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Baratang mangrove creek"
+        day: 1,
+        title: "Arrival at Port Blair – City Tour",
+        description:
+          "Upon arrival at Port Blair Airport, meet our representative and transfer to the hotel. After check-in and some relaxation, visit the scenic Corbyn's Cove Beach followed by the historic Cellular Jail. In the evening, witness the spectacular Light & Sound Show, which beautifully narrates the story of India's freedom struggle. (Bandhan Special Treat: Welcome Coconut Drink on Arrival). Overnight stay in Port Blair.",
+        meals: "Lunch, Dinner",
+        stay: "Port Blair",
       },
       {
-        "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Radhanagar Beach, Havelock"
-      }
+        day: 2,
+        title: "Port Blair – Swaraj Dweep (Havelock Island) – Radhanagar Beach",
+        description:
+          "After breakfast, board the cruise to Swaraj Dweep (Havelock Island). Upon arrival, check in to your hotel and later visit the world-famous Radhanagar Beach, celebrated for its crystal-clear waters and pristine white sands. The island is also renowned for its diving and snorkeling opportunities. (Bandhan Special Treat: Fresh Tropical Fruit Platter at Radhanagar Beach). Overnight stay in Swaraj Dweep (Havelock Island).",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Havelock Island",
+      },
+      {
+        day: 3,
+        title: "Kala Pathar Beach & Elephanta Beach Excursion",
+        description:
+          "After breakfast, visit the peaceful Kala Pathar Beach, famous for its black rocks, turquoise waters and tranquil surroundings. Later proceed to Elephanta Beach, known for its vibrant coral reefs and exciting water sports. Enjoy 5 minutes of complimentary snorkeling in the clear blue waters. (Bandhan Special Treat: Beachside Refreshments). Overnight stay in Swaraj Dweep (Havelock Island).",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Havelock Island",
+      },
+      {
+        day: 4,
+        title: "Swaraj Dweep – Shaheed Dweep (Neil Island)",
+        description:
+          "After breakfast, board the ferry to Shaheed Dweep (Neil Island). On arrival, check in to the hotel and explore the island's beautiful attractions including Bharatpur Beach, Laxmanpur Beach, and the naturally formed Coral Bridge (Howrah Bridge). (Bandhan Special Treat: Ice Cream at Bharatpur Beach & Group Sunset Memories Session at Laxmanpur Beach). Overnight stay in Shaheed Dweep (Neil Island).",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Neil Island",
+      },
+      {
+        day: 5,
+        title: "Shaheed Dweep – Port Blair – Ross Island",
+        description:
+          "After breakfast, board the cruise back to Port Blair. In the afternoon, visit Ross Island (Netaji Subhash Chandra Bose Island), once the British administrative headquarters. Explore the colonial ruins, Japanese bunkers, lush greenery and spot friendly deer and peacocks roaming freely. (Bandhan Special Treat: Heritage Walk with Special Tea). Overnight stay in Port Blair.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Port Blair",
+      },
+      {
+        day: 6,
+        title: "Port Blair – Baratang Island Excursion",
+        description:
+          "Depart early morning for Baratang Island via the scenic Andaman Trunk Road (ATR) passing through the Jarawa Tribal Reserve. Cross the Middle Strait by ferry and enjoy a Mangrove Creek Boat Ride before exploring the fascinating Limestone Caves. Later visit India's only active Mud Volcano, a rare geological attraction, before returning to Port Blair. (Bandhan Special Treat: Refreshing Coconut Water at Baratang Island). Overnight stay in Port Blair.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Port Blair",
+      },
+      {
+        day: 7,
+        title: "Port Blair Departure",
+        description:
+          "After breakfast, check out from the hotel and transfer to Port Blair Airport (departure flight after 2:00 PM) for your onward journey with unforgettable memories of the Andaman Islands. (Bandhan Special Treat: Farewell Gift Pack with Shell Keychain, Group Tour Photograph & Sweet Memories Card).",
+        meals: "Breakfast",
+        stay: "—",
+      },
     ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Port Blair Arrival — Corbyn's Cove & Cellular Jail Light & Sound",
-        "description": "Arrive in Port Blair, meet our representative, and transfer to your hotel. Head out to Corbyn's Cove Beach for coconut water and gentle sea breezes, followed by an afternoon tour of the historic Cellular Jail. Experience the patriotic Light & Sound Show in the evening narrating the sacrifices of freedom fighters.",
-        "meals": "Lunch, Dinner",
-        "stay": "Port Blair"
-      },
-      {
-        "day": 2,
-        "title": "Luxury Cruise to Havelock Island — Radhanagar Beach Sunset",
-        "description": "Sail by private catamaran to Havelock Island. Check in to your resort and spend an enchanting afternoon at the world-renowned Radhanagar Beach, strolling along miles of pure white sand and watching the sun set over the calm Andaman Sea.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Havelock Island"
-      },
-      {
-        "day": 3,
-        "title": "Elephanta Beach Coral Reef Snorkeling & Kala Pathar Beach",
-        "description": "Boat trip to Elephanta Beach for a complimentary guided snorkeling session exploring colourful shallow coral gardens. In the afternoon, visit Kala Pathar Beach with its distinctive black volcanic boulders and turquoise water.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Havelock Island"
-      },
-      {
-        "day": 4,
-        "title": "Neil Island (Shaheed Dweep) — Bharatpur, Laxmanpur & Natural Rock Bridge",
-        "description": "Ferry to Neil Island. Visit Bharatpur Beach for beach activities, explore Laxmanpur Beach's secluded shoreline, and trek to the famous Howrah Bridge — a natural limestone arch carved by sea tides.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Neil Island"
-      },
-      {
-        "day": 5,
-        "title": "Return to Port Blair — Ross Island Historic Ruins Tour",
-        "description": "Cruise back to Port Blair and take an excursion to Ross Island to explore the colonial British headquarters, Japanese bunkers, and deer sanctuaries shaded by massive wild ficus roots.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Port Blair"
-      },
-      {
-        "day": 6,
-        "title": "Full-Day Baratang Island Expedition — Mangrove Creeks, Limestone Caves & Mud Volcano",
-        "description": "Depart before dawn along the Andaman Trunk Road passing through the Jarawa Tribal Reserve. Board a speed fiber boat cruising through dense, arching mangrove creeks to reach the prehistoric Limestone Caves with magnificent stalactites and stalagmites. Continue by jeep to observe India's only active Mud Volcano emitting bubbling natural mud fountains, returning to Port Blair by evening.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Port Blair"
-      },
-      {
-        "day": 7,
-        "title": "Port Blair Departure",
-        "description": "Breakfast at the hotel, followed by airport transfer for your flight home with rich memories of the Andaman Islands.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
+    inclusions: [
+      "Accommodation on Double/Triple Sharing basis",
+      "6 Breakfasts, 6 Lunches, 6 Dinners",
+      "All transfers & sightseeing by A/C Vehicle",
+      "Professional Tour Manager",
+      "Entrance Tickets",
+      "Daily One Mineral Water Bottle per person",
+      "Travel Insurance",
+      "Cruise Tickets (Makruzz / Nautika / Sea Link / ITT Majestic – Base Category)",
+      "Cellular Jail Light & Sound Show Tickets",
+      "Complimentary 5 Minutes Snorkeling at Elephanta Beach",
+      "Visit to Netaji Subhash Chandra Bose Island (Ross Island)",
+      "Visit to World Famous Radhanagar Beach",
+      "Baratang Island Excursion with Mangrove Creek Boat Ride, Limestone Caves & Mud Volcano",
+      "Daily Bandhan Special Treats & Farewell Gift Pack",
     ],
-    "inclusions": [
-      "Accommodation on double/triple sharing, all meals",
-      "AC vehicle transfers and sightseeing, professional tour manager",
-      "Entrance tickets, water bottle per day, travel insurance",
-      "Cruise tickets, Cellular Jail Light & Sound Show, Elephanta snorkeling",
-      "Ross Island and Radhanagar Beach visits"
+    exclusions: [
+      "5% GST",
+      "Airfare / Ship Fare",
+      "Guide Charges",
+      "Early Check-in / Late Check-out",
+      "Additional Meals & Sightseeing",
+      "Water Sports Activities (except complimentary snorkeling)",
+      "Auto Rickshaw Charges",
+      "Personal Expenses",
     ],
-    "exclusions": [
-      "5% GST, airfare/ship fare",
-      "Guide charges, early check-in/late check-out",
-      "Water sports beyond complimentary snorkeling",
-      "Personal expenses"
-    ]
+    faqs: [
+      {
+        question: "What is the tour package pricing across sharing categories?",
+        answer:
+          "Tour Cost:\n• Double Occupancy: ₹38,499/- Per Person + 5% GST\n• Single Occupancy: ₹50,999/- Per Person + 5% GST\n• Extra Adult with Extra Bed/Mattress: ₹31,999/- Per Person + 5% GST\n• Extra Child with Extra Bed/Mattress: ₹31,999/- Per Person + 5% GST\n• Extra Child without Bed/Mattress: ₹26,999/- Per Person + 5% GST",
+      },
+      {
+        question: "What are the departure dates for Andaman with Baratang Tour?",
+        answer:
+          "Departure Dates 2026:\n• September: 06, 26 September\n• October: 02, 09, 21 October\n• November: 12, 18, 25 November\n• December: 02, 18, 25 December",
+      },
+      {
+        question: "What should I know about the Baratang Island excursion?",
+        answer:
+          "The Baratang tour departs early morning along the Andaman Trunk Road (ATR) traversing the protected Jarawa Tribal Reserve area. Photography or interaction inside the reserve is strictly prohibited by law. The excursion includes crossing the Middle Strait, a mangrove boat safari to the limestone caves, and a visit to India's unique active mud volcano.",
+      },
+      {
+        question: "What is the cancellation policy?",
+        answer:
+          "Cancellation Charges Before Departure:\n• 121 Days & Above: 5%\n• 91–120 Days: 10%\n• 61–90 Days: 15%\n• 46–60 Days: 25%\n• 31–45 Days: 50%\n• 16–30 Days: 70%\n• 06–15 Days: 80%\n• 00–05 Days / No Show: 100%",
+      },
+    ],
   },
   {
-    "id": "ayodhya-varanasi",
-    "title": "Ayodhya – Varanasi Spiritual Tour",
-    "image": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800",
-    "duration": "6 Nights / 7 Days",
-    "price": "₹33,499",
-    "highlights": [
-      "Shri Ram Janmabhoomi Temple darshan",
-      "Prayagraj Triveni Sangam",
-      "Mahabodhi Temple, Bodhgaya",
-      "Ganga Aarti at Dashashwamedh Ghat"
+    id: "ayodhya-varanasi",
+    title: "Ayodhya – Varanasi Spiritual Tour (6 Nights / 7 Days)",
+    image: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&q=85&w=1800",
+    duration: "6 Nights / 7 Days",
+    price: "₹33,499",
+    highlights: [
+      "Shri Ram Janmabhoomi Temple Darshan, Ayodhya",
+      "Hanuman Garhi, Kanak Bhawan & Ramkot",
+      "Chitrakoot: Bharat Milap, Hanuman Dhara, Kamadgiri Parikrama & Ram Ghat",
+      "Prayagraj: Holy Triveni Sangam Darshan & Alopi Devi Shakti Peeth",
+      "Allahabad Fort, Swaraj Bhavan & Anand Bhavan",
+      "Mahabodhi Temple & Sacred Bodhi Tree, Bodhgaya (UNESCO World Heritage Site)",
+      "Great Buddha Statue & Buddhist Temples",
+      "Gaya Pind Daan Rituals (Optional)",
+      "Peaceful Sunrise Boat Ride on River Ganga, Varanasi",
+      "VIP Darshan Pass at Kashi Vishwanath Temple",
+      "Annapurna Temple, Vishalakshi Temple & Kaal Bhairav Temple",
+      "Sankat Mochan Hanuman Temple & Banaras Hindu University",
+      "World-Famous Ganga Aarti at Dashashwamedh Ghat",
+      "Sarnath Buddhist Pilgrimage & Museum Excursion",
+      "Daily Bandhan Special Treats & Farewell Gift Pack",
     ],
-    "category": "Domestic",
-    "tagline": "A pilgrimage across Ayodhya, Chitrakoot, Prayagraj, Bodhgaya and Varanasi.",
-    "overview": "A spiritual circuit from Ram Janmabhoomi in Ayodhya through Chitrakoot's exile sites and Prayagraj's Triveni Sangam to Bodhgaya's Mahabodhi Temple, closing with sunrise on the Ganga and the evening Aarti at Varanasi.",
-    "heroImage": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "October to March",
-    "startingPoint": "Lucknow",
-    "groupSize": "2+ guests",
-    "themes": [
-      "Spiritual",
-      "Heritage"
+    category: "Domestic",
+    isPopular: true,
+    tagline: "Ayodhya 1N – Chitrakoot 1N – Varanasi 3N – Bodhgaya 1N · 6N/7D · Fixed Departures",
+    overview:
+      "A sacred 6 Nights / 7 Days pilgrimage through India's holiest spiritual destinations. Bow before the divine deity at Ayodhya's grand Shri Ram Janmabhoomi Mandir, walk the sacred grounds of Lord Rama's exile in Chitrakoot, take a holy dip at Prayagraj's Triveni Sangam, meditate under the sacred Bodhi Tree where the Buddha attained enlightenment in Bodhgaya, cruise the holy Ganga at sunrise in Varanasi, receive VIP darshan at the Kashi Vishwanath Jyotirlinga, and witness the captivating evening Ganga Aarti at Dashashwamedh Ghat.\n\nDeparture Dates: Sep 07, 28 | Oct 02, 09, 21 | Nov 12, 27 | Dec 02, 10, 18, 25 (2026).",
+    heroImage: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "September to March",
+    startingPoint: "Lucknow Airport / Railway Station (Approx. 140 km / 3 hrs to Ayodhya)",
+    groupSize: "Group departures",
+    themes: ["Spiritual", "Heritage", "Culture"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&q=85&w=1800", caption: "Ganga Aarti, Dashashwamedh Ghat" },
+      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Varanasi Riverfront" },
     ],
-    "gallery": [
+    itinerary: [
       {
-        "image": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Temples of Ayodhya and Varanasi"
+        day: 1,
+        title: "Lucknow Arrival – Ayodhya Sightseeing (Approx. 140 km / 3 hrs.)",
+        description:
+          "Upon arrival at Lucknow, drive to the holy city of Ayodhya. After hotel check-in, begin your spiritual journey by visiting Shri Ram Janmabhoomi Mandir, Hanuman Garhi, Kanak Bhawan, Ramkot, Swarg Dwar, and Nageshwarnath Temple. Explore the birthplace of Lord Rama and experience the rich religious and historical significance of this sacred city. (Bandhan Special Treat: Welcome Refreshment with Ayodhya's Famous Kesari Peda & Group Photo at Ram Path). Overnight stay in Ayodhya.",
+        meals: "Lunch, Dinner",
+        stay: "Ayodhya",
       },
       {
-        "image": "https://images.unsplash.com/photo-1561361058-c24cecae35ca?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Ghats of the Ganga"
-      }
+        day: 2,
+        title: "Ayodhya – Chitrakoot (Approx. 275 km / 6 hrs.)",
+        description:
+          "After breakfast, proceed to Chitrakoot, the sacred land where Lord Rama, Sita and Lakshmana spent part of their exile. Visit Bharat Milap Temple, Hanuman Dhara, Kamadgiri Parikrama, and Ram Ghat. Experience the spiritual atmosphere before retiring for the night. (Bandhan Special Treat: Traditional Tea & Local Snacks at Ram Ghat with Spiritual Storytelling Session). Overnight stay in Chitrakoot.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Chitrakoot",
+      },
+      {
+        day: 3,
+        title: "Chitrakoot – Prayagraj – Varanasi (Approx. 250 km / 6 hrs.)",
+        description:
+          "After breakfast, drive to Prayagraj and visit the sacred Triveni Sangam, Hanuman Temple, Alopi Devi Shakti Peeth, Allahabad Fort, Swaraj Bhavan, and Anand Bhavan. Later continue your journey to Varanasi, the spiritual capital of India. (Bandhan Special Treat: Kulhad Chai after Sangam Darshan). Overnight stay in Varanasi.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Varanasi",
+      },
+      {
+        day: 4,
+        title: "Varanasi – Bodhgaya (Approx. 260 km / 6 hrs.)",
+        description:
+          "After breakfast, travel to the sacred Buddhist destination of Bodhgaya. Visit the Mahabodhi Temple, Sacred Bodhi Tree, Great Buddha Statue, and Lord Buddha Temple Complex where Lord Buddha attained enlightenment. (Bandhan Special Treat: Buddhist Blessing Ribbon & Traditional Bihari Sweet Tasting). Overnight stay in Bodhgaya.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Bodhgaya",
+      },
+      {
+        day: 5,
+        title: "Bodhgaya – Gaya – Varanasi (Approx. 270 km / 6 hrs.)",
+        description:
+          "After breakfast, perform Pind Daan rituals at Gaya (optional). Later visit the Tibetan Monastery and other Buddhist temples before returning to Varanasi for an overnight stay. (Bandhan Special Treat: Fresh Juice & Devotional Music Session During Travel). Overnight stay in Varanasi.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Varanasi",
+      },
+      {
+        day: 6,
+        title: "Varanasi City Tour & Ganga Aarti",
+        description:
+          "Begin with a peaceful Sunrise Boat Ride on the River Ganga. Visit Kaal Bhairav Temple, Kashi Vishwanath Temple (VIP Darshan), Annapurna Temple, Vishalakshi Temple, Bharat Mata Temple, Sankat Mochan Hanuman Temple, Manas Mandir, and Banaras Hindu University. In the evening, witness the world-famous Ganga Aarti at Dashashwamedh Ghat. (Bandhan Special Treat: Ghat Side Masala Chai Before Aarti). Overnight stay in Varanasi.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Varanasi",
+      },
+      {
+        day: 7,
+        title: "Varanasi – Sarnath – Departure",
+        description:
+          "After breakfast, visit Sarnath (subject to available time), where Lord Buddha delivered his first sermon. Explore the ancient Buddhist monuments and museum before proceeding to Varanasi Airport/Railway Station for your onward journey. (Bandhan Special Treat: Farewell Gift Pack with Banarasi Prasad, Rudraksha Keychain & Group Memory Photo).",
+        meals: "Breakfast, Lunch",
+        stay: "—",
+      },
     ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Lucknow Arrival — Transfer to Holy Ayodhya & Ram Janmabhoomi Darshan",
-        "description": "Arrive in Lucknow and drive to the sacred city of Ayodhya (135 km / 3 hrs). Check in to your hotel and visit the magnificent new Shri Ram Janmabhoomi Mandir for blissful darshan of Ram Lalla. Visit the fortress-like Hanuman Garhi temple to seek the blessings of Lord Hanuman, the golden palace Kanak Bhawan gifted to Goddess Sita, Ramkot, and the ancient Nageshwarnath Temple on the banks of the Sarayu River. Attend the peaceful Sarayu Aarti in the evening.",
-        "meals": "Lunch, Dinner",
-        "stay": "Ayodhya"
-      },
-      {
-        "day": 2,
-        "title": "Ayodhya to Sacred Chitrakoot — Footsteps of Lord Rama",
-        "description": "Drive to Chitrakoot where Lord Rama, Sita, and Lakshmana spent eleven years of their exile. Visit Ram Ghat along the Mandakini River, perform the Kamadgiri Parikrama, and visit Bharat Milap Temple where Prince Bharat met Rama. Explore the scenic hilltop shrines of Hanuman Dhara and Sati Anusuya Ashram before dinner.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Chitrakoot"
-      },
-      {
-        "day": 3,
-        "title": "Chitrakoot to Prayagraj (Triveni Sangam) — Drive to Kashi Varanasi",
-        "description": "Drive to Prayagraj to perform holy rituals and take a sacred boat ride at the Triveni Sangam, the mystical confluence of Ganga, Yamuna, and Saraswati rivers. Visit the underground Patalpuri Temple, the immortal Akshayavat tree, Alopi Devi Shakti Peeth, and the historical Anand Bhavan (ancestral home of the Nehrus) before continuing your journey to Varanasi.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Varanasi"
-      },
-      {
-        "day": 4,
-        "title": "Varanasi to Bodhgaya — Mahabodhi Temple & Sacred Bodhi Tree",
-        "description": "Travel to Bodhgaya in Bihar, where Siddhartha Gautama attained enlightenment. Visit the UNESCO World Heritage Mahabodhi Temple Complex, sit beneath the sacred Bodhi Tree where the Buddha meditated, gaze upon the towering 80-foot Great Buddha Statue, and explore monasteries built by Buddhist communities from Japan, Thailand, Bhutan, and Sri Lanka.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Bodhgaya"
-      },
-      {
-        "day": 5,
-        "title": "Bodhgaya & Gaya (Vishnupad Temple) — Return to Varanasi",
-        "description": "Visit the holy town of Gaya on the banks of the Phalgu River. Visit the sacred Vishnupad Temple featuring Lord Vishnu's footprint carved in basalt rock, where pilgrims perform ancestral Pind Daan rituals. Explore Tibetan monasteries and return to Varanasi in the evening for dinner.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Varanasi"
-      },
-      {
-        "day": 6,
-        "title": "Varanasi Sunrise Boat Cruise, Kashi Vishwanath VIP Darshan & Ganga Aarti",
-        "description": "Begin before sunrise with an enchanting private boat ride along the sacred Ganga Ghats, witnessing morning prayers, cremation rituals at Manikarnika, and centuries-old palaces along Assi and Dashashwamedh Ghats. Proceed for special VIP Darshan of the Kashi Vishwanath Jyotirlinga through the grand Kashi Corridor. Visit Annapurna Temple, Sankat Mochan Hanuman Temple, and Banaras Hindu University (BHU) New Vishwanath Temple. In the evening, take prime boat seats for the world-famous Grand Ganga Aarti at Dashashwamedh Ghat with multi-tiered brass oil lamps and conch shells.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Varanasi"
-      },
-      {
-        "day": 7,
-        "title": "Varanasi — Sarnath Buddhist Shrine & Departure",
-        "description": "Visit Sarnath, the sacred deer park where Lord Buddha delivered his first sermon (Dhammacakkappavattana Sutta). View the ancient Dhamek Stupa, the Ashoka Pillar, and the Archaeological Museum housing the Lion Capital of Ashoka (India's national emblem). Transfer to Varanasi Airport or railway station for your onward journey.",
-        "meals": "Breakfast, Lunch",
-        "stay": "—"
-      }
+    inclusions: [
+      "Accommodation on Double/Triple Sharing basis at Premium Hotels/Resorts",
+      "6 Breakfasts, 7 Lunches, 6 Dinners",
+      "All transfers & sightseeing by A/C vehicle",
+      "Professional Tour Manager",
+      "Entrance Tickets",
+      "Evening Tea/Coffee",
+      "One Mineral Water Bottle per person per day",
+      "Evening Ganga Aarti Experience at Dashashwamedh Ghat",
+      "Morning Sunrise Boat Ride on River Ganga",
+      "VIP Darshan Pass at Kashi Vishwanath Temple",
+      "Visit to Banaras Hindu University",
+      "Shri Ram Janmabhoomi Temple Darshan in Ayodhya",
+      "Holy Triveni Sangam Visit in Prayagraj",
+      "Daily Bandhan Special Treats & Farewell Gift Pack",
     ],
-    "inclusions": [
-      "Double/triple sharing at premium hotels, 6 breakfasts, 7 lunches, 6 dinners",
-      "AC vehicle transfers and sightseeing, professional tour manager",
-      "Entrance tickets, evening tea/coffee, water bottle per day",
-      "Ganga Aarti experience, morning boat ride, VIP Kashi Vishwanath darshan",
-      "Ram Janmabhoomi darshan, Triveni Sangam visit, BHU visit"
+    exclusions: [
+      "5% GST",
+      "Airfare / Train Fare",
+      "Guide Charges",
+      "Early Check-in / Late Check-out",
+      "Additional Meals & Sightseeing",
+      "Pind Daan Ritual charges in Gaya",
+      "Personal Expenses",
     ],
-    "exclusions": [
-      "5% GST, airfare/train fare",
-      "Guide charges, early check-in/late check-out",
-      "Additional meals or sightseeing",
-      "Personal expenses"
-    ]
+    faqs: [
+      {
+        question: "What is the tour package pricing across sharing categories?",
+        answer:
+          "Tour Cost:\n• Double Occupancy: ₹33,499/- Per Person + 5% GST\n• Single Occupancy: ₹43,999/- Per Person + 5% GST\n• Extra Adult with Extra Bed/Mattress: ₹28,499/- Per Person + 5% GST\n• Extra Child with Extra Bed/Mattress: ₹28,499/- Per Person + 5% GST\n• Extra Child without Bed/Mattress: ₹22,499/- Per Person + 5% GST",
+      },
+      {
+        question: "What are the departure dates for Ayodhya – Varanasi Spiritual Tour?",
+        answer:
+          "Departure Dates 2026:\n• September: 07, 28 September\n• October: 02, 09, 21 October\n• November: 12, 27 November\n• December: 02, 10, 18, 25 December",
+      },
+      {
+        question: "What are the temple guidelines and ritual requirements?",
+        answer:
+          "• Carry a scarf/dupatta for covering the head while visiting temples.\n• Respect temple customs, rituals, queues, and local traditions.\n• Most temples remain closed between 12:00 PM and 4:00 PM.\n• Guests planning to perform Pind Daan in Gaya or rituals in Varanasi should inform the Tour Manager in advance.",
+      },
+      {
+        question: "What is the cancellation policy?",
+        answer:
+          "Cancellation Charges Before Departure:\n• 121 Days & Above: 5%\n• 91–120 Days: 10%\n• 61–90 Days: 15%\n• 46–60 Days: 25%\n• 31–45 Days: 50%\n• 16–30 Days: 70%\n• 06–15 Days: 80%\n• 00–05 Days / No Show: 100%",
+      },
+    ],
   },
   {
-    "id": "singapore-malaysia-best",
-    "title": "Best of Singapore & Malaysia",
-    "image": "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&q=85&w=1800",
-    "duration": "5 Nights / 6 Days",
-    "price": "₹91,900",
-    "highlights": [
-      "Genting Highlands cable car",
+    id: "singapore-malaysia-best",
+    title: "Best of Singapore Malaysia",
+    image: "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&q=85&w=1800",
+    duration: "5 Nights / 6 Days",
+    price: "₹91,900",
+    highlights: [
+      "Explore Malaysia & Singapore in one exciting holiday",
+      "Kuala Lumpur City Tour",
+      "Putrajaya Orientation Tour",
+      "Visit the iconic Batu Caves",
+      "Two-Way Cable Car Ride to Genting Highlands",
+      "Free Time at Genting Highlands",
+      "Coach Journey from Kuala Lumpur to Singapore",
       "Night Safari, Singapore",
-      "Sentosa Island & Gardens by the Bay",
-      "Universal Studios Singapore"
+      "Sentosa Island Excursion",
+      "Marina Bay Sands",
+      "Gardens by the Bay",
+      "Full-Day Universal Studios Singapore",
+      "Wings of Time Show",
+      "Singapore City Tour",
+      "Daily Breakfast, Lunch & Dinner (as per itinerary)",
+      "Hotel Accommodation",
+      "Airport Transfers & Sightseeing as per Itinerary",
     ],
-    "category": "International",
-    "isPopular": true,
-    "tagline": "Kuala Lumpur's hill resorts to Singapore's Sentosa Island and Universal Studios.",
-    "overview": "A fast-paced tour from Putrajaya and Kuala Lumpur's Batu Caves and Genting Highlands, across the causeway to Singapore's Night Safari, Sentosa Island, Gardens by the Bay and Universal Studios.",
-    "heroImage": "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "Year-round",
-    "startingPoint": "Kuala Lumpur Airport",
-    "groupSize": "Min 25 pax for quoted rate",
-    "themes": [
-      "City",
-      "Family",
-      "Theme Park"
+    category: "International",
+    isPopular: true,
+    tagline: "5N/6D · Fixed Departures from Sep to Apr · Kuala Lumpur, Genting & Singapore",
+    overview:
+      "Explore Malaysia and Singapore in one exciting 5 Nights / 6 Days holiday. Experience the Putrajaya orientation tour, Kuala Lumpur city tour, iconic Batu Caves, and two-way cable car ride to Genting Highlands. Travel by coach to Singapore for the thrilling Night Safari, Sentosa Island excursion, Marina Bay Sands, Gardens by the Bay, a full day at Universal Studios Singapore, Wings of Time night show, and Singapore city tour.\n\nTour Departure Dates: Sep 5, 26 | Oct 10, 24 | Nov 6, 21 | Dec 5, 12 | Jan 4, 21 | Feb 12, 20 | Mar 12, 21 | Apr 12, 22.",
+    heroImage: "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "September to April",
+    startingPoint: "Kuala Lumpur Airport",
+    groupSize: "Min 25 pax for quoted rate",
+    themes: ["City", "Family", "Theme Park"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&q=85&w=1800", caption: "Sentosa Island, Singapore" },
+      { image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=85&w=1800", caption: "Singapore skyline" },
     ],
-    "gallery": [
+    itinerary: [
       {
-        "image": "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Sentosa Island, Singapore"
+        day: 1,
+        title: "Arrival in Malaysia",
+        description:
+          "Upon arrival in Malaysia, meet our representative and proceed towards Kuala Lumpur. En route, enjoy an orientation tour of Putrajaya. Check in to the hotel. (Check in at 2:00pm). Later, continue with a Kuala Lumpur city tour covering the major landmarks and attractions of the city. In the evening, enjoy beautiful views of the city skyline before returning to the hotel for dinner and overnight stay. (L-D)",
+        meals: "Lunch, Dinner",
+        stay: "Kuala Lumpur",
       },
       {
-        "image": "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Singapore skyline"
-      }
+        day: 2,
+        title: "Genting Day Trip, En-route to Batu Caves, with a two-way cable car ride",
+        description:
+          "After breakfast Proceed to Genting Highlands. Genting Highlands is an integrated hill resort. It is pleasant & cool up there, carry warm clothing if required. Enroute visit Batu caves. Travel by Asia's longest and fastest Cable car to Genting Highlands. Later free time to enjoy at casino and do some shopping. Return to Kuala Lumpur for overnight stay. (B-L-D)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Kuala Lumpur",
+      },
+      {
+        day: 3,
+        title: "Transfer from Kaula Lumpur- Singapore (by coach) -Night Safari",
+        description:
+          "Arrival at Singapore and later transfer to hotel. Check in to the hotel. Later In the evening, embark on an adventure to the Night Safari. Experience the captivating Thumbuakar Tribal Performance followed by a guided Tram Safari Adventure to observe nocturnal wildlife up close.(Breakfast - Lunch - Dinner) Note: Due to an early morning departure by coach to Singapore, breakfast at the hotel will not be possible. A packed breakfast will be provided for all guests. (B-L-D)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Singapore",
+      },
+      {
+        day: 4,
+        title: "Sentosa Island – Marina Bay Sands & Gardens by the Bay",
+        description:
+          "After breakfast, proceed to Sentosa Island and enjoy the various attractions and experiences the island has to offer. Later, visit Marina Bay Sands and Gardens by the Bay, two of Singapore’s most iconic landmarks. Enjoy breathtaking views of the city skyline and spend time exploring the beautiful surroundings before returning to the hotel. (B-L-D)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Singapore",
+      },
+      {
+        day: 5,
+        title: "Universal Studio",
+        description:
+          "After Breakfast Proceed to Southeast Asia's first and only Universal Studio theme park - a fun destination for all ages. Enjoy famous rides like Human vs Cyclone, Transformers - The Ultimate 3D battle, Shrek 4- D Adventure, Light Camera Action, and many more fun rides. Enjoy the 'Wings of Time' - a spectacular night show set outdoors against the backdrop of an open sea in the evening. (B-L-D)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Singapore",
+      },
+      {
+        day: 6,
+        title: "Singapore City Tour – Departure",
+        description:
+          "After breakfast, proceed for a half-day Singapore city tour covering the city's major landmarks and attractions. Later, return to the hotel and check out. You will then be transferred to the airport for your return flight back home with wonderful memories of your Singapore and Malaysia holiday. (B-L)",
+        meals: "Breakfast, Lunch",
+        stay: "—",
+      },
     ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Kuala Lumpur Arrival — Putrajaya Administrative Capital & KL City Tour",
-        "description": "Arrive at Kuala Lumpur International Airport (KLIA) and board your luxury AC coach. En route to the capital, tour Putrajaya — Malaysia's intelligent garden city — admiring the pink-domed Putra Mosque and Prime Minister's office complex. Check into your hotel in KL. Later, take photo stops at the world-famous 88-storey Petronas Twin Towers, King's Palace (Istana Negara), National Monument, and ascend the KL Tower observation deck for panoramic 360-degree city views, followed by an Indian buffet dinner.",
-        "meals": "Lunch, Dinner",
-        "stay": "Kuala Lumpur"
-      },
-      {
-        "day": 2,
-        "title": "Batu Caves Temple & Genting Highlands Skyway Cable Car Day Trip",
-        "description": "Drive to the limestone caves of Batu Caves to marvel at the 140-foot golden Lord Murugan statue and climb the 272 colourful steps into Cathedral Cave. Next, ride the Genting Skyway cable car soaring over 100-million-year-old rainforest canopies to the cool peak of Genting Highlands (6,000 ft). Enjoy free time exploring the SkyAvenue lifestyle mall, indoor theme parks, and Casino de Genting before returning to KL.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Kuala Lumpur"
-      },
-      {
-        "day": 3,
-        "title": "Kuala Lumpur to Singapore — Open-Air Night Safari Tram Tour",
-        "description": "Board an air-conditioned executive coach south across the Johor-Singapore Causeway. Complete customs formalities and arrive in the pristine city-state of Singapore. Check in to your hotel and unwind. In the evening, head to the world's first Night Safari: ride the guided open tram through 6 geographical zones observing over 900 nocturnal animals in natural habitats, followed by the exciting Creatures of the Night animal presentation.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Singapore"
-      },
-      {
-        "day": 4,
-        "title": "Sentosa Island Cable Car — Madame Tussauds — Gardens by the Bay",
-        "description": "Ride the scenic Singapore Cable Car high over Keppel Harbour onto Sentosa Island. Visit Madame Tussauds and Images of Singapore Live. In the afternoon, explore Gardens by the Bay: walk through the misty Flower Dome and the mountain-cool Cloud Forest with its 35-metre indoor waterfall. In the evening, watch the magical Garden Rhapsody light-and-sound show beneath the 50-metre Supertree Grove, followed by dinner.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Singapore"
-      },
-      {
-        "day": 5,
-        "title": "Full Day at Universal Studios Singapore & Wings of Time Night Show",
-        "description": "Spend an unforgettable full day at Universal Studios Singapore at Resorts World Sentosa. Experience pulse-pounding rides and immersive themed lands: Battlestar Galactica duelling roller coasters, Transformers The Ride 3D, Jurassic Park Rapids Adventure, and Revenge of the Mummy. Conclude your Sentosa evening with the Wings of Time outdoor laser, water jet, and pyrotechnic night show set against the open ocean.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Singapore"
-      },
-      {
-        "day": 6,
-        "title": "Singapore City Tour — Merlion Park — Jewel Changi & Departure",
-        "description": "Embark on a morning city tour visiting Merlion Park for photos with Singapore's iconic half-lion half-fish mascot, Parliament House, the Esplanade, and Chinatown. Transfer to Singapore Changi Airport to marvel at the 40-metre indoor Rain Vortex waterfall inside Jewel Changi before boarding your return flight home.",
-        "meals": "Breakfast, Lunch",
-        "stay": "—"
-      }
+    inclusions: [
+      "3 Star hotel Accommodation on double/twin sharing basis",
+      "Daily Breakfast at hotel",
+      "Lunch, Dinner at Indian Restaurant",
+      "Night Safari charges",
+      "Putrajaya Tour",
+      "Petronas Twin Towers (Photo stop)",
+      "KL Tower observatory deck",
+      "Universal Studio",
+      "Singapore Visa",
+      "Malaysia arrival card",
+      "Cable Car ride at Sentosa island",
+      "Sightseeing Entry tickets as mentioned in the itinerary",
+      "Transfer from Singapore to Malaysia (By Coach)",
+      "Indian Tour Leader above 20 persons throughout the tour",
+      "English speaking guide above 20 persons",
+      "Complimentary Travel insurance up to 59 years of age",
+      "All Tours & Transfer on Private Basis",
     ],
-    "inclusions": [
-      "3-star hotel accommodation on double/twin sharing",
-      "Daily breakfast, lunch and dinner at Indian restaurants",
-      "Night Safari, Putrajaya tour, Petronas Towers photo stop, KL Tower deck",
-      "Universal Studios, Singapore visa, Malaysia arrival card",
-      "Sentosa cable car, coach transfer, tour leader/guide (25+ pax)",
-      "Travel insurance up to 59 years, private transfers"
+    exclusions: [
+      "Any Airfare",
+      "Airport Taxes",
+      "5% GST & 2% TCS",
+      "Anything not mentioned above",
+      "Cost of pre or post tour hotel accommodation",
+      "Expenses of personal nature such as other taxes, drinks, telephone, shopping, snacks, Porterage and laundry bills etc.",
+      "Tips and porter charges",
+      "Any additional expenses incurred due to any flight delay or cancellation, weather conditions, political closures, technical faults etc",
     ],
-    "exclusions": [
-      "Airfare, airport taxes",
-      "5% GST and 2% TCS",
-      "Personal expenses, tips and porterage",
-      "Costs from flight delays or cancellations"
-    ]
+    faqs: [
+      {
+        question: "What is the total tour cost and sharing options?",
+        answer:
+          "The cost is based on a minimum of 25 pax:\n• Double sharing basis: ₹91,900/- + 5% GST + 2% TCS per person\n• Single sharing basis: ₹1,06,900/- + 5% GST + 2% TCS per person\n• Triple sharing basis: ₹90,900/- + 5% GST + 2% TCS per person\n• Child with bed: ₹88,900/- + 5% GST + 2% TCS\n• Child without bed: ₹65,900/- + 5% GST + 2% TCS\n• Child below 3 years: Complimentary",
+      },
+      {
+        question: "What are the tour departure dates?",
+        answer:
+          "Tour Departure Dates: Sep 5, 26 | Oct 10, 24 | Nov 6, 21 | Dec 5, 12 | Jan 4, 21 | Feb 12, 20 | Mar 12, 21 | Apr 12, 22.",
+      },
+      {
+        question: "What are the passport, visa, and flight reporting guidelines?",
+        answer:
+          "Passport must be valid for at least 6 months from the return date with a minimum of 2 blank pages. A valid tourist visa is mandatory (Singapore visa and Malaysia arrival card are included). Report at the airport at least 3 hours before the scheduled departure of your international flight. Standard hotel check-in is 2:00 PM and check-out is 12:00 PM.",
+      },
+      {
+        question: "What is the booking, payment, and cancellation policy?",
+        answer:
+          "A 50% advance payment is required to confirm booking, with the remaining balance due at least 15 days prior to departure.\n\nCancellation charges prior to departure:\n• 121 to 900 days: 10%\n• 91 to 120 days: 15%\n• 61 to 90 days: 20%\n• 46 to 60 days: 30%\n• 31 to 45 days: 40%\n• 21 to 30 days: 50%\n• 11 to 20 days: 75%\n• 0 to 10 days: 100%\nVisa fees, airfare, travel insurance, and non-refundable services apply in addition.",
+      },
+    ],
   },
   {
-    "id": "bhutan-tour",
-    "title": "Bhutan Tour",
-    "image": "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800",
-    "duration": "7 Nights / 8 Days",
-    "price": "₹47,000",
-    "highlights": [
-      "Taktsang Monastery (Tiger's Nest) hike",
-      "Punakha Dzong & Suspension Bridge",
-      "Buddha Dordenma statue",
-      "Gorumara jeep safari"
+    id: "bhutan-tour",
+    title: "Bhutan Tour",
+    image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800",
+    duration: "7 Nights / 8 Days",
+    price: "₹47,000",
+    highlights: [
+      "Thimphu City Tour & Buddha Dordenma Statue",
+      "National Library & Zorig Chusum Painting School",
+      "Simply Bhutan Living Museum & Handicrafts Emporium",
+      "Dochula Pass (3,088 m) Himalayan views",
+      "Punakha Dzong & Punakha Suspension Bridge",
+      "Chele La Pass (3,988 m) panoramic excursion",
+      "Kyichu Lhakhang sacred temple",
+      "Ta Dzong (National Museum)",
+      "Iconic hike to Taktsang Monastery (Tiger's Nest)",
+      "Local markets of Thimphu & Paro",
+      "Jeep Safari at Gorumara National Park (Lataguri)",
+      "Sustainable Development Fee (SDF) included",
     ],
-    "category": "International",
-    "tagline": "The Land of the Thunder Dragon — Thimphu's monasteries to the hike up Tiger's Nest.",
-    "overview": "An overland journey from Phuentsholing through Thimphu and Punakha to Paro, culminating in the hike to Taktsang Monastery — Bhutan's most sacred cliffside temple — with a jeep safari at Gorumara on the way home.",
-    "heroImage": "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "March to May, September to November",
-    "startingPoint": "Bagdogra Airport",
-    "groupSize": "2+ guests",
-    "themes": [
-      "Mountains",
-      "Culture",
-      "Spiritual"
+    category: "International",
+    tagline: "Phuentsholing 1N – Thimphu 3N – Paro 2N – Lataguri 1N · 7N/8D · Fixed Departures",
+    overview:
+      "A breathtaking 7 Nights / 8 Days journey exploring the Kingdom of Bhutan and the Dooars. Experience Phuentsholing, Thimphu's cultural landmarks, Dochula Pass, Punakha Dzong and Suspension Bridge, Chele La Pass, the legendary hike to Taktsang Monastery (Tiger's Nest), and a morning Jeep Safari at Gorumara National Park in Lataguri.\n\nDeparture Dates: Sep 04, 12, 16, 20 | Oct 02, 09, 21, 24 | Nov 04, 12, 19, 23 | Dec 02, 06, 16, 23.",
+    heroImage: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "September to December",
+    startingPoint: "Bagdogra Airport (IXB) / New Jalpaiguri (NJP)",
+    groupSize: "Group departures",
+    themes: ["Mountains", "Culture", "Spiritual"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800", caption: "Himalayan valleys of Bhutan" },
+      { image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800", caption: "Prayer flags and mountain passes" },
     ],
-    "gallery": [
+    itinerary: [
       {
-        "image": "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Himalayan valleys of Bhutan"
+        day: 1,
+        title: "Bagdogra / New Jalpaiguri – Phuentsholing (155km/ 4 hrs.)",
+        description:
+          "On arrival, our representative will meet and assist you at Bagdogra and transfer you to Phuentsholing. The India-Bhutan border is shared by Jaigaon on the Indian side and Phuentsholing on the Bhutanese side. Overnight stay in Phuentsholing.",
+        meals: "Dinner",
+        stay: "Phuentsholing",
       },
       {
-        "image": "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Prayer flags and mountain passes"
-      }
+        day: 2,
+        title: "Phuentsholing – Thimphu (165km/ 5 hrs.)",
+        description:
+          "After breakfast, complete the immigration formalities and drive to Thimphu, the capital of Bhutan, via Gedu, located at an altitude of about 9,000 ft, with a view of the Chukha Dam. En route, stop for a photo session at Wangkha Waterfall. Upon arrival in Thimphu, check in to the hotel. The evening is free to explore the local market. Overnight stay in Thimphu.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Thimphu",
+      },
+      {
+        day: 3,
+        title: "Thimphu Local Sightseeing",
+        description:
+          "After breakfast, visit the National Library, Institute for Zorig Chusum (Painting School), Simply Bhutan, Handicrafts Emporium, and the majestic Buddha Dordenma Statue overlooking Thimphu Valley. Explore Bhutan's rich culture, traditional arts, and local handicrafts. Overnight stay in Thimphu.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Thimphu",
+      },
+      {
+        day: 4,
+        title: "Thimphu – Punakha Excursion – Thimphu (75km/ 2 hrs 30 min)",
+        description:
+          "After breakfast, drive to Dochula Pass (3,088 m) to enjoy stunning Himalayan views. Continue to visit the magnificent Punakha Dzong and walk across the scenic Punakha Suspension Bridge, one of the longest suspension bridges in Bhutan. Return to Thimphu by evening. Overnight stay in Thimphu.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Thimphu",
+      },
+      {
+        day: 5,
+        title: "Thimphu – Chele La Pass Excursion – Paro (50km/ 1 hr 30 min)",
+        description:
+          "After breakfast, drive to Chele La Pass (3,988 m), one of Bhutan's highest motorable passes, offering spectacular Himalayan views. Later, visit Kyichu Lhakhang, one of Bhutan's oldest and most sacred temples, followed by Ta Dzong (National Museum), showcasing Bhutan's rich history, art, and culture. Proceed to Paro. Overnight stay in Paro.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Paro",
+      },
+      {
+        day: 6,
+        title: "Taktsang Monastery (Tiger's Nest)",
+        description:
+          "After breakfast, begin the hike to the iconic Taktsang Monastery (Tiger's Nest), Bhutan's most famous and sacred monastery, perched 900 metres above the Paro Valley. According to legend, Guru Rinpoche flew to this site on the back of a tigress in the 8th century and meditated in a cave, giving the monastery its name. The monastery, built in 1692 and beautifully restored after a fire in 1998, remains one of Bhutan's most revered pilgrimage sites. Overnight stay in Paro.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Paro",
+      },
+      {
+        day: 7,
+        title: "Paro – Lataguri (255km/ 6 hrs 30 min)",
+        description:
+          "After breakfast, drive to Lataguri. Upon arrival, check in to the hotel. The rest of the day is at leisure. Overnight stay in Lataguri.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Lataguri",
+      },
+      {
+        day: 8,
+        title: "Lataguri – Bagdogra Airport",
+        description:
+          "Early morning, enjoy a Jeep Safari at Gorumara National Park. After breakfast, proceed to Bagdogra Airport for your onward journey. Tour ends with sweet memories.",
+        meals: "Breakfast",
+        stay: "—",
+      },
     ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Bagdogra Airport Arrival — Drive to Phuentsholing (Border Gateway)",
-        "description": "Arrive at Bagdogra Airport in West Bengal where your Bandhan guide meets you. Drive through scenic tea plantations of the Dooars region to Phuentsholing, the southern border gateway to the Kingdom of Bhutan. Complete entry permit verification and check in to your hotel for dinner and overnight stay.",
-        "meals": "—",
-        "stay": "Phuentsholing"
-      },
-      {
-        "day": 2,
-        "title": "Phuentsholing to Thimphu — Scenic Himalayan Highway via Gedu & Chukha Dam",
-        "description": "After breakfast and immigration clearance, embark on a spectacular 170 km mountain drive winding upward into the Kingdom of Bhutan. Enjoy stops at Wangkha Waterfall, Chukha Hydroelectric Dam viewpoint, and Gedu town, climbing from subtropical plains into cool pine valleys. Arrive in Thimphu (7,600 ft), the world's only capital city without traffic lights, and check in to your hotel.",
-        "meals": "Breakfast",
-        "stay": "Thimphu"
-      },
-      {
-        "day": 3,
-        "title": "Thimphu City Sightseeing — Buddha Dordenma & National Memorial Chorten",
-        "description": "Explore the spiritual and cultural treasures of Thimphu: gaze up at the colossal 169-foot bronze Buddha Dordenma statue overlooking the valley, circumambulate the National Memorial Chorten alongside local Bhutanese elders, visit the Zorig Chusum (School of 13 Traditional Arts & Crafts), and tour the Simply Bhutan living museum for archery and traditional butter tea demonstrations.",
-        "meals": "Breakfast",
-        "stay": "Thimphu"
-      },
-      {
-        "day": 4,
-        "title": "Punakha Excursion via Dochula Pass (108 Chortens) & Punakha Dzong",
-        "description": "Drive over the breathtaking Dochula Pass at 10,170 feet, adorned with 108 Druk Wangyal Chortens and sweeping views of the snow-clad Eastern Himalayas. Descend into the warm subtropical Punakha valley to visit the majestic Punakha Dzong ('Palace of Great Happiness'), situated at the confluence of the Pho Chhu and Mo Chhu rivers. Walk across the 160-metre Punakha Suspension Bridge before returning to Thimphu.",
-        "meals": "Breakfast",
-        "stay": "Thimphu"
-      },
-      {
-        "day": 5,
-        "title": "High-Altitude Chele La Pass (13,083 ft) — Scenic Valley of Paro",
-        "description": "Drive to Chele La Pass, Bhutan's highest motorable mountain pass at 13,083 feet, with prayer flags fluttering against views of sacred Mount Jomolhari. Descend into the scenic Paro valley to visit Kyichu Lhakhang (one of Bhutan's oldest 7th-century temples) and the Ta Dzong National Museum showcasing centuries of sacred thangka paintings and cultural artifacts.",
-        "meals": "Breakfast",
-        "stay": "Paro"
-      },
-      {
-        "day": 6,
-        "title": "Pilgrimage Hike to Taktsang Monastery (The Tiger's Nest)",
-        "description": "Embark on the legendary pilgrimage hike up to Taktsang Monastery (Tiger's Nest), clinging to a sheer granite cliff 3,000 feet above the Paro Valley floor. Trek through pine and rhododendron forests with views of waterfalls, stopping at the halfway cafeteria for tea. Explore the sacred cliffside shrines where Guru Padmasambhava meditated in the 8th century, descending back to Paro for a celebratory dinner.",
-        "meals": "Breakfast",
-        "stay": "Paro"
-      },
-      {
-        "day": 7,
-        "title": "Paro to Lataguri (Dooars, West Bengal)",
-        "description": "Bid farewell to Bhutan and begin the scenic descent from Paro back across the border at Phuentsholing into West Bengal's Dooars plains. Arrive at Lataguri on the edge of Gorumara National Park and check in to your nature resort for dinner.",
-        "meals": "Breakfast",
-        "stay": "Lataguri"
-      },
-      {
-        "day": 8,
-        "title": "Gorumara National Park Morning Jeep Safari — Bagdogra Departure",
-        "description": "Take an early-morning open jeep safari through Gorumara National Park, home to Indian one-horned rhinos, Asian elephants, gaur, and exotic hornbills. Return for breakfast, then transfer to Bagdogra Airport for your return flight home.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
+    inclusions: [
+      "Sustainable Development Fee (SDF) of ₹1,200 per person per night for Indian nationals",
+      "Accommodation in 3-Star hotels on a double-sharing basis",
+      "Breakfast, Lunch & Dinner",
+      "1-litre mineral water bottle per person per day",
+      "Professional Hindi & English-speaking tour guide",
+      "All Entry fees",
+      "Jeep Safari at Gorumara Wildlife Sanctuary",
+      "Sightseeing by private non-AC vehicle on a point-to-point basis as per the itinerary",
+      "Transportation in the Indian sector by Toyota Innova or Tempo Traveller, including all toll taxes, parking charges, and driver allowances",
+      "One Bhutan Tourist SIM card on arrival for the Tour Leader",
     ],
-    "inclusions": [
-      "Sustainable Development Fee for Indian nationals",
-      "3-star hotels on double sharing, breakfast/lunch/dinner",
-      "1L water per day, Hindi/English-speaking guide, all entry fees",
-      "Gorumara jeep safari, private vehicle, Bhutan tourist SIM for tour leader"
+    exclusions: [
+      "Train / Air Ticket",
+      "Taktsang Monastery Fees",
+      "Personal expenses such as trips, telephone calls, laundry, liquor etc.",
     ],
-    "exclusions": [
-      "Train/air ticket",
-      "Taktsang Monastery entry fee",
-      "Personal expenses such as tips, calls, laundry and liquor"
-    ]
+    faqs: [
+      {
+        question: "What is the tour package pricing across sharing categories?",
+        answer:
+          "Tour Cost:\n• Double Sharing: ₹47,000/- + 5% GST per person\n• Extra Mattress: ₹42,000/- + 5% GST\n• Child No Bed (5 - 12 yrs): ₹29,500/- + 5% GST\n• Single Occupancy: ₹51,400/- + 5% GST",
+      },
+      {
+        question: "What are the departure dates for Bhutan Tour?",
+        answer:
+          "Departure Dates:\n• Sep: 04, 12, 16, 20\n• Oct: 02, 09, 21, 24\n• Nov: 04, 12, 19, 23\n• Dec: 02, 06, 16, 23",
+      },
+      {
+        question: "What are the identity document and immigration rules for Bhutan?",
+        answer:
+          "Indian Nationals must carry a valid Passport (minimum 6 months validity) or Original Voter ID Card for entry into Bhutan. Aadhaar Card, PAN Card, and Driving License are NOT valid for immigration. The Sustainable Development Fee (SDF) of ₹1,200 per person per night is included.",
+      },
+      {
+        question: "What should I know about the Tiger's Nest hike?",
+        answer:
+          "The hike to Taktsang Monastery (Tiger's Nest) is moderate to strenuous (approx. 5–6 hours round trip). Guests with medical conditions are advised to consult their doctor beforehand. Carry comfortable walking shoes, warm clothing, rainwear, sunscreen, and water.",
+      },
+      {
+        question: "What are the payment terms and cancellation charges?",
+        answer:
+          "Payment Terms:\n• 30% booking amount required at confirmation.\n• Full balance payment must be completed 15 days prior to departure date.\n\nCancellation Policy:\n• 61 Days or more: 15% of Total tour cost\n• 46–60 Days: 25% of Total tour cost\n• 31–45 Days: 50% of Total tour cost\n• 16–30 Days: 75% of Total tour cost\n• 15 Days or less / No-show: 100% of Total tour cost",
+      },
+    ],
   },
   {
-    "id": "eastern-europe-highlights",
-    "title": "Eastern Europe Highlights",
-    "image": "https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&q=85&w=1800",
-    "duration": "8 Nights / 9 Days",
-    "price": "₹1,44,900",
-    "highlights": [
-      "Danube River cruise in Budapest",
-      "Schönbrunn Palace gardens, Vienna",
-      "Prague Castle & Charles Bridge",
-      "Bratislava old town tour"
-    ],
-    "category": "International",
-    "tagline": "Imperial grandeur across Vienna, Bratislava, Budapest and Prague in one loop.",
-    "overview": "Nine days through Central and Eastern Europe's most storied capitals: Vienna's Ringstrasse and Schönbrunn Palace, Bratislava's medieval lanes, an evening cruise on the Danube in Budapest, and Prague's Gothic towers and Astronomical Clock.",
-    "heroImage": "https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "April to October",
-    "startingPoint": "Vienna Airport",
-    "groupSize": "Min 25 pax for quoted rate",
-    "themes": [
-      "Heritage",
-      "Culture",
-      "City"
-    ],
-    "gallery": [
-      {
-        "image": "https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Prague Castle and Charles Bridge"
-      },
-      {
-        "image": "https://images.unsplash.com/photo-1516550893923-42d28e5677af?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Vienna Ringstrasse architecture"
-      }
-    ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Vienna Arrival — Imperial Capital Orientation & Welcome",
-        "description": "Arrive at Vienna International Airport (VIE), meet your dedicated Bandhan tour manager, and transfer by private luxury coach to your hotel. Settle in and enjoy an introductory evening orientation walk along the elegant Kärntner Strasse, taking in views of the illuminated St. Stephen's Cathedral before a warm Indian welcome dinner.",
-        "meals": "Lunch, Dinner",
-        "stay": "Vienna"
-      },
-      {
-        "day": 2,
-        "title": "Vienna Imperial City Tour — Schönbrunn Palace & Ringstrasse Landmarks",
-        "description": "Embark on a comprehensive guided city tour along the grand Ringstrasse: view the Austrian Parliament, the neo-Gothic City Hall (Rathaus), the Vienna State Opera, and the grand Hofburg Imperial Palace. Tour the magnificent UNESCO-listed Schönbrunn Palace, the summer residence of the Habsburg monarchs, exploring its lavish staterooms and strolling through the manicured Great Parterre gardens.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Vienna"
-      },
-      {
-        "day": 3,
-        "title": "Vienna to Budapest via Bratislava (Slovakia) Old Town Tour",
-        "description": "Depart Vienna and cross the border into Slovakia for a walking tour of Bratislava's charming cobblestone Old Town: see St. Martin's Cathedral, Michael's Gate, and the hilltop Bratislava Castle overlooking the Danube. Continue onward across the Hungarian border into the twin cities of Buda and Pest. Check into your hotel and enjoy dinner.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Budapest"
-      },
-      {
-        "day": 4,
-        "title": "Budapest Grand City Tour & Romantic Danube Evening River Cruise",
-        "description": "Explore the twin cities of Budapest: visit the hilltop Fisherman's Bastion and Matthias Church on the Buda side for sweeping river panoramas. Drive past Heroes' Square, St. Stephen's Basilica, and the iconic Hungarian Parliament Building. In the evening, embark on a scenic Danube River Cruise, admiring the illuminated bridges and architectural landmarks reflected on the water.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Budapest"
-      },
-      {
-        "day": 5,
-        "title": "Budapest to Prague (Czech Republic) — Scenic Cross-Country Drive",
-        "description": "Board your coach for a scenic journey north across the rolling plains of Moravia into the Czech Republic. Arrive in the 'City of a Hundred Spires', check in to your Prague hotel, and enjoy an evening stroll around Wenceslas Square followed by dinner.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Prague"
-      },
-      {
-        "day": 6,
-        "title": "Prague Castle, St. Vitus Cathedral & Historic Charles Bridge Walk",
-        "description": "Explore the historic Prague Castle Complex, the largest ancient castle in the world: marvel at the soaring Gothic spires of St. Vitus Cathedral and the historic Royal Palace. Walk down through the picturesque Malá Strana quarter and across the famous statue-lined Charles Bridge spanning the Vltava River into the Old Town.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Prague"
-      },
-      {
-        "day": 7,
-        "title": "Prague Old Town Square, Astronomical Clock & Vltava River Cruise",
-        "description": "Visit Prague's Old Town Square to watch the mechanical procession of the Twelve Apostles on the 600-year-old medieval Astronomical Clock. Enjoy a relaxing sightseeing cruise on the Vltava River and spend the afternoon shopping for authentic Bohemian crystal and Czech wooden toys before dinner.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Prague"
-      },
-      {
-        "day": 8,
-        "title": "Prague to Vienna Return Journey — Shopping at Parndorf Designer Outlet",
-        "description": "Drive south through the Czech countryside back into Austria, stopping at the famous Designer Outlet Parndorf for duty-free luxury fashion shopping. Arrive in Vienna for a celebratory farewell Indian dinner.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Vienna"
-      },
-      {
-        "day": 9,
-        "title": "Vienna Departure — Flight Home",
-        "description": "Enjoy breakfast at your hotel before transferring to Vienna International Airport for your return flight home, carrying cherished memories of Eastern Europe's imperial capitals.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
-    ],
-    "inclusions": [
-      "3-star premium hotel accommodation on twin sharing",
-      "Daily Indian breakfast, lunch and dinner",
-      "Danube River cruise in Budapest, Vltava cruise in Prague",
-      "Schönbrunn Palace gardens, Prague Castle, Bratislava orientation",
-      "Schengen visa guidance, Indian tour manager (25+ pax)",
-      "Luxury AC coach transfers, travel insurance up to 59 years"
-    ],
-    "exclusions": [
-      "Airfare, airport taxes",
-      "5% GST and 2% TCS",
-      "Personal expenses, tips and porterage",
-      "Costs from flight delays or cancellations"
-    ]
-  },
-  {
-    "id": "grand-tour-europe",
-    "title": "Grand Tour of Europe",
-    "image": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
-    "duration": "15 Nights / 16 Days",
-    "price": "₹4,13,700",
-    "highlights": [
-      "Eiffel Tower 3rd level & Disneyland Paris",
-      "Jungfraujoch — Top of Europe",
-      "Venice gondola ride",
-      "Vatican Museum & Sistine Chapel"
-    ],
-    "category": "International",
-    "isPopular": true,
-    "tagline": "London to Rome across ten countries — the definitive first-time Europe itinerary.",
-    "overview": "A sixteen-day grand circuit spanning the UK, France, Belgium, the Netherlands, Germany, Switzerland, Liechtenstein, Austria and Italy — London's icons, a day at Disneyland Paris, the Top of Europe at Jungfraujoch, and Rome's Vatican and Colosseum.",
-    "heroImage": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "April to October",
-    "startingPoint": "London Airport",
-    "groupSize": "2+ guests",
-    "themes": [
-      "Heritage",
-      "City",
-      "Family"
-    ],
-    "gallery": [
-      {
-        "image": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Iconic landmarks across Europe"
-      },
-      {
-        "image": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Historic old towns"
-      }
-    ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "London Arrival — Welcome to the British Capital",
-        "description": "Arrive at London Heathrow Airport, meet your Bandhan Tour Manager, and transfer by private luxury coach to your hotel. Settle in, relax, and join the group for an evening welcome Indian dinner.",
-        "meals": "Dinner",
-        "stay": "London"
-      },
-      {
-        "day": 2,
-        "title": "London Guided City Tour — Buckingham Palace, London Eye & Thames River Cruise",
-        "description": "Embark on a comprehensive guided city tour of London: see Big Ben, the Houses of Parliament, Westminster Abbey, and witness the Changing of the Guard at Buckingham Palace. Pose with lifelike wax celebrities at Madame Tussauds, board the giant glass capsules of the London Eye for sweeping 360-degree skyline views, and cruise along the River Seine past Tower Bridge.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "London"
-      },
-      {
-        "day": 3,
-        "title": "Lord's Cricket Ground & Tower of London (Crown Jewels)",
-        "description": "Enjoy a VIP guided tour of Lord's Cricket Ground — the Home of Cricket — walking through the historic Long Room, players' dressing rooms, and the MCC Museum. In the afternoon, tour the medieval Tower of London to marvel at the dazzling British Crown Jewels and the legendary Koh-i-Noor diamond, followed by shopping on Oxford Street.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "London"
-      },
-      {
-        "day": 4,
-        "title": "London to Paris via Eurostar High-Speed Channel Tunnel",
-        "description": "Board the high-speed Eurostar train darting beneath the English Channel to arrive at Paris Gare du Nord. Check into your Parisian hotel and enjoy an introductory evening drive along the illuminated boulevards of Paris.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Paris"
-      },
-      {
-        "day": 5,
-        "title": "Paris City Tour — Eiffel Tower 3rd Level, Versailles Palace & Seine Cruise",
-        "description": "Tour Paris landmarks: drive down the Champs-Élysées, view the Arc de Triomphe, and ascend to the top 3rd Level of the Eiffel Tower for panoramic city vistas. Explore the opulent Hall of Mirrors at the Royal Palace of Versailles, followed by an evening cruise along the River Seine under illuminated historic bridges.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Paris"
-      },
-      {
-        "day": 6,
-        "title": "Magical Full Day at Disneyland Paris",
-        "description": "Spend an unforgettable full day at Disneyland Paris. Experience thrilling rides like Space Mountain, Big Thunder Mountain, and Pirates of the Caribbean, meet beloved Disney characters, and witness the breathtaking evening Disney Illuminations fireworks over Sleeping Beauty Castle.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Paris"
-      },
-      {
-        "day": 7,
-        "title": "Paris to Brussels (Belgium) — Grand Place, Atomium & Onward to Netherlands",
-        "description": "Drive into Belgium to explore Brussels: marvel at the gilded guildhalls of Grand Place, see the playful Manneken Pis statue, and take photos at the monumental Atomium and Mini Europe miniature park. Continue through the Dutch countryside to your hotel in the Netherlands.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Netherlands"
-      },
-      {
-        "day": 8,
-        "title": "Keukenhof Tulip Gardens (or Zaanse Schans Windmills) & Amsterdam Canal Cruise",
-        "description": "Visit Keukenhof (in season) to wander among 7 million blooming tulips and orchids, or visit Zaanse Schans to explore working historic windmills, wooden clog carving, and Dutch Gouda cheese making. In Amsterdam, board a glass-topped boat for a scenic cruise through the UNESCO-listed canal ring.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Germany"
-      },
-      {
-        "day": 9,
-        "title": "Heidelberg Castle — Black Forest Cuckoo Clock & Roaring Rhine Falls",
-        "description": "Drive to historic Heidelberg to view its hilltop castle and Old Town. Journey deep into the Black Forest to witness traditional hand-carved Cuckoo Clock making and sample Black Forest gateau. Cross the Swiss border to take a boat right up to the roaring rock basin of Rhine Falls, Europe's largest waterfall, before arriving in Central Switzerland.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Central Switzerland"
-      },
-      {
-        "day": 10,
-        "title": "Jungfraujoch — The Top of Europe (11,333 ft) & Aletsch Glacier",
-        "description": "Board the cogwheel Alpine railway climbing through the Eiger mountain to Jungfraujoch, the highest railway station in Europe at 11,333 feet. Walk through the crystalline Ice Palace, step out onto the snow plateau overlooking the massive Aletsch Glacier, and take in the 360-degree panorama from the Sphinx Observation Terrace.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Central Switzerland"
-      },
-      {
-        "day": 11,
-        "title": "Mount Titlis Revolving Rotair Cable Car & Scenic Lucerne Tour",
-        "description": "Ascend to 10,000 feet aboard the world's first revolving cable car (Titlis Rotair). Cross the Titlis Cliff Walk — Europe's highest suspension bridge — explore the Glacier Cave, and ride the Ice Flyer chairlift over glacial crevasses. In the afternoon, tour Lucerne's historic Chapel Bridge, Lion Monument, and indulge your sweet tooth at the Lindt Home of Chocolate.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Central Switzerland"
-      },
-      {
-        "day": 12,
-        "title": "Liechtenstein (Vaduz) — Swarovski Crystal Worlds & Innsbruck",
-        "description": "Ride a mini road-train through Vaduz, the capital of the tiny Alpine Principality of Liechtenstein. Cross into the Austrian Tyrol to explore the sparkling underground chambers of Swarovski Crystal Worlds in Wattens. In Innsbruck, visit the famous 15th-century Golden Roof (Goldenes Dachl) and the imperial Hofburg Palace.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Innsbruck / Seefeld"
-      },
-      {
-        "day": 13,
-        "title": "Venice Island Arrival — Private Water Taxi & Romantic Gondola Ride",
-        "description": "Drive south into Italy and board a private water taxi across the Venetian lagoon to St. Mark's Square. Gaze upon St. Mark's Basilica, Doge's Palace, and the Bridge of Sighs. Watch a master glassblower create intricate Murano glass art, and board a traditional black gondola for a serene ride through Venice's picturesque labyrinth of canals.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Padova / Ferrara"
-      },
-      {
-        "day": 14,
-        "title": "Renaissance Florence Duomo & the Iconic Leaning Tower of Pisa",
-        "description": "Explore Florence, the cradle of the Renaissance: admire Giotto's Bell Tower, the terracotta-tiled Duomo of Florence, Piazza della Signoria, and the historic jewelry shops of Ponte Vecchio over the River Arno. Later, drive to Pisa to pose with the world-famous Romanesque Leaning Tower of Pisa in the Field of Miracles.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Tuscany region"
-      },
-      {
-        "day": 15,
-        "title": "Rome — Colosseum, Roman Forum, Trevi Fountain & Vatican St. Peter's",
-        "description": "Discover the Eternal City of Rome: step inside the world's smallest sovereign state, Vatican City, to explore St. Peter's Basilica, the Vatican Museums, and the Sistine Chapel with Michelangelo's famous ceiling frescoes. Tour ancient Rome: view the monumental Colosseum, the ruins of the Roman Forum, and toss a coin into the baroque Trevi Fountain to guarantee your return to Rome.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Rome"
-      },
-      {
-        "day": 16,
-        "title": "Departure from Rome — Flight Home",
-        "description": "Savor a final Italian breakfast before transferring to Rome Fiumicino Airport for your flight home, concluding the definitive, life-changing Grand Tour of Europe.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
-    ],
-    "inclusions": [
-      "4-star hotels with daily buffet breakfast",
-      "Sightseeing and attraction tickets as per itinerary",
-      "6 Indian lunches, 7 Indian dinners, daily 500ml water bottle",
-      "Coach driver tips included"
-    ],
-    "exclusions": [
-      "5% GST and 2% TCS and other taxes",
-      "Airfare (unless specified)",
-      "Visa, passport, POE charges and travel insurance",
-      "Personal expenses, pre/post-tour stay"
-    ]
-  },
-  {
-    "id": "kerala-kanyakumari",
-    "title": "Kerala with Kanyakumari",
-    "image": "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1800",
-    "duration": "7 Nights / 8 Days",
-    "price": "₹39,999",
-    "highlights": [
-      "Munnar tea gardens & Eravikulam National Park",
-      "Kanyakumari's Vivekananda Memorial",
-      "Alleppey houseboat backwaters",
-      "Sree Padmanabhaswamy VIP darshan"
-    ],
-    "category": "Domestic",
-    "isPopular": true,
-    "tagline": "Kerala's hill stations and backwaters extended to India's southernmost tip.",
-    "overview": "From Munnar's tea gardens to Thekkady's Kathakali performances, Varkala's cliffside beach and a full-day Kanyakumari excursion, ending with a traditional houseboat cruise through Alleppey's backwaters.",
-    "heroImage": "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "September to March",
-    "startingPoint": "Cochin Airport",
-    "groupSize": "2+ guests",
-    "themes": [
-      "Nature",
-      "Backwaters",
-      "Culture"
-    ],
-    "gallery": [
-      {
-        "image": "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Backwaters of Kerala"
-      },
-      {
-        "image": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Munnar tea plantations"
-      }
-    ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Cochin Arrival — Scenic Mountain Drive to Munnar Tea Country",
-        "description": "Arrive at Cochin International Airport where your chauffeur welcomes you. Ascend into the Western Ghats towards Munnar (130 km / 4 hrs). En route, pause at the tiered cascades of Cheeyappara and Valara Waterfalls amidst lush spice hills. In Munnar, visit the Tata Tea Museum to learn the art of orthodox tea processing and enjoy a fresh tasting session before checking into your plantation resort for dinner.",
-        "meals": "Lunch, Dinner",
-        "stay": "Munnar"
-      },
-      {
-        "day": 2,
-        "title": "Eravikulam National Park (Nilgiri Tahr), Mattupetty Dam & Echo Point",
-        "description": "Embark on a morning safari in Eravikulam National Park, home to the endangered Nilgiri Tahr mountain goat and the blooming Neelakurinji shrub. Stroll through manicured tea gardens, visit Mattupetty Dam for speedboating options, shout into Echo Point, and take photographs beside the scenic waters of Kundala Arch Dam.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Munnar"
-      },
-      {
-        "day": 3,
-        "title": "Munnar to Thekkady (Periyar) — Spice Plantations & Kathakali Show",
-        "description": "Drive through aromatic cardamom hills to Thekkady (90 km / 3 hrs). Tour an organic spice garden with a botanist explaining cardamom, pepper, cinnamon, and vanilla cultivation. In the evening, watch classical Kathakali facial drama and a thrilling Kalaripayattu martial arts demonstration at the Kadathanadan Kalari Centre.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Thekkady"
-      },
-      {
-        "day": 4,
-        "title": "Thekkady to Varkala Cliff via Jatayu Earth's Center Giant Sculpture",
-        "description": "Travel towards the Arabian Sea coast, stopping at Jatayu Earth's Center in Chadayamangalam. Ride the cable car up the granite hill to behold the world's largest bird sculpture (200 ft long) commemorating the mythical demi-god Jatayu. Continue to Varkala and spend a tranquil evening strolling along the red laterite cliffside promenade lined with cafes and sunset viewpoints.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Varkala"
-      },
-      {
-        "day": 5,
-        "title": "Varkala to Kovalam — Sree Padmanabhaswamy Temple VIP Darshan",
-        "description": "Drive to Trivandrum for special VIP Darshan at the ancient Sree Padmanabhaswamy Temple, the world's wealthiest temple famed for its Dravidian gold gopuram. Tour the horse-carved wooden ceilings of Kuthiramalika Palace and the Napier Art Museum before proceeding to the crescent beaches of Kovalam for dinner.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Kovalam"
-      },
-      {
-        "day": 6,
-        "title": "Full-Day Kanyakumari Excursion — Triveni Sangam & Vivekananda Memorial",
-        "description": "Drive to Kanyakumari, the southernmost tip of mainland India. Visit the 16th-century teakwood Padmanabhapuram Palace and Suchindram Thanumalayan Temple. Board a ferry to the offshore Vivekananda Rock Memorial and the 133-foot stone Thiruvalluvar Statue. Witness the majestic sunset over the Triveni Sangam where the Arabian Sea, Bay of Bengal, and Indian Ocean merge, returning to Kovalam for the night.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Kovalam"
-      },
-      {
-        "day": 7,
-        "title": "Kovalam to Alleppey (Alappuzha) — Traditional Houseboat Backwater Cruise",
-        "description": "Drive north to Alleppey and board your traditional thatch-roofed Kerala Kettuvallam (Houseboat). Cruise along serene palm-fringed canals, paddy fields, and duck farms. Enjoy a freshly prepared authentic Kerala Sadhya lunch served on plantain leaves on board. Relax on your private deck as the golden sun sets over the quiet lagoons, followed by a candlelit dinner on the water.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Alleppey houseboat"
-      },
-      {
-        "day": 8,
-        "title": "Alleppey — Cochin Airport Departure",
-        "description": "Enjoy breakfast as your houseboat glides back to the jetty. Disembark and transfer to Cochin International Airport for your flight home, carrying cherished memories of God's Own Country.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
-    ],
-    "inclusions": [
-      "Premium accommodation on double/triple sharing, 7 breakfasts, 7 lunches, 7 dinners",
-      "AC vehicle for all transfers and sightseeing, professional tour manager",
-      "Entrance tickets, evening tea/coffee, water bottle per day",
-      "Kerala Sadhya meal, Jatayu ropeway ride, 1-hour Shikara ride",
-      "Kathakali and Kalaripayattu shows, Ayurvedic spa, Periyar wildlife experience",
-      "VIP darshan pass at Sree Padmanabhaswamy Temple"
-    ],
-    "exclusions": [
-      "5% GST, airfare/train fare",
-      "Guide charges, early check-in/late check-out",
-      "Additional meals or activities",
-      "Personal expenses"
-    ]
-  },
-  {
-    "id": "mesmerizing-vietnam",
-    "title": "Mesmerizing Vietnam",
-    "image": "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=85&w=1800",
-    "duration": "7 Nights / 8 Days",
-    "price": "₹78,900",
-    "highlights": [
-      "Mekong Delta excursion",
-      "Ba Na Hills cable car & Golden Bridge",
-      "Hoi An Ancient Town",
-      "Overnight Ha Long Bay cruise"
-    ],
-    "category": "International",
-    "tagline": "Ho Chi Minh City to Ha Long Bay via the Golden Bridge and an overnight cruise.",
-    "overview": "From Ho Chi Minh City's Mekong Delta and Cu Chi Tunnels to Da Nang's Marble Mountains and the Golden Bridge at Ba Na Hills, finishing with Hanoi's old quarter and an overnight cruise through Ha Long Bay's limestone islands.",
-    "heroImage": "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "October to April",
-    "startingPoint": "Ho Chi Minh City Airport",
-    "groupSize": "2+ guests",
-    "themes": [
-      "Culture",
-      "Scenic",
-      "Cruise"
-    ],
-    "gallery": [
-      {
-        "image": "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Golden Bridge, Ba Na Hills"
-      },
-      {
-        "image": "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Ha Long Bay limestone islands"
-      }
-    ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Ho Chi Minh City (Saigon) Arrival & Colonial Landmarks Tour",
-        "description": "Arrive at Tan Son Nhat International Airport in Ho Chi Minh City. Transfer to your hotel and embark on a city orientation tour: visit the French colonial Notre-Dame Cathedral Basilica, the historic Central Post Office designed by Gustave Eiffel, the War Remnants Museum, and browse bustling Ben Thanh Market before an Indian dinner.",
-        "meals": "Lunch, Dinner",
-        "stay": "Ho Chi Minh City"
-      },
-      {
-        "day": 2,
-        "title": "Mekong Delta River Safari — Coconut Groves & Village Life at My Tho",
-        "description": "Drive to My Tho in the fertile Mekong Delta. Board a motorized boat cruising past floating fish farms on the Tien River, then transfer into traditional hand-rowed sampans through narrow water-coconut canals. Visit honey bee farms, listen to traditional southern folk music (Don Ca Tai Tu), and sample fresh tropical fruits before returning to Saigon.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Ho Chi Minh City"
-      },
-      {
-        "day": 3,
-        "title": "Cu Chi Tunnels Guerrilla Network — Flight to Coastal Da Nang",
-        "description": "Explore the subterranean Cu Chi Tunnels network used by Viet Cong guerrillas during the Vietnam War, featuring trapdoors, living quarters, and weapon workshops. Return to Saigon for your short domestic flight to coastal Da Nang. Check into your beachside hotel in Da Nang.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Da Nang"
-      },
-      {
-        "day": 4,
-        "title": "Marble Mountains Caves & UNESCO Hoi An Ancient Lantern Town",
-        "description": "Visit the five sacred Marble Mountains (Ngu Hanh Son) to explore hidden Buddhist sanctuaries inside Huyen Khong Cave and climb to panoramic viewpoints. In the afternoon, head to the UNESCO World Heritage town of Hoi An: walk past ancient merchant houses, cross the 400-year-old Japanese Covered Bridge, and take a magical evening lantern boat ride on the Thu Bon River.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Da Nang"
-      },
-      {
-        "day": 5,
-        "title": "Sun World Ba Na Hills & Iconic Golden Giant Hands Bridge",
-        "description": "Ride one of the world's longest single-cable car systems up to Sun World Ba Na Hills (1,487m). Stroll across the world-famous Golden Bridge, held aloft by two giant stone hands emerging from the misty mountain jungle. Explore the French Village, Le Jardin D'Amour flower gardens, and Linh Ung Pagoda before descending back to Da Nang.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Da Nang"
-      },
-      {
-        "day": 6,
-        "title": "Flight to Hanoi Capital — Ho Chi Minh Mausoleum & Old Quarter Cyclo Ride",
-        "description": "Fly north to the millennium-old capital of Hanoi. Visit the Ho Chi Minh Mausoleum complex, the One Pillar Pagoda resting on a single lotus pillar, and the historic Temple of Literature (Vietnam's first university). Enjoy a traditional cycle-rickshaw (cyclo) tour through the 36 ancient guild streets of Hanoi's vibrant Old Quarter.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Hanoi"
-      },
-      {
-        "day": 7,
-        "title": "Overnight Luxury Ha Long Bay Cruise — Limestone Karsts & Sung Sot Cave",
-        "description": "Drive to the UNESCO natural wonder of Ha Long Bay and board a luxury overnight cruise ship. Sail among thousands of towering emerald limestone karsts rising dramatically from turquoise waters. Explore the massive stalactite chambers of Sung Sot (Surprise) Cave, kayak around secluded lagoons, and enjoy a sunset party on the sundeck followed by a seafood/Indian dinner.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Ha Long Bay cruise"
-      },
-      {
-        "day": 8,
-        "title": "Ha Long Bay Sunrise Tai Chi — Return to Hanoi & Flight Home",
-        "description": "Begin your morning with a calming Tai Chi session on the sun deck as mist lifts over the limestone islands. Visit Ti Top Island for swimming or hiking to its peak for 360-degree bay panoramas. Enjoy a brunch buffet as the cruise docks at the harbor, transferring to Hanoi Noi Bai Airport for your flight home.",
-        "meals": "Breakfast, Brunch",
-        "stay": "—"
-      }
-    ],
-    "inclusions": [
-      "3-star hotel accommodation on double sharing, 1 night Ha Long Bay cruise",
-      "Daily breakfast, lunch and dinner, Hanoi and Ho Chi Minh City tours",
-      "Marble Mountain visit, private transfers, English guide/tour leader (20+ pax)",
-      "Water bottle per day, Vietnam e-visa, travel insurance up to 59 years"
-    ],
-    "exclusions": [
-      "Airfare, airport taxes",
-      "5% GST and 2% TCS",
-      "Personal expenses, tips and porterage",
-      "Costs from flight delays or cancellations"
-    ]
-  },
-  {
-    "id": "rajasthan-marwad",
-    "title": "Rajasthan Marwad",
-    "image": "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&q=85&w=1800",
-    "duration": "7 Nights / 8 Days",
-    "price": "₹34,999",
-    "highlights": [
-      "Sam Sand Dunes desert safari",
-      "Jaisalmer Fort & Patwon Ki Haveli",
-      "Mehrangarh Fort, Jodhpur",
-      "Khatu Shyam Ji Temple darshan"
-    ],
-    "category": "Domestic",
-    "tagline": "Temples, forts and the Thar Desert across Bikaner, Jaisalmer and Jodhpur.",
-    "overview": "From temple darshans at Khatu Shyam Ji and Salasar Balaji through Bikaner's Junagarh Fort to a desert safari and camel ride at the Sam Sand Dunes, ending among Jodhpur's Blue City and Mehrangarh Fort.",
-    "heroImage": "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "October to March",
-    "startingPoint": "Jaipur Airport",
-    "groupSize": "2+ guests",
-    "themes": [
-      "Heritage",
-      "Desert",
-      "Culture"
-    ],
-    "gallery": [
-      {
-        "image": "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Forts of Rajasthan"
-      },
-      {
-        "image": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Sam Sand Dunes desert safari"
-      }
-    ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Jaipur Arrival — Transfer to Khatu Shyam Ji Mandir Darshan",
-        "description": "Arrive at Jaipur Airport/Railway Station and drive to the pilgrimage town of Khatu in Sikar (80 km / 2 hrs). Check in to your hotel and attend the devotional evening Aarti and Darshan of Barbarik at the revered Khatu Shyam Ji Temple.",
-        "meals": "Lunch, Dinner",
-        "stay": "Khatu Shyam Ji"
-      },
-      {
-        "day": 2,
-        "title": "Khatu Shyam Ji to Salasar Balaji — Onward to Bikaner",
-        "description": "Drive to Salasar to seek blessings at the famous Salasar Balaji Temple, dedicated to Lord Hanuman with a distinct round face and beard. Continue your journey into the desert kingdom of Bikaner (approx. 180 km), checking in to your heritage hotel for dinner.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Bikaner"
-      },
-      {
-        "day": 3,
-        "title": "Bikaner Sightseeing — Junagarh Fort, Karni Mata (Deshnok) & Camel Farm",
-        "description": "Explore the unconquered Junagarh Fort, featuring gold-leafed courtyards of Anup Mahal and Badal Mahal. Visit the National Research Centre on Camel to observe camel breeding and taste fresh camel milk ice cream. Drive 30 km to Deshnok to visit the famous 600-year-old Karni Mata Temple, revered for over 25,000 sacred black rats (kabbas).",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Bikaner"
-      },
-      {
-        "day": 4,
-        "title": "Bikaner to the Golden City of Jaisalmer",
-        "description": "Drive west through the heart of the Great Indian Thar Desert to Jaisalmer (330 km / 6 hrs), passing desert scrublands and sand dunes. Check in to your yellow sandstone hotel in Jaisalmer and enjoy an evening stroll around the picturesque Gadisar Lake.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Jaisalmer"
-      },
-      {
-        "day": 5,
-        "title": "Tanot Mata Temple — Longewala War Memorial — Sam Sand Dunes Desert Safari",
-        "description": "Visit the miraculous Tanot Mata Temple near the Indo-Pak border, where unexploded enemy bombs from the 1965 war are preserved. Visit the Longewala War Memorial commemorating the famous 1971 Battle of Longewala. Arrive at the Sam Sand Dunes in the late afternoon for a camel safari over golden undulating dunes, a 4x4 dune bashing ride, and an evening Rajasthani Kalbelia folk dance and musical performance under the stars around a campfire.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Jaisalmer"
-      },
-      {
-        "day": 6,
-        "title": "Jaisalmer Living Fort & Patwon Ki Haveli — Drive to Jodhpur (Sun City)",
-        "description": "Tour Sonar Qila (Jaisalmer Golden Fort), one of the world's few fully functioning living forts with thousands of residents, ancient Jain temples, and the intricately carved 5-storey Patwon Ki Haveli. In the afternoon, drive south to Jodhpur, the 'Blue City' of Rajasthan (280 km / 5 hrs), checking into your hotel for dinner.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Jodhpur"
-      },
-      {
-        "day": 7,
-        "title": "Jodhpur Sightseeing — Mehrangarh Fort, Jaswant Thada & Umaid Bhawan",
-        "description": "Ascend to the towering Mehrangarh Fort, perched 400 feet above Jodhpur's blue rooftops, housing royal palanquins, weaponry, and ornate chambers like Sheesh Mahal. Visit the gleaming white marble cenotaph of Jaswant Thada and tour the museum at the grand Art Deco Umaid Bhawan Palace.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Jodhpur"
-      },
-      {
-        "day": 8,
-        "title": "Jodhpur Departure",
-        "description": "After breakfast, explore the Clock Tower market for famous Jodhpuri spices and handicrafts before transferring to Jodhpur Airport or Railway Station for your departure.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
-    ],
-    "inclusions": [
-      "Double/triple sharing, 7 breakfasts, 8 lunches, 7 dinners",
-      "AC vehicle transfers and sightseeing, professional tour manager",
-      "Entrance tickets, evening tea/coffee, water bottle per day, travel insurance",
-      "Sam Sand Dunes experience, all major fort and temple visits"
-    ],
-    "exclusions": [
-      "5% GST, airfare/train fare",
-      "Guide charges, early check-in/late check-out",
-      "Extra meals or sightseeing",
-      "Personal expenses"
-    ]
-  },
-  {
-    "id": "singapore-malaysia-thailand",
-    "title": "Singapore Malaysia Thailand",
-    "image": "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=85&w=1800",
-    "duration": "9 Nights / 10 Days",
-    "price": "₹1,05,000",
-    "highlights": [
-      "Alcazar Cabaret Show & Coral Island, Pattaya",
-      "Golden & Marble Buddha Temples, Bangkok",
-      "Genting Highlands cable car",
-      "Universal Studios & Wings of Time, Singapore"
-    ],
-    "category": "International",
-    "tagline": "Three countries, one grand Southeast Asian holiday — Thailand, Malaysia and Singapore.",
-    "overview": "A ten-day sweep from Pattaya's beaches and Bangkok's temples through Kuala Lumpur's Genting Highlands to Singapore's Night Safari, Sentosa Island and Universal Studios.",
-    "heroImage": "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "Year-round",
-    "startingPoint": "Bangkok Airport",
-    "groupSize": "Min 25 pax for quoted rate",
-    "themes": [
-      "City",
-      "Family",
-      "Theme Park"
-    ],
-    "gallery": [
-      {
-        "image": "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Singapore skyline"
-      },
-      {
-        "image": "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Bangkok and Pattaya"
-      }
-    ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Bangkok Arrival — Transfer to Pattaya & Alcazar Cabaret Show",
-        "description": "Arrive in Bangkok and transfer by luxury coach to the coastal city of Pattaya. Check into your hotel and attend the famous Alcazar Cabaret Show featuring grand music, dazzling lighting, and extravagant costumes, followed by an Indian buffet dinner.",
-        "meals": "Lunch, Dinner",
-        "stay": "Pattaya"
-      },
-      {
-        "day": 2,
-        "title": "Coral Island Speedboat Tour with Water Sports & Beach Time",
-        "description": "Speedboat across the Gulf of Thailand to Koh Larn Coral Island. Enjoy parasailing, banana boat rides, and swimming in clear waters, followed by an Indian lunch beachside and an evening at leisure in Pattaya.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Pattaya"
-      },
-      {
-        "day": 3,
-        "title": "Pattaya to Bangkok — Wat Traimit Golden Buddha & Marble Temple",
-        "description": "Drive to Bangkok for a guided city tour: visit Wat Traimit to view the solid gold 5.5-ton Buddha and Wat Benchamabophit (The Marble Temple). Visit the World Gems Gallery and check into your Bangkok hotel.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Bangkok"
-      },
-      {
-        "day": 4,
-        "title": "Safari World & Marine Park Full-Day Entertainment",
-        "description": "Full day exploring Bangkok Safari World: ride through open wilderness to observe lions, giraffes, and zebras, followed by dolphin, stunt, and sea lion shows at Marine Park with an international buffet lunch.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Bangkok"
-      },
-      {
-        "day": 5,
-        "title": "Fly Bangkok to Kuala Lumpur (Malaysia) — Putrajaya & KL City Tour",
-        "description": "Fly from Bangkok to Kuala Lumpur. Tour Putrajaya government center en route, view the Petronas Twin Towers, King's Palace, and ascend the KL Tower observation deck for sunset vistas before dinner.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Kuala Lumpur"
-      },
-      {
-        "day": 6,
-        "title": "Batu Caves Lord Murugan Shrine & Genting Highlands Cable Car",
-        "description": "Climb the 272 steps at Batu Caves temple, then ride the Genting Skyway cable car up into the cool misty mountains of Genting Highlands to explore SkyAvenue indoor theme parks and shopping malls.",
-        "meals": "Breakfast",
-        "stay": "Kuala Lumpur"
-      },
-      {
-        "day": 7,
-        "title": "Kuala Lumpur to Singapore by AC Coach — World's First Night Safari",
-        "description": "Drive across the causeway into the lion city of Singapore. In the evening, explore the world's premier Night Safari aboard an open tram spotting nocturnal wildlife in natural habitats, followed by the Creatures of the Night show.",
-        "meals": "Breakfast, Dinner",
-        "stay": "Singapore"
-      },
-      {
-        "day": 8,
-        "title": "Sentosa Island Cable Car, Gardens by the Bay & Supertree Light Show",
-        "description": "Cable car to Sentosa Island for Madame Tussauds. In the afternoon, tour Gardens by the Bay's Flower Dome and Cloud Forest with its 35m indoor waterfall, ending with the Garden Rhapsody light show at Supertree Grove.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Singapore"
-      },
-      {
-        "day": 9,
-        "title": "Full Day at Universal Studios Singapore & Wings of Time Night Show",
-        "description": "Spend the entire day enjoying thrill rides and shows at Universal Studios: Transformers 3D, Battlestar Galactica, and Jurassic Park Rapids, concluding with the Wings of Time fireworks and laser show on Sentosa Beach.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Singapore"
-      },
-      {
-        "day": 10,
-        "title": "Singapore City Tour — Merlion Park & Changi Airport Departure",
-        "description": "Morning city tour of Merlion Park, Chinatown, and Little India. Transfer to Singapore Changi Airport to explore the Rain Vortex at Jewel before boarding your return flight home.",
-        "meals": "Breakfast, Lunch",
-        "stay": "—"
-      }
-    ],
-    "inclusions": [
-      "3-star hotel accommodation on double/twin sharing",
-      "Daily breakfast, lunch and dinner, Coral Island tour, Night Safari",
-      "Putrajaya tour, Petronas Towers photo stop, KL Tower deck, Universal Studios",
-      "Thailand visa on arrival, Singapore visa, Malaysia arrival card, Sentosa cable car",
-      "Tour leader/guide (25+ pax), travel insurance up to 59 years, private transfers"
-    ],
-    "exclusions": [
-      "Airfare, airport taxes",
-      "5% GST and 2% TCS",
-      "Personal expenses, tips and porterage",
-      "Costs from flight delays or cancellations"
-    ]
-  },
-  {
-    "id": "sampurna-karnataka",
-    "title": "Sampurna Karnataka",
-    "image": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800",
-    "duration": "7 Nights / 8 Days",
-    "price": "₹40,499",
-    "highlights": [
-      "Hampi UNESCO World Heritage Site",
-      "Murudeshwar's giant Shiva statue",
-      "Jog Falls",
-      "St. Mary's Island ferry ride"
-    ],
-    "category": "Domestic",
-    "tagline": "Karnataka end-to-end — Badami's cave temples, Hampi's ruins and the Malabar coast.",
-    "overview": "A full sweep of Karnataka: Badami's rock-cut cave temples, the UNESCO sites of Pattadakal and Hampi, Jog Falls, Murudeshwar's coastal Shiva temple, and a ferry ride to the basalt shores of St. Mary's Island.",
-    "heroImage": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "October to February",
-    "startingPoint": "Hubli Airport",
-    "groupSize": "2+ guests",
-    "themes": [
-      "Heritage",
-      "Coastal",
-      "Culture"
-    ],
-    "gallery": [
-      {
-        "image": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Hampi's ancient ruins"
-      },
-      {
-        "image": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Temples and coastline of Karnataka"
-      }
-    ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Hubli Arrival — City Orientation & Sunset at Unkal Lake",
-        "description": "Arrive at Hubli Airport or Railway Station, meet your tour director, and transfer to your hotel. In the evening, visit Unkal Lake featuring a statue of Swami Vivekananda in the center, followed by a welcome dinner.",
-        "meals": "Dinner",
-        "stay": "Hubli"
-      },
-      {
-        "day": 2,
-        "title": "Badami Cave Temples — Aihole Cradle of Temple Architecture & Pattadakal to Hampi",
-        "description": "Tour the 6th-century rock-cut Badami Cave Temples carved into red sandstone cliffs overlooking Agastya Lake. Explore Aihole's Durga Temple complex and the UNESCO World Heritage site of Pattadakal showcasing fusion Dravidian and Nagara temple architecture, arriving in Hampi for overnight stay.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Hampi"
-      },
-      {
-        "day": 3,
-        "title": "Hampi UNESCO World Heritage Exploration — Vijayanagara Empire Grandeur",
-        "description": "Spend the day exploring the ruined capital of the Vijayanagara Empire: visit the active Virupaksha Temple, the iconic Stone Chariot and musical pillars of Vijaya Vittala Temple, the royal Lotus Mahal, Queen's Bath, and the Elephant Stables.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Hampi"
-      },
-      {
-        "day": 4,
-        "title": "Anegundi (Mythological Kishkindha) & Coracle Boat Ride on Tungabhadra",
-        "description": "Cross the Tungabhadra River on a traditional round coracle boat to explore Anegundi, identified with the monkey kingdom Kishkindha from the Ramayana. Visit Anjaneya Hill (birthplace of Lord Hanuman) and Pampa Sarovar before returning to Hubli.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Hubli"
-      },
-      {
-        "day": 5,
-        "title": "Sahastra Linga — Mighty Jog Falls & Coastal Gokarna",
-        "description": "Visit Sahasralinga where hundreds of Shiva Lingas are carved into the riverbed rocks. Drive through the Western Ghats to witness Jog Falls, India's second-highest plunge waterfall. Continue to the coastal holy town of Gokarna to visit the ancient Mahabaleshwar Temple housing the sacred Atmalinga.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Gokarna"
-      },
-      {
-        "day": 6,
-        "title": "Gokarna to Murudeshwar — World's 2nd-Tallest Shiva Statue & Coastal Beach",
-        "description": "Drive to Murudeshwar along the Arabian Sea coast. Gaze upon the towering 123-foot statue of Lord Shiva and ride the elevator to the top of the 20-storey Raja Gopuram for sweeping ocean views. Enjoy sunset on Murudeshwar beach.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Murudeshwar"
-      },
-      {
-        "day": 7,
-        "title": "Murudeshwar to Sringeri Sharada Peetham & Temple Town of Udupi",
-        "description": "Drive through the rainforests of Kudremukh to Sringeri to visit the 8th-century Sri Sharada Peetham established by Adi Shankaracharya and the architectural marvel of Sri Vidyashankara Temple with zodiac pillars. Proceed to the holy town of Udupi.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Udupi"
-      },
-      {
-        "day": 8,
-        "title": "St. Mary's Island Hexagonal Basalt Rocks — Udupi Sri Krishna Darshan & Departure",
-        "description": "Take a ferry to St. Mary's Island to walk on unique volcanic hexagonal basalt columnar rock formations. Return to Udupi to seek blessings through the nine-hole silver window (Kanakana Kindi) at the historic Sri Krishna Matha before transferring to Mangalore Airport for departure.",
-        "meals": "Breakfast, Lunch",
-        "stay": "—"
-      }
-    ],
-    "inclusions": [
-      "Double/triple sharing, all meals, AC vehicle transfers and sightseeing",
-      "Professional tour manager, entrance tickets, evening tea/coffee",
-      "Water bottle per day, travel insurance, coracle ride, St. Mary's Island ferry",
-      "Hampi UNESCO heritage tour, Badami Cave Temples, Jog Falls visit"
-    ],
-    "exclusions": [
-      "5% GST, airfare/train fare",
-      "Guide charges, early check-in/late check-out",
-      "Extra meals or sightseeing",
-      "Personal expenses"
-    ]
-  },
-  {
-    "id": "sikkim-darjeeling-6n",
-    "title": "Sikkim Darjeeling",
-    "image": "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800",
-    "duration": "6 Nights / 7 Days",
-    "price": "₹38,900",
-    "highlights": [
-      "Tsomgo Lake & Nathula Pass",
-      "Pemayangtse Monastery, Pelling",
-      "Tiger Hill sunrise, Darjeeling",
-      "Pelling Sky Walk"
-    ],
-    "category": "North East",
-    "tagline": "Gangtok's high-altitude lakes, Pelling's monasteries and Darjeeling's tea-country sunrise.",
-    "overview": "A classic Eastern Himalaya loop through Gangtok's Tsomgo Lake and Nathula Pass, Pelling's monasteries and Sky Walk, ending with a pre-dawn climb to Tiger Hill for sunrise over Kanchenjunga.",
-    "heroImage": "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "September to December",
-    "startingPoint": "Bagdogra Airport / NJP",
-    "groupSize": "2+ guests",
-    "themes": [
-      "Mountains",
-      "Culture",
-      "Scenic"
-    ],
-    "gallery": [
-      {
-        "image": "/pdf-assets/kanchenjunga-darjeeling.jpg",
-        "caption": "Kangchenjunga from Darjeeling - EJH / public domain"
-      },
-      {
-        "image": "/pdf-assets/yumthang-valley-sikkim.jpg",
-        "caption": "Yumthang Valley - Soumyajit Pramanick / CC BY-SA"
-      }
-    ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "NJP / Bagdogra Arrival — Scenic Mountain Climb to Gangtok",
-        "description": "Arrive at New Jalpaiguri Railway Station (NJP) or Bagdogra Airport (IXB). Board your private vehicle for a picturesque 125 km drive along the Teesta River into the Himalayan kingdom of Sikkim. Arrive in Gangtok (5,500 ft), check into your hotel, and spend your evening taking a relaxed stroll along the pedestrian-only MG Marg.",
-        "meals": "—",
-        "stay": "Gangtok"
-      },
-      {
-        "day": 2,
-        "title": "Glacial Tsomgo Lake, Baba Harbhajan Singh Mandir & Nathula Pass",
-        "description": "Embark on a high-altitude mountain excursion to the sacred glacial Tsomgo (Changu) Lake situated at 12,400 feet, surrounded by snow-draped peaks. Continue higher to Baba Harbhajan Singh Mandir (13,200 ft), dedicated to the legendary Indian soldier. Subject to permit and weather, visit the historic Indo-China border trade outpost at Nathula Pass (14,140 ft).",
-        "meals": "Breakfast",
-        "stay": "Gangtok"
-      },
-      {
-        "day": 3,
-        "title": "Gangtok City Highlights — Scenic Drive across West Sikkim to Pelling",
-        "description": "Tour Gangtok's top sights: the Directorate of Handicrafts & Handloom, Flower Show Hall, Do Drul Chorten Stupa, and the roaring Banjhakri Waterfalls. Drive westward across mountain valleys to Pelling (6,800 ft), offering spectacular unobstructed views of Mount Kanchenjunga.",
-        "meals": "Breakfast",
-        "stay": "Pelling"
-      },
-      {
-        "day": 4,
-        "title": "Pelling Sightseeing — Sacred Khecheopalri Lake, Pemayangtse & Sky Walk",
-        "description": "Explore the wish-fulfilling Khecheopalri Lake hidden in dense holy forests, the cascading Khangchendzonga Waterfalls, and the historic 1705 Pemayangtse Monastery. Walk along the glass Pelling Sky Walk leading to the giant statue of Chenrezig and wander among the royal 17th-century stone ruins of Rabdentse Palace.",
-        "meals": "Breakfast",
-        "stay": "Pelling"
-      },
-      {
-        "day": 5,
-        "title": "Pelling to Darjeeling via Namchi Chardham (Siddhesvara Dham)",
-        "description": "Drive to Namchi in South Sikkim to visit the massive 108-foot statue of Lord Shiva at Siddhesvara Dham (Char Dham replica) and the towering statue of Guru Padmasambhava at Samdruptse Hill. Cross into West Bengal's Darjeeling hills, checking in to your colonial hill-station hotel.",
-        "meals": "Breakfast",
-        "stay": "Darjeeling"
-      },
-      {
-        "day": 6,
-        "title": "Tiger Hill Kanchenjunga Sunrise, Ghoom Monastery & Himalayan Zoo",
-        "description": "Wake at 4:00 AM for the drive up to Tiger Hill (8,400 ft) to witness the sunrise turning Mount Everest and Kanchenjunga into molten gold. On the return drive, visit the 1850 Ghoom Monastery and the Batasia Loop Toy Train war memorial. Later, tour the Padmaja Naidu Himalayan Zoological Park (home to Red Pandas and Snow Leopards), the Himalayan Mountaineering Institute (HMI), and Happy Valley Tea Estate.",
-        "meals": "Breakfast",
-        "stay": "Darjeeling"
-      },
-      {
-        "day": 7,
-        "title": "Darjeeling to NJP / Bagdogra Departure",
-        "description": "Enjoy breakfast with views of the tea hills before your downhill transfer through Kurseong to NJP Railway Station or Bagdogra Airport for your journey home.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
-    ],
-    "inclusions": [
-      "3-star accommodation on double sharing, breakfast/lunch/dinner",
-      "Entry fees, 1L water bottle per day, Nathula Pass and Namchi",
-      "Innova/Xylo or similar vehicle for all transfers, driver allowance and parking"
-    ],
-    "exclusions": [
-      "Train/airfare, heater charges",
-      "Travel or medical insurance",
-      "Personal expenses such as tips, laundry and camera fees"
-    ]
-  },
-  {
-    "id": "sikkim-darjeeling-9n",
-    "title": "Sikkim Darjeeling — Gangtok, Lachung & Darjeeling",
-    "image": "/pdf-assets/yumthang-valley-sikkim.jpg",
-    "duration": "9 Nights / 10 Days",
-    "price": "₹52,500",
-    "highlights": [
-      "Yumthang Valley — Valley of Flowers",
-      "Tsomgo Lake & Nathula Pass",
-      "Pelling Sky Walk",
-      "Tiger Hill sunrise, Darjeeling"
-    ],
-    "category": "North East",
-    "tagline": "The extended Sikkim loop, reaching all the way to Lachung and the Yumthang Valley.",
-    "overview": "A longer version of the Sikkim–Darjeeling circuit that pushes north to Lachung and the rhododendron meadows of Yumthang Valley, before looping back through Pelling and Darjeeling.",
-    "heroImage": "/pdf-assets/yumthang-valley-sikkim.jpg",
-    "bestTime": "March to May, September to December",
-    "startingPoint": "Bagdogra Airport / NJP",
-    "groupSize": "2+ guests",
-    "themes": [
-      "Mountains",
-      "Culture",
-      "Scenic"
-    ],
-    "gallery": [
-      {
-        "image": "/pdf-assets/yumthang-valley-sikkim.jpg",
-        "caption": "Yumthang Valley - Soumyajit Pramanick / CC BY-SA"
-      },
-      {
-        "image": "/pdf-assets/kanchenjunga-darjeeling.jpg",
-        "caption": "Kangchenjunga from Darjeeling - EJH / public domain"
-      }
-    ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "NJP / Bagdogra / Siliguri to Gangtok",
-        "description": "Meet-and-greet on arrival, then a scenic hill transfer along the Teesta River to Gangtok. Check in, unwind after the climb, and enjoy an evening free to explore MG Marg's bakeries and craft shops at your own pace.",
-        "meals": "—",
-        "stay": "Gangtok"
-      },
-      {
-        "day": 2,
-        "title": "Glacial Tsomgo Lake, New Baba Mandir & Nathula Pass",
-        "description": "Full-day high-altitude excursion to glacial Tsomgo Lake (12,400 ft) and the patriotic shrine of New Baba Mandir, with Nathula Pass (14,140 ft) on the Indo-China border subject to permit and weather clearance.",
-        "meals": "Breakfast",
-        "stay": "Gangtok"
-      },
-      {
-        "day": 3,
-        "title": "Gangtok to North Sikkim (Lachung) via Seven Sisters Waterfalls",
-        "description": "Drive into the rugged wilderness of North Sikkim (125 km / 6 hrs), stopping at Singhik Viewpoint for Kanchenjunga views, Seven Sisters Waterfalls, and Naga Waterfall before reaching the peaceful alpine village of Lachung (8,610 ft).",
-        "meals": "Breakfast",
-        "stay": "Lachung"
-      },
-      {
-        "day": 4,
-        "title": "Yumthang Valley (Valley of Flowers) & Hot Springs Excursion",
-        "description": "Early morning drive to the breathtaking Yumthang Valley at 11,800 feet, famed for its sprawling rhododendron sanctuaries, yak grazing pastures, and steaming natural hot springs. Optional excursion to snow-bound Zero Point (Yumesamdong at 15,300 ft) before returning to Lachung.",
-        "meals": "Breakfast",
-        "stay": "Lachung"
-      },
-      {
-        "day": 5,
-        "title": "Lachung to Gangtok Descent via Bheema & Twin Falls",
-        "description": "Descend through the Chungthang valley along roaring mountain rivers, pausing at Bheema Falls and Twin Falls before arriving back in Gangtok for an evening of relaxation.",
-        "meals": "Breakfast",
-        "stay": "Gangtok"
-      },
-      {
-        "day": 6,
-        "title": "Gangtok City Tour — Onward to Pelling (West Sikkim)",
-        "description": "Morning tour of the Handicraft Centre, Flower Show Hall, and Do Drul Chorten Stupa, followed by a scenic drive across mountain passes to Pelling with panoramic views of Mount Kanchenjunga.",
-        "meals": "Breakfast",
-        "stay": "Pelling"
-      },
-      {
-        "day": 7,
-        "title": "Pelling Local Sightseeing — Sky Walk, Khecheopalri Lake & Pemayangtse",
-        "description": "Visit sacred Khecheopalri Lake where birds are said not to let a single leaf float on the water, Khangchendzonga Waterfalls, the 1705 Pemayangtse Monastery, the glass Pelling Sky Walk, and the royal Rabdentse Palace ruins.",
-        "meals": "Breakfast",
-        "stay": "Pelling"
-      },
-      {
-        "day": 8,
-        "title": "Pelling to Darjeeling via Namchi Char Dham Complex",
-        "description": "Drive via Namchi to visit the colossal 108-foot statue of Lord Shiva at Siddhesvara Dham and the Samdruptse hill stupa, continuing into the world-famous tea gardens of Darjeeling.",
-        "meals": "Breakfast",
-        "stay": "Darjeeling"
-      },
-      {
-        "day": 9,
-        "title": "Tiger Hill Sunrise over Kanchenjunga, Ghoom Monastery & Himalayan Zoo",
-        "description": "Pre-dawn excursion to Tiger Hill (8,400 ft) for sunrise over Kanchenjunga and Mount Everest, followed by Ghoom Monastery, Batasia Loop Toy Train track, Himalayan Mountaineering Institute, and Darjeeling Himalayan Zoo.",
-        "meals": "Breakfast",
-        "stay": "Darjeeling"
-      },
-      {
-        "day": 10,
-        "title": "Darjeeling to NJP / Bagdogra Departure",
-        "description": "Breakfast at the hotel, then a scenic downhill transfer through Kurseong to NJP railway station or Bagdogra Airport for your onward flight.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
-    ],
-    "inclusions": [
-      "Double sharing accommodation, breakfast/lunch/dinner",
-      "Nathula Pass and Namchi, 1L water bottle per day, all entry fees and permits",
-      "AC Innova/Xylo or similar vehicle (AC off in hilly areas), tolls, parking and driver allowance"
-    ],
-    "exclusions": [
-      "Train/airfare, heater charges, Zero-Point excursion",
-      "Travel and medical insurance",
-      "Personal expenses"
-    ]
-  },
-  {
-    "id": "south-india-temple-tour",
-    "title": "South India Temple Tour",
-    "image": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=85&w=1800",
-    "duration": "5 Nights / 6 Days",
-    "price": "₹28,599",
-    "highlights": [
-      "Meenakshi Amman Temple, Madurai",
-      "Dhanushkodi — Ghost Town of India",
-      "Triveni Sangam sunset, Kanyakumari",
-      "Padmanabhaswamy Temple VIP darshan"
-    ],
-    "category": "Domestic",
-    "tagline": "Madurai to Kanyakumari through Tamil Nadu and Kerala's most sacred temples.",
-    "overview": "A temple pilgrimage from Madurai's Meenakshi Amman Temple across the Pamban Bridge to Rameshwaram, the abandoned town of Dhanushkodi, and Kanyakumari's Triveni Sangam, finishing at Trivandrum's Padmanabhaswamy Temple.",
-    "heroImage": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "October to March",
-    "startingPoint": "Madurai",
-    "groupSize": "2+ guests",
-    "themes": [
-      "Spiritual",
-      "Heritage"
-    ],
-    "gallery": [
-      {
-        "image": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Temples of Tamil Nadu"
-      },
-      {
-        "image": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Kanyakumari's coastline"
-      }
-    ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Madurai Arrival — Historic Meenakshi Amman Temple & Thirumalai Nayakkar Mahal",
-        "description": "Arrive in the cultural capital of Tamil Nadu. Check in to your hotel and visit the world-famous Meenakshi Amman Temple, admiring its towering sculptured gopurams and the Hall of Thousand Pillars. Visit the 17th-century Thirumalai Nayakkar Mahal, famous for its giant stucco pillars, and attend the night bed-chamber procession (Palliyarai) ceremony at the temple.",
-        "meals": "Lunch, Dinner",
-        "stay": "Madurai"
-      },
-      {
-        "day": 2,
-        "title": "Madurai to Rameshwaram across the Sea over Pamban Bridge",
-        "description": "Drive to Rameshwaram Island across the legendary Pamban Sea Bridge. Check into your hotel and visit the sacred Ramanathaswamy Temple, home to the longest corridor in the world with over 1,200 intricately carved sandstone pillars. Bathe in the sacred Agnitheertham waters and visit Ramjharoka Temple holding Lord Rama's footprints.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Rameshwaram"
-      },
-      {
-        "day": 3,
-        "title": "Dhanushkodi Excursion (Ghost Town) & Ram Setu Point",
-        "description": "Drive to the ghost town of Dhanushkodi, submerged in the 1964 cyclone: view the evocative ruins of the railway station, church, and post office. Stand at Arichal Munai (Ram Setu point), where the waters of the Bay of Bengal and Indian Ocean meet, just 18 miles from Sri Lanka.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Rameshwaram"
-      },
-      {
-        "day": 4,
-        "title": "Rameshwaram (22 Holy Theerthams) — Tiruchendur — Kanyakumari",
-        "description": "Take part in the sacred ritual of bathing in all 22 Holy Theertham wells inside Ramanathaswamy Temple and attend the early morning Sphatik Lingam Darshan. Drive along the Gulf of Mannar coast to visit the seaside Lord Murugan Temple at Tiruchendur, arriving at Kanyakumari in time for the Triveni Sangam sunset.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Kanyakumari"
-      },
-      {
-        "day": 5,
-        "title": "Vivekananda Rock Memorial, Thiruvalluvar Statue & Drive to Trivandrum",
-        "description": "Take an early boat to the offshore Vivekananda Rock Memorial and the 133-foot Thiruvalluvar Statue. Visit the Kanyakumari Amman Temple and Suchindram Thanumalayan Temple (housing the Trinity of Brahma, Vishnu, Shiva in a single lingam), before driving to Trivandrum.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Trivandrum"
-      },
-      {
-        "day": 6,
-        "title": "Sree Padmanabhaswamy Temple VIP Darshan & Departure",
-        "description": "Special VIP Darshan at the monumental Sree Padmanabhaswamy Temple. Tour the Kuthiramalika Palace Museum showcasing royal Travancore treasures before transferring to Trivandrum Airport or Railway Station for departure.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
-    ],
-    "inclusions": [
-      "Double/triple sharing, 5 breakfasts, 5 lunches, 5 dinners",
-      "AC vehicle transfers and sightseeing, professional tour manager",
-      "Entrance tickets, evening tea/coffee, water bottle per day, travel insurance",
-      "VIP darshan pass at Padmanabhaswamy Temple, Pamban Bridge and Dhanushkodi visits"
-    ],
-    "exclusions": [
-      "5% GST, airfare/train fare",
-      "Guide charges, early check-in/late check-out",
-      "Extra meals or sightseeing",
-      "Personal expenses"
-    ]
-  },
-  {
-    "id": "special-kerala",
-    "title": "Special Kerala",
-    "image": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=85&w=1800",
-    "duration": "6 Nights / 7 Days",
-    "price": "₹36,450",
-    "highlights": [
-      "Munnar tea gardens & Eravikulam National Park",
-      "Kathakali & Kalaripayattu shows",
-      "Varkala cliffside beach",
-      "Alleppey houseboat backwaters"
-    ],
-    "category": "Domestic",
-    "tagline": "A compact seven-day introduction to Kerala's hills, backwaters and coast.",
-    "overview": "Munnar's tea gardens and Thekkady's traditional performances, Varkala's cliffside beach and Kovalam's temples, ending with a houseboat cruise through Alleppey's backwaters.",
-    "heroImage": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "September to March",
-    "startingPoint": "Cochin Airport",
-    "groupSize": "2+ guests",
-    "themes": [
-      "Nature",
-      "Backwaters",
-      "Culture"
-    ],
-    "gallery": [
-      {
-        "image": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Kerala's backwaters"
-      },
-      {
-        "image": "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Alleppey backwater cruising"
-      }
-    ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Cochin Arrival — Scenic Mountain Drive to Munnar Tea Country",
-        "description": "Arrive at Cochin Airport, meet your private chauffeur, and drive up into the Western Ghats (130 km / 4 hrs). Stop at the foaming Cheeyappara and Valara Waterfalls en route. Visit the Tata Tea Museum in Munnar to witness black tea manufacturing and enjoy a fresh tasting session before dinner at your resort.",
-        "meals": "Lunch, Dinner",
-        "stay": "Munnar"
-      },
-      {
-        "day": 2,
-        "title": "Munnar Sightseeing — Eravikulam National Park, Mattupetty Dam & Echo Point",
-        "description": "Tour Eravikulam National Park to spot the rare Nilgiri Tahr mountain goats roaming high alpine grasslands. Stroll through emerald tea estates, visit the Mattupetty Dam reservoir, test your voice at Echo Point, and enjoy photography at Kundala Lake.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Munnar"
-      },
-      {
-        "day": 3,
-        "title": "Munnar to Thekkady (Periyar) — Spice Garden Tour & Kathakali Performance",
-        "description": "Drive to Thekkady through spice plantations. Take a guided walking tour through organic cardamom, pepper, and cinnamon gardens. In the evening, attend authentic Kathakali classical dance and Kalaripayattu martial arts shows at the local cultural theatre.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Thekkady"
-      },
-      {
-        "day": 4,
-        "title": "Thekkady to Varkala Cliff via Jatayu Earth's Center Giant Bird Sculpture",
-        "description": "Travel towards the coast to Chadayamangalam to board the cable car up to Jatayu Earth's Center, featuring the world's largest bird sculpture. Continue to Varkala to relax on the famous red-cliff beach overlooking the Arabian Sea.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Varkala"
-      },
-      {
-        "day": 5,
-        "title": "Varkala to Kovalam — Sree Padmanabhaswamy Temple & Napier Museum",
-        "description": "Drive to Trivandrum to visit the grand Sree Padmanabhaswamy Temple, Kuthiramalika Palace Museum, and the Napier Art Gallery, settling in at the beach resort town of Kovalam for the evening.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Kovalam"
-      },
-      {
-        "day": 6,
-        "title": "Kovalam to Alleppey — Traditional Kerala Houseboat Backwater Cruise",
-        "description": "Drive to Alleppey to board your private traditional thatched Kettuvallam (Houseboat). Cruise through peaceful backwater lagoons, enjoy an authentic Kerala Sadhya feast prepared fresh on board, and watch rural village life glide past at sunset.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Alleppey houseboat"
-      },
-      {
-        "day": 7,
-        "title": "Alleppey Houseboat Check-Out — Cochin Airport Departure",
-        "description": "Enjoy breakfast as your houseboat sails back to the jetty. Transfer to Cochin International Airport for your return flight, carrying unforgettable memories of Kerala.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
-    ],
-    "inclusions": [
-      "Double/triple sharing, 6 breakfasts, 6 lunches, 6 dinners",
-      "AC vehicle for all transfers and sightseeing, professional tour manager",
-      "Entrance tickets, evening tea/coffee, water bottle per day",
-      "Kerala Sadhya meal, Jatayu ropeway ride, 1-hour Shikara ride",
-      "Kathakali and Kalaripayattu shows, Ayurvedic spa, Periyar wildlife experience"
-    ],
-    "exclusions": [
-      "5% GST, airfare/train fare",
-      "Guide charges, early check-in/late check-out",
-      "Additional meals or activities",
-      "Personal expenses; travel insurance not included"
-    ]
-  },
-  {
-    "id": "swiss-paris-highlights",
-    "title": "Swiss & Paris Highlights",
-    "image": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
-    "duration": "7 Nights / 8 Days",
-    "price": "₹1,99,999",
-    "highlights": [
-      "Eiffel Tower 3rd level & Disneyland Paris",
-      "Jungfraujoch — Top of Europe",
-      "Mount Titlis & Cliff Walk",
-      "Rhine Falls boat ride"
-    ],
-    "category": "International",
-    "tagline": "Paris's icons and Disneyland, then Switzerland's Alps from Jungfraujoch to Rhine Falls.",
-    "overview": "Paris's Eiffel Tower, Versailles and a day at Disneyland, followed by Geneva, the Jungfraujoch cable-car excursion, Mount Titlis's Cliff Walk and Rhine Falls near Zurich.",
-    "heroImage": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "March to October",
-    "startingPoint": "Paris Airport",
-    "groupSize": "Group departures — 8, 16 & 27 March 2027",
-    "themes": [
-      "City",
-      "Mountains",
-      "Family"
-    ],
-    "gallery": [
-      {
-        "image": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Paris landmarks"
-      },
-      {
-        "image": "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Swiss Alps"
-      }
-    ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Paris Arrival — City of Lights Welcome",
-        "description": "Touch down at Paris Charles de Gaulle Airport (CDG). Meet your Bandhan tour manager and board your private luxury coach to your hotel. Settle in and enjoy a relaxing evening orientation walk followed by a warm welcome Indian dinner.",
-        "meals": "Dinner",
-        "stay": "Paris"
-      },
-      {
-        "day": 2,
-        "title": "Paris Guided City Tour — Eiffel Tower 3rd Level, Versailles & Seine Cruise",
-        "description": "Tour iconic Paris landmarks: drive past the Arc de Triomphe, Champs-Élysées, Place de la Concorde, and the Louvre exterior. Ascend to the 3rd Level (Top) of the Eiffel Tower for panoramic city vistas. Tour the Sun King's opulent Palace of Versailles and the Hall of Mirrors, followed by an evening cruise along the River Seine and an illuminated Paris by Night coach drive.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Paris"
-      },
-      {
-        "day": 3,
-        "title": "Full Day at Disneyland Paris Theme Park",
-        "description": "Spend an exhilarating full day exploring Disneyland Paris (Disneyland Park or Walt Disney Studios Park). Experience world-class thrill rides including Big Thunder Mountain, Star Wars Hyperspace Mountain, and Pirates of the Caribbean, capped off by the Disney Illuminations night fireworks show over Sleeping Beauty Castle.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Paris"
-      },
-      {
-        "day": 4,
-        "title": "Paris to Switzerland — Geneva Lake Orientation Tour",
-        "description": "Drive south into Switzerland across the Jura Mountains to Geneva. Tour the city: see the 140-metre Jet d'Eau water fountain shooting into Lake Geneva, the United Nations European Headquarters, the iconic Flower Clock at Jardin Anglais, and St. Peter's Cathedral before checking into your hotel.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Geneva"
-      },
-      {
-        "day": 5,
-        "title": "Jungfraujoch (Top of Europe 11,333 ft) Cogwheel Train & Interlaken",
-        "description": "Ride the cutting-edge Eiger Express tricable gondola and the historic cogwheel train climbing through the Eiger mountain to Jungfraujoch (11,333 ft). Walk through the glistening Ice Palace, step onto the eternal snow plateau overlooking the massive Aletsch Glacier, and enjoy free time in scenic Interlaken between Lake Thun and Lake Brienz.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Central Switzerland"
-      },
-      {
-        "day": 6,
-        "title": "Mount Titlis Rotair Revolving Cable Car & Scenic Lucerne Walking Tour",
-        "description": "Ascend to 10,000 feet on the world's first revolving Titlis Rotair cable car. Cross the thrilling Titlis Cliff Walk suspension bridge, explore the Glacier Cave, and take the Ice Flyer over glacier crevasses. In the afternoon, tour Lucerne's medieval Chapel Bridge (Kapellbrücke), Lion Monument, and take a relaxing scenic cruise on Lake Lucerne.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Central Switzerland"
-      },
-      {
-        "day": 7,
-        "title": "Bern Capital — Roaring Rhine Falls Boat Ride — Lindt Home of Chocolate",
-        "description": "Visit Switzerland's federal capital Bern to admire the medieval Zytglogge clock tower and Federal Palace. Continue north to Schaffhausen to take a boat right up to the roaring rock face of Rhine Falls, Europe's largest waterfall. Visit the Lindt Home of Chocolate in Zurich to admire the world's tallest freestanding chocolate fountain and indulge in unlimited tastings.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Central Switzerland"
-      },
-      {
-        "day": 8,
-        "title": "Departure from Zurich — Flight Home",
-        "description": "Enjoy breakfast before transferring to Zurich Airport (ZRH) for your return flight home, filled with timeless memories of Parisian glamour and the Swiss Alps.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
-    ],
-    "inclusions": [
-      "4-star hotels with daily buffet breakfast",
-      "Sightseeing and attraction tickets as per itinerary",
-      "6 Indian lunches, 7 Indian dinners, daily 500ml water bottle",
-      "Coach driver tips included"
-    ],
-    "exclusions": [
-      "5% GST and 2% TCS and other taxes",
-      "Airfare (unless specified)",
-      "Visa, passport, POE charges and travel insurance",
-      "Personal expenses, pre/post-tour stay"
-    ]
-  },
-  {
-    "id": "best-of-austria",
-    "title": "Best of Austria",
-    "image": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
-    "duration": "7 Nights / 8 Days",
-    "price": "₹1,41,999",
-    "highlights": [
+    id: "eastern-europe-highlights",
+    title: "Eastern Europe Highlights",
+    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
+    duration: "7 Nights / 8 Days",
+    price: "₹1,90,400",
+    highlights: [
+      "Guided tours in Vienna, Budapest, Prague & Salzburg",
       "Schönbrunn Palace, Vienna",
-      "Salzburg Salt Mine excursion",
-      "Swarovski Crystal Worlds, Innsbruck",
-      "Top of Innsbruck cable car"
+      "Scenic Danube River Cruise in Budapest",
+      "Orientation tour of Szentendre",
+      "Orientation tour of Bratislava, Slovakia",
+      "Prague Castle Viewing Gallery",
+      "Kutná Hora historic excursion",
+      "Postcard village of Hallstatt",
+      "Dachstein Glacier cable car with Ice Palace & Suspension Bridge",
+      "Explore Munich, the vibrant capital of Bavaria",
     ],
-    "category": "International",
-    "tagline": "Vienna's imperial palaces, Salzburg's Old Town and Innsbruck's Alpine cable cars, connected by train.",
-    "overview": "A train-linked loop through Vienna, Salzburg and Innsbruck — Schönbrunn Palace, a shared shuttle to the Hallstatt Salt Mine, and Innsbruck's Swarovski Crystal Worlds and Top of Innsbruck cable car.",
-    "heroImage": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "May to September",
-    "startingPoint": "Vienna Airport",
-    "groupSize": "2+ guests",
-    "themes": [
-      "City",
-      "Heritage",
-      "Scenic"
+    category: "International",
+    tagline: "Austria, Hungary, Slovakia, Czech Republic & Germany · 7N/8D · Departure: 16 Oct",
+    overview:
+      "A magnificent 7 Nights / 8 Days journey traversing Austria, Hungary, Slovakia, Czech Republic, and Germany. Experience guided tours of Vienna, Budapest, Prague, and Salzburg, visit Schönbrunn Palace, cruise the Danube River, discover picturesque Szentendre, explore Bratislava's Old Town, witness Prague Castle's Viewing Gallery and historic Kutná Hora, visit the postcard village of Hallstatt, ascend Dachstein Glacier by cable car, and conclude in vibrant Munich.\n\nDeparture Date: 16 Oct.",
+    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "October",
+    startingPoint: "Vienna Airport (VIE) (Landing between 08:00 AM – 02:00 PM)",
+    groupSize: "Group departure: 16 Oct",
+    themes: ["Heritage", "City", "Scenic"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "Historic architecture of Central Europe" },
+      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Castles and old towns" },
     ],
-    "gallery": [
+    itinerary: [
       {
-        "image": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Vienna's imperial architecture"
+        day: 1,
+        title: "Arrive in Vienna",
+        description:
+          "Welcome to Vienna, the capital of Austria, renowned for its rich history, cultural heritage, and vibrant arts scene. Upon arrival at Vienna Airport, you will be warmly welcomed by our friendly and professional Tour Manager. Later, proceed to your hotel and complete the check-in formalities. In the evening, enjoy a delightful dinner before returning to your hotel for a comfortable overnight stay. Overnight stay at the hotel in Vienna. (Dinner)",
+        meals: "Dinner",
+        stay: "Vienna",
       },
       {
-        "image": "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Alpine views near Innsbruck"
-      }
+        day: 2,
+        title: "Vienna to Budapest",
+        description:
+          "After breakfast, check out from your hotel and proceed for a guided city tour of Vienna. Admire iconic landmarks such as the Ringstrasse, the Vienna Opera House, and St. Stephen's Cathedral. Later, visit the magnificent Schönbrunn Palace, once the summer residence of the Habsburgs. Enjoy lunch at an Indian restaurant, followed by some free time. Later, continue your journey to Budapest. Upon arrival, enjoy dinner at an Indian restaurant before checking in to your hotel. Overnight stay at the hotel in Budapest. (Breakfast, Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Budapest",
+      },
+      {
+        day: 3,
+        title: "Discover Budapest",
+        description:
+          "Begin your day with breakfast before setting out on a guided city tour of Budapest. Explore famous landmarks including Buda Castle, the Hungarian Parliament, and Heroes' Square. After lunch at an Indian restaurant, enjoy a scenic Danube River Cruise, offering spectacular views of Budapest's beautiful skyline. Later, proceed to Szentendre, a charming riverside town in Hungary, renowned for its picturesque streets, vibrant art scene, and Mediterranean charm. Enjoy dinner at an Indian restaurant before returning to your hotel. Overnight stay at the hotel in Budapest. (Breakfast, Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Budapest",
+      },
+      {
+        day: 4,
+        title: "Budapest – Bratislava – Prague",
+        description:
+          "After breakfast, check out and proceed to Bratislava, the charming capital of Slovakia. Enjoy an orientation tour of the city, featuring landmarks such as Bratislava Castle and the medieval streets of the Old Town. After lunch at an Indian restaurant, continue your journey to Prague, the enchanting capital of the Czech Republic. Upon arrival, enjoy a delicious Indian dinner before checking in to your hotel. Overnight stay at the hotel in Prague. (Breakfast, Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Prague",
+      },
+      {
+        day: 5,
+        title: "Discover Prague",
+        description:
+          "After breakfast, proceed for a guided city tour of Prague. Discover the majestic Prague Castle, Charles Bridge, and the Old Town Square, home to the famous Astronomical Clock. Visit the Castle Viewing Gallery for breathtaking panoramic views of the city. After lunch at an Indian restaurant, drive to Kutná Hora, a historic town in the Czech Republic that offers a fascinating glimpse into the medieval and Baroque eras. Later, return to Prague. Enjoy dinner at an Indian restaurant before retiring to your hotel. Overnight stay at the hotel in Prague. (Breakfast, Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Prague",
+      },
+      {
+        day: 6,
+        title: "Prague – Salzburg",
+        description:
+          "After breakfast, proceed to Salzburg, the birthplace of Mozart. Following lunch at an Indian restaurant, meet your professional English-speaking guide for a captivating city tour. Explore this picturesque city renowned for its rich history and magnificent Baroque architecture. Discover iconic attractions including Hohensalzburg Fortress and Mirabell Palace while strolling through Salzburg's charming streets and learning about its remarkable cultural heritage. Later, enjoy dinner at an Indian restaurant before checking in to your hotel. Overnight stay at the hotel in Flachau area. (Breakfast, Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Flachau area",
+      },
+      {
+        day: 7,
+        title: "Salzburg – Hallstatt – Schladming – Munich",
+        description:
+          "After breakfast, depart for the picturesque village of Hallstatt, renowned for its breathtaking scenery and alpine charm. Stroll through its quaint streets or relax beside the serene lake. Later, proceed to Schladming, a charming alpine town, and experience the spectacular Dachstein Glacier with a thrilling cable car ride. Enjoy lunch with stunning mountain views and explore attractions including the Ice Palace and the Suspension Bridge. Continue your journey to Munich, the vibrant capital of Bavaria. Upon arrival, enjoy dinner at an Indian restaurant before checking in to your hotel. Overnight stay at the hotel in Munich. (Breakfast, Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Munich",
+      },
+      {
+        day: 8,
+        title: "Fly Back Home",
+        description:
+          "Your memorable holiday comes to an end today. After breakfast, check out from your hotel and proceed to Munich Airport (MUC) for your return flight. (The coach will drop at MUC Airport by 11:00 AM). Bid farewell to the wonderful friends you have made during the tour and depart with unforgettable memories. (Breakfast)",
+        meals: "Breakfast",
+        stay: "—",
+      },
     ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Vienna Arrival — Private Transfer & Imperial Evening",
-        "description": "Arrive at Vienna International Airport (VIE), meet your private driver, and transfer to your central hotel. Spend your evening strolling along the grand Graben and Kohlmarkt pedestrian avenues, sampling traditional Viennese Sachertorte chocolate cake at a classic coffee house.",
-        "meals": "—",
-        "stay": "Vienna"
-      },
-      {
-        "day": 2,
-        "title": "Vienna Sightseeing — Schönbrunn Imperial Palace & Ringstrasse Tour",
-        "description": "Explore the Habsburg legacy with a 24-hour Hop-On Hop-Off ticket: see the Vienna State Opera, Hofburg Imperial Palace, Parliament, and St. Stephen's Cathedral. Take a guided tour inside the staterooms of the UNESCO-listed Schönbrunn Palace, the gilded summer palace of Empress Maria Theresa.",
-        "meals": "Breakfast",
-        "stay": "Vienna"
-      },
-      {
-        "day": 3,
-        "title": "Scenic Train to Salzburg — Sound of Music City Exploration",
-        "description": "Board an Austrian ÖBB Railjet high-speed train gliding through the Danube valley to Salzburg. Check into your hotel and wander through the Baroque Old Town (Altstadt), visiting Mozart's Birthplace on Getreidegasse, Mirabell Palace gardens, and taking the funicular up to Hohensalzburg Fortress.",
-        "meals": "Breakfast",
-        "stay": "Salzburg"
-      },
-      {
-        "day": 4,
-        "title": "Hallstatt Fairytale Lake Village & 7,000-Year-Old Salt Mine Excursion",
-        "description": "Take an excursion into the Salzkammergut Lake District to Hallstatt, widely regarded as the most picturesque lakeside village in the world. Ascend the funicular to explore the prehistoric Hallstatt Salt Mine, slide down miner's wooden slides, and step out onto the Skywalk viewing platform 350 metres above Lake Hallstatt.",
-        "meals": "Breakfast",
-        "stay": "Salzburg"
-      },
-      {
-        "day": 5,
-        "title": "Salzburg to Innsbruck — Capital of the Austrian Alps",
-        "description": "Take a breathtaking Alpine train ride across Tyrol to Innsbruck. Check into your hotel and explore the Old Town: view the Golden Roof (Goldenes Dachl) with its 2,657 fire-gilded copper tiles, the Imperial Hofburg, and stroll along the turquoise Inn River framed by jagged snow peaks.",
-        "meals": "Breakfast",
-        "stay": "Innsbruck"
-      },
-      {
-        "day": 6,
-        "title": "Top of Innsbruck Nordkette Cable Car & Swarovski Crystal Worlds",
-        "description": "Ride the Nordkette funicular and cable car from Innsbruck city center directly up to the Top of Innsbruck (Hafelekar at 7,400 ft) for 360-degree Alpine views. In the afternoon, visit Swarovski Crystal Worlds in Wattens to explore the subterranean Chambers of Wonder and the Giant waterfall sculpture.",
-        "meals": "Breakfast",
-        "stay": "Innsbruck"
-      },
-      {
-        "day": 7,
-        "title": "Innsbruck to Vienna by Railjet — Farewell Evening",
-        "description": "Board the Railjet back to Vienna. Spend your final afternoon shopping for Austrian souvenirs on Mariahilfer Strasse or enjoying an evening classical Mozart & Strauss concert.",
-        "meals": "Breakfast",
-        "stay": "Vienna"
-      },
-      {
-        "day": 8,
-        "title": "Departure from Vienna",
-        "description": "After breakfast, meet your private chauffeur for your transfer to Vienna Airport for your return flight home.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
+    inclusions: [
+      "Accommodation in 4-star hotels with daily buffet breakfast",
+      "Sightseeing & attraction tickets as mentioned in the itinerary",
+      "Tips to coach drivers and guide tips for the duration of the tour is included",
+      "Daily Continental Buffet Breakfast",
+      "06 Indian Jain/Vegetarian/Non-Vegetarian Lunches",
+      "07 Indian Jain/Vegetarian/Non-Vegetarian Dinners",
+      "Daily Mineral Water Bottle (500ml) per person",
+      "Schönbrunn Palace entrance in Vienna",
+      "Danube River Cruise in Budapest",
+      "Prague Castle Viewing Gallery & Kutná Hora excursion",
+      "Guided tours of Vienna, Budapest, Prague & Salzburg",
+      "Dachstein Glacier cable car ride, Ice Palace & Suspension Bridge",
     ],
-    "inclusions": [
-      "Hotel accommodation with breakfast (except day 1)",
-      "Private airport, hotel and rail-station transfers throughout",
-      "2nd-class train tickets between Vienna, Salzburg and Innsbruck",
-      "Vienna 24-hour Hop-On Hop-Off, Schönbrunn Palace ticket",
-      "Salzburg Salt Mine tour, Swarovski Crystal Worlds ticket, Innsbruck cable car"
+    exclusions: [
+      "5% GST & 2% TCS and any other applicable taxes",
+      "Airfare (international & domestic unless specified)",
+      "Visa, Passport & POE charges, Travel Insurance",
+      "Airport taxes and other applicable charges",
+      "Cost of excursions, sightseeing, entrance fees, and local guides not mentioned in Inclusions",
+      "Personal expenses such as porterage, laundry, telephone calls, shopping, snacks, etc.",
+      "Cost of pre/post tour hotel accommodation",
+      "Any expenses arising due to flight delays, cancellations, weather conditions, political issues, or technical faults",
+      "Porterage charges, City tax",
     ],
-    "exclusions": [
-      "Airfare, airport taxes",
-      "5% GST and 2% TCS, visa fees",
-      "Travel insurance, meals beyond breakfast",
-      "City tax, tips and gratuities"
-    ]
+    faqs: [
+      {
+        question: "What is the total tour cost across sharing categories?",
+        answer:
+          "Total Tour Cost (valid till 31st July 2026):\n• Double/Triple sharing basis: ₹1,90,400/- + 5% GST + 2% TCS per person\n• Single sharing basis: ₹2,42,200/- + 5% GST + 2% TCS per person\n• Child with bed (below 12 years): ₹1,49,800/- + 5% GST + 2% TCS\n• Child no bed (below 12 years): ₹1,28,100/- + 5% GST + 2% TCS\n• Infant (below 02 years): ₹10,600/- + 5% GST + 2% TCS",
+      },
+      {
+        question: "What are the coach transfer timings for arrival and departure?",
+        answer:
+          "• Vienna (VIE Airport) Arrival Transfer: Flight landing time should be between 08:00 AM – 02:00 PM.\n• Munich (MUC Airport) Departure Transfer: The coach will drop at MUC Airport by 11:00 AM.\n(There may be waiting up to 02 hours post reaching arrival hall).",
+      },
+      {
+        question: "What is the booking, payment, and cancellation policy?",
+        answer:
+          "Payment Terms:\n• At booking: 50% non-refundable booking amount.\n• 30 days prior to departure (D-30): Full balance payment (ROE calculated as XE.com + 2).\n\nCancellation Charges:\n• Up to 45 days before departure: INR 40,000 per adult/child.\n• Less than 30 days prior to departure: 100% cancellation charges apply.",
+      },
+    ],
   },
   {
-    "id": "classic-italy",
-    "title": "Classic Italy",
-    "image": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800",
-    "duration": "6 Nights / 7 Days",
-    "price": "₹1,82,999",
-    "highlights": [
-      "Grand Canal gondola ride, Venice",
-      "Pisa, Siena & San Gimignano day trip",
-      "Colosseum, Roman Forum & Palatine Hill",
-      "High-speed trains across Italy"
+    id: "grand-tour-europe",
+    title: "Grand Tour of Europe",
+    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
+    duration: "15 Nights / 16 Days",
+    price: "₹4,13,700",
+    highlights: [
+      "Guided tours in London, Paris, Vaduz, Florence & Vatican / Colosseum",
+      "Madame Tussauds & London Eye",
+      "Lord's Cricket Ground & Tower of London",
+      "High-speed Eurostar train London to Paris",
+      "Eiffel Tower (3rd level) & Palace of Versailles",
+      "Full day at Disneyland® Paris",
+      "River Seine Cruise & Paris by Night tour",
+      "Brussels Grand Place, Manneken Pis & Mini Europe",
+      "Keukenhof Gardens (till 10 May) / Traditional Dutch Village (from 11 May)",
+      "Amsterdam Canal Cruise aboard glass-topped boat",
+      "Heidelberg Altstadt & Black Forest cuckoo clock craft",
+      "Rhine Falls boat ride at Schaffhausen",
+      "Jungfraujoch – Top of Europe with Eiger Express & cogwheel train",
+      "Mount Titlis Rotair revolving cable car & Cliff Walk",
+      "Vaduz (Liechtenstein) guided mini train ride",
+      "Swarovski Crystal Worlds in Wattens & Innsbruck Golden Roof",
+      "Venice: Private boat to St. Mark's & romantic Gondola Ride",
+      "Florence Duomo & Leaning Tower of Pisa",
+      "Vatican City: Sistine Chapel & St. Peter's Basilica",
+      "Rome: Colosseum, Trevi Fountain & Roman Forum",
+      "Handpicked gourmet treats across France, Belgium, Holland, Germany, Swiss & Italy",
     ],
-    "category": "International",
-    "tagline": "Milan to Rome by high-speed train, with a gondola ride through Venice along the way.",
-    "overview": "Four iconic cities linked by train — Milan's shopping streets, a shared gondola ride through Venice's canals, a Tuscan day trip to Pisa and Siena from Florence, and a guided walk through Rome's Colosseum and Roman Forum.",
-    "heroImage": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "April to October",
-    "startingPoint": "Milan Airport",
-    "groupSize": "2+ guests",
-    "themes": [
-      "Heritage",
-      "City",
-      "Scenic"
+    category: "International",
+    isPopular: true,
+    tagline: "UK, France, Belgium, Netherlands, Germany, Swiss, Austria, Italy & Vatican · 15N/16D",
+    overview:
+      "The ultimate 15 Nights / 16 Days European grand voyage spanning 10 countries: UK, France, Belgium, The Netherlands, Germany, Switzerland, Liechtenstein, Austria, Italy, and Vatican City. Highlights include London landmarks, Lord's Cricket Ground, high-speed Eurostar to Paris, Eiffel Tower (3rd Level), Versailles Palace, Disneyland® Paris, Brussels Grand Place & Mini Europe, Keukenhof Gardens / traditional Dutch village, Amsterdam canal cruise, Black Forest & Rhine Falls, Jungfraujoch (Top of Europe), Mount Titlis, Vaduz mini train, Swarovski Crystal Worlds in Innsbruck, Venetian Gondola ride, Florence Duomo & Leaning Tower of Pisa, and the Sistine Chapel & Colosseum in Rome.\n\nDeparture dates: 12 Oct & 01 Nov.",
+    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "October & November",
+    startingPoint: "London Heathrow Airport (LHR) (Landing between 08:00 AM – 02:00 PM)",
+    groupSize: "Group departures: 12 Oct & 01 Nov",
+    themes: ["Heritage", "City", "Family"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "Iconic landmarks across Europe" },
+      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Historic old towns" },
     ],
-    "gallery": [
+    itinerary: [
       {
-        "image": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Canals of Venice"
+        day: 1,
+        title: "Arrival in London",
+        description:
+          "Welcome! Today marks the beginning of your European holiday as you board your flight to London, a vibrant city renowned for its rich history, cosmopolitan culture, and iconic landmarks. Upon arrival, collect your baggage and proceed to the arrival hall, where you will be warmly welcomed by our professional Tour Manager. You will then be transferred to your hotel for check-in. Relax and unwind after your journey. Overnight stay at the hotel in London. (Dinner)",
+        meals: "Dinner",
+        stay: "London",
       },
       {
-        "image": "https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Ancient Rome"
-      }
+        day: 2,
+        title: "Guided City Tour of London – Changing of the Guards – Madame Tussauds – London Eye – Thames River Cruise",
+        description:
+          "After breakfast, proceed on a guided city tour of London with an expert local guide. Discover some of the city's most famous landmarks including Big Ben, Houses of Parliament, Westminster Abbey, Trafalgar Square, Piccadilly Circus, Tower Bridge, River Thames, Hyde Park, and many more. Witness the famous Changing of the Guards ceremony at Buckingham Palace (subject to operation). Later, visit the renowned Madame Tussauds Wax Museum and admire the world's largest collection of lifelike wax figures. Continue to the iconic London Eye, standing 135 metres above the River Thames for spectacular panoramic views. Later, experience London with a scenic Thames River Cruise. Overnight stay at the hotel in London. (Breakfast, Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "London",
+      },
+      {
+        day: 3,
+        title: "Lord's Cricket Ground – Tower of London – Oxford Street",
+        description:
+          "After breakfast, proceed to visit the legendary Lord's Cricket Ground, widely known as the 'Home of Cricket.' Enjoy a behind-the-scenes experience exploring the Grade II*-listed Victorian Pavilion, the Long Room, Players' Dressing Rooms, and the MCC Museum with the Ashes Urn. (Note: If a match is scheduled at Lord's, the group will visit the Oval Cricket Ground). Later, visit the historic Tower of London, a UNESCO World Heritage Site, and marvel at the Crown Jewels including the Kohinoor diamond. In the evening, enjoy free time at Oxford Street. Overnight stay at the hotel in London. (Breakfast, Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "London",
+      },
+      {
+        day: 4,
+        title: "London to Paris – The City of Romance, Lights and Glamour",
+        description:
+          "After breakfast, check out from the hotel and proceed to board the high-speed Eurostar train from London to Paris through the Channel Tunnel. Enjoy scenic countryside views aboard one of Europe's fastest rail services. Upon arrival in Paris, proceed to the elegant city of haute couture and world-class monuments. Transfer to your hotel and complete check-in formalities. Overnight stay at the hotel in Paris. (Breakfast, Packed Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Paris",
+      },
+      {
+        day: 5,
+        title: "Guided City Tour of Paris – Eiffel Tower (3rd Level) – Palace of Versailles – Seine River Cruise – Paris by Night Tour",
+        description:
+          "After breakfast, proceed for a guided city tour of Paris covering Place Vendôme, Place de l'Opéra Garnier, Musée d'Orsay, Place de la Concorde, Champs-Élysées, Arc de Triomphe, Alexander Bridge, and Les Invalides. Ascend to the 3rd Level of the Eiffel Tower for breathtaking panoramic views. Continue to the magnificent Palace of Versailles, a UNESCO World Heritage Site celebrated for French architecture and royal gardens. In the evening, enjoy a romantic cruise along the River Seine. Later, experience the enchanting Paris by Night Tour as the City of Light comes alive with illuminated monuments. (Note: 3rd level access subject to operation; 2nd level provided if closed). Overnight stay at the hotel in Paris. (Breakfast, Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Paris",
+      },
+      {
+        day: 6,
+        title: "Disneyland® Paris – Choice of Disneyland® Park or Walt Disney Studios® Park",
+        description:
+          "After breakfast, proceed for a full-day excursion to Disneyland® Paris. Choose between Disneyland® Park, featuring classic attractions, spectacular shows, and colourful Disney character parades across five themed lands, or Walt Disney Studios® Park, where you can experience thrilling stunt shows, discover movie magic, and explore real film sets. Return to the hotel in the evening. Overnight stay at the hotel in Paris. (Breakfast, Packed Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Paris",
+      },
+      {
+        day: 7,
+        title: "Brussels – Grand Place – Manneken Pis – Mini Europe",
+        description:
+          "After breakfast, check out from the hotel and proceed to Brussels, the capital of Belgium and EU headquarters. Visit the magnificent Grand Place, admire the medieval Town Hall, and visit the famous Manneken Pis statue. Later, visit Mini Europe, exploring over 350 intricately recreated miniature architectural wonders of Europe. After the tour, proceed to your hotel in the Netherlands. Overnight stay at the hotel in Netherlands. (Breakfast, Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Netherlands",
+      },
+      {
+        day: 8,
+        title: "Keukenhof Gardens (till 10th May) / Traditional Dutch Village (from 11th May) – Amsterdam Canal Cruise – Germany",
+        description:
+          "After breakfast and check out, proceed to Lisse. (Until 10th May, visit Keukenhof Gardens; from 11th May onwards, visit a traditional Dutch village with windmills, wooden houses, and craft workshops). Later, proceed to Amsterdam and enjoy a scenic canal cruise aboard a glass-topped boat through its UNESCO-listed waterways. After the cruise, continue your journey towards Germany and check in to your hotel in the Frankfurt region. Overnight stay at the hotel in Germany. (Breakfast, Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Frankfurt region",
+      },
+      {
+        day: 9,
+        title: "Heidelberg Altstadt – Church of the Holy Spirit – Black Forest – Rhine Falls with Boat Ride",
+        description:
+          "After breakfast and check out, proceed to Heidelberg Altstadt along the Neckar River below Heidelberg Castle. Stroll cobblestone streets and visit the Church of the Holy Spirit. Continue to the Black Forest to witness a demonstration of traditional cuckoo-clock making. Later, journey to Switzerland and experience Rhine Falls, the largest waterfall in Europe, with an exhilarating boat ride close to the cascading waters. Proceed to your hotel in Central Switzerland. Overnight stay at the hotel in Central Switzerland. (Breakfast, Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Central Switzerland",
+      },
+      {
+        day: 10,
+        title: "Jungfraujoch – Top of Europe – Interlaken",
+        description:
+          "After breakfast, proceed to Interlaken nestled between two lakes. Embark on an alpine excursion to Jungfraujoch – the 'Top of Europe'. Travel from Grindelwald Terminal aboard the state-of-the-art 3S-Bahn Eiger Express to Eigergletscher, then continue by cogwheel train to Europe's highest railway station at 11,333 feet. Explore the Ice Palace, admire ice sculptures, and visit the Sphinx Observatory for views of the Aletsch Glacier. Overnight stay at the hotel in Central Switzerland. (Breakfast, Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Central Switzerland",
+      },
+      {
+        day: 11,
+        title: "Mount Titlis – Lucerne Orientation Tour – Lindt Home of Chocolate",
+        description:
+          "After breakfast, proceed to Mount Titlis aboard the world-famous Rotair revolving cable car, ascending to 3,020 metres. Experience the Cliff Walk, Europe's highest suspension bridge. Later, enjoy an orientation tour of Lucerne visiting the Lion Monument and historic Kapellbrücke (Chapel Bridge), with free time for Swiss watch and chocolate shopping. Conclude at the Lindt Home of Chocolate in Zurich, featuring interactive chocolate exhibits and a giant chocolate fountain. Overnight stay at the hotel in Central Switzerland. (Breakfast, Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Central Switzerland",
+      },
+      {
+        day: 12,
+        title: "Vaduz – Liechtenstein Mini Train Ride – Swarovski Crystal Worlds – Innsbruck",
+        description:
+          "After breakfast and check out, proceed towards Innsbruck. Arrive in Vaduz, capital of Liechtenstein, and enjoy a guided mini train ride through the town. Continue to Wattens, Austria, to visit the dazzling Swarovski Crystal Worlds with its artistic crystal installations. Later, proceed to Innsbruck for an orientation tour viewing the famous Golden Roof and strolling along Maria Theresien Strasse surrounded by Alpine scenery. Overnight stay at the hotel in Innsbruck / Seefeld. (Breakfast, Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Innsbruck / Seefeld",
+      },
+      {
+        day: 13,
+        title: "Welcome to Venice, Italy – The Floating City. Enjoy a Romantic Gondola Ride",
+        description:
+          "After breakfast and check out, proceed to Venice. Board a private boat to St. Mark's Square in the heart of Venice. Admire St. Mark's Basilica, the Bell Tower, historic Clock Tower, and the Bridge of Sighs spanning Rio di Palazzo. Later, experience the romance of Venice with a scenic gondola ride through its winding canals past baroque palaces. Return to pier and proceed to hotel for check-in. Overnight stay at the hotel in Padova / Ferrara. (Breakfast, Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Padova / Ferrara",
+      },
+      {
+        day: 14,
+        title: "Guided City Tour of Florence. View the Duomo & Remarkable Leaning Tower of Pisa",
+        description:
+          "After breakfast and check out, proceed to Florence, the cradle of the Renaissance. With an English-speaking local guide, explore the Duomo, Campanile, Baptistery's Gates of Paradise, Piazza della Signoria open-air museum, Palazzo Vecchio, and the Ponte Vecchio bridge across the River Arno. Later, proceed to Pisa to view the world-famous Square of Miracles and the iconic Leaning Tower of Pisa. Overnight stay at the hotel in Tuscany region. (Breakfast, Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Tuscany region",
+      },
+      {
+        day: 15,
+        title: "Trip to the Eternal City of Rome. Visit Vatican City & St. Peter's Basilica",
+        description:
+          "After breakfast and check out, proceed to Rome for an orientation tour. Visit Vatican City, the world's smallest independent state. Tour the Sistine Chapel with Michelangelo's Last Judgement and St. Peter's Basilica. (Note: In case Vatican tickets are unavailable, Colosseum entrance is provided). Drive past the ancient Colosseum, toss a coin at the Trevi Fountain, view the Victor Emmanuel Monument and Roman Forum. Overnight stay at the hotel in Rome. (Breakfast, Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Rome",
+      },
+      {
+        day: 16,
+        title: "Fly Back Home",
+        description:
+          "Your memorable European holiday comes to an end today. After breakfast, check out from the hotel and proceed to Rome FCO Airport for your return flight. (Coach drops at FCO Airport by 11:00 AM). Depart with unforgettable memories of your journey across Europe. (Breakfast)",
+        meals: "Breakfast",
+        stay: "—",
+      },
     ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Milan Arrival — Fashion Capital & Duomo di Milano",
-        "description": "Arrive at Milan Malpensa Airport (MXP), meet your private driver, and transfer to your hotel. Visit the soaring Gothic Duomo di Milano, walk through the glass-vaulted Galleria Vittorio Emanuele II shopping arcade, and see the famous Teatro alla Scala opera house before enjoying an authentic Italian dinner.",
-        "meals": "—",
-        "stay": "Milan"
-      },
-      {
-        "day": 2,
-        "title": "High-Speed Train to Venice — Water Taxi & Grand Canal Gondola Ride",
-        "description": "Board the Frecciarossa high-speed train to Venice Santa Lucia. Take a private water taxi down the Grand Canal to St. Mark's Square. Gaze upon St. Mark's Basilica, Doge's Palace, and the Bridge of Sighs. Board a traditional gondola for a magical gliding cruise through quiet back canals and beneath stone footbridges.",
-        "meals": "Breakfast",
-        "stay": "Venice"
-      },
-      {
-        "day": 3,
-        "title": "Venice to Renaissance Florence — Duomo & Ponte Vecchio",
-        "description": "Travel by high-speed train south to Florence, the birthplace of the Italian Renaissance. Explore the city: admire Brunelleschi's magnificent terracotta Dome on the Cathedral of Santa Maria del Fiore, Giotto's Campanile, Piazza della Signoria, and walk across the historic jewelry shops of Ponte Vecchio over the Arno River.",
-        "meals": "Breakfast",
-        "stay": "Florence"
-      },
-      {
-        "day": 4,
-        "title": "Tuscany Full-Day Guided Excursion — Pisa, Siena & San Gimignano",
-        "description": "Embark on a full-day guided tour through the rolling hills and vineyards of Tuscany. Pose with the iconic Leaning Tower of Pisa in the Piazza dei Miracoli. Visit the medieval UNESCO hill town of San Gimignano with its 14 ancient stone towers, and tour Siena's seashell-shaped Piazza del Campo and Gothic Duomo.",
-        "meals": "Breakfast",
-        "stay": "Florence"
-      },
-      {
-        "day": 5,
-        "title": "High-Speed Train to Rome — The Eternal City Exploration",
-        "description": "Board the bullet train to Rome Termini. Check in to your hotel and spend the afternoon discovering the Spanish Steps, tossing a coin into the baroque Trevi Fountain to ensure your return to Rome, and stepping inside the ancient domed Pantheon.",
-        "meals": "Breakfast",
-        "stay": "Rome"
-      },
-      {
-        "day": 6,
-        "title": "Ancient Rome Guided Tour — Colosseum, Roman Forum & Palatine Hill",
-        "description": "Step back 2,000 years into the Roman Empire with skip-the-line guided access into the monumental Colosseum. Walk the triumphal paths of the Roman Forum, the political epicenter of ancient Rome, and ascend the pine-shaded Palatine Hill where Roman emperors built their grand palaces.",
-        "meals": "Breakfast",
-        "stay": "Rome"
-      },
-      {
-        "day": 7,
-        "title": "Departure from Rome",
-        "description": "Enjoy a final cappuccino and Italian breakfast before your private transfer to Rome Fiumicino Airport for your departure flight.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
+    inclusions: [
+      "Accommodation in 4-star hotels with daily buffet breakfast",
+      "Sightseeing & attraction tickets as mentioned in the itinerary",
+      "Tips to coach drivers and guide tips for the duration of the tour is included",
+      "Daily Continental Buffet Breakfast",
+      "14 Indian Jain/Vegetarian/Non-Vegetarian Lunches",
+      "15 Indian Jain/Vegetarian/Non-Vegetarian Dinners",
+      "Daily Mineral Water Bottle (500ml) per person",
+      "Packed lunch served on London to Paris day and Disneyland Paris day",
+      "Eurostar high-speed train London to Paris",
+      "Eiffel Tower 3rd level, Versailles Palace, Seine Cruise, Paris by Night",
+      "Full day Disneyland® Paris pass",
+      "Mini Europe entrance in Brussels",
+      "Keukenhof Gardens / Dutch Village & Amsterdam Canal Cruise",
+      "Black Forest cuckoo clock demonstration & Rhine Falls boat ride",
+      "Jungfraujoch Top of Europe with Eiger Express 3S cable car & cogwheel train",
+      "Mount Titlis Rotair revolving cable car & Cliff Walk",
+      "Vaduz Liechtenstein mini train ride",
+      "Swarovski Crystal Worlds entrance in Wattens",
+      "Venice private boat transfer & romantic Gondola ride",
+      "Guided tours: London, Paris, Florence, and Vatican / Rome",
+      "Special handpicked treats: Champagne, Belgian Waffle, Dutch souvenir, Black Forest cake, Swiss milkshake, Italian pizza, pasta, wine & gelato",
     ],
-    "inclusions": [
-      "Hotel accommodation with breakfast (except day 1)",
-      "Private transfers and 2nd-class trains between Milan, Venice, Florence and Rome",
-      "Venice Grand Canal Gondola Ride, Florence Hop-On Hop-Off tour",
-      "Pisa, Siena and San Gimignano day trip, Rome Hop-On Hop-Off tour",
-      "Colosseum, Roman Forum and Palatine Hill guided entry (no arena access)"
+    exclusions: [
+      "5% GST & 2% TCS and any other applicable taxes",
+      "Airfare (international & domestic unless specified)",
+      "Visa, Passport & POE charges, Travel Insurance",
+      "Airport taxes and other applicable charges",
+      "Cost of excursions, sightseeing, entrance fees, and local guides not mentioned in Inclusions",
+      "Personal expenses such as porterage, laundry, telephone calls, shopping, snacks, etc.",
+      "Cost of pre/post tour hotel accommodation",
+      "Any expenses arising due to flight delays, cancellations, weather conditions, political issues, or technical faults",
+      "Porterage charges, City tax",
     ],
-    "exclusions": [
-      "Airfare, airport taxes",
-      "5% GST and 2% TCS, visa fees",
-      "Travel insurance, meals beyond breakfast",
-      "City tax, tips and gratuities"
-    ]
+    faqs: [
+      {
+        question: "What is the total tour cost across sharing categories?",
+        answer:
+          "Total Tour Cost (valid till 31st July 2026):\n• Double/Triple sharing basis: ₹4,13,700/- + 5% GST + 2% TCS per person\n• Single sharing basis: ₹5,45,294/- + 5% GST + 2% TCS per person\n• Child with bed (below 12 years): ₹3,31,100/- + 5% GST + 2% TCS\n• Child no bed (below 12 years): ₹2,77,200/- + 5% GST + 2% TCS\n• Infant (below 02 years): ₹10,600/- + 5% GST + 2% TCS",
+      },
+      {
+        question: "What are the departure dates for Grand Tour of Europe?",
+        answer: "Departure dates: 12 Oct & 01 Nov.",
+      },
+      {
+        question: "What are the coach transfer timings for arrival and departure?",
+        answer:
+          "• London (LHR Airport) Arrival Transfer: Flight landing time should be between 08:00 AM – 02:00 PM.\n• Rome (FCO Airport) Departure Transfer: The coach will drop at FCO Airport by 11:00 AM.\n(Waiting up to 02:30 hours in arrival hall may be required for scheduled coach transfers).",
+      },
+      {
+        question: "What is the booking, payment, and cancellation policy?",
+        answer:
+          "Payment Terms:\n• At booking: 50% non-refundable booking amount.\n• 30 days prior to departure (D-30): Full balance payment (ROE calculated as XE.com + 2).\n\nCancellation Charges:\n• Up to 45 days before departure: INR 40,000 per adult/child.\n• Less than 30 days prior to departure: 100% cancellation charges apply.",
+      },
+    ],
   },
   {
-    "id": "london-edinburgh-bliss",
-    "title": "London & Edinburgh Bliss",
-    "image": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
-    "duration": "7 Nights / 8 Days",
-    "price": "₹1,95,999",
-    "highlights": [
-      "London Eye & Madame Tussauds",
-      "Tower of London & Crown Jewels",
-      "Cotswolds & Oxford excursion",
-      "Edinburgh Castle"
+    id: "kerala-kanyakumari",
+    title: "Kerala with Kanyakumari – 7 Nights / 8 Days",
+    image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1800",
+    duration: "7 Nights / 8 Days",
+    price: "₹39,999",
+    highlights: [
+      "Munnar Tea Gardens & Tea Museum",
+      "Cheeyappara Waterfalls",
+      "Eravikulam National Park (Nilgiri Tahr)",
+      "Mattupetty Dam & Kundala Lake",
+      "Spice Plantation Visit in Thekkady",
+      "Kathakali Dance Performance & Kalaripayattu Martial Arts Show",
+      "Jatayu Earth's Center with Ropeway Ride",
+      "Varkala Cliff Beach",
+      "Sree Padmanabhaswamy Temple VIP Darshan",
+      "Napier Museum & Kuthiramalika Museum",
+      "Full-Day Kanyakumari Excursion & Vivekananda Memorial",
+      "Triveni Sangam & Sunset Viewpoint",
+      "Traditional Kerala Houseboat Stay in Alleppey",
+      "Scenic 1-Hour Shikara Ride",
+      "Traditional Kerala Sadhya Meal Experience",
+      "Ayurvedic Spa Experience",
+      "Periyar Wildlife Experience (Boat Ride / Elephant Ride)",
+      "Daily Bandhan Special Treats",
     ],
-    "category": "International",
-    "tagline": "London's icons and the Cotswolds, then Scotland's capital by train.",
-    "overview": "London's landmarks — the Eye, Madame Tussauds, a Thames cruise and the Tower of London — plus a day in the Cotswolds and Oxford, before a train journey north to Edinburgh Castle and the Royal Mile.",
-    "heroImage": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "May to September",
-    "startingPoint": "London Heathrow Airport",
-    "groupSize": "2+ guests",
-    "themes": [
-      "City",
-      "Heritage",
-      "Scenic"
+    category: "Domestic",
+    isPopular: true,
+    tagline: "Munnar · Thekkady · Varkala · Kovalam · Kanyakumari · Alleppey · 7N/8D",
+    overview:
+      "A grand 7 Nights / 8 Days Kerala and Kanyakumari holiday spanning misty hills, coastal cliffs, sacred temples, and tranquil backwaters. Highlights include Munnar's sprawling tea gardens and Eravikulam National Park, spice plantations and cultural shows in Thekkady, the monumental Jatayu Earth's Center cable car ride, Varkala's red cliffs, Trivandrum's Sree Padmanabhaswamy Temple with VIP Darshan, a full-day excursion to India's southernmost tip at Kanyakumari and Vivekananda Rock Memorial, concluding with an authentic overnight houseboat cruise through the backwaters of Alleppey.\n\nTour Departure Dates: Sep 07, 28 | Oct 02, 12, 23 | Nov 01, 12, 20, 27 | Dec 07, 21, 25.",
+    heroImage: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "September to March",
+    startingPoint: "Cochin International Airport (COK) / Ernakulam Railway Station",
+    groupSize: "2+ guests",
+    themes: ["Backwaters", "Hill Station", "Coastal", "Temple Heritage"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1800", caption: "Alleppey Houseboat Backwaters" },
+      { image: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=85&w=1800", caption: "Munnar Tea Plantations" },
+      { image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=1800", caption: "Kovalam and Varkala Beaches" },
     ],
-    "gallery": [
+    itinerary: [
       {
-        "image": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
-        "caption": "London landmarks"
+        day: 1,
+        title: "Arrival at Cochin – Munnar (Approx. 130 km / 4 hrs)",
+        description:
+          "Upon arrival at Cochin Airport or Railway Station, meet our representative and proceed towards the picturesque hill station of Munnar. En route, visit the beautiful Cheeyappara Waterfalls. After hotel check-in, visit the famous Tea Museum to learn about Kerala's tea heritage. In the evening, guests may visit Blossom International Park (optional). (Bandhan Special Treat: Juice Sachet at Cheeyappara Waterfalls). Overnight stay in Munnar.",
+        meals: "Lunch, Dinner",
+        stay: "Munnar",
       },
       {
-        "image": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Edinburgh's historic streets"
-      }
+        day: 2,
+        title: "Munnar Sightseeing (Approx. 45 km)",
+        description:
+          "After breakfast, explore the scenic beauty of Munnar by visiting Eravikulam National Park, home to the endangered Nilgiri Tahr. Later, enjoy the lush tea plantations and visit the Flower Garden, Mattupetty Dam, and Kundala Lake. Spend the day amidst breathtaking landscapes before returning to the hotel. (Bandhan Special Treat: Bhutta at Flower Garden). Overnight stay in Munnar.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Munnar",
+      },
+      {
+        day: 3,
+        title: "Munnar – Thekkady (Approx. 97 km / 3 hrs)",
+        description:
+          "After breakfast, proceed to Thekkady through scenic spice plantations where you'll learn about Kerala's famous spices. Upon arrival, check into the hotel. In the evening, witness Kerala's vibrant culture through a traditional Kathakali Dance Performance followed by the thrilling Kalaripayattu Martial Arts Show. (Bandhan Special Treat: Garam Masala Tea at Masala Garden). Overnight stay in Thekkady.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Thekkady",
+      },
+      {
+        day: 4,
+        title: "Thekkady – Varkala (Approx. 180 km / 5 hrs)",
+        description:
+          "After breakfast, drive towards the beautiful coastal town of Varkala. En route, visit the iconic Jatayu Earth's Center, featuring the world's largest bird sculpture and an exciting ropeway ride. Continue to Varkala and spend the evening relaxing near its famous cliffside beach. (Bandhan Special Treat: Jackfruit Chips at Jatayu Earth's Center). Overnight stay in Varkala.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Varkala",
+      },
+      {
+        day: 5,
+        title: "Varkala – Kovalam (Approx. 60 km / 2 hrs)",
+        description:
+          "After breakfast, travel to Trivandrum to visit the sacred Sree Padmanabhaswamy Temple with VIP Darshan. Continue to Kuthiramalika Museum and Napier Museum before exploring the local markets and relaxing at the beautiful Kovalam Beach in the evening. (Bandhan Special Treat: Coconut Water at Kovalam Beach). Overnight stay in Kovalam.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Kovalam",
+      },
+      {
+        day: 6,
+        title: "Kanyakumari Excursion (Approx. 170 km / 5 hrs)",
+        description:
+          "After breakfast, proceed for a full-day excursion to Kanyakumari, India's southernmost tip. Visit Padmanabhapuram Palace, Suchindram Temple, Devi Kanyakumari Temple, Vivekananda Memorial, Gandhidham, and Triveni Sangam. Witness the spectacular sunset before returning to Kovalam. (Bandhan Special Treat: Raw Mango/Cucumber with Salt & Spice). Overnight stay in Kovalam.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Kovalam",
+      },
+      {
+        day: 7,
+        title: "Kovalam – Alleppey (Approx. 172 km / 5 hrs)",
+        description:
+          "After breakfast, proceed to Alleppey and board a traditional Kerala Houseboat. Cruise through the tranquil backwaters while enjoying views of lush coconut groves, charming villages, and serene waterways. This unforgettable houseboat experience showcases the true essence of Kerala. (Bandhan Special Treat: Coconut Water with Banana Chips). Overnight stay in Alleppey Houseboat.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Alleppey Houseboat",
+      },
+      {
+        day: 8,
+        title: "Alleppey – Cochin Departure (Approx. 95 km / 2 hrs)",
+        description:
+          "After breakfast, check out from the houseboat and proceed to Cochin Airport or Railway Station for your onward journey. Depart with unforgettable memories of Kerala's enchanting backwaters, scenic hill stations, pristine beaches, vibrant culture, and warm hospitality.",
+        meals: "Breakfast",
+        stay: "—",
+      },
     ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "London Heathrow Arrival — Private Transfer & Evening Leisure",
-        "description": "Arrive at London Heathrow Airport (LHR), meet your private driver, and transfer to your hotel in central London. Spend your evening exploring Covent Garden's lively street performers or walking along the vibrant South Bank.",
-        "meals": "—",
-        "stay": "London"
-      },
-      {
-        "day": 2,
-        "title": "London Sightseeing — London Eye Flight & Madame Tussauds",
-        "description": "Use your 48-hour Hop-On Hop-Off sightseeing pass to view Big Ben, Westminster Abbey, Piccadilly Circus, and Trafalgar Square. Meet wax icons at Madame Tussauds and step inside the glass capsules of the London Eye for sweeping panoramas of the British capital.",
-        "meals": "Breakfast",
-        "stay": "London"
-      },
-      {
-        "day": 3,
-        "title": "Thames River Cruise & Tower of London (British Crown Jewels)",
-        "description": "Board a scenic Thames River Cruise from Westminster to Tower Pier. Tour Her Majesty's Royal Palace and Fortress — the Tower of London — to behold the legendary British Crown Jewels, the White Tower, and meet the Yeoman Warders (Beefeaters).",
-        "meals": "Breakfast",
-        "stay": "London"
-      },
-      {
-        "day": 4,
-        "title": "Full-Day Oxford University & Cotswolds Countryside Villages Excursion",
-        "description": "Travel by luxury coach into the English countryside to Oxford, the 'City of Dreaming Spires', taking a walking tour past Christ Church and Bodleian Library. Continue into the picturesque Cotswolds, exploring the honey-coloured stone cottages, ancient bridges, and tea rooms of Bourton-on-the-Water and Burford.",
-        "meals": "Breakfast",
-        "stay": "London"
-      },
-      {
-        "day": 5,
-        "title": "Scenic Train to Edinburgh (Scotland) — Royal Mile Evening Walk",
-        "description": "Board the LNER East Coast Main Line express train from London King's Cross to Edinburgh Waverley, enjoying coastal views of Northumbria and Berwick. Arrive in Scotland's capital and take an evening stroll along the cobblestone Royal Mile.",
-        "meals": "Breakfast",
-        "stay": "Edinburgh"
-      },
-      {
-        "day": 6,
-        "title": "Edinburgh City Tour & Historic Edinburgh Castle",
-        "description": "Tour the UNESCO-listed Old Town and Georgian New Town. Ascend Castle Rock to tour Edinburgh Castle, home to the Scottish Crown Jewels (Honours of Scotland), the ancient Stone of Destiny, and the 12th-century St. Margaret's Chapel.",
-        "meals": "Breakfast",
-        "stay": "Edinburgh"
-      },
-      {
-        "day": 7,
-        "title": "Edinburgh Leisure Day — Holyroodhouse & Arthur's Seat",
-        "description": "Enjoy a full day of independent exploration: visit the Palace of Holyroodhouse (King's official residence in Scotland), hike up Arthur's Seat for sweeping city and sea views, or browse Scottish cashmere and shortbread shops along Princes Street.",
-        "meals": "Breakfast",
-        "stay": "Edinburgh"
-      },
-      {
-        "day": 8,
-        "title": "Departure from Edinburgh",
-        "description": "After breakfast, meet your private chauffeur for your transfer to Edinburgh Airport (EDI) for your return flight home.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
+    inclusions: [
+      "Premium accommodation on Double/Triple Sharing basis (including traditional Kerala Houseboat stay)",
+      "7 Breakfasts, 7 Lunches & 7 Dinners",
+      "AC Vehicle for all transfers and sightseeing",
+      "Professional Tour Manager throughout the tour",
+      "All entrance tickets as per itinerary",
+      "Evening Tea/Coffee",
+      "Daily one bottle of mineral water per person",
+      "Traditional Kerala Sadhya Meal",
+      "Jatayu Earth's Center with Ropeway Ride",
+      "Scenic 1-Hour Shikara Ride",
+      "Kathakali Dance Show",
+      "Kalaripayattu Martial Arts Show",
+      "Ayurvedic Spa Experience",
+      "Periyar Wildlife Experience (Boating or Elephant Ride, subject to availability)",
+      "VIP Darshan Pass at Sree Padmanabhaswamy Temple",
+      "Daily Bandhan Special Treats",
     ],
-    "inclusions": [
-      "Hotel accommodation with breakfast (except day 1)",
-      "2nd-class train London–Edinburgh, private airport and rail transfers",
-      "London 48-hour Hop-On Hop-Off, London Eye, Madame Tussauds",
-      "Thames River Cruise, Tower of London, Cotswolds and Oxford guided tour",
-      "Edinburgh 24-hour Hop-On Hop-Off, Edinburgh Castle entrance"
+    exclusions: [
+      "5% GST",
+      "Airfare / Train Fare",
+      "Guide Charges",
+      "Early Check-in & Late Check-out",
+      "Additional Meals",
+      "Optional Sightseeing & Activities",
+      "Personal Expenses",
+      "Expenses arising due to weather, roadblocks, illness, flight cancellation, or any unforeseen circumstances",
     ],
-    "exclusions": [
-      "Airfare, airport taxes",
-      "5% GST and 2% TCS, visa fees",
-      "Travel insurance, meals beyond breakfast",
-      "City tax, tips and gratuities"
-    ]
+    faqs: [
+      {
+        question: "What is the tour package cost for Kerala with Kanyakumari?",
+        answer:
+          "Tour Pricing:\n• Double Occupancy: ₹39,999/- Per Person + 5% GST\n• Single Occupancy: ₹56,999/- Per Person + 5% GST\n• Extra Adult on Extra Bed: ₹32,000/- Per Person + 5% GST\n• Extra Child on Extra Bed: ₹32,000/- Per Person + 5% GST\n• Extra Child without Bed: ₹28,000/- Per Person + 5% GST.",
+      },
+      {
+        question: "What are the departure dates for Kerala with Kanyakumari?",
+        answer:
+          "Tour Departure Dates:\n• September: 07, 28\n• October: 02, 12, 23\n• November: 01, 12, 20, 27\n• December: 07, 21, 25.",
+      },
+      {
+        question: "What is the dress code and customs for temple visits in Kerala?",
+        answer:
+          "Carry a scarf/dupatta for temple visits. At Sree Padmanabhaswamy Temple in Trivandrum, traditional dress code is mandatory: men must wear a plain white or black dhoti/lungi without shirts, and women must wear a saree or traditional set-mundu. Most temples remain closed between 12:00 PM and 4:00 PM.",
+      },
+      {
+        question: "What is the cancellation policy for this tour?",
+        answer:
+          "Cancellation Charges Before Departure:\n• 121 Days & Above: 5% of Total Tour Cost\n• 91–120 Days: 10%\n• 61–90 Days: 15%\n• 46–60 Days: 25%\n• 31–45 Days: 50%\n• 16–30 Days: 70%\n• 06–15 Days: 80%\n• 00–05 Days / No Show / During the Tour: 100%.",
+      },
+    ],
   },
   {
-    "id": "paris-swiss-delights",
-    "title": "Paris & Swiss Delights",
-    "image": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
-    "duration": "6 Nights / 7 Days",
-    "price": "₹1,94,999",
-    "highlights": [
-      "Eiffel Tower & Seine River Cruise",
-      "Louvre Museum with audio guide",
-      "Mount Titlis via Engelberg",
-      "Rhine Falls, Europe's largest waterfall"
+    id: "mesmerizing-vietnam",
+    title: "Mesmerizing Vietnam (Ho Chi Minh 2N | Da Nang 3N | Hanoi 1N | Halong Cruise 1N)",
+    image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=85&w=1800",
+    duration: "7 Nights / 8 Days",
+    price: "₹78,900",
+    highlights: [
+      "Ho Chi Minh City Tour",
+      "Full-Day Mekong Delta Excursion",
+      "Explore the Historic Cu Chi Tunnels",
+      "Domestic Flights: Ho Chi Minh → Da Nang & Da Nang → Hanoi",
+      "Visit Marble Mountains",
+      "Explore the UNESCO-listed Hoi An Ancient Town",
+      "Full-Day Ba Na Hills Excursion",
+      "Ride the World-Famous Ba Na Hills Cable Car",
+      "Visit the Iconic Golden Bridge",
+      "Half-Day Hanoi City Tour",
+      "Overnight Cruise in UNESCO-listed Ha Long Bay",
+      "Scenic Cruise Through Limestone Islands & Emerald Waters",
+      "Daily Breakfast",
+      "Lunch, Dinner & Brunch as per Itinerary",
+      "Airport Transfers & Sightseeing as per Itinerary",
+      "Comfortable Hotel Accommodation",
     ],
-    "category": "International",
-    "tagline": "Paris's museums and monuments, then Switzerland unlocked by a 3-day Swiss Travel Pass.",
-    "overview": "Paris's Eiffel Tower, Seine cruise and Louvre Museum, followed by a high-speed train to Zurich and a 3-day Swiss Travel Pass covering excursions to Mount Titlis and the Rhine Falls.",
-    "heroImage": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "April to October",
-    "startingPoint": "Paris Charles de Gaulle Airport",
-    "groupSize": "2+ guests",
-    "themes": [
-      "City",
-      "Mountains",
-      "Museum"
+    category: "International",
+    tagline: "Ho Chi Minh 2N | Da Nang 3N | Hanoi 1N | Halong Cruise 1N · 7N/8D · Fixed Departures from Sep to Apr",
+    overview:
+      "A stunning 7 Nights / 8 Days journey across Vietnam featuring Ho Chi Minh City (2N), Da Nang (3N), Hanoi (1N), and an overnight cruise in Ha Long Bay (1N). Highlights include the Mekong Delta river cruise, Cu Chi Tunnels, domestic flights, Marble Mountains, UNESCO-listed Hoi An Ancient Town, Ba Na Hills with the world-famous Golden Bridge, a half-day Hanoi city tour, and cruising emerald waters among limestone karsts in Ha Long Bay.\n\nTour Departure Dates: Sep 12, 27 | Oct 3, 23 | Nov 3, 16 | Dec 10, 24 | Jan 4, 20 | Feb 12, 20 | Mar 12, 21 | Apr 12, 22.",
+    heroImage: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "September to April",
+    startingPoint: "Tan Son Nhat International Airport, Ho Chi Minh City",
+    groupSize: "Min 25 pax for quoted rate",
+    themes: ["Culture", "Scenic", "Cruise"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=85&w=1800", caption: "Golden Bridge, Ba Na Hills" },
+      { image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800", caption: "Ha Long Bay limestone islands" },
     ],
-    "gallery": [
+    itinerary: [
       {
-        "image": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Eiffel Tower, Paris"
+        day: 1,
+        title: "Ho Chi Minh Arrival – City Tour",
+        description:
+          "Upon arrival at Tan Son Nhat International Airport, meet your local guide and transfer to the hotel for check-in (from 02:00 PM). Later, proceed for a half-day Ho Chi Minh City tour, exploring the city's historical landmarks, cultural attractions, and vibrant local market. After the tour, return to the hotel. Overnight stay in Ho Chi Minh City. (L-D)",
+        meals: "Lunch, Dinner",
+        stay: "Ho Chi Minh City",
       },
       {
-        "image": "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Swiss Alps near Engelberg"
-      }
+        day: 2,
+        title: "Mekong Delta",
+        description:
+          "After breakfast at the hotel, proceed for a full-day excursion to the Mekong Delta. Enjoy a scenic river cruise, experience the local way of life, explore picturesque villages, and discover the region’s rich culture and traditions. Visit local workshops and enjoy regional specialties before returning to Ho Chi Minh City in the evening. Overnight stay in Ho Chi Minh City. (B-L-D)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Ho Chi Minh City",
+      },
+      {
+        day: 3,
+        title: "Cu Chi Tunnel – Flight to Danang",
+        description:
+          "After breakfast at the hotel. Cu chi Tunnel- proceed for a half-day excursion to explore one of Vietnam’s most significant historical sites and learn about the country’s wartime history. Later, return to Ho Chi Minh City and transfer to the airport for your flight to Da Nang. Upon arrival, transfer to the hotel for check-in. Overnight stay in Da Nang. (B-L-D)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Da Nang",
+      },
+      {
+        day: 4,
+        title: "Marble Mountain – Hoi An - Danang",
+        description:
+          "After breakfast at the hotel, proceed for a full-day excursion to explore the scenic Marble Mountains, renowned for their natural caves, pagodas, and panoramic views. Continue to the charming ancient town of Hoi An Ancient Town, where you can experience the rich cultural heritage, traditional architecture, and vibrant local atmosphere. Return to Da Nang in the evening. Overnight stay in Da Nang. (B-L-D)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Da Nang",
+      },
+      {
+        day: 5,
+        title: "Ba Na Hills- Golden Bridge - Danang",
+        description:
+          "After breakfast at the hotel, proceed for a full-day excursion to Ba Na Hills. Enjoy a scenic cable car ride and explore the hill station's breathtaking landscapes, gardens, cultural attractions, and entertainment facilities. Visit the iconic Golden Bridge, famous for its unique architectural design and panoramic mountain views. Return to Da Nang in the evening. Overnight stay in Da Nang. (B-L-D)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Da Nang",
+      },
+      {
+        day: 6,
+        title: "Flight to Hanoi – Half Day City Tour",
+        description:
+          "After breakfast at the hotel, enjoy free time until your transfer to the airport for your flight to Hanoi. Upon arrival, transfer to the hotel for check-in. Later, proceed for a half-day city tour exploring the capital’s historical landmarks, cultural attractions, and charming old quarters. Enjoy a guided walk through the city's vibrant streets and local surroundings before returning to the hotel. Overnight stay in Hanoi. (B-L-D)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Hanoi",
+      },
+      {
+        day: 7,
+        title: "Hanoi – Ha Long Bay Overnight Cruise",
+        description:
+          "After an early breakfast, depart for Ha Long Bay, a UNESCO World Heritage Site renowned for its stunning limestone islands and emerald waters. Upon arrival, board your overnight cruise and enjoy a relaxing journey through the bay's spectacular scenery. Savor delicious onboard meals and take in the breathtaking views as you cruise through one of Vietnam’s most iconic destinations. Overnight stay on the cruise. (B-L-D)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Ha Long Bay Cruise",
+      },
+      {
+        day: 8,
+        title: "Halong Bay – Hanoi Departure",
+        description:
+          "After breakfast check-out from your hotel. Later you will be transfer to the Hanoi Airport to depart to home country with cherished memories created with Bandhan Tours!!! See you again! (B-BR)",
+        meals: "Breakfast, Brunch",
+        stay: "—",
+      },
     ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Paris Arrival — Private Airport Transfer & Hotel Check-in",
-        "description": "Arrive at Paris CDG Airport, meet your private chauffeur, and transfer to your Parisian hotel. Spend a relaxed afternoon strolling through the Latin Quarter or relaxing at a traditional sidewalk café.",
-        "meals": "—",
-        "stay": "Paris"
-      },
-      {
-        "day": 2,
-        "title": "Paris City Tour, Eiffel Tower 2nd Level & Seine River Cruise",
-        "description": "Explore the City of Lights with a 48-hour Hop-On Hop-Off ticket: see the Champs-Élysées, Arc de Triomphe, and Opéra Garnier. Ascend to the 2nd Level of the Eiffel Tower for sweeping vistas, followed by a 1-hour cruise along the River Seine past Notre-Dame Cathedral.",
-        "meals": "Breakfast",
-        "stay": "Paris"
-      },
-      {
-        "day": 3,
-        "title": "Louvre Museum Masterpieces & Montmartre Walking Tour",
-        "description": "Tour the world-renowned Louvre Museum with an audio guide, viewing the Mona Lisa, Venus de Milo, and Winged Victory of Samothrace. Later, explore the bohemian artist quarter of Montmartre and the white-domed Sacré-Cœur Basilica.",
-        "meals": "Breakfast",
-        "stay": "Paris"
-      },
-      {
-        "day": 4,
-        "title": "High-Speed TGV Train to Zurich (Switzerland) — Swiss Travel Pass Activation",
-        "description": "Board the high-speed TGV Lyria train darting through the French countryside to Zurich. Activate your 3-day Swiss Travel Pass granting unlimited travel on Swiss trains, buses, and lake steamers. Enjoy an evening stroll along Bahnhofstrasse and Lake Zurich.",
-        "meals": "Breakfast",
-        "stay": "Zurich"
-      },
-      {
-        "day": 5,
-        "title": "Mount Titlis Revolving Cable Car (Rotair) & Lucerne Excursion",
-        "description": "Take a scenic train to Engelberg and board the Titlis Rotair revolving cable car up to 10,000 feet. Experience the Cliff Walk suspension bridge, the Glacier Cave, and the Ice Flyer snow adventure. On your return, explore Lucerne's 14th-century Chapel Bridge and Lion Monument.",
-        "meals": "Breakfast",
-        "stay": "Zurich"
-      },
-      {
-        "day": 6,
-        "title": "Rhine Falls Waterfall & Historic Schaffhausen Tour",
-        "description": "Take the train to Schaffhausen to witness Rhine Falls, Europe's largest waterfall, admiring the thunderous cascades from scenic cliffside viewing platforms. Explore the medieval old town of Schaffhausen and the circular Munot Fortress.",
-        "meals": "Breakfast",
-        "stay": "Zurich"
-      },
-      {
-        "day": 7,
-        "title": "Departure from Zurich",
-        "description": "Enjoy breakfast before your private transfer to Zurich Airport (ZRH) for your departure flight.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
+    inclusions: [
+      "3 Star Hotel Accommodation on double sharing basis",
+      "1N Halong Bay cruise",
+      "Daily Breakfast at hotel",
+      "Lunch & Dinner at restaurant",
+      "Hanoi city tour",
+      "Ho chi Minh city tour",
+      "Marble Mountain",
+      "All Tour and transfers on Private basis.",
+      "English speaking tour guide above 20 persons",
+      "Tour Leader above 20 persons throughout the tour",
+      "water bottle per day per pax",
+      "Sightseeing Entry charges as mentioned above",
+      "Vietnam E-visa",
+      "Complementary Travel Insurance up to 59 years",
     ],
-    "inclusions": [
-      "Hotel accommodation with breakfast (except day 1)",
-      "Private transfers, day train Paris–Zurich, 3-day Swiss Travel Pass (2nd class)",
-      "Paris 48-hour Hop-On Hop-Off, Eiffel Tower 2nd-level ticket, Seine Cruise",
-      "Louvre Museum ticket with digital audio guide",
-      "Mount Titlis and Rhine Falls excursions via Swiss Travel Pass"
+    exclusions: [
+      "Any Airfare",
+      "Airport Taxes",
+      "5% GST & 2% TCS",
+      "Anything not mentioned above",
+      "Any Activities",
+      "Cost of pre or post tour hotel accommodation",
+      "Expenses of personal nature such as other taxes, drinks, telephone, shopping, snacks, Porterage and laundry bills etc.",
+      "Tips and porter charges",
+      "Any additional expenses incurred due to any flight delay or cancellation, weather conditions, political closures, technical faults etc.",
     ],
-    "exclusions": [
-      "Airfare, airport taxes",
-      "5% GST and 2% TCS, visa fees",
-      "Travel insurance, meals beyond breakfast",
-      "City tax, tips and gratuities"
-    ]
+    faqs: [
+      {
+        question: "What is the total tour cost and sharing pricing?",
+        answer:
+          "Tour cost breakdown:\n• Double sharing basis: ₹78,900/- + 5% GST + 2% TCS per person\n• Single sharing basis: ₹93,900/- + 5% GST + 2% TCS per person\n• Triple sharing basis: ₹77,900/- + 5% GST + 2% TCS per person\n• Child with bed: ₹74,900/- + 5% GST + 2% TCS\n• Child without bed: ₹53,900/- + 5% GST + 2% TCS",
+      },
+      {
+        question: "What are the confirmed tour departure dates?",
+        answer:
+          "Tour Departure Dates: Sep 12, 27 | Oct 3, 23 | Nov 3, 16 | Dec 10, 24 | Jan 4, 20 | Feb 12, 20 | Mar 12, 21 | Apr 12, 22.",
+      },
+      {
+        question: "What are the passport, visa, and flight reporting guidelines?",
+        answer:
+          "Passport must be valid for at least 6 months from the return date with a minimum of 2 blank pages. A valid tourist visa is mandatory (Vietnam E-visa is included). Report at the airport at least 3 hours before the scheduled departure of your international flight. Standard hotel check-in is 2:00 PM and check-out is 12:00 PM.",
+      },
+      {
+        question: "What is the booking, payment, and cancellation policy?",
+        answer:
+          "A 50% advance payment is required to confirm booking, with the remaining balance due at least 15 days prior to departure.\n\nCancellation charges prior to departure:\n• 121 to 900 days: 10%\n• 91 to 120 days: 15%\n• 61 to 90 days: 20%\n• 46 to 60 days: 30%\n• 31 to 45 days: 40%\n• 21 to 30 days: 50%\n• 11 to 20 days: 75%\n• 0 to 10 days: 100%\nVisa fees, airfare, travel insurance, and non-refundable services apply in addition.",
+      },
+    ],
   },
   {
-    "id": "splendid-germany",
-    "title": "Splendid Germany",
-    "image": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
-    "duration": "6 Nights / 7 Days",
-    "price": "₹1,47,999",
-    "highlights": [
-      "Neuschwanstein & Linderhof Castles",
-      "Munich Hop-On Hop-Off tour",
-      "Frankfurt Grand Tour & River Main cruise",
-      "Scenic train journeys across Bavaria"
+    id: "rajasthan-marwad",
+    title: "Rajasthan Marwad – 7 Nights / 8 Days",
+    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800",
+    duration: "7 Nights / 8 Days",
+    price: "₹34,999",
+    highlights: [
+      "Khatu Shyam Ji Temple Darshan & Salasar Balaji Temple",
+      "Deshnok Karni Mata Rat Temple",
+      "Junagarh Fort, Anup Mahal & Lalgarh Palace",
+      "Camel Research Centre, Bikaner",
+      "Jaisalmer Fort (UNESCO World Heritage Site)",
+      "Patwon Ki Haveli & Gadisar Lake",
+      "Tanot Mata Temple near Indo-Pak border",
+      "Longewala War Memorial & War Museum",
+      "Sam Sand Dunes Desert Safari with Camel Ride & Folk Show",
+      "Mehrangarh Fort, Jaswant Thada & Blue City of Jodhpur",
+      "Umaid Bhawan Palace Museum",
+      "Daily Bandhan Special Treats & Farewell Sweet Box",
     ],
-    "category": "International",
-    "tagline": "Bavaria's fairytale castles to Frankfurt's skyline, connected by train.",
-    "overview": "Munich's Marienplatz and English Garden, a full day at the fairytale Neuschwanstein and Linderhof castles, then trains to Stuttgart and Frankfurt for city tours and a River Main panorama cruise.",
-    "heroImage": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "May to September",
-    "startingPoint": "Munich Airport",
-    "groupSize": "2+ guests",
-    "themes": [
-      "City",
-      "Heritage",
-      "Scenic"
+    category: "Domestic",
+    isPopular: true,
+    tagline: "Jaipur – Khatu Shyam Ji 1N – Bikaner 2N – Jaisalmer 2N – Jodhpur 2N · 7N/8D",
+    overview:
+      "A grand 7 Nights / 8 Days journey through the vibrant heritage and desert landscapes of Marwad, Rajasthan. Seek divine blessings at Khatu Shyam Ji and Salasar Balaji, witness the royal opulence of Bikaner's Junagarh Fort and Deshnok's Karni Mata Temple, discover the Golden City of Jaisalmer, journey to the historic border posts of Tanot Mata and Longewala, sleep near the Sam Sand Dunes with cultural folk performances, and explore the majestic forts and palaces of the Blue City, Jodhpur.\n\nDeparture Dates: Sep 02, 26 | Oct 02, 21 | Nov 01, 14, 27 | Dec 07, 21.",
+    heroImage: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "September to March",
+    startingPoint: "Jaipur (Approx. 90 KM / 2 hrs to Khatu Shyam Ji)",
+    groupSize: "Group departures",
+    themes: ["Heritage", "Culture", "Desert"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Mehrangarh Fort, Jodhpur" },
+      { image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=1800", caption: "Sam Sand Dunes, Jaisalmer" },
     ],
-    "gallery": [
+    itinerary: [
       {
-        "image": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Bavarian castles"
+        day: 1,
+        title: "Arrival at Jaipur – Khatu Shyam Ji (Approx. 90 KM / 2 Hrs)",
+        description:
+          "Upon arrival at Jaipur, meet our representative and proceed to the holy town of Khatu Shyam Ji. Check into the hotel and visit the sacred Khatu Shyam Ji Temple for evening darshan. Spend time exploring the temple surroundings and local market. (Bandhan Welcome Treat: Traditional Kesar Milk & Dry Fruit Prasad). Overnight stay in Khatu Shyam Ji.",
+        meals: "Lunch, Dinner",
+        stay: "Khatu Shyam Ji",
       },
       {
-        "image": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Frankfurt's riverside skyline"
-      }
+        day: 2,
+        title: "Khatu Shyam Ji – Salasar Balaji – Bikaner (Approx. 300 KM / 6 Hrs)",
+        description:
+          "After breakfast proceed to Salasar Balaji Temple for darshan. Continue towards Bikaner through the scenic countryside. Check into the hotel and in the evening explore the famous local markets. (Bandhan Special Treat: Bikaneri Bhujia & Masala Chaas). Overnight stay in Bikaner.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Bikaner",
+      },
+      {
+        day: 3,
+        title: "Bikaner Sightseeing",
+        description:
+          "After breakfast enjoy a full-day city tour covering Deshnok Karni Mata Temple, Junagarh Fort, Anup Mahal, Gaj Mandir, Sheesh Mahal, Prachina Museum, Sadul Museum, Camel Research Centre and Lalgarh Palace. (Bandhan Special Treat: Bikaneri Rasgulla & Kesar Lassi). Overnight stay in Bikaner.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Bikaner",
+      },
+      {
+        day: 4,
+        title: "Bikaner – Jaisalmer (Approx. 330 KM / 6 Hrs)",
+        description:
+          "After breakfast proceed towards Jaisalmer through the beautiful Thar Desert. Enjoy the changing desert landscapes en route. Upon arrival check into the hotel and spend the evening exploring the local markets. (Bandhan Special Treat: Bajra Cookies & Traditional Herbal Tea). Overnight stay in Jaisalmer.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Jaisalmer",
+      },
+      {
+        day: 5,
+        title: "Tanot Mata Temple – Longewala – Sam Sand Dunes (Approx. 250 KM Round Trip)",
+        description:
+          "Visit the famous Tanot Mata Temple followed by Longewala War Memorial. Later proceed to Sam Sand Dunes and enjoy camel rides, jeep safari, folk dance, cultural performances and a mesmerizing desert sunset. (Bandhan Special Treat: Hot Pakoras & Masala Chai). Overnight stay in Jaisalmer.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Jaisalmer",
+      },
+      {
+        day: 6,
+        title: "Jaisalmer Sightseeing – Jodhpur (Approx. 285 KM / 5 Hrs)",
+        description:
+          "Visit Jaisalmer Fort, Patwon Ki Haveli, Jain Mandir and Gadisar Lake (Boating at own cost). Later proceed to Jodhpur via the War Museum. Upon arrival check into the hotel. (Bandhan Special Treat: Makhaniya Lassi). Overnight stay in Jodhpur.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Jodhpur",
+      },
+      {
+        day: 7,
+        title: "Jodhpur Sightseeing",
+        description:
+          "After breakfast visit Umaid Bhawan Palace Museum, Mehrangarh Fort, Moti Mahal, Phool Mahal, Sheesh Mahal, Daulat Khana, Rang Mahal and Jaswant Thada. Spend the evening enjoying time with your fellow travellers. (Bandhan Special Treat: Mirchi Vada & Rabdi). Overnight stay in Jodhpur.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Jodhpur",
+      },
+      {
+        day: 8,
+        title: "Departure from Jodhpur",
+        description:
+          "After breakfast check out from the hotel and transfer to Jodhpur Airport/Railway Station for your onward journey. Take home unforgettable memories of Rajasthan along with a Bandhan Farewell Sweet Box and Souvenir Gift Pack.",
+        meals: "Breakfast",
+        stay: "—",
+      },
     ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Munich Arrival — Bavarian Capital Welcome",
-        "description": "Arrive at Munich Airport (MUC), meet your private driver, and transfer to your hotel. Settle in and enjoy an evening stroll around Marienplatz, watching the historic Glockenspiel clock chime above the New Town Hall.",
-        "meals": "—",
-        "stay": "Munich"
-      },
-      {
-        "day": 2,
-        "title": "Munich City Tour — Nymphenburg Palace & English Garden",
-        "description": "Explore Munich with a Hop-On Hop-Off pass: visit the Baroque Nymphenburg Palace, the expansive English Garden with its river surfers at Eisbachwelle, the Olympic Park, and BMW Welt automotive showroom.",
-        "meals": "Breakfast",
-        "stay": "Munich"
-      },
-      {
-        "day": 3,
-        "title": "Fairytale Neuschwanstein & Royal Linderhof Castle Excursion",
-        "description": "Embark on a full-day guided coach excursion into the Bavarian Alps to visit the fairytale Neuschwanstein Castle (the inspiration for Disney's Sleeping Beauty Castle), perched high above the Pöllat Gorge. Visit King Ludwig II's French-style rococo Linderhof Palace and the woodcarving village of Oberammergau.",
-        "meals": "Breakfast",
-        "stay": "Munich"
-      },
-      {
-        "day": 4,
-        "title": "Train to Stuttgart — Mercedes-Benz & Porsche Heritage City",
-        "description": "Take an express train to Stuttgart. Explore the city with a 24-hour Hop-On Hop-Off pass: see Schlossplatz, the Old and New Castles, and visit the futuristic Mercedes-Benz Museum or Porsche Museum.",
-        "meals": "Breakfast",
-        "stay": "Stuttgart"
-      },
-      {
-        "day": 5,
-        "title": "Stuttgart to Frankfurt — Financial Capital of Germany",
-        "description": "Board the ICE high-speed train to Frankfurt am Main. Check into your hotel and spend the afternoon exploring the medieval timber-framed buildings of Römerberg square and the Iron Bridge (Eiserner Steg).",
-        "meals": "Breakfast",
-        "stay": "Frankfurt"
-      },
-      {
-        "day": 6,
-        "title": "Frankfurt Grand Tour & River Main Panorama Boat Cruise",
-        "description": "Take the Frankfurt Grand Hop-On Hop-Off tour covering St. Paul's Church, Goethe's Birthplace, and the modern skyscraper skyline. Board a 1-hour panorama boat cruise along the River Main with skyline views.",
-        "meals": "Breakfast",
-        "stay": "Frankfurt"
-      },
-      {
-        "day": 7,
-        "title": "Departure from Frankfurt",
-        "description": "Enjoy breakfast before your private transfer to Frankfurt International Airport (FRA) for your flight home.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
+    inclusions: [
+      "Accommodation on Double/Triple Sharing Basis",
+      "7 Breakfasts, 8 Lunches, 7 Dinners",
+      "AC Vehicle for all Transfers & Sightseeing",
+      "Professional Tour Manager",
+      "Entrance Tickets",
+      "Evening Tea/Coffee",
+      "Daily 1 Bottle Mineral Water per person",
+      "Travel Insurance",
+      "Khatu Shyam Ji & Salasar Balaji Temple Visits",
+      "Deshnok Karni Mata Temple",
+      "Junagarh Fort & Museums",
+      "Camel Research Centre",
+      "Jaisalmer Fort",
+      "Patwon Ki Haveli & Gadisar Lake",
+      "Tanot Mata Temple & Longewala War Memorial",
+      "Sam Sand Dunes Experience (Camel ride, jeep safari & folk dance)",
+      "Mehrangarh Fort, Umaid Bhawan Palace & Jaswant Thada",
+      "Blue City of Jodhpur",
+      "Daily Bandhan Special Treats & Farewell Sweet Box",
     ],
-    "inclusions": [
-      "Hotel accommodation with breakfast (except day 1)",
-      "Private transfers and 2nd-class trains between Munich, Stuttgart and Frankfurt",
-      "Munich Hop-On Hop-Off tour, Neuschwanstein and Linderhof entrance",
-      "Stuttgart Hop-On Hop-Off tour, Frankfurt Hop-On Hop-Off Grand Tour",
-      "1-hour River Main panorama boat cruise"
+    exclusions: [
+      "5% GST",
+      "Airfare / Train Fare",
+      "Guide Charges",
+      "Early Check-in & Late Check-out",
+      "Additional Meals & Sightseeing",
+      "Rickshaw Charges & Boating at Gadisar Lake",
+      "Activity Charges not mentioned",
+      "Expenses due to weather, illness, roadblocks or flight cancellation",
     ],
-    "exclusions": [
-      "Airfare, airport taxes",
-      "5% GST and 2% TCS, visa fees",
-      "Travel insurance, meals beyond breakfast",
-      "City tax, tips and gratuities"
-    ]
+    faqs: [
+      {
+        question: "What is the tour package pricing across sharing categories?",
+        answer:
+          "Tour Cost:\n• Double Occupancy: ₹34,999/- Per Person + 5% GST\n• Single Occupancy: ₹46,998/- Per Person + 5% GST\n• Adult with Extra Bed: ₹28,999/- Per Person + 5% GST\n• Child with Extra Bed: ₹28,999/- Per Person + 5% GST\n• Child Without Bed: ₹25,999/- Per Person + 5% GST",
+      },
+      {
+        question: "What are the departure dates for Rajasthan Marwad?",
+        answer:
+          "Departure Dates:\n• September: 02, 26\n• October: 02, 21\n• November: 01, 14, 27\n• December: 07, 21",
+      },
+      {
+        question: "What are the booking payment terms and cancellation charges?",
+        answer:
+          "Payment Terms:\n• 50% payment required at booking confirmation.\n• Full payment must be completed 15 days prior to departure.\n\nCancellation Policy:\n• 121 Days & Above: 5%\n• 91–120 Days: 10%\n• 61–90 Days: 15%\n• 46–60 Days: 25%\n• 31–45 Days: 50%\n• 16–30 Days: 70%\n• 06–15 Days: 80%\n• 0–05 Days / No Show: 100%",
+      },
+    ],
   },
   {
-    "id": "turkish-wonders",
-    "title": "Turkish Wonders",
-    "image": "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&q=85&w=1800",
-    "duration": "7 Nights / 8 Days",
-    "price": "₹2,56,999",
-    "highlights": [
-      "Hagia Sophia, Blue Mosque & Hippodrome",
-      "Pamukkale travertines & Hierapolis",
-      "Göreme Open Air Museum & Ozkonak Underground City",
-      "Antalya Old Town & Düden Waterfalls"
+    id: "singapore-malaysia-thailand",
+    title: "Singapore Malaysia Thailand (2N Pattaya | 2N Bangkok | 2N Kuala Lumpur | 3N Singapore)",
+    image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=85&w=1800",
+    duration: "9 Nights / 10 Days",
+    price: "₹1,05,000",
+    highlights: [
+      "Bangkok • Pattaya • Kuala Lumpur • Genting Highlands • Singapore",
+      "Alcazar Cabaret Show, Pattaya",
+      "Coral Island Tour by Speedboat",
+      "Bangkok City & Temple Tour (Wat Traimit Golden Buddha & Wat Benchamabophit Marble Buddha)",
+      "Full-Day Safari World & Marine Park with Lunch",
+      "Putrajaya Orientation Tour & Kuala Lumpur City Tour",
+      "Batu Caves Visit & Two-Way Cable Car Ride to Genting Highlands",
+      "Petronas Twin Towers (Photo Stop) & KL Tower Observatory Deck",
+      "Scenic Coach Journey from Kuala Lumpur to Singapore",
+      "Night Safari Tram Tour, Singapore",
+      "Sentosa Island Excursion with Cable Car Ride",
+      "Gardens by the Bay & Marina Bay Sands",
+      "Universal Studios Singapore & Wings of Time Night Show",
+      "Singapore Half-Day City Tour",
+      "Daily Breakfast, Lunch & Dinner at Indian Restaurants (as per itinerary)",
+      "All Tours & Transfers on Private Basis",
     ],
-    "category": "International",
-    "tagline": "Istanbul's mosques, Pamukkale's white terraces and Cappadocia's fairy chimneys in one loop.",
-    "overview": "Two nights in Istanbul for Hagia Sophia and the Blue Mosque, then domestic flights to Pamukkale's travertine terraces, Antalya's Old Town and Mediterranean waterfalls, and two nights in Cappadocia among its underground cities and fairy chimneys.",
-    "heroImage": "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "April to October",
-    "startingPoint": "Istanbul International Airport",
-    "groupSize": "Min 2 pax for quoted rate",
-    "themes": [
-      "Heritage",
-      "Culture",
-      "Scenic"
+    category: "International",
+    tagline: "2N Pattaya | 2N Bangkok | 2N Kuala Lumpur | 3N Singapore · 9N/10D Grand Tri-Nation Tour",
+    overview:
+      "A grand 9 Nights / 10 Days tri-nation Southeast Asian holiday spanning Thailand, Malaysia, and Singapore. Experience Pattaya's vibrant Alcazar show and Coral Island speedboat trip, Bangkok's revered Golden & Marble Buddha temples and full-day Safari World, Kuala Lumpur's iconic skyline, Batu Caves and Genting Highlands cable car, followed by a scenic coach transfer to Singapore for the Night Safari, Sentosa Island, Gardens by the Bay, Marina Bay Sands, and a thrilling day at Universal Studios Singapore.",
+    heroImage: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "Year-round",
+    startingPoint: "Bangkok Suvarnabhumi Airport (BKK) / Don Mueang (DMK)",
+    groupSize: "Min 25 pax for group departures",
+    themes: ["Theme Parks", "City & Culture", "Family Holiday", "Tropical Beaches"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=85&w=1800", caption: "Singapore Marina Bay skyline and Gardens by the Bay" },
+      { image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=85&w=1800", caption: "Wat Arun and Grand Palace, Bangkok" },
+      { image: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&q=85&w=1800", caption: "Petronas Twin Towers, Kuala Lumpur" },
     ],
-    "gallery": [
+    itinerary: [
       {
-        "image": "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&q=85&w=1800",
-        "caption": "The Blue Mosque, Istanbul"
+        day: 1,
+        title: "Arrival in Bangkok – Transfer to Pattaya",
+        description:
+          "Welcome to Thailand! Upon arrival at Bangkok Airport (Expected Arrival Time: 10:50 AM), proceed to Pattaya. Check in to the hotel and relax (check-in at 2:00 PM). In the evening, attend the world-famous Alcazar Cabaret Show, a grand artistic delight for music and dance lovers showcasing a marvelous combination of music, dance, and vibrant costumes. (Note: These events draw huge crowds; guests are recommended to arrive early). Overnight stay in Pattaya.",
+        meals: "Lunch, Dinner",
+        stay: "Pattaya",
       },
       {
-        "image": "https://images.unsplash.com/photo-1527838832700-5059252407fa?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Hagia Sophia at dusk"
+        day: 2,
+        title: "Coral Island Tour",
+        description:
+          "After breakfast, proceed to the Coral Island tour by speedboat (subject to weather conditions). Escape to the beautiful Koh Larn Coral Island off the Pattaya coast. Spend time at leisure relaxing on the beach or enjoying optional water sports such as banana boat rides, jet skiing, parasailing, and swimming in tropical waters (at own expense; carry swimwear, towel, sunglasses). Free time for leisure. Overnight stay at hotel in Pattaya.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Pattaya",
       },
       {
-        "image": "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Galata and the Bosphorus"
-      }
+        day: 3,
+        title: "Transfer from Pattaya to Bangkok – City and Temple Tour",
+        description:
+          "After breakfast, check out from the hotel and proceed to Bangkok. En route, enjoy a Bangkok City & Temple Tour covering the famous Golden Buddha Temple (Wat Traimit), home to the world's largest solid gold Buddha statue, and the beautiful Marble Buddha Temple (Wat Benchamabophit), renowned for its stunning Italian marble architecture and serene atmosphere. Conclude the tour at Gems Gallery, the largest jewellery store in the world. Later, transfer to the hotel for check-in. Overnight stay in Bangkok.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Bangkok",
+      },
+      {
+        day: 4,
+        title: "Full Day Safari World and Marine Park",
+        description:
+          "Enjoy a full-day visit to Bangkok's premier open zoo and leisure park. Explore the Safari Park from your vehicle observing lions, zebras, giraffes, and rhinos through African-inspired landscapes, and visit the Marine Park featuring exciting dolphin shows, sea lion performances, orangutan boxing shows, and a scenic jungle cruise. Overnight stay in Bangkok.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Bangkok",
+      },
+      {
+        day: 5,
+        title: "Bangkok to Kuala Lumpur – Putrajaya & Kuala Lumpur City Tour",
+        description:
+          "After breakfast, check out from the hotel and transfer to the airport for your flight to Kuala Lumpur. Upon arrival, enjoy an orientation tour of Putrajaya, Malaysia's administrative capital, followed by a Kuala Lumpur city tour including photo stops at the Petronas Twin Towers, King's Palace, National Monument, and the KL Tower observatory deck. Admire the city's illuminated skyline in the evening before returning to the hotel. Overnight stay in Kuala Lumpur.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Kuala Lumpur",
+      },
+      {
+        day: 6,
+        title: "Genting Day Trip, En-route to Batu Caves, with a Two-Way Cable Car Ride",
+        description:
+          "After breakfast, proceed to Genting Highlands, an integrated mountain resort destination. En route, visit the sacred Batu Caves with its massive golden Lord Murugan statue and 272 colorful steps. Travel aboard Asia's longest and fastest cable car (Awana SkyWay) to Genting Highlands, enjoying the cool mountain air, indoor theme park, and casino entertainment. Return to Kuala Lumpur for an overnight stay.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Kuala Lumpur",
+      },
+      {
+        day: 7,
+        title: "Kuala Lumpur to Singapore (By Coach) – Night Safari",
+        description:
+          "After an early morning breakfast, depart Kuala Lumpur and journey to Singapore by luxury coach. Upon arrival and border formalities, transfer to your hotel and check in. In the evening, experience the world-famous Night Safari, embarking on a tram ride through nocturnal habitats to observe wildlife in their natural night setting. Overnight stay in Singapore.",
+        meals: "Packed Breakfast, Dinner",
+        stay: "Singapore",
+      },
+      {
+        day: 8,
+        title: "Sentosa Island – Marina Bay Sands & Gardens by the Bay",
+        description:
+          "After breakfast, proceed to Sentosa Island via scenic cable car and explore its popular attractions and beaches. Later, visit Marina Bay Sands and Gardens by the Bay, two of Singapore's most iconic architectural landmarks. Marvel at the futuristic Supertree Grove, Flower Dome, and Cloud Forest while taking in breathtaking views of the Marina Bay skyline. Overnight stay in Singapore.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Singapore",
+      },
+      {
+        day: 9,
+        title: "Universal Studios Singapore & Wings of Time",
+        description:
+          "After breakfast, proceed to Southeast Asia's first and only Universal Studios theme park on Sentosa Island. Enjoy cutting-edge rides and attractions across themed zones, including Battlestar Galactica: Human vs. Cylon, Transformers The Ride: The Ultimate 3D Battle, Jurassic Park Rapids Adventure, and Shrek 4-D Adventure. In the evening, witness 'Wings of Time', a spectacular multi-sensory outdoor night show set against the open sea with water, laser, and fire effects. Overnight stay in Singapore.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Singapore",
+      },
+      {
+        day: 10,
+        title: "Singapore City Tour – Departure",
+        description:
+          "After breakfast, proceed for a half-day Singapore city tour covering the Merlion Park, Chinatown, Little India, and Civic District. Return to the hotel, check out, and transfer to Singapore Changi Airport for your return flight home (expected departure time: 07:30 PM), carrying unforgettable memories of Thailand, Malaysia, and Singapore.",
+        meals: "Breakfast, Lunch",
+        stay: "—",
+      },
     ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Istanbul Arrival — Gateway between Europe & Asia",
-        "description": "Arrive at Istanbul International Airport (IST), meet your representative, and transfer to your hotel. Spend your evening taking in the energetic atmosphere of Taksim Square and Istiklal Street.",
-        "meals": "—",
-        "stay": "Istanbul"
-      },
-      {
-        "day": 2,
-        "title": "Historic Istanbul Tour — Hagia Sophia, Blue Mosque & Grand Bazaar",
-        "description": "Guided tour of the historic Sultanahmet district: step inside the 6th-century Byzantine Hagia Sophia, marvel at the 20,000 blue Iznik tiles of the Sultan Ahmed (Blue) Mosque, walk the Roman Hippodrome, and browse 4,000 artisan shops inside the Grand Bazaar.",
-        "meals": "Breakfast",
-        "stay": "Istanbul"
-      },
-      {
-        "day": 3,
-        "title": "Flight to Denizli — Thermal Springs of Pamukkale",
-        "description": "Fly from Istanbul to Denizli. Transfer to Pamukkale and check in to your thermal spa hotel. Spend a relaxing afternoon soaking in the rich mineral hot springs.",
-        "meals": "Breakfast",
-        "stay": "Pamukkale"
-      },
-      {
-        "day": 4,
-        "title": "Pamukkale White Travertine Terraces & Ancient Hierapolis — Drive to Antalya",
-        "description": "Walk barefoot on the gleaming white calcium travertine terraces of the 'Cotton Castle' (Pamukkale). Explore the Greco-Roman ruins of Hierapolis, including the ancient amphitheatre, Necropolis, and Cleopatra's Antique Pool with submerged marble Roman columns, driving south to coastal Antalya.",
-        "meals": "Breakfast",
-        "stay": "Antalya"
-      },
-      {
-        "day": 5,
-        "title": "Antalya Mediterranean Old Town (Kaleiçi) & Roaring Düden Waterfalls",
-        "description": "Walk through the Roman Hadrian's Gate into Kaleiçi Old Town, past Ottoman wooden mansions to the ancient Roman harbor. Visit the dramatic Lower Düden Waterfall plunging 40 metres off rocky Mediterranean sea cliffs.",
-        "meals": "Breakfast",
-        "stay": "Antalya"
-      },
-      {
-        "day": 6,
-        "title": "Flight to Mystical Cappadocia — Land of Fairy Chimneys",
-        "description": "Fly from Antalya to Cappadocia (Kayseri/Nevşehir). Check into your unique cave-style hotel and enjoy an introductory sunset walk across Pigeon Valley with panoramic vistas of volcanic tuff pinnacles.",
-        "meals": "Breakfast",
-        "stay": "Cappadocia"
-      },
-      {
-        "day": 7,
-        "title": "Cappadocia Tour — Göreme Open Air Museum & Ozkonak Underground City",
-        "description": "Optional sunrise Hot Air Balloon ride over surreal valleys. Tour the UNESCO Göreme Open Air Museum with rock-cut Byzantine cave churches and frescoes. Descend into the multi-level subterranean Ozkonak Underground City, visit the pottery town of Avanos, and view the Three Beauties rock formations in Ürgüp.",
-        "meals": "Breakfast",
-        "stay": "Cappadocia"
-      },
-      {
-        "day": 8,
-        "title": "Flight from Cappadocia to Istanbul & Departure",
-        "description": "Fly from Cappadocia back to Istanbul Airport to connect with your international flight home.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
+    inclusions: [
+      "3-Star hotel accommodation on double/twin sharing basis (2N Pattaya, 2N Bangkok, 2N Kuala Lumpur, 3N Singapore)",
+      "Daily Breakfast at hotel",
+      "Lunches & Dinners at Indian Restaurants (as per itinerary)",
+      "Coral Island Tour by Speedboat with Lunch on SIC",
+      "Alcazar Cabaret Show in Pattaya",
+      "Bangkok City & Temple Tour (Golden Buddha Wat Traimit & Marble Buddha Wat Benchamabophit)",
+      "Full-Day Safari World & Marine Park with Lunch",
+      "Putrajaya Orientation Tour & Kuala Lumpur City Tour",
+      "Batu Caves Visit & Two-Way Cable Car Ride to Genting Highlands",
+      "Petronas Twin Towers (Photo Stop) & KL Tower Observatory Deck Entrance",
+      "Scenic Coach Transfer from Kuala Lumpur to Singapore",
+      "Night Safari Singapore Tram Tour & Show",
+      "Sentosa Island Excursion with Cable Car Ride",
+      "Marina Bay Sands & Gardens by the Bay Visit",
+      "Full-Day Universal Studios Singapore Pass",
+      "Wings of Time Outdoor Night Show",
+      "Singapore Half-Day City Tour",
+      "Thailand Visa on Arrival, Singapore Visa & Malaysia Arrival Card assistance",
+      "Indian Tour Leader (for groups above 20 persons) & English-speaking guides",
+      "Complimentary Travel Insurance up to 59 years of age",
+      "All Tours & Transfers on Private Basis",
     ],
-    "inclusions": [
-      "7 nights' accommodation with breakfast (except day 1)",
-      "All airport transfers mentioned in the itinerary",
-      "All entrance fees mentioned in the itinerary",
-      "Air-conditioned non-smoking coach transport",
-      "Professional English-speaking tour guides",
-      "Hotel room and city taxes"
+    exclusions: [
+      "Any Airfare (International flights & Bangkok to Kuala Lumpur flight)",
+      "Airport Taxes",
+      "5% GST & 2% TCS (payable as per Indian government regulations)",
+      "Cost of pre or post tour hotel accommodation",
+      "Expenses of personal nature such as drinks, telephone, shopping, snacks, laundry, and porterage",
+      "Tips and porter charges",
+      "Any additional expenses incurred due to flight delays, cancellations, weather conditions, or political closures",
     ],
-    "exclusions": [
-      "5% GST and 2% TCS",
-      "International and domestic airfare and airport taxes",
-      "Turkey visa charges and travel insurance",
-      "Optional activities including the Pamukkale and Cappadocia hot air balloon rides",
-      "Lunches, dinners and beverages unless specified",
-      "Early check-in, late check-out, tips and porterage"
-    ]
+    faqs: [
+      {
+        question: "What is the total package cost across sharing categories?",
+        answer:
+          "Tour Pricing (based on min 25 pax):\n• Double sharing basis: ₹1,05,000/- + 5% GST + 2% TCS per person\n• Triple sharing basis: ₹1,02,000/- + 5% GST + 2% TCS per person\n• Single sharing basis: ₹1,20,000/- + 5% GST + 2% TCS per person\n• Child with bed: ₹97,000/- + 5% GST + 2% TCS\n• Child without bed: ₹81,000/- + 5% GST + 2% TCS\n• Child below 3 years: Complimentary.",
+      },
+      {
+        question: "What are the departure dates for Singapore Malaysia Thailand?",
+        answer:
+          "Tour Departure Dates:\n• Sep 5, 26\n• Oct 10, 24\n• Nov 6, 21\n• Dec 5, 12\n• Jan 4, 21\n• Feb 12, 20\n• Mar 12, 21\n• Apr 12, 22.",
+      },
+      {
+        question: "What is the booking and payment schedule?",
+        answer:
+          "A 50% advance payment is required to confirm the booking. The remaining balance must be paid at least 15 days prior to departure.",
+      },
+      {
+        question: "What is the cancellation policy for this international tour?",
+        answer:
+          "Cancellation charges prior to departure:\n• 121+ days: 10%\n• 91 to 120 days: 15%\n• 61 to 90 days: 20%\n• 46 to 60 days: 30%\n• 31 to 45 days: 40%\n• 21 to 30 days: 50%\n• 11 to 20 days: 75%\n• 0 to 10 days: 100%.",
+      },
+    ],
   },
   {
-    "id": "south-african-delights",
-    "title": "South African Delights",
-    "image": "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=85&w=1800",
-    "duration": "6 Nights / 7 Days",
-    "price": "₹1,42,999",
-    "highlights": [
-      "Table Mountain cable car",
-      "Cape of Good Hope & Flying Dutchman Funicular",
-      "Boulders Beach African penguins",
-      "Sun City Resort & Gold Reef City"
+    id: "sampurna-karnataka",
+    title: "Sampurna Karnataka – 7 Nights / 8 Days",
+    image: "https://images.unsplash.com/photo-1600100397608-f010f443b773?auto=format&fit=crop&q=85&w=1800",
+    duration: "7 Nights / 8 Days",
+    price: "₹40,499",
+    highlights: [
+      "Hubli City Orientation Tour & Unkal Lake Sunset",
+      "Badami Rock-Cut Cave Temples & Agastya Lake",
+      "Aihole Temple Complex (Cradle of Hindu Architecture)",
+      "Pattadakal UNESCO World Heritage Site",
+      "Hampi UNESCO World Heritage Site (Virupaksha Temple & Stone Chariot)",
+      "Vittala Temple, Lotus Mahal, Elephant Stables & Royal Enclosure",
+      "Anegundi (Kishkindha) Village & Coracle Ride on Tungabhadra River",
+      "Sahastra Linga in the Shalmala River",
+      "Magnificent Jog Falls (India's Highest Plunge Waterfall)",
+      "Gokarna Mahabaleshwar Temple (Sacred Atmalinga)",
+      "Murudeshwar Shiva Temple & World's Second Tallest Shiva Statue",
+      "Sringeri Sharada Peetham & Sri Vidyashankara Temple",
+      "Scenic Western Ghats drive to Udupi Sri Krishna Temple",
+      "St. Mary's Island Ferry Ride & Hexagonal Basalt Rock Formations",
+      "Daily Bandhan Special Treats & Authentic Regional Delicacies",
     ],
-    "category": "International",
-    "tagline": "Cape Town's Mother City tour, the Cape Peninsula's penguins and Sun City's resort playground.",
-    "overview": "Three nights in Cape Town for the Mother City tour, Table Mountain and a full-day Cape Peninsula drive to the Cape of Good Hope and Boulders Beach, then two nights at the Sun City Resort and a final day at Johannesburg's Gold Reef City.",
-    "heroImage": "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "October to April",
-    "startingPoint": "Cape Town International Airport",
-    "groupSize": "Min 2 pax for quoted rate",
-    "themes": [
-      "Wildlife",
-      "City",
-      "Scenic"
+    category: "Domestic",
+    isPopular: true,
+    tagline: "Hubli 2N – Hampi 2N – Gokarna 1N – Murudeshwar 1N – Udupi 1N · 7N/8D",
+    overview:
+      "An exhilarating 7 Nights / 8 Days journey exploring the golden heritage, spiritual bastions, and dramatic coastlines of Karnataka. Explore ancient rock-cut caves in Badami, walk through the awe-inspiring Vijayanagara empire ruins at UNESCO World Heritage Hampi, float along the Tungabhadra in a traditional coracle, marvel at the roaring cascades of Jog Falls, pray before the Atmalinga in Gokarna and the gigantic cliffside Shiva statue at Murudeshwar, receive blessings at Sringeri and Udupi Sri Krishna Temple, and take a ferry to the volcanic basalt pillars of St. Mary's Island.\n\nDeparture Dates: Sep 07, 28 | Oct 02, 21 | Nov 10, 25 | Dec 01, 25.",
+    heroImage: "https://images.unsplash.com/photo-1600100397608-f010f443b773?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "September to March",
+    startingPoint: "Hubli Airport / Railway Station (Arrival before 1:00 PM)",
+    groupSize: "Group departures",
+    themes: ["Heritage", "Spiritual", "Nature", "Coastal"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1600100397608-f010f443b773?auto=format&fit=crop&q=85&w=1800", caption: "Hampi Stone Chariot" },
+      { image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1800", caption: "Murudeshwar Shiva Statue" },
     ],
-    "gallery": [
+    itinerary: [
       {
-        "image": "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=85&w=1800",
-        "caption": "South African landscapes"
+        day: 1,
+        title: "Arrival at Hubli",
+        description:
+          "Arrive at Hubli Airport/Railway Station and transfer to the hotel. After freshening up, enjoy a Hubli city orientation tour and visit Unkal Lake for a beautiful sunset view (subject to arrival time). (Bandhan Special Treat: Famous Dharwad Peda Tasting). Overnight stay in Hubli.",
+        meals: "Dinner",
+        stay: "Hubli",
       },
       {
-        "image": "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Sunset over the bushveld"
-      }
+        day: 2,
+        title: "Hubli – Badami – Aihole – Pattadakal – Hampi (Approx. 280 KM / 6–7 Hrs)",
+        description:
+          "Proceed to Badami to explore the famous rock-cut cave temples and Agastya Lake. Continue to Aihole, known as the cradle of Hindu temple architecture, followed by Pattadakal, a UNESCO World Heritage Site. Later proceed to Hampi. (Bandhan Special Treat: Karnataka Filter Coffee & Maddur Vada). Overnight stay in Hampi.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Hampi",
+      },
+      {
+        day: 3,
+        title: "Hampi Sightseeing",
+        description:
+          "Explore the UNESCO World Heritage Site of Hampi, including Virupaksha Temple, Lakshmi Narasimha Statue, Krishna Temple, Vittala Temple with the Stone Chariot, Lotus Mahal, Elephant Stables, Royal Enclosure and Pushkarni. (Bandhan Special Treat: Fresh Tender Coconut). Overnight stay in Hampi.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Hampi",
+      },
+      {
+        day: 4,
+        title: "Hampi – Anegundi Village – Hubli (Approx. 185 KM / 4 Hrs)",
+        description:
+          "Proceed towards Hubli via Anegundi Village (Kishkindha). Enjoy a Coracle Ride on the Tungabhadra River (subject to operation) before continuing to Hubli. (Bandhan Special Treat: Banana Bajji & South Indian Tea). Overnight stay in Hubli.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Hubli",
+      },
+      {
+        day: 5,
+        title: "Hubli – Sahastra Linga – Jog Falls – Gokarna (Approx. 305 KM / 7 Hrs)",
+        description:
+          "Proceed towards Gokarna via Sahastra Linga and the magnificent Jog Falls. Later visit Mahabaleshwar Temple, famous for the sacred Atmalinga, before checking into the hotel. (Bandhan Special Treat: Hot Corn & Local Malnad Snacks). Overnight stay in Gokarna.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Gokarna",
+      },
+      {
+        day: 6,
+        title: "Gokarna – Murudeshwar (Approx. 80 KM / 1.5 Hrs)",
+        description:
+          "Proceed to Murudeshwar and visit the famous Shiva Temple housing the world's second tallest Shiva statue. Explore the Cave Sculptures and enjoy leisure time at Murudeshwar Beach. (Bandhan Special Treat: Coastal Ice Cream & Beachside Refreshments). Overnight stay in Murudeshwar.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Murudeshwar",
+      },
+      {
+        day: 7,
+        title: "Murudeshwar – Sringeri – Udupi (Approx. 235 KM / 5 Hrs)",
+        description:
+          "Visit the famous Sri Vidyashankara Temple and Sharada Peetham at Sringeri. Drive through the scenic Western Ghats before reaching Udupi. (Bandhan Special Treat: Authentic Udupi Filter Coffee & Mangalore Buns). Overnight stay in Udupi.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Udupi",
+      },
+      {
+        day: 8,
+        title: "Udupi – St. Mary's Island – Departure",
+        description:
+          "After breakfast, take a ferry to the scenic St. Mary's Island, famous for its basalt rock formations. Visit Sri Krishna Temple and local markets (subject to time) before proceeding to Mangalore Airport or Udupi Railway Station (departure after 6:00 PM).",
+        meals: "Breakfast, Lunch",
+        stay: "—",
+      },
     ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Cape Town Arrival — V&A Waterfront Welcome",
-        "description": "Arrive at Cape Town International Airport (CPT), meet your driver, and transfer to your hotel. Spend your afternoon exploring the bustling Victoria & Alfred (V&A) Waterfront, enjoying harbor views and seafood dining.",
-        "meals": "—",
-        "stay": "Cape Town"
-      },
-      {
-        "day": 2,
-        "title": "Cape Town Mother City Tour & Table Mountain Cable Car",
-        "description": "Guided tour of Cape Town: see the Houses of Parliament, Castle of Good Hope, and the colourful pastel houses of Bo-Kaap (Malay Quarter). Ride the revolving Table Mountain Cable Car up to the flat-topped summit (3,500 ft) for 360-degree vistas across the Atlantic Ocean and Cape Town bowl.",
-        "meals": "Breakfast",
-        "stay": "Cape Town"
-      },
-      {
-        "day": 3,
-        "title": "Full-Day Cape Peninsula — Chapman's Peak, Cape Point & Boulders Beach Penguins",
-        "description": "Drive along the Atlantic seaboard via Camps Bay and the breathtaking Chapman's Peak marine drive. Take the Flying Dutchman Funicular to the historic Cape Point Lighthouse in the Cape of Good Hope Nature Reserve. On the return drive, walk on wooden boardwalks at Boulders Beach to observe the famous wild African Penguin colony.",
-        "meals": "Breakfast",
-        "stay": "Cape Town"
-      },
-      {
-        "day": 4,
-        "title": "Cape Town to Johannesburg — Transfer to Sun City Resort",
-        "description": "Fly to Johannesburg and transfer by luxury coach to the premier Sun City Resort complex in the North West Province. Check into your resort and enjoy the world-class Valley of Waves water park, artificial surf beach, and the Palace of the Lost City gardens.",
-        "meals": "Breakfast",
-        "stay": "Sun City"
-      },
-      {
-        "day": 5,
-        "title": "Sun City Resort Leisure & Optional Pilanesberg Big 5 Game Safari",
-        "description": "Spend a full day enjoying Sun City's leisure activities, golf courses, and water sports. Optional open-top 4x4 Big Five Game Drive in the adjacent Pilanesberg National Park to track lions, leopards, elephants, rhinos, and cape buffaloes.",
-        "meals": "Breakfast",
-        "stay": "Sun City"
-      },
-      {
-        "day": 6,
-        "title": "Sun City to Johannesburg & Historic Gold Reef City Experience",
-        "description": "Drive back to Johannesburg. Tour Gold Reef City, a living museum depicting the 1886 gold rush era: descend into an authentic underground gold mine shaft and watch a live liquid gold-pouring demonstration.",
-        "meals": "Breakfast",
-        "stay": "Johannesburg"
-      },
-      {
-        "day": 7,
-        "title": "Departure from Johannesburg",
-        "description": "After breakfast, transfer to O.R. Tambo International Airport (JNB) for your flight home.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
+    inclusions: [
+      "Accommodation on Double/Triple Sharing Basis",
+      "All Meals (7 Breakfasts, 7 Lunches, 7 Dinners, Day 8 Lunch)",
+      "AC Vehicle for all Transfers & Sightseeing",
+      "Professional Tour Manager",
+      "Entrance Tickets",
+      "Evening Tea/Coffee",
+      "Daily 1 Bottle Mineral Water per person",
+      "Travel Insurance",
+      "Traditional Karnataka Meal",
+      "Coracle Ride on Tungabhadra River",
+      "Ferry Tickets to St. Mary's Island",
+      "Murudeshwar Temple Visit",
+      "Hampi UNESCO Heritage Tour",
+      "Badami Cave Temples & Jog Falls Visit",
+      "Daily Bandhan Special Treats",
     ],
-    "inclusions": [
-      "3-star accommodation with daily breakfast",
-      "Private airport arrival, departure and intercity transfers",
-      "All sightseeing and transfers as per the itinerary"
+    exclusions: [
+      "5% GST",
+      "Airfare / Train Fare",
+      "Guide Charges",
+      "Early Check-in & Late Check-out",
+      "Additional Meals & Sightseeing",
+      "Auto Rickshaw Charges (if applicable)",
+      "Personal Expenses",
     ],
-    "exclusions": [
-      "International and domestic flights, including the Cape Town – Johannesburg sector",
-      "Visa fees and travel insurance",
-      "Lunches and dinners throughout the tour",
-      "Optional Pilanesberg safari and game drives",
-      "Hotel city tax, tips and gratuities",
-      "Entrance fees not mentioned in the itinerary"
-    ]
+    faqs: [
+      {
+        question: "What is the tour package pricing across sharing categories?",
+        answer:
+          "Tour Cost:\n• Double Occupancy: ₹40,499/- Per Person + 5% GST\n• Single Occupancy: ₹54,673/- Per Person + 5% GST\n• Adult with Extra Bed: ₹32,999/- Per Person + 5% GST\n• Child with Extra Bed: ₹32,999/- Per Person + 5% GST\n• Child without Bed: ₹29,999/- Per Person + 5% GST",
+      },
+      {
+        question: "What are the departure dates for Sampurna Karnataka?",
+        answer:
+          "Departure Dates:\n• September: 07, 28\n• October: 02, 21\n• November: 10, 25\n• December: 01, 25",
+      },
+      {
+        question: "What are the arrival and departure transit guidelines?",
+        answer:
+          "• Arrival at Hubli Airport/Railway Station should be before 01:00 PM on Day 1.\n• Departure flight/train from Mangalore/Udupi should be scheduled after 06:00 PM on Day 8.\n• Carry a scarf/dupatta while visiting temples and respect temple customs.",
+      },
+      {
+        question: "What is the cancellation policy?",
+        answer:
+          "Cancellation Charges Before Departure:\n• 121 Days & Above: 5%\n• 91–120 Days: 10%\n• 61–90 Days: 15%\n• 46–60 Days: 25%\n• 31–45 Days: 50%\n• 16–30 Days: 70%\n• 06–15 Days: 80%\n• 0–05 Days / No Show: 100%",
+      },
+    ],
   },
   {
-    "id": "japan-autumn-delights",
-    "title": "Japan Autumn Delights",
-    "image": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=85&w=1800",
-    "duration": "9 Nights / 10 Days",
-    "price": "₹2,84,999",
-    "highlights": [
-      "Tokyo Skytree & teamLab Planets",
-      "Mount Fuji 5th Station & Panoramic Ropeway",
-      "Kyoto's Golden Pavilion & Sagano Romantic Train",
-      "Shinkansen ride & Hiroshima Peace Memorial"
+    id: "sikkim-darjeeling-6n",
+    title: "Sikkim Darjeeling (Gangtok 2N – Pelling 2N – Darjeeling 2N)",
+    image: "/pdf-assets/kanchenjunga-darjeeling.jpg",
+    duration: "06 Nights / 07 Days",
+    price: "₹38,900",
+    highlights: [
+      "Tsomgo Lake (Changu Lake at 12,400 ft) & New Baba Mandir (13,200 ft)",
+      "Nathula Pass excursion (14,500 ft, Indo-China border)",
+      "Gangtok city tour: Flower Show, Chorten Stupa & Banjhakri Waterfalls",
+      "Pelling: Khangchendzonga Waterfalls, Rimbi Waterfalls & Orange Garden",
+      "Khecheopalri Sacred Wish-Fulfilling Lake",
+      "Pemayangtse Monastery & Rabdentse Palace Ruins",
+      "Pelling Sky Walk glass bridge",
+      "Samdruptse Stupa & Char Dham replica in Namchi",
+      "Tiger Hill early morning sunrise over Mt. Kanchenjunga",
+      "Ghoom Monastery & Batasia Loop",
+      "Japanese Temple, Peace Pagoda & Himalayan Mountaineering Institute",
+      "Padmaja Naidu Himalayan Zoological Park & Tea Garden view",
     ],
-    "category": "International",
-    "tagline": "Tokyo to Osaka in autumn — Mount Fuji, Kyoto's temples, Himeji Castle and a bullet train run.",
-    "overview": "A ten-day autumn journey down Japan from Tokyo through Mount Fuji, Nagoya, Nara, Kyoto, Kobe and Hiroshima to Osaka, mixing digital art and observation decks with Todaiji's Great Buddha, the Golden Pavilion, Himeji Castle and a Shinkansen ride.",
-    "heroImage": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "November",
-    "startingPoint": "Narita International Airport, Tokyo",
-    "groupSize": "Group departure — 16 Nov 2026",
-    "themes": [
-      "Culture",
-      "City",
-      "Scenic"
+    category: "North East",
+    isPopular: true,
+    tagline: "Gangtok 2N – Pelling 2N – Darjeeling 2N · 6N/7D · Fixed Departures",
+    overview:
+      "A breathtaking 6 Nights / 7 Days journey through the Eastern Himalayas covering Sikkim and Darjeeling. Ascend to high-altitude glacial lakes at Tsomgo (12,400 ft) and the Indo-China frontier at Nathula Pass (14,500 ft), explore sacred monasteries and waterfalls in Gangtok and Pelling, walk the exhilarating Pelling Sky Walk, witness the holy Char Dham complex at Namchi, and greet the golden sunrise over Mt. Kanchenjunga from Tiger Hill in Darjeeling.\n\nDeparture Dates: Sep 28 | Oct 02, 09, 21 | Nov 04, 12, 16, 19, 23 | Dec 02, 16, 23.",
+    heroImage: "/pdf-assets/kanchenjunga-darjeeling.jpg",
+    bestTime: "September to December, March to May",
+    startingPoint: "NJP Railway Station / Bagdogra Airport (IXB) / Siliguri (120 km / 4 hrs)",
+    groupSize: "Group departures",
+    themes: ["Mountains", "Culture", "Scenic"],
+    gallery: [
+      { image: "/pdf-assets/kanchenjunga-darjeeling.jpg", caption: "Kanchenjunga range from Darjeeling" },
+      { image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800", caption: "Tsomgo Lake, Sikkim" },
     ],
-    "gallery": [
+    itinerary: [
       {
-        "image": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Historic streets of Kyoto"
+        day: 1,
+        title: "NJP / IXB / Siliguri – Gangtok (120 km / 4 hrs)",
+        description:
+          "Upon arrival at NJP Railway Station, Bagdogra Airport (IXB), or Siliguri, meet our representative and proceed to Gangtok (5,410 ft). On arrival, check in to the hotel. Overnight stay in Gangtok.",
+        meals: "Dinner",
+        stay: "Gangtok",
       },
       {
-        "image": "https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Mount Fuji"
+        day: 2,
+        title: "Tsomgo Lake & New Baba Mandir (110 km / 4 hrs)",
+        description:
+          "After an early breakfast, proceed for a full-day excursion to Tsomgo Lake (12,400 ft) and New Baba Mandir (13,200 ft). Tsomgo Lake is one of the most beautiful high-altitude lakes surrounded by majestic mountains. Later, visit Nathula Pass (14,500 ft) (for Indian Nationals only). A special permit is required and is subject to approval by the Sikkim Tourism Department. Overnight stay in Gangtok.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Gangtok",
       },
       {
-        "image": "https://images.unsplash.com/photo-1522547902298-51566e4fb383?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Sensō-ji, Tokyo"
-      }
+        day: 3,
+        title: "Gangtok Half-Day City Tour & Transfer to Pelling (125 km / 5 hrs.)",
+        description:
+          "After breakfast, enjoy a half-day city tour of Gangtok, covering the Handicraft Centre, Flower Show, Chorten Stupa, Institute of Tibetology, and Bakthang / Banjhakri Waterfalls. Later, drive to Pelling (7,000 ft.). On arrival, check in to the hotel. Overnight stay in Pelling.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Pelling",
+      },
+      {
+        day: 4,
+        title: "Pelling (Local Sightseeing)",
+        description:
+          "After breakfast, proceed for a full-day sightseeing, covering Orange Garden, Rimbi Waterfalls, Khangchendzonga Waterfalls, Khecheopalri Lake, Pemayangtse Monastery, Rabdentse Ruins, and the Sky Walk. Overnight stay in Pelling.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Pelling",
+      },
+      {
+        day: 5,
+        title: "Pelling – Darjeeling via Namchi (110 km / 6 hrs)",
+        description:
+          "After breakfast, drive to Darjeeling (6,730 ft) via Namchi. En route, visit Samdruptse Stupa and beautiful replica of Char Dham. Upon arrival, check in to the hotel. Overnight stay in Darjeeling.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Darjeeling",
+      },
+      {
+        day: 6,
+        title: "Darjeeling (Local Sightseeing)",
+        description:
+          "Early morning at 03:30 am, visit Tiger Hill to witness the sunrise over Mt. Kanchenjunga. On the way back, visit Ghoom Monastery and Batasia Loop. Have breakfast at hotel. Later, enjoy a half-day city tour covering the Japanese Temple & Peace Pagoda, Padmaja Naidu Himalayan Zoological Park, Himalayan Mountaineering Institute, Tenzing Rock, Tibetan Refugee Self-Help Centre, and an outer view of a Tea Garden. Overnight stay in Darjeeling.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Darjeeling",
+      },
+      {
+        day: 7,
+        title: "Darjeeling – NJP / IXB / Siliguri (70 km / 3 hrs)",
+        description:
+          "After breakfast, check out from the hotel and proceed to Bagdogra Airport (IXB), NJP Railway Station, or Siliguri for your onward journey. Tour ends with sweet memories.",
+        meals: "Breakfast",
+        stay: "—",
+      },
     ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Tokyo Narita Arrival — Welcome to Japan",
-        "description": "Arrive at Tokyo Narita International Airport (NRT), meet your tour manager, and transfer by private coach to your Tokyo hotel. Settle in and enjoy an Indian dinner at a renowned local restaurant.",
-        "meals": "Dinner",
-        "stay": "Tokyo"
-      },
-      {
-        "day": 2,
-        "title": "Tokyo Full-Day Tour — Tokyo Skytree, Sensō-ji Temple & teamLab Planets",
-        "description": "Ascend the Tokyo Skytree observation deck for sweeping views across Tokyo metropolis. Visit Asakusa's historic Sensō-ji Temple and browse Nakamise shopping street. Drive through the famous Shibuya Crossing and immerse your senses inside the digital art installations of teamLab Planets in Toyosu.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Tokyo"
-      },
-      {
-        "day": 3,
-        "title": "Mount Fuji 5th Station — Lake Kawaguchi Panoramic Ropeway & Mishima",
-        "description": "Drive to Mount Fuji 5th Station at 7,500 feet (weather permitting) for close-up views of Japan's sacred volcano. Watch an interactive Sumo wrestling demonstration and ride the Mount Fuji Panoramic Ropeway over Lake Kawaguchi for autumn foliage views, proceeding to Mishima for dinner.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Mishima"
-      },
-      {
-        "day": 4,
-        "title": "Toyota Commemorative Museum & Nabana no Sato Illumination (Nagoya)",
-        "description": "Visit the Toyota Commemorative Museum of Industry and Technology in Nagoya. In the evening, visit Nabana no Sato to witness Japan's largest and most spectacular botanical winter illumination light display with millions of glowing LED tunnels.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Nagoya"
-      },
-      {
-        "day": 5,
-        "title": "Kimono Experience — Nara Deer Park & Todaiji Temple to Osaka",
-        "description": "Don traditional Japanese kimonos for photography. Visit Nara Park to feed the hundreds of sacred free-roaming sika deer, and enter Todaiji Temple to stand before the world's largest bronze Buddha statue (Daibutsu). Continue to Osaka and ascend the Floating Garden Observatory at the Umeda Sky Building.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Osaka"
-      },
-      {
-        "day": 6,
-        "title": "Kyoto Heritage Tour — Golden Pavilion, Arashiyama Bamboo Grove & Fushimi Inari",
-        "description": "Explore the imperial treasures of Kyoto: ride the Sagano Romantic Scenic Train through the Hozugawa ravine, walk through the towering green Arashiyama Bamboo Grove, marvel at the gilded Kinkaku-ji (Golden Pavilion) reflecting on mirror ponds, and walk through thousands of vermilion torii gates at Fushimi Inari Taisha Shrine.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Osaka"
-      },
-      {
-        "day": 7,
-        "title": "Mount Rokko Cable Car (Kobe) & UNESCO Himeji Castle to Okayama",
-        "description": "Ride the Mount Rokko cable car in Kobe for vistas over Osaka Bay. Tour the UNESCO-listed 17th-century Himeji Castle ('White Heron Castle'), Japan's finest surviving samurai fortress with labyrinthine gates and moats, proceeding to Okayama.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Okayama"
-      },
-      {
-        "day": 8,
-        "title": "Hiroshima Peace Memorial, Miyajima Island Floating Torii Gate & Shinkansen Bullet Train",
-        "description": "Visit the Hiroshima Peace Memorial Park, Atomic Bomb Dome (Genbaku Dome), and Children's Peace Monument. Ferry across to sacred Miyajima Island to view the iconic floating red Torii gate of Itsukushima Shrine. Experience the high-speed Shinkansen Bullet Train at 300 km/h on your return to Okayama.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Okayama"
-      },
-      {
-        "day": 9,
-        "title": "Osaka Dotonbori Neon Walk, Kaiyukan Aquarium & Rinku Outlets",
-        "description": "Explore Osaka's neon-lit Dotonbori and Shinsaibashi shopping quarters with the iconic Glico Running Man sign. Visit the world-class Osaka Kaiyukan Aquarium housing whale sharks, and shop at Rinku Premium Outlets before checking into your Kansai Airport hotel.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Kansai"
-      },
-      {
-        "day": 10,
-        "title": "Kansai Airport Departure",
-        "description": "After breakfast, take the hotel shuttle to Kansai International Airport (KIX) for your return flight home, concluding an unforgettable journey through Japan.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
+    inclusions: [
+      "3* Accommodation on double sharing as per itinerary",
+      "Breakfast, Lunch & Dinner",
+      "All Sightseeing Entry Fees",
+      "1ltr water bottles per day per person",
+      "Nathula Pass & Namchi Char Dham excursions included",
+      "All applicable Transfers & Sightseeing by Innova / Xylo / Similar (AC does not work in hilly areas) on point-to-point basis",
+      "All Driver Allowance & Parking Fees",
     ],
-    "inclusions": [
-      "9 nights in 4-star hotels on twin/double sharing",
-      "8 set lunches and 9 dinners — veg, non-veg and Jain menus",
-      "Tour manager and English-speaking guide as per the itinerary",
-      "Entrance tickets to all attractions marked as included",
-      "2nd-class Shinkansen (bullet train) tickets as per the itinerary",
+    exclusions: [
+      "Train / Airfare",
+      "Heater Charges at hotels",
+      "Any travel or medical insurance",
+      "Any changes in Government Taxes",
+      "Expenses of personal nature like tips, laundry, camera fees, etc.",
+      "Any cost arising due to natural calamities, landslides, or roadblocks",
+    ],
+    faqs: [
+      {
+        question: "What is the tour package pricing across sharing categories?",
+        answer:
+          "Tour Cost:\n• Double Sharing: ₹38,900/- + 5% GST per person\n• Extra Mattress: ₹38,900/- + 5% GST\n• Child No Bed (5 - 12 yrs): ₹31,500/- + 5% GST\n• Single Occupancy: ₹48,700/- + 5% GST",
+      },
+      {
+        question: "What are the departure dates for Sikkim Darjeeling?",
+        answer:
+          "Departure Dates:\n• Sep: 28\n• Oct: 02, 09, 21\n• Nov: 04, 12, 16, 19, 23\n• Dec: 02, 16, 23",
+      },
+      {
+        question: "What are the permit requirements for Nathula Pass and Tsomgo Lake?",
+        answer:
+          "Nathula Pass is open only to Indian Nationals and is subject to permit approval, weather conditions, and government regulations. Guests must carry a valid Original Voter ID Card or Driving Licence, along with 02 passport-size photographs. (Aadhaar Card is NOT accepted for permit issuance).",
+      },
+      {
+        question: "What are the payment terms and cancellation charges?",
+        answer:
+          "Payment Terms:\n• 30% booking amount at confirmation.\n• Full balance payment must be completed 15 days before departure.\n\nCancellation Policy:\n• 61 Days or more: 15% of Total tour cost\n• 46–60 Days: 25% of Total tour cost\n• 31–45 Days: 50% of Total tour cost\n• 16–30 Days: 75% of Total tour cost\n• 15 Days or less / No-show: 100% of Total tour cost",
+      },
+    ],
+  },
+  {
+    id: "sikkim-darjeeling-9n",
+    title: "Sikkim Darjeeling (Gangtok, Lachung, Pelling & Darjeeling 9N/10D)",
+    image: "/pdf-assets/yumthang-valley-sikkim.jpg",
+    duration: "9 Nights / 10 Days",
+    price: "₹52,500",
+    highlights: [
+      "Tsomgo Lake (12,400 ft) & New Baba Mandir (13,200 ft)",
+      "Nathula Pass Indo-China border (14,500 ft - subject to permit)",
+      "North Sikkim drive: Seven Sisters & Naga Waterfalls to Lachung (8,610 ft)",
+      "Yumthang Valley (11,800 ft) - the world-renowned Valley of Flowers",
+      "Gangtok city tour: Chorten Stupa, Tibetology, Flower Show & Banjhakri Falls",
+      "Scenic West Sikkim to Pelling (7,000 ft) & glass Sky Walk overlooking Kanchenjunga",
+      "Khecheopalri Sacred Lake, Pemayangtse Monastery & Rabdentse Ruins",
+      "Namchi Char Dham (Siddhesvara Dhaam) & 118-ft Guru Padmasambhava at Samdruptse",
+      "Early morning Tiger Hill (8,400 ft) sunrise over Kanchenjunga & Mount Everest",
+      "Ghoom Monastery, Batasia Loop, Himalayan Mountaineering Institute & Zoo",
+      "All meals included: Daily Breakfast, Lunch & Dinner",
+      "All transfers by dedicated Innova/Xylo/Similar vehicle",
+    ],
+    category: "North East",
+    tagline: "Gangtok · Lachung · Yumthang Valley · Pelling · Namchi · Darjeeling · 9N/10D",
+    overview:
+      "A comprehensive 9 Nights / 10 Days grand Himalayan circuit through Sikkim and Darjeeling. Ascend to Gangtok, glacial Tsomgo Lake, and the Indo-China frontier at Nathula Pass. Journey into North Sikkim's pristine alpine beauty at Lachung and the rhododendron pastures of Yumthang Valley. Cross into West Sikkim for Pelling's glass skywalk, Pemayangtse Monastery, and Rabdentse ruins, visit South Sikkim's Namchi Char Dham and Samdruptse, and conclude in the tea-carpeted hills of Darjeeling with the legendary Tiger Hill sunrise over Mount Kanchenjunga.",
+    heroImage: "/pdf-assets/yumthang-valley-sikkim.jpg",
+    bestTime: "March to May & September to December",
+    startingPoint: "NJP Railway Station / Bagdogra Airport (IXB) / Siliguri",
+    groupSize: "2+ guests",
+    themes: ["Himalayan Valleys", "High-Altitude Lakes", "Alpine Flowers", "Heritage Monasteries"],
+    gallery: [
+      { image: "/pdf-assets/yumthang-valley-sikkim.jpg", caption: "Yumthang Valley - Valley of Flowers, North Sikkim" },
+      { image: "/pdf-assets/kanchenjunga-darjeeling.jpg", caption: "Sunrise over Mount Kanchenjunga from Tiger Hill" },
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: "NJP / IXB / Siliguri – Gangtok (120 km / 4 hrs)",
+        description:
+          "Upon arrival at NJP Railway Station, Bagdogra Airport (IXB), or Siliguri, meet our representative and proceed to Gangtok (5,410 ft). On arrival, check in to the hotel. Spend the evening relaxing or strolling along MG Marg. Overnight stay in Gangtok.",
+        meals: "Lunch, Dinner",
+        stay: "Gangtok",
+      },
+      {
+        day: 2,
+        title: "Tsomgo Lake & New Baba Mandir (110 km / 4 hrs)",
+        description:
+          "After an early breakfast, proceed for a full-day excursion to Tsomgo Lake (12,400 ft) and New Baba Mandir (13,200 ft). Tsomgo Lake is one of the most beautiful high-altitude glacial lakes surrounded by majestic snow-clad mountains. Later, visit Nathula Pass (14,500 ft) on the Indo-China border (for Indian Nationals only; special permit subject to approval by the Sikkim Tourism Department). Overnight stay in Gangtok.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Gangtok",
+      },
+      {
+        day: 3,
+        title: "Gangtok – Lachung (135 km / 6 hrs)",
+        description:
+          "After breakfast, drive to Lachung (8,610 ft) in North Sikkim. En route, visit Singhik View Point, Seven Sisters Waterfall, and Naga Waterfall. Reach Lachung by evening and, if time permits, visit the historic Lachung Monastery. Overnight stay in Lachung.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Lachung",
+      },
+      {
+        day: 4,
+        title: "Lachung – Yumthang Valley – Lachung (48 km / 3 hrs)",
+        description:
+          "After breakfast, drive to the world-renowned Yumthang Valley (11,800 ft), popularly celebrated as the Valley of Flowers with alpine pastures, hot springs, and sweeping Himalayan views. (Optional excursion to Zero Point / Yumesamdong at direct payment, subject to weather). After sightseeing, return to Lachung. Overnight stay in Lachung.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Lachung",
+      },
+      {
+        day: 5,
+        title: "Lachung – Gangtok (135 km / 6 hrs)",
+        description:
+          "After breakfast, check out and drive back to Gangtok. En route, visit Bheema Falls and Twin Falls cascading down emerald mountain slopes. Upon arrival, check in to the hotel. Spend the evening at leisure. Overnight stay in Gangtok.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Gangtok",
+      },
+      {
+        day: 6,
+        title: "Gangtok City Tour – Pelling (115 km / 5 hrs)",
+        description:
+          "After breakfast, enjoy a half-day sightseeing tour of Gangtok covering the Directorate of Handicraft & Handloom, Flower Show, Do Drul Chorten Stupa, Namgyal Institute of Tibetology, and Bakthang Waterfall / Banjhakri Waterfalls. Later, drive across scenic West Sikkim to Pelling (7,000 ft) and check in to your hotel. Overnight stay in Pelling.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Pelling",
+      },
+      {
+        day: 7,
+        title: "Pelling Local Sightseeing",
+        description:
+          "After breakfast, embark on full-day sightseeing in and around Pelling. Visit the Orange Garden, Rimbi Waterfalls, Khangchendzonga Waterfalls, the wishing lake at Khecheopalri, Pemayangtse Monastery, the historic Rabdentse Ruins, and walk on the thrilling glass Sky Walk overlooking Mt. Kanchenjunga. Overnight stay in Pelling.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Pelling",
+      },
+      {
+        day: 8,
+        title: "Pelling – Darjeeling via Namchi (110 km / 6 hrs)",
+        description:
+          "After breakfast, head towards Darjeeling (6,730 ft) via Namchi in South Sikkim. Visit the towering Samdruptse Stupa (featuring the 118-ft statue of Guru Padmasambhava) and the magnificent replica complex of the Char Dham of India (Siddhesvara Dhaam). Continue through lush tea plantations to Darjeeling. Check in to the hotel and spend the rest of the day at leisure. Overnight stay in Darjeeling.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Darjeeling",
+      },
+      {
+        day: 9,
+        title: "Darjeeling Local Sightseeing",
+        description:
+          "Early morning at 03:30 AM, drive to Tiger Hill (8,400 ft) to witness the sunrise over Mount Kanchenjunga and Mount Everest. On the return drive, visit the historic Ghoom Monastery and the Batasia Loop war memorial. Return to hotel for breakfast. Later, enjoy a half-day city tour covering the Japanese Temple & Peace Pagoda, Padmaja Naidu Himalayan Zoological Park, Himalayan Mountaineering Institute (HMI), Tenzing Rock, Tibetan Refugee Self-Help Centre, and an outer view of a scenic tea garden. Overnight stay in Darjeeling.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Darjeeling",
+      },
+      {
+        day: 10,
+        title: "Darjeeling – NJP / IXB / Siliguri (70 km / 3 hrs)",
+        description:
+          "After breakfast, check out from the hotel and proceed to Bagdogra Airport (IXB), NJP Railway Station, or Siliguri for your return journey. Tour ends with sweet memories of Sikkim and Darjeeling.",
+        meals: "Breakfast",
+        stay: "—",
+      },
+    ],
+    inclusions: [
+      "Accommodation on a double-sharing basis as per the itinerary",
+      "All meals: Daily Breakfast, Lunch & Dinner",
+      "Nathula Pass excursion (subject to permit approval) and Namchi Char Dham visit",
+      "Daily 1 litre packaged drinking water bottles per person",
+      "All entry fees and inner-line permits",
+      "All transfers and sightseeing by A/C Innova / Xylo / Similar (A/C will not operate in hilly areas) on a point-to-point basis sector-wise",
+      "All toll taxes, parking charges, driver allowances, and applicable permits",
+    ],
+    exclusions: [
+      "Train fare / Airfare",
+      "5% GST",
+      "Room heater charges at hotels",
+      "Zero-Point (Yumesamdong) excursion charges (optional direct payment)",
+      "Travel Insurance and Medical Insurance",
+      "Personal expenses such as laundry, telephone calls, tips, porterage, shopping, etc.",
+      "Any services or items not specifically mentioned under Inclusions",
+      "Additional expenses arising due to natural calamities, landslides, road blockages, adverse weather conditions, or political disturbances",
+    ],
+    faqs: [
+      {
+        question: "What is the tour package cost for Sikkim Darjeeling 9N/10D?",
+        answer:
+          "Tour Pricing:\n• Double Sharing: ₹52,500/- + 5% GST per person\n• Extra Mattress: ₹47,500/- + 5% GST\n• Child No Bed (5 yrs - 12 yrs): ₹42,000/- + 5% GST\n• Single Occupancy: ₹63,500/- + 5% GST.",
+      },
+      {
+        question: "What are the mandatory permit documents for Nathula Pass and North Sikkim?",
+        answer:
+          "For Tsomgo Lake, Baba Mandir, and Nathula Pass permits, guests must carry their original Voter ID card, Driving Licence, or Passport, plus 2 passport-size photographs. (Aadhaar cards are NOT accepted by local authorities for Nathula permits). Nathula Pass is open only to Indian nationals and is subject to government approval and weather.",
+      },
+      {
+        question: "What are the booking payment milestones and vehicle guidelines?",
+        answer:
+          "30% advance payment is required at booking confirmation, with the remaining balance due 15 days prior to departure. Sightseeing is provided by comfortable Innova/Xylo/similar on a sector-wise point-to-point basis. Per mountain transport norms, air conditioning does not operate in hilly terrain.",
+      },
+      {
+        question: "What is the cancellation policy for this tour?",
+        answer:
+          "Cancellation fees based on notice prior to departure:\n• 61+ days: 15% of total tour cost\n• 46–60 days: 25% of total tour cost\n• 31–45 days: 50% of total tour cost\n• 16–30 days: 75% of total tour cost\n• 15 days or less / No-show: 100% of total tour cost.",
+      },
+    ],
+  },
+  {
+    id: "south-india-temple-tour",
+    title: "South India Temple Tour – 5 Nights / 6 Days",
+    image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1800",
+    duration: "5 Nights / 6 Days",
+    price: "₹28,599",
+    highlights: [
+      "Meenakshi Amman Temple, Madurai",
+      "Tirupparankundram & Azhagar Temple",
+      "Thirumalai Nayakkar Mahal",
+      "Scenic drive across the iconic Pamban Bridge",
+      "Ramanathaswamy Temple & Agnitheertham",
+      "Excursion to Dhanushkodi (Ghost Town of India)",
+      "Sacred Sphatik Lingam Darshan & 22 Teerthams",
+      "Tiruchendur Subramanya Swamy Temple",
+      "Sunset at Triveni Sangam, Kanyakumari",
+      "Vivekananda Rock Memorial & Thiruvalluvar Statue",
+      "Newly developed Glass Bridge, Kanyakumari",
+      "Suchindram Temple",
+      "VIP Darshan Pass at Sree Padmanabhaswamy Temple",
+      "Raja Ravi Varma Art Gallery & Napier Museum",
+      "Traditional Tamil Nadu Banana Leaf Meal",
+      "Traditional South Indian Wellness Therapy",
+      "Daily Local Special Treats & Evening Tea/Coffee",
+    ],
+    category: "Domestic",
+    isPopular: true,
+    tagline: "Madurai 1N – Rameshwaram 2N – Kanyakumari 1N – Trivandrum 1N · 5N/6D",
+    overview:
+      "An inspiring 5 Nights / 6 Days spiritual and cultural journey across Tamil Nadu and Kerala. Experience the towering gopurams of Madurai's Meenakshi Amman Temple, drive across the engineering marvel of Pamban Bridge to Rameshwaram, take holy dips in the 22 Teerthams, visit the land's end at Dhanushkodi, witness the confluence of three oceans at Kanyakumari, and receive VIP darshan at the legendary Sree Padmanabhaswamy Temple in Trivandrum.\n\nDeparture Dates: Sep 06 | Oct 02, 14, 22 | Nov 12, 18, 25 | Dec 02, 16, 24 (2026).",
+    heroImage: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "September to March",
+    startingPoint: "Madurai Airport / Railway Station (Arrival before 10:00 AM)",
+    groupSize: "Group departures",
+    themes: ["Spiritual", "Heritage", "Culture"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1800", caption: "Meenakshi Amman Temple gopurams" },
+      { image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=1800", caption: "Vivekananda Rock Memorial, Kanyakumari" },
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: "Arrival at Madurai",
+        description:
+          "Welcome to Madurai, one of India's oldest temple cities. Upon arrival, visit the famous Meenakshi Amman Temple, followed by Tirupparankundram Temple, Azhagar Temple, and the magnificent Thirumalai Nayakkar Mahal. Experience the rich culture and heritage of Tamil Nadu before checking into the hotel. (Special Treat: Famous Madurai Jigarthanda). Overnight stay in Madurai.",
+        meals: "Lunch, Dinner",
+        stay: "Madurai",
+      },
+      {
+        day: 2,
+        title: "Madurai – Rameshwaram",
+        description:
+          "After breakfast, proceed towards the holy island of Rameshwaram. En route, enjoy breathtaking views from the iconic Pamban Bridge. Upon arrival, visit Ramanathaswamy Temple, Agnitheertham, and Ramjharoka Temple for a spiritual experience. (Special Treat: South Indian Filter Coffee & Banana Chips). Overnight stay in Rameshwaram.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Rameshwaram",
+      },
+      {
+        day: 3,
+        title: "Dhanushkodi Excursion",
+        description:
+          "After breakfast, visit the famous Dhanushkodi, popularly known as the Ghost Town of India. Witness the spectacular meeting point of the Bay of Bengal and the Indian Ocean. Later enjoy shopping for seashell handicrafts, pearls, and local souvenirs. (Special Treat: Dhanushkodi Coastline & Seashell Shopping). Overnight stay in Rameshwaram.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Rameshwaram",
+      },
+      {
+        day: 4,
+        title: "Rameshwaram – Kanyakumari",
+        description:
+          "Begin the day with the sacred Sphatik Lingam Darshan and holy bath at the 22 Teerthams. Later drive towards Kanyakumari via Tiruchendur, home to the famous Subramanya Swamy Temple. In the evening witness the spectacular sunset at Triveni Sangam, where three seas meet. (Special Treat: Traditional Tamil Nadu Banana Leaf Lunch). Overnight stay in Kanyakumari.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Kanyakumari",
+      },
+      {
+        day: 5,
+        title: "Kanyakumari – Trivandrum",
+        description:
+          "Visit the famous Vivekananda Rock Memorial, Thiruvalluvar Statue, Kanyakumari Amman Temple, Triveni Sangam, Suchindram Temple, and the newly developed Glass Bridge. Later proceed to Trivandrum. (Special Treat: Kanyakumari Special Sundal with Tea). Overnight stay in Trivandrum.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Trivandrum",
+      },
+      {
+        day: 6,
+        title: "Trivandrum Departure",
+        description:
+          "After breakfast, visit the sacred Padmanabhaswamy Temple, followed by the Raja Ravi Varma Art Gallery and Napier Museum. Later proceed to Trivandrum airport or railway station (departure after 2:00 PM) with wonderful memories of the South India Temple Tour. (Special Treat: Kerala Banana Chips & Elaichi Tea).",
+        meals: "Breakfast",
+        stay: "—",
+      },
+    ],
+    inclusions: [
+      "Accommodation on Double/Triple Sharing basis",
+      "5 Breakfasts, 5 Lunches, 5 Dinners",
+      "All transfers & sightseeing by A/C vehicle",
+      "Professional Tour Manager",
+      "Entrance Tickets",
+      "Evening Tea/Coffee",
+      "One Mineral Water Bottle per person daily",
+      "Travel Insurance",
+      "Traditional Tamil Nadu Banana Leaf Meal",
+      "Traditional South Indian Wellness Therapy",
+      "VIP Darshan Pass at Padmanabhaswamy Temple",
+      "Visit to Pamban Bridge",
+      "Meenakshi Amman Temple Visit",
+      "Dhanushkodi Excursion",
+      "Daily Local Special Treats",
+    ],
+    exclusions: [
+      "5% GST",
+      "Airfare / Train Fare",
+      "Guide Charges",
+      "Early Check-in & Late Check-out",
+      "Additional Meals & Sightseeing",
+      "Auto Rickshaw Charges",
+      "Personal Expenses",
+      "Anything not mentioned under Inclusions",
+    ],
+    faqs: [
+      {
+        question: "What is the tour package pricing across sharing categories?",
+        answer:
+          "Tour Cost:\n• Double Occupancy: ₹28,599/- Per Person + 5% GST\n• Single Occupancy: ₹38,798/- Per Person + 5% GST\n• Extra Adult with Bed/Mattress: ₹21,999/- Per Person + 5% GST\n• Extra Child with Bed/Mattress: ₹21,999/- Per Person + 5% GST\n• Extra Adult without Bed/Mattress: ₹18,999/- Per Person + 5% GST",
+      },
+      {
+        question: "What are the departure dates for South India Temple Tour?",
+        answer:
+          "Departure Dates 2026:\n• September: 06 September\n• October: 02, 14, 22 October\n• November: 12, 18, 25 November\n• December: 02, 16, 24 December",
+      },
+      {
+        question: "What are the dress codes and arrival/departure flight timings?",
+        answer:
+          "• Women should carry a scarf/dupatta while visiting temples.\n• At Sree Padmanabhaswamy Temple: Men must wear a plain white/black lungi, and women must wear a saree.\n• Arrival at Madurai should be before 10:00 AM.\n• Departure from Trivandrum should be after 02:00 PM.",
+      },
+      {
+        question: "What is the cancellation policy?",
+        answer:
+          "Cancellation Charges Before Departure:\n• 121 Days & Above: 5%\n• 91–120 Days: 10%\n• 61–90 Days: 15%\n• 46–60 Days: 25%\n• 31–45 Days: 50%\n• 16–30 Days: 70%\n• 06–15 Days: 80%\n• 00–05 Days / No Show: 100%",
+      },
+    ],
+  },
+  {
+    id: "special-kerala",
+    title: "Special Kerala – 6 Nights / 7 Days",
+    image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1800",
+    duration: "6 Nights / 7 Days",
+    price: "₹36,450",
+    highlights: [
+      "Munnar Tea Gardens & Tea Museum",
+      "Cheeyappara Waterfalls",
+      "Eravikulam National Park (Nilgiri Tahr)",
+      "Mattupetty Dam & Kundala Lake",
+      "Spice Plantation Visit in Thekkady",
+      "1-Hour Kathakali Dance Show",
+      "1-Hour Kalaripayattu Martial Arts Show",
+      "Jatayu Earth's Center with Ropeway Ride",
+      "Varkala Cliff & Beach",
+      "VIP Darshan Pass at Sree Padmanabhaswamy Temple",
+      "Kuthiramalika Museum & Napier Museum",
+      "Alleppey Houseboat Stay & Backwater Cruise",
+      "1-Hour Shikara Ride",
+      "Ayurvedic Spa Experience",
+      "Traditional Kerala Sadhya Meal",
+      "Periyar Wildlife Experience (Boat Ride / Elephant Ride)",
+      "Daily Bandhan Special Treats across destinations",
+    ],
+    category: "Domestic",
+    isPopular: true,
+    tagline: "Munnar 2N – Thekkady 1N – Varkala 1N – Kovalam 1N – Alleppey Houseboat 1N · 6N/7D",
+    overview:
+      "A magical 6 Nights / 7 Days journey through God's Own Country. Experience the lush tea plantations and waterfalls of Munnar, endangered Nilgiri Tahr at Eravikulam, Kathakali and Kalaripayattu cultural performances in Thekkady, the gigantic bird sculpture at Jatayu Earth's Center, cliffside beaches of Varkala, royal heritage and VIP darshan in Trivandrum, and an unforgettable overnight stay on a traditional houseboat cruising Alleppey's backwaters.\n\nDeparture Dates: Sep 07, 28 | Oct 02, 12, 23 | Nov 01, 12, 20, 27 | Dec 07, 21, 25.",
+    heroImage: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "September to March",
+    startingPoint: "Cochin Airport / Railway Station (Approx. 130 KM / 4 hrs to Munnar)",
+    groupSize: "Group departures",
+    themes: ["Backwaters", "Nature", "Culture"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1800", caption: "Alleppey backwaters and houseboats" },
+      { image: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=85&w=1800", caption: "Tea hills of Munnar" },
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: "Arrival at Cochin – Munnar (Approx. 130 KM / 4 Hrs)",
+        description:
+          "Arrive at Cochin Airport/Railway Station where our representative will receive you and proceed to Munnar. En route visit the beautiful Cheeyappara Waterfalls. Check into the hotel and relax. Later visit the Tea Museum and in the evening you may visit Blossom International Park. (Bandhan Special Treat: Juice Sachet at Cheeyappara Waterfalls). Overnight stay in Munnar.",
+        meals: "Lunch, Dinner",
+        stay: "Munnar",
+      },
+      {
+        day: 2,
+        title: "Munnar Sightseeing (Approx. 45 KM)",
+        description:
+          "After breakfast visit Eravikulam National Park, home to the endangered Nilgiri Tahr. Later enjoy the scenic tea gardens followed by Mattupetty Dam and Kundala Lake. (Bandhan Special Treat: Bhutta at Flower Garden). Overnight stay in Munnar.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Munnar",
+      },
+      {
+        day: 3,
+        title: "Munnar – Thekkady (Approx. 97 KM / 3 Hrs)",
+        description:
+          "After breakfast proceed to Thekkady. En route visit spice plantations. Check into the hotel and in the evening enjoy the famous Kathakali Dance Show followed by the traditional Kalaripayattu Martial Arts performance. (Bandhan Special Treat: Garam Masala Tea at Masala Garden). Overnight stay in Thekkady.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Thekkady",
+      },
+      {
+        day: 4,
+        title: "Thekkady – Varkala (Approx. 180 KM / 5 Hrs)",
+        description:
+          "After breakfast proceed towards Varkala. Visit the famous Jatayu Earth's Center with breathtaking hilltop views via ropeway ride. Continue to Varkala, check into the hotel and spend the evening near the beautiful cliffside beaches. (Bandhan Special Treat: Jackfruit Chips at Jatayu Earth's Center). Overnight stay in Varkala.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Varkala",
+      },
+      {
+        day: 5,
+        title: "Varkala – Kovalam via Trivandrum (Approx. 60 KM / 2 Hrs)",
+        description:
+          "After breakfast proceed to Trivandrum. Visit Sree Padmanabhaswamy Temple with VIP Darshan Pass, Kuthiramalika Museum and Napier Museum. Explore the local markets before proceeding to Kovalam. (Bandhan Special Treat: Coconut Water at Kovalam Beach). Overnight stay in Kovalam.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Kovalam",
+      },
+      {
+        day: 6,
+        title: "Kovalam – Alleppey Houseboat (Approx. 172 KM / 5 Hrs)",
+        description:
+          "After breakfast proceed to Alleppey. Board a traditional houseboat and enjoy a memorable cruise through Kerala's famous backwaters while witnessing village life, coconut groves and lush green landscapes. (Bandhan Special Treat: Coconut Water with Banana Chips). Overnight stay in Alleppey Houseboat.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Alleppey Houseboat",
+      },
+      {
+        day: 7,
+        title: "Alleppey – Cochin Departure (Approx. 95 KM / 2 Hrs)",
+        description:
+          "After breakfast check out from the houseboat and proceed to Cochin Airport/Railway Station for your onward journey with unforgettable memories of God's Own Country.",
+        meals: "Breakfast",
+        stay: "—",
+      },
+    ],
+    inclusions: [
+      "Accommodation on Double/Triple Sharing Basis",
+      "6 Breakfasts, 6 Lunches, 6 Dinners",
+      "AC Vehicle for all Transfers & Sightseeing (AC on hill roads at driver's discretion)",
+      "Professional Tour Manager",
+      "Entrance Tickets",
+      "Evening Tea/Coffee",
+      "Daily 1 Bottle Mineral Water per person",
+      "Traditional Kerala Sadhya Meal",
+      "Jatayu Earth's Center Ropeway Ride",
+      "1 Hour Shikara Ride",
+      "1 Hour Kathakali Dance Show",
+      "1 Hour Kalaripayattu Show",
+      "Ayurvedic Spa Experience",
+      "Periyar Wildlife Experience (Boat Ride / Elephant Ride)",
+      "VIP Darshan Pass at Sree Padmanabhaswamy Temple",
+      "Daily Bandhan Special Treats",
+    ],
+    exclusions: [
+      "5% GST",
+      "Airfare / Train Fare",
+      "Guide Charges",
+      "Early Check-in & Late Check-out",
+      "Additional Meals & Sightseeing",
+      "Personal Expenses & activity charges not mentioned",
+      "Expenses due to weather, roadblocks, illness or flight cancellation",
+      "Travel insurance is not included",
+    ],
+    faqs: [
+      {
+        question: "What is the tour package pricing across sharing categories?",
+        answer:
+          "Tour Cost:\n• Double Occupancy: ₹36,450/- Per Person + 5% GST\n• Single Occupancy: ₹47,449/- Per Person + 5% GST\n• Adult with Extra Bed: ₹29,999/- Per Person + 5% GST\n• Child with Extra Bed: ₹29,999/- Per Person + 5% GST\n• Child without Bed: ₹25,999/- Per Person + 5% GST",
+      },
+      {
+        question: "What are the departure dates for Special Kerala?",
+        answer:
+          "Departure Dates:\n• September: 07, 28\n• October: 02, 12, 23\n• November: 01, 12, 20, 27\n• December: 07, 21, 25",
+      },
+      {
+        question: "What is the dress code for Sree Padmanabhaswamy Temple?",
+        answer:
+          "At Sree Padmanabhaswamy Temple:\n• Men must wear Plain White/Black Lungi.\n• Ladies must wear Saree.\n(Most temples in Kerala remain closed between 12:00 PM and 4:00 PM).",
+      },
+      {
+        question: "What are the payment terms and cancellation charges?",
+        answer:
+          "Payment Terms:\n• 50% payment at booking confirmation.\n• Full payment completed 15 days before departure.\n\nCancellation Policy:\n• 121 Days & Above: 5%\n• 91–120 Days: 10%\n• 61–90 Days: 15%\n• 46–60 Days: 25%\n• 31–45 Days: 50%\n• 16–30 Days: 70%\n• 06–15 Days: 80%\n• 0–05 Days / No Show: 100%",
+      },
+    ],
+  },
+  {
+    id: "swiss-paris-highlights",
+    title: "Swiss & Paris Highlights",
+    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
+    duration: "7 Nights / 8 Days",
+    price: "₹1,99,999",
+    highlights: [
+      "Guided tour in Paris & guided tour of Versailles Palace",
+      "Eiffel Tower 3rd level panoramic visit",
+      "Full day at Disneyland® Paris (Park or Studios)",
+      "River Seine romantic cruise",
+      "Paris by Night tour with illuminations",
+      "Orientation tour of Geneva (Jet d'Eau, UN Office, Flower Clock)",
+      "Excursion to Jungfraujoch – Top of Europe with Eiger Express cable car",
+      "Mount Titlis with Rotair revolving cable car & Cliff Walk",
+      "Scenic cruise on Lake Lucerne",
+      "Orientation tour of Bern, Swiss capital",
+      "Rhine Falls with exciting boat ride",
+      "Lindt Home of Chocolate in Zurich",
+    ],
+    category: "International",
+    isPopular: true,
+    tagline: "France & Switzerland · 7N/8D · Departures: 10, 23 Oct & 06, 20 Nov",
+    overview:
+      "A breathtaking 7 Nights / 8 Days journey across France and Switzerland. Discover the magic of Paris with a guided city tour, Eiffel Tower (3rd level), Palace of Versailles, Seine River Cruise, Paris by Night tour, and a full day at Disneyland® Paris. Continue through Switzerland with an orientation of Geneva, Jungfraujoch (Top of Europe), Mount Titlis with Rotair revolving cable car and Cliff Walk, Lake Lucerne cruise, Bern orientation, Rhine Falls boat ride, and the Lindt Home of Chocolate in Zurich.\n\nDeparture Dates: 10, 23 Oct & 06, 20 Nov.",
+    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "October & November",
+    startingPoint: "Paris CDG Airport (Flight landing time: 08:00 AM – 02:00 PM)",
+    groupSize: "Group departures: 10, 23 Oct & 06, 20 Nov",
+    themes: ["City", "Mountains", "Family"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "Paris landmarks" },
+      { image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800", caption: "Swiss Alps" },
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: "Arrive in Paris – The City of Romance, Lights and Glamour",
+        description:
+          "Welcome! Today, board your flight to one of the world's most beautiful and elegant cities – Paris, renowned for its haute couture, world-class museums, breathtaking monuments, and vibrant cabarets. Upon arrival, collect your baggage and proceed to the arrival hall, where you will be warmly welcomed by our professional Tour Manager. You will then be escorted to your hotel. Check in and relax after your journey. Overnight stay at the hotel in Paris. (Dinner)",
+        meals: "Dinner",
+        stay: "Paris",
+      },
+      {
+        day: 2,
+        title: "Guided City Tour of Paris – Eiffel Tower (3rd Level) – Palace of Versailles – Seine River Cruise – Paris by Night Tour",
+        description:
+          "After breakfast, proceed on a guided city tour of Paris. Discover some of the city's most iconic attractions, including Place Vendôme, Place de l'Opéra Garnier, Musée d'Orsay, Place de la Concorde, Champs-Élysées, Arc de Triomphe, Alexander Bridge, Les Invalides, and many more. Next, visit the iconic Eiffel Tower and ascend to the 3rd Level for spectacular panoramic views of the city. Continue to the magnificent Palace of Versailles, a UNESCO World Heritage Site located approximately 19 km west of Paris. Later, enjoy a romantic cruise along the River Seine, passing beneath elegant bridges and famous landmarks. In the evening, experience the enchanting Paris by Night Tour as the City of Light comes alive with illuminated monuments. (Note: Access to Eiffel Tower 3rd Level subject to operational status; 2nd Level provided if closed). Overnight stay at the hotel in Paris. (Breakfast, Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Paris",
+      },
+      {
+        day: 3,
+        title: "Disneyland® Paris – Choice of Disneyland® Park or Walt Disney Studios® Park",
+        description:
+          "After breakfast, proceed for a fun-filled day at Disneyland® Paris. Choose between Disneyland® Park, where fairy tales come to life across five magical themed lands featuring classic attractions, spectacular shows, and colourful Disney character parades, or Walt Disney Studios® Park, where you can experience thrilling attractions, fascinating stunt shows, movie sets, and behind-the-scenes film-making experiences. Return to the hotel in the evening. Overnight stay at the hotel in Paris. (Breakfast, Packed Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Paris",
+      },
+      {
+        day: 4,
+        title: "Orientation Tour of Geneva",
+        description:
+          "After breakfast, check out from your hotel and proceed towards Switzerland, a beautiful Central European country renowned for its picturesque lakes, charming villages, and majestic Alpine peaks. Upon arrival, enjoy an orientation tour of Geneva. Visit the famous Jet d'Eau, one of the city's most iconic landmarks, the United Nations Office, and the Flower Clock located beside beautiful Lake Geneva. Later, proceed to your hotel for check-in and relax. Overnight stay at the hotel in Geneva. (Breakfast, Packed Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Geneva",
+      },
+      {
+        day: 5,
+        title: "Excursion to Jungfraujoch – Top of Europe & Scenic Interlaken",
+        description:
+          "Today, embark on an unforgettable alpine excursion to Jungfraujoch – the 'Top of Europe', one of the highlights of your Swiss holiday. Proceed to Grindelwald Terminal and board the modern Eiger Express 3S cable car to Eigergletscher Station. From there, continue by cogwheel train to Europe's highest railway station at 11,333 feet above sea level. Explore the magical Ice Palace, admire intricate ice sculptures, and visit the Sphinx Observatory for breathtaking panoramic views of the Aletsch Glacier. Later, enjoy a scenic visit to the charming town of Interlaken before returning to your hotel. Overnight stay at the hotel in Central Switzerland. (Breakfast, Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Central Switzerland",
+      },
+      {
+        day: 6,
+        title: "Mount Titlis – Lucerne – Lake Lucerne Cruise",
+        description:
+          "After breakfast, proceed to Mount Titlis for an unforgettable mountain experience. Travel aboard a series of cable cars, including the world's first revolving cable car, the Rotair, which takes you to an altitude of 3,020 metres. Enjoy breathtaking 360-degree views of snow-covered peaks, deep crevasses, glaciers, and pristine alpine landscapes. Don't miss the famous Cliff Walk, Europe's highest suspension bridge. Later, proceed for an orientation tour of Lucerne. Visit the Lion Monument and the iconic Kapellbrücke (Chapel Bridge), followed by free time to shop for famous Swiss watches, knives, chocolates, and souvenirs. Conclude the day with a relaxing cruise on picturesque Lake Lucerne. Overnight stay at the hotel in Central Switzerland. (Breakfast, Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Central Switzerland",
+      },
+      {
+        day: 7,
+        title: "Orientation Tour of Bern – Rhine Falls – Lindt Home of Chocolate",
+        description:
+          "Today, travel to Bern, the capital city of Switzerland and a UNESCO World Heritage Site. During the orientation tour, view the famous Clock Tower, Parliament Building, and the city's historic medieval fountains. Later, continue to Schaffhausen to experience the magnificent Rhine Falls, the largest waterfall in Europe. Enjoy an exciting boat ride offering spectacular close-up views of the powerful cascading waters. Continue to Zurich to visit the famous Lindt Home of Chocolate. Discover interactive exhibits, admire the impressive chocolate fountain, and learn about the fascinating journey of Swiss chocolate-making. Overnight stay at the hotel in Central Switzerland. (Breakfast, Lunch, Dinner)",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Central Switzerland",
+      },
+      {
+        day: 8,
+        title: "Fly Back Home",
+        description:
+          "After breakfast, check out from the hotel and proceed to Zurich Airport (ZRH) for your return flight. (The coach will drop at ZRH Airport by 11:00 AM). Depart with unforgettable memories of Paris, Switzerland, and the breathtaking Alpine landscapes. (Breakfast)",
+        meals: "Breakfast",
+        stay: "—",
+      },
+    ],
+    inclusions: [
+      "Accommodation in 4-star hotels with daily buffet breakfast",
+      "Sightseeing & attraction tickets as mentioned in the itinerary",
+      "Tips to coach drivers and guide tips for the duration of the tour is included",
+      "Daily Continental Buffet Breakfast",
+      "06 Indian Jain/Vegetarian/Non-Vegetarian Lunches",
+      "07 Indian Jain/Vegetarian/Non-Vegetarian Dinners",
+      "Daily Mineral Water Bottle (500ml) per person",
+      "Packed lunch served on Disneyland Paris day and drive to Geneva",
+      "Eiffel Tower 3rd Level, Versailles Palace, Seine Cruise, Paris by Night",
+      "Full day Disneyland® Paris pass (Disneyland Park or Studios)",
+      "Jungfraujoch - Top of Europe excursion with Eiger Express 3S cable car & cogwheel train",
+      "Mount Titlis excursion with Rotair revolving cable car & Cliff Walk",
+      "Scenic cruise on Lake Lucerne",
+      "Rhine Falls boat ride at Schaffhausen",
+      "Lindt Home of Chocolate entrance in Zurich",
+    ],
+    exclusions: [
+      "5% GST & 2% TCS and any other applicable taxes",
+      "Airfare (international & domestic unless specified)",
+      "Visa, Passport & POE charges, Travel Insurance",
+      "Airport taxes and other applicable charges",
+      "Cost of excursions, sightseeing, entrance fees, and local guides not mentioned in Inclusions",
+      "Personal expenses such as porterage, laundry, telephone calls, shopping, snacks, etc.",
+      "Cost of pre/post tour hotel accommodation",
+      "Any expenses arising due to flight delays, cancellations, weather conditions, political issues, or technical faults",
+      "Porterage charges, City tax",
+    ],
+    faqs: [
+      {
+        question: "What is the total tour cost across sharing categories?",
+        answer:
+          "Total Tour Cost (valid till 31st July 2026):\n• Double/Triple sharing basis: ₹1,99,999/- + 5% GST + 2% TCS per person\n• Single sharing basis: ₹2,56,320/- + 5% GST + 2% TCS per person\n• Child with bed (below 12 years): ₹1,63,360/- + 5% GST + 2% TCS\n• Child no bed (below 12 years): ₹1,40,400/- + 5% GST + 2% TCS\n• Infant (below 02 years): ₹10,600/- + 5% GST + 2% TCS",
+      },
+      {
+        question: "What are the departure dates for Swiss & Paris Highlights?",
+        answer: "Departure dates: 08, 16 & 27 March 2027",
+      },
+      {
+        question: "What are the coach transfer timings for arrival and departure?",
+        answer:
+          "• Paris (CDG Airport) Arrival Transfer: Flight landing time should be between 08:00 AM – 02:00 PM.\n• Zurich (ZRH Airport) Departure Transfer: The coach will drop at ZRH Airport by 11:00 AM.\n(Waiting up to 02 hours post arrival may occur for coach transfers).",
+      },
+      {
+        question: "What is the booking, payment, and cancellation policy?",
+        answer:
+          "Payment Terms:\n• At booking: 50% non-refundable booking amount.\n• 30 days prior to departure (D-30): Full balance payment (ROE calculated as XE.com + 2).\n\nCancellation Charges:\n• Up to 45 days before departure: INR 40,000 per adult/child.\n• Less than 30 days prior to departure: 100% cancellation charges apply.",
+      },
+    ],
+  },
+  {
+    id: "best-of-austria",
+    title: "Best of Austria (3N Vienna | 2N Salzburg | 2N Innsbruck)",
+    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
+    duration: "7 Nights / 8 Days",
+    price: "₹1,41,999",
+    highlights: [
+      "Explore the best of Vienna, Salzburg & Innsbruck",
+      "Discover Vienna aboard a 24-Hour Hop-On Hop-Off City Tour",
+      "Visit the magnificent Schönbrunn Palace, a UNESCO World Heritage Site",
+      "Scenic 2nd Class high-speed train journeys through Austrian landscapes",
+      "Explore the historic Salt Mine with Celtic Village and underground salt lake",
+      "Visit the world-famous Swarovski Crystal Worlds in Wattens",
+      "Ride the Top of Innsbruck Cable Car for spectacular Alpine views",
+      "Private airport, hotel, and railway station transfers throughout",
+      "Daily breakfast and comfortable hotel accommodation",
+    ],
+    category: "International",
+    tagline: "Imperial Vienna, Mozart's Baroque Salzburg & panoramic Alpine vistas in Innsbruck.",
+    overview:
+      "Experience the ultimate Austrian journey with 3 nights in Vienna, 2 nights in Salzburg, and 2 nights in Innsbruck. From the imperial splendour of Schönbrunn Palace and a 24-Hour Hop-On Hop-Off bus tour in Vienna, to the historic Salt Mine and charming Baroque streets in Salzburg, and the dazzling Swarovski Crystal Worlds with the Top of Innsbruck cable car, all seamlessly connected by comfortable scenic train rides.",
+    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "May to October & Festive Season",
+    startingPoint: "Vienna International Airport (VIE)",
+    groupSize: "Min 2 travellers (Private & SIC)",
+    themes: ["Imperial Heritage", "Scenic Train Journeys", "Alpine Adventures", "Cultural Exploration"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "Vienna's imperial architecture and Schonbrunn" },
+      { image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800", caption: "Alpine scenery near Innsbruck" },
+      { image: "https://images.unsplash.com/photo-1516550893923-42d28e5677af?auto=format&fit=crop&q=85&w=1800", caption: "Salzburg Old Town and fortress" },
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: "Arrival in Vienna",
+        description: "Welcome to Austria! Upon arrival at Vienna International Airport, you will be met by your private transfer and driven to your hotel. Check-in (from 15:00 hrs). Spend the rest of the day at leisure exploring the nearby streets, relaxing at a café, or simply enjoying the elegant atmosphere of Austria's capital at your own pace. Overnight stay in Vienna.",
+        meals: "—",
+        stay: "Vienna",
+      },
+      {
+        day: 2,
+        title: "Explore Vienna",
+        description: "After breakfast, make your way to the designated meeting point to begin your 24-Hour Hop-On Hop-Off City Tour. Discover Vienna's iconic landmarks at your own pace, including the State Opera, Parliament, City Hall, and St. Stephen's Cathedral. Visit the magnificent Schönbrunn Palace with your included entrance ticket (without guide) and explore its grand imperial gardens and staterooms. Overnight stay in Vienna.",
+        meals: "Breakfast",
+        stay: "Vienna",
+      },
+      {
+        day: 3,
+        title: "Vienna – Salzburg",
+        description: "Enjoy breakfast at the hotel before checking out. A private transfer will take you to Vienna Train Station for your comfortable (2nd Class) scenic train journey to Salzburg. Upon arrival, another private transfer will escort you to your hotel. Check-in (from 15:00 hrs). Spend the evening strolling through Salzburg's charming Old Town, famous for its Baroque architecture and rich musical heritage. Overnight stay in Salzburg.",
+        meals: "Breakfast",
+        stay: "Salzburg",
+      },
+      {
+        day: 4,
+        title: "Hallstatt & Salt Mine Experience",
+        description: "After breakfast, proceed to the designated meeting point for your shared shuttle transfer to the world-famous Salt Mine. Explore one of the world’s oldest salt mines, marvel at the Celtic village, and enjoy the subterranean salt lake experience. Later, spend time exploring the picturesque alpine lakeside surroundings at your own pace before returning to Salzburg. Overnight stay in Salzburg.",
+        meals: "Breakfast",
+        stay: "Salzburg",
+      },
+      {
+        day: 5,
+        title: "Salzburg – Innsbruck",
+        description: "After breakfast, check out from the hotel. A private transfer will take you to Salzburg Train Station for your train journey to Innsbruck (2nd Class). Upon arrival, meet your private transfer and proceed to your hotel. Check-in (from 15:00 hrs). The remainder of the day is free to explore Innsbruck's charming historic Old Town, admire the Golden Roof, or enjoy shopping at local boutiques. Overnight stay in Innsbruck.",
+        meals: "Breakfast",
+        stay: "Innsbruck",
+      },
+      {
+        day: 6,
+        title: "Top of Innsbruck & Swarovski Crystal Worlds",
+        description: "Enjoy breakfast before heading to the meeting point for your shared transfer to the world-famous Swarovski Crystal Worlds in Wattens. Discover dazzling crystal art exhibits, chambers of wonder, and beautifully landscaped gardens. Later, experience the spectacular Top of Innsbruck with your included round-trip cable car ticket, taking in breathtaking panoramic vistas of the surrounding Tyrolean Alps. Overnight stay in Innsbruck.",
+        meals: "Breakfast",
+        stay: "Innsbruck",
+      },
+      {
+        day: 7,
+        title: "Innsbruck – Vienna",
+        description: "After breakfast, check out of your hotel and take a private transfer to Innsbruck Train Station. Board your scenic return train to Vienna (2nd Class). Upon arrival at Vienna Train Station, a private transfer will take you to your hotel. Check-in (from 15:00 hrs) and enjoy the remainder of the day shopping along the Graben and Kärntner Straße or relaxing in Vienna's historic coffeehouses. Overnight stay in Vienna.",
+        meals: "Breakfast",
+        stay: "Vienna",
+      },
+      {
+        day: 8,
+        title: "Departure from Vienna",
+        description: "After breakfast, check out from the hotel. A private transfer will take you to Vienna International Airport for your onward flight home, taking back wonderful memories of your Austrian holiday. Safe travels!",
+        meals: "Breakfast",
+        stay: "—",
+      },
+    ],
+    inclusions: [
+      "Accommodation with breakfast in well-appointed hotels (except day 1)",
+      "Private transfer: Vienna Airport → Vienna Hotel",
+      "Private transfer: Vienna Hotel → Vienna Train Station",
+      "Private transfer: Salzburg Train Station → Salzburg Hotel",
+      "Private transfer: Salzburg Hotel → Salzburg Train Station",
+      "Private transfer: Innsbruck Train Station → Innsbruck Hotel",
+      "Private transfer: Innsbruck Hotel → Innsbruck Train Station",
+      "Private transfer: Vienna Train Station → Vienna Hotel",
+      "Private transfer: Vienna Hotel → Vienna Airport",
+      "Train Ticket: Vienna → Salzburg (2nd Class reserved seats)",
+      "Train Ticket: Salzburg → Innsbruck (2nd Class reserved seats)",
+      "Train Ticket: Innsbruck → Vienna (2nd Class reserved seats)",
+      "Vienna: 24-Hour Hop-On Hop-Off City Bus Tour (SIC Basis)",
+      "Vienna: Schönbrunn Palace Entrance Ticket (Audio Guide / No Guide)",
+      "Salzburg: Salt Mine Tour, Celtic Village & Subterranean Salt Lake with Shuttle Bus Return Transfers (Shared Basis)",
+      "Innsbruck: Swarovski Crystal Worlds Admission Ticket & Shared Transfers (SIC Basis)",
+      "Innsbruck: Roundtrip Cable Car Ticket (Top of Innsbruck / Nordkette)",
+    ],
+    exclusions: [
+      "Any International or Domestic Airfare & Airport Taxes",
+      "5% GST & 2% TCS (applicable per government regulations)",
+      "Schengen Visa fees & Mandatory Travel Insurance",
+      "Meals and beverages not explicitly mentioned in the itinerary",
+      "City tax / tourist tax payable directly at hotels where applicable",
+      "Tips, gratuities, porterage, minibar and personal telephone charges",
+      "Transfers to/from meeting points unless explicitly listed as private transfers",
+      "Any services, entrance fees or activities not specifically listed under inclusions",
+    ],
+    faqs: [
+      {
+        question: "What are the tour costs and validity for Best of Austria?",
+        answer: "Per Person Double sharing basis is ₹1,41,999/- + 5% GST + 2% TCS. Per Person Single sharing basis is ₹2,41,999/- + 5% GST + 2% TCS. Rates are valid for travel until 31st October 2026 (not applicable during Diwali, Christmas, New Year, or peak festival periods).",
+      },
+      {
+        question: "What is the payment and cancellation schedule?",
+        answer: "A 50% non-refundable deposit is required at booking, with the balance due 30 days prior to departure (D-30). Rate of Exchange (ROE) will be XE.com + 2 at final settlement. Cancellations up to 45 days prior incur INR 40,000 per person; cancellations within 30 days incur 100% charges.",
+      },
+      {
+        question: "How are transfers and rail connections handled?",
+        answer: "All station and airport transfers in Vienna, Salzburg, and Innsbruck are private point-to-point transfers. Intercity rail travel is on comfortable 2nd-class high-speed trains. Excursions in Vienna (Hop-On Hop-Off), Salzburg (Salt Mine shuttle), and Innsbruck (Swarovski shuttle) operate on scheduled SIC/shared basis.",
+      },
+    ],
+  },
+  {
+    id: "classic-italy",
+    title: "Classic Italy (1N Milan | 1N Venice | 2N Florence | 2N Rome)",
+    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800",
+    duration: "6 Nights / 7 Days",
+    price: "₹1,82,999",
+    highlights: [
+      "Explore four iconic Italian cities – Milan, Venice, Florence & Rome",
+      "Scenic 2nd Class high-speed train journeys across Italy",
+      "Classic Grand Canal Gondola Ride in Venice (Shared Basis)",
+      "Discover Florence with a 24-Hour Hop-On Hop-Off Bus Tour",
+      "Full-day guided Tuscany day trip to Pisa, Siena & San Gimignano",
+      "Explore Rome with a 24-Hour Hop-On Hop-Off Bus Tour",
+      "Guided tour of the Colosseum, Roman Forum & Palatine Hill",
+      "Private airport, hotel, and railway station transfers throughout (including Venice Water Taxi)",
+      "Daily breakfast and comfortable hotel accommodation",
+    ],
+    category: "International",
+    tagline: "1N Milan | 1N Venice | 2N Florence | 2N Rome · 6N/7D · Valid till 31st Oct 2026",
+    overview:
+      "A classic 6 Nights / 7 Days Italian journey linking Milan (1N), Venice (1N), Florence (2N), and Rome (2N) via scenic high-speed trains. Enjoy a private water taxi and romantic gondola ride in Venice, Florence's Renaissance treasures, a picturesque full-day excursion through the Tuscan countryside to Pisa, Siena, and San Gimignano, and a comprehensive guided tour of Ancient Rome including the Colosseum, Roman Forum, and Palatine Hill.\n\nRates are valid for travel until 31st October 2026 (not applicable during peak/festival periods).",
+    heroImage: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "April to October (Valid till 31st Oct 2026)",
+    startingPoint: "Milan Airport",
+    groupSize: "2+ guests",
+    themes: ["Heritage", "City", "Scenic"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Canals of Venice" },
+      { image: "https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&q=85&w=1800", caption: "Ancient Rome" },
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: "Arrival in Milan",
+        description:
+          "Welcome to Italy! Upon arrival at Milan Airport, you will be met by your private transfer and driven to your hotel. Check in (from 1500 hrs). Spend the rest of the day at leisure exploring Milan's stylish streets, vibrant cafés, or shopping districts at your own pace. Overnight stay in Milan.",
+        meals: "—",
+        stay: "Milan",
+      },
+      {
+        day: 2,
+        title: "Milan – Venice",
+        description:
+          "After breakfast, check out from the hotel and take a private transfer to Milano Centrale Railway Station. Board your comfortable train to Venice (2nd Class). Upon arrival at Venezia Santa Lucia Station, enjoy a private water taxi transfer to your hotel. Check in (from 1500 hrs). Later, proceed to the designated meeting point for a memorable shared Grand Canal Gondola Ride, gliding through Venice’s enchanting canals and historic waterways. Spend the remainder of the evening exploring the city’s charming alleys and picturesque squares. Overnight stay in Venice.",
+        meals: "Breakfast",
+        stay: "Venice",
+      },
+      {
+        day: 3,
+        title: "Venice – Florence",
+        description:
+          "Enjoy breakfast before checking out and taking a private water taxi transfer to Venice Train Station. Board your train to Florence (2nd Class). On arrival at Firenze Santa Maria Novella Station, a private transfer will take you to your hotel. Check in (from 1500 hrs). Later, proceed to the meeting point for your 24-Hour Hop-On Hop-Off Bus Tour, allowing you to discover Florence's iconic attractions at your own pace. Overnight stay in Florence.",
+        meals: "Breakfast",
+        stay: "Florence",
+      },
+      {
+        day: 4,
+        title: "Tuscany Day Trip",
+        description:
+          "After breakfast, proceed to the designated meeting point for a full-day guided excursion through the beautiful Tuscan countryside. Visit the historic cities of Pisa, Siena, and the medieval hill town of San Gimignano, each offering remarkable architecture, charming streets, and rich cultural heritage. Return to Florence in the evening. Overnight stay in Florence.",
+        meals: "Breakfast",
+        stay: "Florence",
+      },
+      {
+        day: 5,
+        title: "Florence – Rome",
+        description:
+          "After breakfast, check out from the hotel and transfer privately to Florence Train Station. Board your train to Rome (2nd Class). Upon arrival at Roma Termini Station, a private transfer will take you to your hotel. Check in (from 1500 hrs). The remainder of the day is free to relax or explore Rome’s lively streets, cafés, and shopping areas at your own pace. Overnight stay in Rome.",
+        meals: "Breakfast",
+        stay: "Rome",
+      },
+      {
+        day: 6,
+        title: "Discover Rome",
+        description:
+          "After breakfast, make your way to the designated meeting point to begin your 24-Hour Hop-On Hop-Off Bus Tour. Explore Rome's world-famous landmarks, including the Vatican area, Piazza Venezia, Trevi Fountain, and Circus Maximus. Your tour also includes a guided visit to the magnificent Colosseum, Roman Forum, and Palatine Hill (arena access not included), where you'll discover the fascinating history of Ancient Rome. Spend the remainder of the day exploring the Eternal City at your leisure. Overnight stay in Rome.",
+        meals: "Breakfast",
+        stay: "Rome",
+      },
+      {
+        day: 7,
+        title: "Departure from Rome",
+        description:
+          "After breakfast, check out from the hotel. A private transfer will take you to Rome Airport for your onward flight home, bringing your unforgettable Italian holiday to a memorable conclusion. Safe travels!",
+        meals: "Breakfast",
+        stay: "—",
+      },
+    ],
+    inclusions: [
+      "Accommodation with breakfast (except day 1)",
+      "Private transfers (per vehicle): Milan Airport → Milan hotel, Milan hotel → Milan Train Station, Venice Train Station → Venice hotel (Water Taxi), Venice hotel → Venice Train Station (Water Taxi), Florence Train Station → Florence hotel, Florence hotel → Florence Train Station, Rome Train Station → Rome hotel, Rome hotel → Rome Airport",
+      "Train: Milano Centrale → Venezia S. Lucia (2nd class), Train: Venezia S. Lucia → Firenze S.M. Novella (2nd class), Train: Firenze S.M. Novella → Roma Termini (2nd class)",
+      "Venice: Grand Canal Gondola Ride (Shared Basis)",
+      "Florence: 24-Hours Hop-On Hop-Off Bus Tour (SIC Basis)",
+      "Florence: Pisa, Siena and San Gimignano Day Trip– Basic Tour (SIC Basis)",
+      "Rome: 24-hours Hop-on Hop-off bus tour (SIC Basis)",
+      "Rome: Colosseum, Roman Forum & Palatine Hill entrance & Guided Tour - No Arena access (SIC)",
+    ],
+    exclusions: [
+      "Any Airfare",
+      "Airport Taxes",
+      "5% GST & 2% TCS",
+      "Visa Fees",
+      "Travel Insurance",
+      "Meals not mentioned above",
+      "Anything not mentioned above",
+      "Hotel city tax",
+      "Tips and gratuities",
+      "Any services not explicitly listed in inclusions",
+    ],
+    faqs: [
+      {
+        question: "What is the total tour cost and sharing options?",
+        answer:
+          "Tour Pricing (valid till 31st Oct 2026):\n• Double sharing basis: ₹1,82,999/- + 5% GST + 2% TCS per person\n• Single sharing basis: ₹2,84,999/- + 5% GST + 2% TCS per person",
+      },
+      {
+        question: "What are the payment terms and booking milestones?",
+        answer:
+          "• At the time of booking: A 50% non-refundable booking amount is required to confirm the reservation.\n• 30 days prior to departure (D-30): The balance payment must be made.\nNote: At the time of final payment, the Rate of Exchange (ROE) will be calculated as XE.com + 2 on the outstanding amount.",
+      },
+      {
+        question: "What is the cancellation policy?",
+        answer:
+          "• Up to 45 days before departure: A cancellation charge of INR 40,000 per adult/child is applicable.\n• Less than 30 days prior to departure: 100% cancellation charges apply.",
+      },
+      {
+        question: "What are the travel documents and luggage guidelines?",
+        answer:
+          "Passport must be valid for at least 6 months from the return date with a minimum of 2 blank pages. A valid tourist visa is mandatory. We recommend carrying one check-in bag and one handbag per person due to train and coach space restrictions.",
+      },
+    ],
+  },
+  {
+    id: "london-edinburgh-bliss",
+    title: "London & Edinburgh Bliss (4N London | 3N Edinburgh)",
+    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
+    duration: "7 Nights / 8 Days",
+    price: "₹1,95,999",
+    highlights: [
+      "Explore two iconic UK destinations – London & Edinburgh",
+      "London 48-Hour Hop-On Hop-Off Bus Tour",
+      "Panoramic city views from the London Eye",
+      "Meet celebrities at Madame Tussauds London",
+      "Scenic 1-Way River Thames Cruise",
+      "Historic Tower of London and the Crown Jewels",
+      "Full-day guided excursion to the Cotswolds & Oxford",
+      "Comfortable 2nd Class train from London to Edinburgh",
+      "Edinburgh 24-Hour Hop-On Hop-Off Bus Tour",
+      "Visit the magnificent Edinburgh Castle",
+      "Private airport, hotel, and railway station transfers for a hassle-free journey",
+      "Daily breakfast and comfortable hotel accommodation throughout",
+    ],
+    category: "International",
+    tagline: "4N London | 3N Edinburgh · 7N/8D · Valid till 31st Oct 2026",
+    overview:
+      "A scenic 7 Nights / 8 Days UK journey spanning London (4N) and Edinburgh (3N). Discover London's famous landmarks with a 48-hour Hop-On Hop-Off pass, the London Eye, Madame Tussauds, a Thames cruise, the Tower of London, and a full-day excursion through Oxford's university colleges and the idyllic honey-stone villages of the Cotswolds. Then journey north by rail to explore Edinburgh Castle, the Royal Mile, and Scotland's historic capital.\n\nRates are valid for travel until 31st October 2026 (not applicable during peak/festival periods).",
+    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "May to October (Valid till 31st Oct 2026)",
+    startingPoint: "London Heathrow Airport (LHR)",
+    groupSize: "2+ guests",
+    themes: ["City", "Heritage", "Scenic"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "London landmarks" },
+      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Edinburgh's historic streets" },
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: "Arrival in London",
+        description:
+          "Welcome to London! Upon arrival at London Heathrow Airport, meet your private transfer and proceed to your hotel. Check in (from 1500 hrs) and spend the rest of the day at leisure. You may relax after your journey or take a short walk around the nearby streets and cafés. Overnight stay in London.",
+        meals: "—",
+        stay: "London",
+      },
+      {
+        day: 2,
+        title: "London City Tour, London Eye & Madame Tussauds",
+        description:
+          "After breakfast, make your way to the designated meeting point to begin your sightseeing. Enjoy a 48-Hour Hop-On Hop-Off Bus Tour, allowing you to explore London's famous landmarks at your own pace. Experience breathtaking panoramic views from the iconic London Eye and visit Madame Tussauds to see lifelike wax figures of celebrities, historical personalities, and sports stars. Overnight stay in London.",
+        meals: "Breakfast",
+        stay: "London",
+      },
+      {
+        day: 3,
+        title: "Thames River Cruise & Tower of London",
+        description:
+          "Enjoy breakfast at the hotel. Make your way to the designated meeting point and continue exploring London with the second day of your Hop-On Hop-Off Bus Tour. Take a scenic one-way Thames River Cruise and visit the historic Tower of London, home to the Crown Jewels and centuries of British history. Spend some free time shopping or exploring nearby attractions before returning to the hotel. Overnight stay in London.",
+        meals: "Breakfast",
+        stay: "London",
+      },
+      {
+        day: 4,
+        title: "Oxford & Cotswolds Excursion",
+        description:
+          "After breakfast, proceed to the meeting point for your full-day guided tour to the charming Cotswolds and the historic university city of Oxford on a shared coach basis. Explore picturesque villages, beautiful countryside, and Oxford's famous colleges before returning to London in the evening. Overnight stay in London.",
+        meals: "Breakfast",
+        stay: "London",
+      },
+      {
+        day: 5,
+        title: "London to Edinburgh",
+        description:
+          "After breakfast, check out of the hotel and enjoy a private transfer to London's train station. Board your train to Edinburgh (2nd Class). Upon arrival, a private transfer will take you to your hotel. Check in (from 1500 hrs) and enjoy the remainder of the day at leisure to explore Scotland's capital at your own pace. Overnight stay in Edinburgh.",
+        meals: "Breakfast",
+        stay: "Edinburgh",
+      },
+      {
+        day: 6,
+        title: "Edinburgh City Tour & Edinburgh Castle",
+        description:
+          "After breakfast, proceed to the meeting point on own and enjoy a 24-Hour Hop-On Hop-Off Bus Tour of Edinburgh. Visit the magnificent Edinburgh Castle, one of Scotland's most iconic landmarks, and explore the city's historic streets, viewpoints, and attractions at your leisure. Overnight stay in Edinburgh.",
+        meals: "Breakfast",
+        stay: "Edinburgh",
+      },
+      {
+        day: 7,
+        title: "Leisure Day in Edinburgh",
+        description:
+          "Enjoy breakfast at the hotel before spending the day at your own pace. Discover the charming Royal Mile, shop for Scottish souvenirs, visit local cafés, or simply enjoy the city's vibrant atmosphere. Overnight stay in Edinburgh.",
+        meals: "Breakfast",
+        stay: "Edinburgh",
+      },
+      {
+        day: 8,
+        title: "Departure from Edinburgh",
+        description:
+          "After breakfast, check out of the hotel and enjoy a private transfer to Edinburgh Airport for your onward flight, taking home unforgettable memories of your London and Scotland holiday.",
+        meals: "Breakfast",
+        stay: "—",
+      },
+    ],
+    inclusions: [
+      "Accommodation with breakfast (except day 1)",
+      "Train: London → Edinburgh (2nd class)",
+      "Private transfers: London airport → London hotel, London hotel → London train station, Edinburgh train station → Edinburgh hotel, Edinburgh hotel → Edinburgh airport",
+      "London: 48-Hour Hop-On, Hop-Off Bus Tour (SIC)",
+      "London: The London Eye – Standard Entrance Ticket",
+      "London: Madame Tussauds London Entrance Ticket",
+      "London: River Thames 1-Way Cruise (Shared Basis)",
+      "London: Tower of London Entrance Ticket",
+      "London: Cotswolds and Oxford Guided Tour (SIC Basis)",
+      "Edinburgh: 24 Hours Hop-On Hop-Off Bus Tour (SIC Basis)",
+      "Edinburgh Castle entrance ticket",
+    ],
+    exclusions: [
+      "Any Airfare",
+      "Airport Taxes",
+      "5% GST & 2% TCS",
+      "Visa Fees",
+      "Travel Insurance",
+      "Meals not mentioned above",
+      "Anything not mentioned above",
+      "Hotel city tax",
+      "Tips and gratuities",
+      "Any services not explicitly listed in inclusions",
+    ],
+    faqs: [
+      {
+        question: "What is the total tour cost and sharing options?",
+        answer:
+          "Tour Pricing (valid till 31st Oct 2026):\n• Double sharing basis: ₹1,95,999/- + 5% GST + 2% TCS per person\n• Single sharing basis: ₹3,21,999/- + 5% GST + 2% TCS per person",
+      },
+      {
+        question: "What are the payment terms and booking milestones?",
+        answer:
+          "• At the time of booking: A 50% non-refundable booking amount is required to confirm the reservation.\n• 30 days prior to departure (D-30): The balance payment must be made.\nNote: At the time of final payment, the Rate of Exchange (ROE) will be calculated as XE.com + 2 on the outstanding amount.",
+      },
+      {
+        question: "What is the cancellation policy?",
+        answer:
+          "• Up to 45 days before departure: A cancellation charge of INR 40,000 per adult/child is applicable.\n• Less than 30 days prior to departure: 100% cancellation charges apply.",
+      },
+      {
+        question: "What are the passport, baggage, and travel guidelines?",
+        answer:
+          "Passport must be valid for at least 6 months from the return date with a minimum of 2 blank pages. A valid UK tourist visa is mandatory. We recommend carrying one check-in bag and one handbag per person due to train luggage restrictions.",
+      },
+    ],
+  },
+  {
+    id: "paris-swiss-delights",
+    title: "Paris & Swiss Delights (3N Paris | 3N Zurich)",
+    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
+    duration: "6 Nights / 7 Days",
+    price: "₹1,94,999",
+    highlights: [
+      "Explore two of Europe's most iconic destinations – Paris & Zurich",
+      "Discover Paris with a 48-Hour Hop-On Hop-Off Bus Tour",
+      "Visit the world-famous Eiffel Tower (2nd Level)",
+      "Enjoy a scenic 1-Hour Seine River Cruise",
+      "Explore the renowned Louvre Museum with a digital audio guide",
+      "Experience a comfortable high-speed train journey from Paris to Zurich (2nd Class)",
+      "Travel across Switzerland with a 3-Day Swiss Travel Pass (2nd Class)",
+      "Spectacular mountain excursion to Mount Titlis via Engelberg",
+      "Witness the breathtaking beauty of Rhine Falls, Europe's largest waterfall",
+      "Private airport and railway station transfers for a seamless travel experience",
+      "Daily breakfast and comfortable hotel accommodation throughout",
+    ],
+    category: "International",
+    tagline: "3N Paris | 3N Zurich · 6N/7D · Valid till 31st Oct 2026",
+    overview:
+      "A scenic 6 Nights / 7 Days European escape pairing Paris (3N) and Zurich (3N). Admire Parisian icons with a 48-hour Hop-On Hop-Off pass, Eiffel Tower second-level entry, a Seine River cruise, and the treasures of the Louvre Museum with audio guide. Connect to Switzerland by high-speed rail and use your 3-day Swiss Travel Pass for unlimited exploration including a mountain ascent of Mount Titlis via Engelberg and the roaring waters of Rhine Falls at Schaffhausen.\n\nRates are valid for travel until 31st October 2026 (not applicable during peak/festival periods).",
+    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "April to October (Valid till 31st Oct 2026)",
+    startingPoint: "Paris Charles de Gaulle Airport (CDG)",
+    groupSize: "2+ guests",
+    themes: ["City", "Mountains", "Scenic"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "Paris and Eiffel Tower" },
+      { image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800", caption: "Swiss Alps & Lakes" },
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: "Arrival in Paris",
+        description:
+          "Welcome to France! Upon arrival at Paris Charles de Gaulle (CDG) Airport, you will be met by your private transfer and driven to your hotel. Check in (from 1500 hrs). Spend the remainder of the day at leisure, relaxing after your journey or exploring the nearby streets and cafés at your own pace. Overnight stay in Paris.",
+        meals: "—",
+        stay: "Paris",
+      },
+      {
+        day: 2,
+        title: "Paris City Tour, Eiffel Tower & Seine River Cruise",
+        description:
+          "After breakfast, proceed to the designated meeting point to begin your 48-Hour Hop-On Hop-Off Bus Tour. Discover Paris's famous landmarks including the Champs-Élysées, Arc de Triomphe, Notre-Dame Cathedral, and Place de la Concorde. Visit the iconic Eiffel Tower with your included second-level entrance ticket (subject to availability), then enjoy a relaxing 1-hour Seine River Cruise, offering beautiful views of Paris's historic monuments. Continue exploring the city at your own pace before returning to the hotel. Overnight stay in Paris.",
+        meals: "Breakfast",
+        stay: "Paris",
+      },
+      {
+        day: 3,
+        title: "Louvre Museum & Paris Exploration",
+        description:
+          "Enjoy breakfast at the hotel before making your way to the meeting point to continue your second day of the 48-Hour Hop-On Hop-Off Bus Tour. Visit the world-renowned Louvre Museum with your general admission ticket and digital audio guide, where you can admire masterpieces including the Mona Lisa and countless other artistic treasures. Spend the rest of the day exploring Paris at your leisure. Overnight stay in Paris.",
+        meals: "Breakfast",
+        stay: "Paris",
+      },
+      {
+        day: 4,
+        title: "Paris – Zurich",
+        description:
+          "After breakfast, check out from the hotel and take a private transfer to Paris Gare de Lyon Railway Station. Board your comfortable train to Zurich (2nd Class). Upon arrival at Zurich Hauptbahnhof, use your activated 3-Day Swiss Travel Pass (2nd Class) to travel to your hotel. Check in (from 1500 hrs). The evening is free to explore Zurich's charming Old Town, lakeside promenade, or local cafés. Overnight stay in Zurich.",
+        meals: "Breakfast",
+        stay: "Zurich",
+      },
+      {
+        day: 5,
+        title: "Excursion to Mount Titlis",
+        description:
+          "After breakfast, travel by train from Zurich to Engelberg using your Swiss Travel Pass. Continue your journey to the spectacular Mount Titlis, where you'll experience breathtaking Alpine scenery, snow-covered peaks, and unforgettable panoramic views. Enjoy free time to explore the mountain attractions before returning by train to Zurich. Overnight stay in Zurich.",
+        meals: "Breakfast",
+        stay: "Zurich",
+      },
+      {
+        day: 6,
+        title: "Rhine Falls Excursion",
+        description:
+          "After breakfast, travel by train from Zurich to Schaffhausen using your Swiss Travel Pass. Visit the magnificent Rhine Falls, Europe's largest waterfall, and admire its impressive natural beauty from the viewing platforms (boat ride not included). After enjoying the scenic surroundings, return to Zurich by train. Overnight stay in Zurich.",
+        meals: "Breakfast",
+        stay: "Zurich",
+      },
+      {
+        day: 7,
+        title: "Departure from Zurich",
+        description:
+          "After breakfast, check out from the hotel. A private transfer will take you to Zurich Airport for your onward flight home, carrying unforgettable memories of your Paris and Switzerland holiday. Safe travels!",
+        meals: "Breakfast",
+        stay: "—",
+      },
+    ],
+    inclusions: [
+      "Accommodation with breakfast (except day 1)",
+      "Private transfers: Paris CDG airport → Paris hotel, Paris hotel → Paris Train Station, Zurich hotel → Zurich airport",
+      "Day Train: Paris → Zurich (2nd class)",
+      "Swiss Pass for 3 continuous days (2nd class) – includes unlimited travel on trains, buses, boats, and free entry to 500+ museums",
+      "Paris: 48-Hours Hop-On Hop-Off Bus Tour (SIC Basis)",
+      "Paris: Eiffel Tower Second Level Entrance Ticket (Subject to availability)",
+      "Paris: 1-Hour Seine Cruise (Shared Basis)",
+      "Paris: Louvre Museum General Ticket with Digital Audio Guide",
+      "Engelberg: Mount Titlis (with Swiss Pass)",
+      "Visit Rhine Falls (No Boat Ride)",
+    ],
+    exclusions: [
+      "Any Airfare",
+      "Airport Taxes",
+      "5% GST & 2% TCS",
+      "Visa Fees",
+      "Travel Insurance",
+      "Meals not mentioned above",
+      "Anything not mentioned above",
+      "Hotel city tax",
+      "Tips and gratuities",
+      "Any services not explicitly listed in inclusions",
+    ],
+    faqs: [
+      {
+        question: "What is the total tour cost and sharing options?",
+        answer:
+          "Tour Pricing (valid till 31st Oct 2026):\n• Double sharing basis: ₹1,94,999/- + 5% GST + 2% TCS per person\n• Single sharing basis: ₹2,84,999/- + 5% GST + 2% TCS per person",
+      },
+      {
+        question: "What are the payment terms and booking milestones?",
+        answer:
+          "• At the time of booking: A 50% non-refundable booking amount is required to confirm the reservation.\n• 30 days prior to departure (D-30): The balance payment must be made.\nNote: At the time of final payment, the Rate of Exchange (ROE) will be calculated as XE.com + 2 on the outstanding amount.",
+      },
+      {
+        question: "What is the cancellation policy?",
+        answer:
+          "• Up to 45 days before departure: A cancellation charge of INR 40,000 per adult/child is applicable.\n• Less than 30 days prior to departure: 100% cancellation charges apply.",
+      },
+      {
+        question: "What are the passport, baggage, and European travel guidelines?",
+        answer:
+          "Passport must be valid for at least 6 months from the return date with a minimum of 2 blank pages. A valid Schengen tourist visa is mandatory. We recommend carrying one check-in bag and one handbag per person due to train and coach space restrictions.",
+      },
+    ],
+  },
+  {
+    id: "splendid-germany",
+    title: "Splendid Germany (3N Munich | 1N Stuttgart | 2N Frankfurt)",
+    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
+    duration: "6 Nights / 7 Days",
+    price: "₹1,47,999",
+    highlights: [
+      "Explore three of Germany's most vibrant cities – Munich, Stuttgart & Frankfurt",
+      "Discover Munich on a Hop-On Hop-Off City Tour",
+      "Visit the world-famous Neuschwanstein Castle",
+      "Explore the magnificent Linderhof Palace",
+      "Enjoy scenic 2nd Class train journeys between Munich, Stuttgart, and Frankfurt",
+      "Explore Stuttgart with a 24-Hour Hop-On Hop-Off Bus Tour",
+      "Discover Frankfurt's iconic landmarks on a 24-Hour Hop-On Hop-Off Grand Tour",
+      "Relax on a scenic 1-Hour Panorama Boat Cruise along the River Main",
+      "Private airport, hotel, and railway station transfers throughout the journey",
+      "Daily breakfast and comfortable hotel accommodation",
+    ],
+    category: "International",
+    tagline: "3N Munich | 1N Stuttgart | 2N Frankfurt · 6N/7D · Valid till 31st Oct 2026",
+    overview:
+      "Explore three of Germany's most vibrant cities: Munich (3N), Stuttgart (1N), and Frankfurt (2N). Highlights include a 1-day Munich Hop-On Hop-Off tour, an excursion to the fairytale Neuschwanstein Castle and King Ludwig II's Linderhof Palace, 2nd-class scenic rail journeys, a 24-hour Stuttgart Hop-On Hop-Off tour, Frankfurt Grand Tour with a 1-hour River Main panorama cruise, and seamless private transfers throughout.",
+    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "May to October (Valid till 31st Oct 2026)",
+    startingPoint: "Munich Airport",
+    groupSize: "2+ guests",
+    themes: ["City", "Heritage", "Scenic"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "Bavarian castles" },
+      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Frankfurt's riverside skyline" },
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: "Arrival in Munich",
+        description:
+          "Welcome to Germany! Upon arrival at Munich Airport, you will be met by your private transfer and driven to your hotel. Check-in (from 1500 hrs). Spend the remainder of the day at leisure, relaxing after your journey or exploring Munich's charming streets, cafés, and shopping areas at your own pace. Overnight stay in Munich.",
+        meals: "—",
+        stay: "Munich",
+      },
+      {
+        day: 2,
+        title: "Explore Munich",
+        description:
+          "After breakfast, proceed to the designated meeting point to begin your 1-Day Hop-On Hop-Off Bus Tour. Discover Munich’s most iconic landmarks, including Marienplatz, the English Garden, Nymphenburg Palace, Olympic Park, and other popular attractions while exploring the city at your own pace. Overnight stay in Munich.",
+        meals: "Breakfast",
+        stay: "Munich",
+      },
+      {
+        day: 3,
+        title: "Neuschwanstein & Linderhof Castle Excursion",
+        description:
+          "After breakfast, make your way to the designated meeting point for a full-day shared tour to two of Bavaria's most spectacular royal palaces. Visit the fairytale Neuschwanstein Castle, famous for inspiring Disney's Sleeping Beauty Castle, and explore the elegant Linderhof Palace, the smallest but most lavish palace built by King Ludwig II. Your tour includes entrance to both castles. Return to Munich in the evening. Overnight stay in Munich.",
+        meals: "Breakfast",
+        stay: "Munich",
+      },
+      {
+        day: 4,
+        title: "Munich – Stuttgart",
+        description:
+          "After breakfast, check out from the hotel and take a private transfer to Munich Central Station. Board your train to Stuttgart (2nd Class). Upon arrival, a private transfer will take you to your hotel. Check-in (from 1500 hrs). Later, proceed to the designated meeting point for your 24-Hour Hop-On Hop-Off Bus Tour, allowing you to explore Stuttgart’s major attractions, cultural landmarks, and beautiful cityscape at your own pace. Overnight stay in Stuttgart.",
+        meals: "Breakfast",
+        stay: "Stuttgart",
+      },
+      {
+        day: 5,
+        title: "Stuttgart – Frankfurt",
+        description:
+          "After breakfast, check out from the hotel and transfer privately to Stuttgart Central Station. Board your train to Frankfurt (2nd Class). Upon arrival, a private transfer will take you to your hotel. Check-in (from 1500 hrs). Spend the rest of the day exploring Frankfurt's vibrant city center, riverside promenade, or shopping streets at your leisure. Overnight stay in Frankfurt.",
+        meals: "Breakfast",
+        stay: "Frankfurt",
+      },
+      {
+        day: 6,
+        title: "Discover Frankfurt",
+        description:
+          "After breakfast, proceed to the designated meeting point for your 24-Hour Hop-On Hop-Off Grand Tour. Explore Frankfurt’s famous attractions, including Römer Square, St. Bartholomew’s Cathedral, the financial district, and the Museumsufer. Later, enjoy a relaxing 1-hour Panorama Boat Cruise along the River Main, offering scenic views of the city’s impressive skyline and historic waterfront. Overnight stay in Frankfurt.",
+        meals: "Breakfast",
+        stay: "Frankfurt",
+      },
+      {
+        day: 7,
+        title: "Departure from Frankfurt",
+        description:
+          "After breakfast, check out from the hotel. A private transfer will take you to Frankfurt Airport for your onward flight home, taking wonderful memories of your unforgettable journey through Germany. Safe travels!",
+        meals: "Breakfast",
+        stay: "—",
+      },
+    ],
+    inclusions: [
+      "Accommodation with breakfast (except day 1)",
+      "Private transfers: Munich Airport → Munich hotel, Munich hotel → Munich Train Station",
+      "Private transfers: Stuttgart Train Station → Stuttgart hotel, Stuttgart hotel → Stuttgart Train Station",
+      "Private transfers: Frankfurt Train Station → Frankfurt hotel, Frankfurt hotel → Frankfurt Airport",
+      "2nd Class train: Munich Central Station → Stuttgart Central Station",
+      "2nd Class train: Stuttgart Central Station → Frankfurt Central Station",
+      "Munich: 1-Day Hop-On Hop-Off Bus Tour",
+      "Bavaria: Full-day Neuschwanstein & Linderhof Castle excursion with entrance included",
+      "Stuttgart: 24-Hour Hop-On Hop-Off Bus Tour",
+      "Frankfurt: 24-Hour Hop-On Hop-Off Grand Tour",
+      "Frankfurt: 1-Hour Panorama Boat Cruise along River Main",
+    ],
+    exclusions: [
+      "Any Airfare",
+      "Airport Taxes",
+      "5% GST & 2% TCS",
+      "Visa Fees",
+      "Travel Insurance",
+      "Meals not mentioned above",
+      "Anything not mentioned above",
+      "Hotel city tax",
+      "Tips and gratuities",
+      "Any services not explicitly listed in inclusions",
+      "Transfers to and from meeting & dropping points unless specified as private transfer",
+    ],
+    faqs: [
+      {
+        question: "What is the total tour cost and sharing options?",
+        answer:
+          "Tour Pricing (valid till 31st Oct 2026):\n• Double sharing basis: ₹1,47,999/- + 5% GST + 2% TCS per person\n• Single sharing basis: ₹1,95,999/- + 5% GST + 2% TCS per person",
+      },
+      {
+        question: "What are the payment terms and booking milestones?",
+        answer:
+          "• At the time of booking: A 50% non-refundable booking amount is required to confirm the reservation.\n• 30 days prior to departure (D-30): The balance payment must be made.\nNote: At the time of final payment, the Rate of Exchange (ROE) will be calculated as XE.com + 2 on the outstanding amount.",
+      },
+      {
+        question: "What is the cancellation policy?",
+        answer:
+          "• Up to 45 days before departure: A cancellation charge of INR 40,000 per adult/child is applicable.\n• Less than 30 days prior to departure: 100% cancellation charges apply.",
+      },
+      {
+        question: "What are the passport, baggage, and European travel guidelines?",
+        answer:
+          "Passport must be valid for at least 6 months from the return date with a minimum of 2 blank pages. A valid tourist visa is mandatory. We recommend carrying one check-in bag and one handbag per person due to coach/train storage regulations. Hotel check-in is from 15:00 hrs.",
+      },
+    ],
+  },
+  {
+    id: "turkish-wonders",
+    title: "Turkish Wonders - 7 Nights & 8 Days (2N Istanbul | 1N Pamukkale | 2N Antalya | 2N Cappadocia)",
+    image: "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&q=85&w=1800",
+    duration: "7 Nights / 8 Days",
+    price: "₹2,56,999",
+    highlights: [
+      "Guided comprehensive tours of Istanbul, Pamukkale, Antalya & Cappadocia",
+      "Hagia Sophia, Blue Mosque & the historic Roman Hippodrome",
+      "Dazzling white Pamukkale Travertine Terraces & UNESCO ruins of Hierapolis",
+      "Antalya Historic Old Town (Kaleiçi) & scenic Düden Waterfalls",
+      "Göreme Open Air Museum & fascinating Ozkonak Underground City",
+      "Love Valley, Devrent Imagination Valley & Three Beauties Fairy Chimneys",
+      "Authentic Turkish carpet, pottery and textile craft demonstrations",
+      "Optional sunrise Hot Air Balloon rides over Pamukkale and Cappadocia",
+      "Stay in premium hotels including 5* Istanbul and authentic Cappadocia Cave Hotel",
+    ],
+    category: "International",
+    tagline: "Byzantine treasures, Mediterranean cascades, Pamukkale cotton terraces & Cappadocia's fairy chimneys.",
+    overview:
+      "Immerse yourself in the timeless wonders of Turkey on a magnificent 7-night, 8-day journey spanning continents and millennia. Explore Istanbul's Hagia Sophia and Blue Mosque, marvel at the sparkling calcified travertine pools of Pamukkale and ancient Hierapolis, soak in the Mediterranean charm of Antalya's Kaleiçi and Düden Waterfalls, and discover Cappadocia's underground cities, valleys of fairy chimneys, and cave dwellings.",
+    heroImage: "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "April to October",
+    startingPoint: "Istanbul International Airport (IST)",
+    groupSize: "Min 2 travellers",
+    themes: ["Ancient Heritage", "Fairy Chimney Landscapes", "Mediterranean Coast", "Cultural Exploration"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&q=85&w=1800", caption: "The Blue Mosque, Istanbul" },
+      { image: "https://images.unsplash.com/photo-1527838832700-5059252407fa?auto=format&fit=crop&q=85&w=1800", caption: "Hagia Sophia Grand Mosque" },
+      { image: "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&q=85&w=1800", caption: "Hot air balloons rising over Cappadocia" },
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: "Arrival in Istanbul",
+        description: "Upon arrival at Istanbul International Airport, meet your local representative and transfer to your hotel. After check-in, relax and enjoy the rest of the day at leisure. Istanbul, the only city in the world spanning both Europe and Asia, is renowned for its rich imperial history, magnificent monuments, vibrant bazaars, and unique cultural heritage. Overnight stay in Istanbul.",
+        meals: "—",
+        stay: "Istanbul (5* La Quinta by Wyndham or similar)",
+      },
+      {
+        day: 2,
+        title: "Istanbul City Tour",
+        description: "After breakfast, proceed for a guided city tour of Istanbul. Visit the historic Hippodrome of Constantinople, followed by the magnificent Blue Mosque, famed for its cascading domes and intricate blue Iznik tiles. Continue to the iconic Hagia Sophia Grand Mosque, a crowning masterpiece of Byzantine architecture. Later, visit a traditional Turkish shopping centre to discover Turkish delight, spices, ceramics, handicrafts, and souvenirs. Return to the hotel for an overnight stay in Istanbul. (Note: Please carry a headscarf for mosque visits).",
+        meals: "Breakfast",
+        stay: "Istanbul",
+      },
+      {
+        day: 3,
+        title: "Istanbul – Denizli – Pamukkale",
+        description: "After breakfast, enjoy free time until your scheduled transfer to Istanbul Airport for your domestic flight to Denizli. Upon arrival at Denizli Cardak Airport, meet your representative and transfer to Pamukkale. Check in to your hotel and spend the evening relaxing by the thermal pools. Overnight stay in Pamukkale.",
+        meals: "Breakfast",
+        stay: "Pamukkale (4* Tripolis Hotel or similar)",
+      },
+      {
+        day: 4,
+        title: "Pamukkale Tour – Antalya",
+        description: "After breakfast, visit the spectacular white travertine terraces of Pamukkale, formed by mineral-rich thermal waters, and explore the sprawling ancient ruins of Hierapolis, a UNESCO World Heritage Site featuring ancient theatres and Roman baths. Enjoy free time to stroll across the natural pools before visiting a local textile factory. Later, board your comfortable coach and journey across the Taurus Mountains to Antalya. Check in to your hotel for an overnight stay in Antalya. (Optional: Sunrise Hot Air Balloon ride over Pamukkale).",
+        meals: "Breakfast",
+        stay: "Antalya (4* Best Western Plus Khan Hotel or similar)",
+      },
+      {
+        day: 5,
+        title: "Antalya Old City Tour",
+        description: "After breakfast, explore historic Kaleiçi (Antalya's Old Town). Walk through Hadrian's Gate, see the Clock Tower, the Broken Minaret, the historic Hıdırlık Tower, and the picturesque Roman Harbour marina. Later, visit the spectacular Lower Düden Waterfalls, where dramatic torrents cascade directly into the azure Mediterranean Sea. Return to the hotel for an overnight stay in Antalya.",
+        meals: "Breakfast",
+        stay: "Antalya",
+      },
+      {
+        day: 6,
+        title: "Antalya – Cappadocia",
+        description: "After breakfast, transfer to Antalya Airport for your domestic flight to Cappadocia. Upon arrival at Kayseri or Nevşehir Airport, transfer to your unique cave-style hotel and check in. The remainder of the day is free to relax and soak in the magical landscape of fairy chimneys and volcanic tuff formations. Register for tomorrow's optional sunrise balloon ride. Overnight stay in Cappadocia.",
+        meals: "Breakfast",
+        stay: "Cappadocia (3* El Puente Cave Hotel or similar)",
+      },
+      {
+        day: 7,
+        title: "Cappadocia Tour",
+        description: "After breakfast, embark on a full-day guided tour across Cappadocia's most iconic wonders. Explore the subterranean chambers of Ozkonak Underground City, carved deep into volcanic rock. Continue to the UNESCO-listed Göreme Open Air Museum with its rock-hewn Byzantine churches and ancient frescoes, visit the historic troglodyte village of Çavuşin, and watch master artisans at a traditional pottery workshop in Avanos. Marvel at the natural rock sculptures in Love Valley, Devrent (Imagination) Valley, and the iconic Three Beauties Fairy Chimneys in Ürgüp. Overnight stay in Cappadocia.",
+        meals: "Breakfast",
+        stay: "Cappadocia",
+      },
+      {
+        day: 8,
+        title: "Cappadocia – Istanbul – Departure",
+        description: "After breakfast, enjoy free time for some final souvenir shopping before transferring to Kayseri or Nevşehir Airport for your domestic flight back to Istanbul. Connect with your onward international flight back home, carrying unforgettable memories of Turkey's magical landscapes and ancient history. Safe travels!",
+        meals: "Breakfast",
+        stay: "—",
+      },
+    ],
+    inclusions: [
+      "07 Nights' accommodation with breakfast (except Day 1)",
+      "Hotel accommodations: 2N Istanbul (5*), 1N Pamukkale (4*), 2N Antalya (4*), 2N Cappadocia (3* Cave Hotel)",
+      "All airport transfers as mentioned in the itinerary",
+      "All entrance fees to attractions mentioned in the itinerary",
+      "Transportation in a fully air-conditioned, non-smoking coach",
+      "Services of professional English-speaking licensed tour guides",
+      "Hotel room and municipal city taxes",
+    ],
+    exclusions: [
+      "5% GST & 2% TCS (statutory government charges)",
+      "International and Domestic airfares and airport taxes",
+      "Turkey Visa charges & Comprehensive Travel Insurance",
+      "Optional sunrise Hot Air Balloon rides in Pamukkale and Cappadocia",
+      "Lunches, dinners, and beverages unless specifically mentioned",
+      "Early check-in and late check-out charges",
+      "Tips for tour guides, drivers, porterage, and personal expenses",
+      "Camera/video fees wherever applicable",
+    ],
+    faqs: [
+      {
+        question: "What are the rates and hotel categories for Turkish Wonders?",
+        answer: "Per Person Cost on Double/Twin sharing basis is INR 2,56,999/- + 5% GST + 2% TCS (based on minimum 2 passengers). The package features 5-star accommodation in Istanbul (La Quinta by Wyndham), 4-star in Pamukkale (Tripolis Hotel), 4-star in Antalya (Best Western Plus Khan), and an authentic 3-star cave hotel in Cappadocia (El Puente Cave Hotel). Rates are valid until 31st October.",
+      },
+      {
+        question: "Are domestic flights and hot air balloon rides included?",
+        answer: "Domestic flights (Istanbul–Denizli, Antalya–Cappadocia, Cappadocia–Istanbul) and the world-famous sunrise Hot Air Balloon rides in Cappadocia and Pamukkale are optional additions and can be arranged upon request.",
+      },
+      {
+        question: "What should I know about visiting mosques and religious sites?",
+        answer: "When visiting active religious sites such as the Blue Mosque and Hagia Sophia Grand Mosque, modest attire covering knees and shoulders is mandatory, and women are required to carry and wear a headscarf.",
+      },
+    ],
+  },
+  {
+    id: "south-african-delights",
+    title: "South Africa (3N Cape Town | 2N Sun City | 1N Johannesburg)",
+    image: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=85&w=1800",
+    duration: "6 Nights / 7 Days",
+    price: "₹1,42,999",
+    highlights: [
+      "Guided Half-Day Mother City Tour of Cape Town & Bo-Kaap",
+      "Ascend the iconic Table Mountain by Cable Car (weather permitting)",
+      "Full-day scenic Cape Peninsula tour along the Atlantic Seaboard",
+      "Cape of Good Hope Nature Reserve & Flying Dutchman Funicular",
+      "Meet the charming colony of African Penguins at Boulders Beach",
+      "Two nights at the world-class Sun City Resort & Valley of Waves",
+      "Opportunity for an optional Big Five Safari in adjacent Pilanesberg National Park",
+      "Visit Gold Reef City in Johannesburg with gold pouring demonstrations",
+      "Private airport arrival, departure and intercity road transfers",
+    ],
+    category: "International",
+    tagline: "Cape Town's coastal splendor, Table Mountain, Boulders Beach penguins, and Sun City resort fun.",
+    overview:
+      "Discover the extraordinary diversity of South Africa on a 6-night, 7-day tour. Spend 3 nights in breathtaking Cape Town taking in the vibrant Bo-Kaap, Table Mountain cable car, and a full-day Cape Peninsula excursion to the Cape of Good Hope and Boulders Beach penguins. Continue with 2 nights at the glamorous Sun City Resort with options for a Big Five safari in Pilanesberg, concluding with 1 night in Johannesburg visiting Gold Reef City.",
+    heroImage: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "October to April",
+    startingPoint: "Cape Town International Airport (CPT)",
+    groupSize: "Min 2 travellers",
+    themes: ["Wildlife & Safari", "Coastal Wonders", "Resort Living", "City & Culture"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=85&w=1800", caption: "Table Mountain overlooking Cape Town" },
+      { image: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&q=85&w=1800", caption: "African sunset over the bushveld" },
+      { image: "https://images.unsplash.com/photo-1576485290814-1c72aa4bbb8e?auto=format&fit=crop&q=85&w=1800", caption: "African penguins at Boulders Beach" },
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: "Arrival in Cape Town",
+        description: "Welcome to South Africa! Upon arrival at Cape Town International Airport, you will be greeted by your local representative and transferred to your hotel. Set dramatically between the majestic Table Mountain and the sparkling Atlantic Ocean, Cape Town is one of the world's most beautiful cities. After check-in, the remainder of the day is free to relax or explore the bustling Victoria & Alfred Waterfront, cafés, and nearby attractions at your own pace. Overnight stay in Cape Town.",
+        meals: "—",
+        stay: "Cape Town",
+      },
+      {
+        day: 2,
+        title: "Cape Town City Tour & Table Mountain",
+        description: "After breakfast, set out on a guided Half-Day Mother City Tour. Drive through the scenic suburbs of Clifton and Sea Point before visiting some of Cape Town’s most iconic landmarks, including the Houses of Parliament, Castle of Good Hope, South African Museum, District Six, Slave Lodge, the colorful Bo-Kaap neighborhood, and Greenmarket Square. Later, ascend world-famous Table Mountain by cable car (weather permitting) to take in breathtaking 360-degree views of Cape Town, Table Bay, and Robben Island. (If closed due to wind/weather, Signal Hill will be visited). Overnight stay in Cape Town.",
+        meals: "Breakfast",
+        stay: "Cape Town",
+      },
+      {
+        day: 3,
+        title: "Cape Peninsula & Cape of Good Hope",
+        description: "After breakfast, embark on a full-day excursion along the spectacular Cape Peninsula. Travel via the Atlantic coastline passing Sea Point, Camps Bay, Clifton, Llandudno, Hout Bay, and Scarborough before reaching the legendary Cape of Good Hope Nature Reserve. Ride the famous Flying Dutchman Funicular up to the historic lighthouse and admire dramatic cliffs. Continue to Boulders Beach, home to a world-famous colony of African Penguins, and visit the historic naval town of Simon’s Town. Overnight stay in Cape Town.",
+        meals: "Breakfast",
+        stay: "Cape Town",
+      },
+      {
+        day: 4,
+        title: "Cape Town – Johannesburg – Sun City",
+        description: "After breakfast, transfer to Cape Town International Airport for your domestic flight to Johannesburg (airfare not included). Upon arrival at O.R. Tambo International Airport, meet your representative and travel by scenic road transfer to the famous Sun City Resort, South Africa's premier luxury leisure complex. Surrounded by lush gardens, swimming pools, the Valley of Waves, and golf courses, spend the remainder of the day exploring the resort's world-class attractions. Overnight stay in Sun City.",
+        meals: "Breakfast",
+        stay: "Sun City",
+      },
+      {
+        day: 5,
+        title: "Leisure in Sun City (Optional Safari)",
+        description: "Enjoy breakfast at the hotel before spending the day at your leisure. Relax by the pools, experience the wave pool at the Valley of Waves, or take an exciting optional open-vehicle game safari into the adjacent Pilanesberg National Park, home to the Big Five (lion, leopard, elephant, rhino, buffalo) roaming freely in an extinct volcanic crater. Overnight stay in Sun City.",
+        meals: "Breakfast",
+        stay: "Sun City",
+      },
+      {
+        day: 6,
+        title: "Sun City – Johannesburg & Gold Reef City",
+        description: "After breakfast, depart by road for Johannesburg. Upon arrival, enjoy a guided visit to Gold Reef City, a unique living-history theme park and museum complex recreated around a 19th-century gold rush mine. Discover reconstructed miners' cottages, underground mine tours, gold-pouring demonstrations, and traditional cultural experiences. Later, transfer to your hotel in Johannesburg. Overnight stay in Johannesburg.",
+        meals: "Breakfast",
+        stay: "Johannesburg",
+      },
+      {
+        day: 7,
+        title: "Departure from Johannesburg",
+        description: "After breakfast, check out from the hotel and transfer to O.R. Tambo International Airport for your onward international flight home, departing with unforgettable memories of South Africa's majestic beauty and vibrant heritage. Safe travels!",
+        meals: "Breakfast",
+        stay: "—",
+      },
+    ],
+    inclusions: [
+      "06 Nights' 3* hotel accommodation with daily breakfast",
+      "Private Airport Arrival and Departure Transfers in Cape Town & Johannesburg",
+      "Intercity private road transfers between Johannesburg, Sun City, and Gold Reef City",
+      "Cape Town Half-Day Mother City & Bo-Kaap Tour with Table Mountain Cable Car Ticket (Weather Permitting)",
+      "Full-Day Cape Peninsula Tour including Cape Point Nature Reserve entrance",
+      "Flying Dutchman Funicular round-trip ride at Cape Point",
+      "Entrance ticket to Boulders Beach African Penguin Colony",
+      "Entrance ticket and guided tour at Gold Reef City Theme Park & Museum",
+      "All sightseeing and transfers in private air-conditioned vehicle as per itinerary",
+    ],
+    exclusions: [
+      "5% GST & 2% TCS (payable as per Indian regulatory requirements)",
+      "International & Domestic flights (including the Cape Town – Johannesburg sector)",
+      "South Africa Visa fees & Mandatory Travel Insurance",
+      "Lunches & Dinners throughout the tour",
+      "Optional open-vehicle safari game drives in Pilanesberg National Park",
+      "Hotel city taxes, tips, gratuities, porterage, and telephone/minibar expenses",
+      "Additional entrance fees or activities not explicitly listed under inclusions",
+    ],
+    faqs: [
+      {
+        question: "What are the costs and validity for the South Africa tour?",
+        answer: "Total Cost Per Person on Double sharing basis is ₹1,42,999/- + 5% GST + 2% TCS; Single sharing basis is ₹1,84,999/- + 5% GST + 2% TCS (based on min 2 passengers). Rates are valid until 29th September 2026 (excluding Diwali, Christmas, New Year, and peak festival dates).",
+      },
+      {
+        question: "How do the Cape Town to Johannesburg transfers work?",
+        answer: "Guests take a domestic flight from Cape Town to Johannesburg (booked separately). Upon arrival at O.R. Tambo Airport, private vehicle road transfers convey guests directly to Sun City, Gold Reef City, and back to the airport.",
+      },
+      {
+        question: "Is a safari included in the tour?",
+        answer: "Sun City is situated directly adjacent to Pilanesberg National Park. Guests have Day 5 at leisure with the option to book a thrilling Big Five morning or afternoon 4x4 safari game drive directly through the resort.",
+      },
+    ],
+  },
+  {
+    id: "japan-autumn-delights",
+    title: "Japan Autumn Delights – 9 Nights / 10 Days",
+    image: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&q=85&w=1800",
+    duration: "9 Nights / 10 Days",
+    price: "₹2,84,999",
+    highlights: [
+      "Tokyo Skytree (350m observation deck - admission included)",
+      "Sensō-ji Temple, Nakamise Shopping Street & Shibuya Scramble Crossing",
+      "TeamLab Planets TOKYO DMM immersive digital art (admission included)",
+      "Mount Fuji 5th Station (weather permitting)",
+      "Interactive Sumo Show & Experience (admission included)",
+      "Mt. Fuji Panoramic Ropeway over Lake Kawaguchi (admission included)",
+      "Toyota Commemorative Museum of Industry and Technology in Nagoya",
+      "Nabana no Sato Botanical Gardens & illumination displays",
+      "Traditional Kimono Wearing Experience (admission included)",
+      "Todaiji Temple (Great Buddha) & Nara Deer Park",
+      "Umeda Sky Building – Floating Garden Observatory",
+      "Arashiyama Bamboo Grove & Sagano Romantic Train along Hozugawa River",
+      "Kinkaku-ji (Golden Pavilion) & Fushimi Inari Taisha (thousand torii gates)",
+      "Mount Rokko Cable Car & Himeji Castle UNESCO feudal castle",
+      "Hiroshima Peace Memorial Museum, Atomic Bomb Dome & Gandhi Statue",
+      "Miyajima Ferry & Itsukushima Shrine Floating Torii Gate",
+      "Shinkansen (Bullet Train) Regular Class to Okayama",
+      "Osaka Kaiyukan Aquarium (Whale Shark) & Dotonbori shopping",
+      "Rinku Premium Outlets shopping near Kansai Airport",
+    ],
+    category: "International",
+    tagline: "Tokyo – Mt. Fuji – Nagoya – Nara – Kyoto – Kobe – Hiroshima – Okayama – Osaka · 9N/10D",
+    overview:
+      "An unforgettable 9 Nights / 10 Days autumn voyage through the Land of the Rising Sun. Experience the ultra-modern pulse of Tokyo with teamLab Planets and Tokyo Skytree, panoramic views of Mount Fuji with a sumo wrestling experience, Nagoya's Toyota museum and Nabana no Sato illuminations, sacred Nara with friendly deer and giant Buddha, timeless Kyoto temples and the Sagano Romantic train, Himeji Castle, the resilient spirit of Hiroshima and Miyajima's floating torii gate, high-speed Shinkansen bullet train rides, and vibrant Osaka food and shopping.\n\nDeparture Date: 16 Nov 2026.",
+    heroImage: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "November",
+    startingPoint: "Narita International Airport (NRT), Tokyo",
+    groupSize: "Group departure: 16 Nov 2026",
+    themes: ["Culture", "City", "Scenic", "Heritage"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&q=85&w=1800", caption: "Mount Fuji in Autumn" },
+      { image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=85&w=1800", caption: "Kyoto Golden Pavilion" },
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: "16th Nov – Arrival in Tokyo",
+        description:
+          "Welcome to Japan! Upon arrival at Narita International Airport, complete immigration and baggage formalities before meeting your representative for a private transfer to your hotel in Tokyo. After check-in, take some time to relax and recover from your journey. In the evening, enjoy a delicious Indian dinner at a local restaurant. (Sightseeing is subject to your flight arrival time). Overnight stay in Tokyo.",
+        meals: "Dinner",
+        stay: "Tokyo",
+      },
+      {
+        day: 2,
+        title: "17th Nov – Tokyo Full Day Tour",
+        description:
+          "After breakfast, depart at 09:30 Hrs for a full-day exploration of Tokyo. Visit Tokyo Skytree's 350-metre observation deck for spectacular skyline views. Explore Sensō-ji, Tokyo's oldest Buddhist temple, and stroll through Nakamise Shopping Street. Drive past Shibuya Scramble Crossing, the world's most famous pedestrian crossing. Experience an extraordinary world of immersive digital art at TeamLab Planets TOKYO DMM. Return to hotel after sightseeing. Overnight stay in Tokyo.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Tokyo",
+      },
+      {
+        day: 3,
+        title: "18th Nov – Tokyo – Mount Fuji Full Day Tour – Mishima",
+        description:
+          "After breakfast, check out and depart at 09:00 Hrs for a scenic excursion to Mount Fuji. Visit the famous 5th Station (weather permitting) for breathtaking views. Discover Japan's national sport through an interactive Sumo Show & Experience. Enjoy a scenic ride on the Mt. Fuji Panoramic Ropeway overlooking Lake Kawaguchi. Continue to Mishima for check-in. Overnight stay in Mishima.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Mishima",
+      },
+      {
+        day: 4,
+        title: "19th Nov – Mishima – Nagoya Full Day Tour",
+        description:
+          "After breakfast, check out and depart at 09:00 Hrs for Nagoya. Visit the Toyota Commemorative Museum of Industry and Technology to learn about Toyota's journey through interactive exhibits. Explore Nabana no Sato, one of Japan's most famous botanical gardens renowned for seasonal flowers and spectacular illumination displays. Check in to hotel in Nagoya. Overnight stay in Nagoya.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Nagoya",
+      },
+      {
+        day: 5,
+        title: "20th Nov – Nagoya – Nara – Osaka",
+        description:
+          "After breakfast, journey towards Nara. Dress in a traditional Japanese kimono for memorable photos. Visit Todaiji Temple, home to the magnificent Great Buddha statue, and stroll through Nara Deer Park among hundreds of free-roaming deer. Proceed to Osaka and end the day with panoramic views from the Umeda Sky Building Floating Garden Observatory. Check in to hotel in Osaka. Overnight stay in Osaka.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Osaka",
+      },
+      {
+        day: 6,
+        title: "21st Nov – Osaka – Kyoto – Osaka Full Day Tour",
+        description:
+          "After breakfast, depart at 09:00 Hrs for Kyoto, Japan's ancient capital. Walk through the peaceful Arashiyama Bamboo Grove. Enjoy a scenic train journey on the Sagano Romantic Train through the picturesque Hozugawa River valley. Visit Kinkaku-ji (Golden Pavilion) surrounded by tranquil gardens. Explore Fushimi Inari Taisha, famous for its thousands of vibrant vermilion torii gates. Return to Osaka. Overnight stay in Osaka.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Osaka",
+      },
+      {
+        day: 7,
+        title: "22nd Nov – Osaka – Kobe – Okayama Full Day Tour",
+        description:
+          "After breakfast, check out and depart at 09:00 Hrs for Kobe. Enjoy a scenic ride on the Mount Rokko Cable Car with panoramic views of Kobe, Osaka Bay, and surrounding mountains. Visit Himeji Castle, Japan's finest feudal castle and UNESCO World Heritage Site with its elegant white architecture. Continue to Okayama and check in to hotel. Overnight stay in Okayama.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Okayama",
+      },
+      {
+        day: 8,
+        title: "23rd Nov – Okayama – Hiroshima – Okayama Full Day Tour",
+        description:
+          "After breakfast, depart at 09:00 Hrs for Hiroshima. Visit the Hiroshima Peace Memorial Museum, Atomic Bomb Dome, Cenotaph & Sadako Monument, and the statue of Mahatma Gandhi. Board the Miyajima Ferry to visit the UNESCO-listed Itsukushima Shrine and its iconic Floating Torii Gate. Experience Japan's high-speed rail on the Shinkansen (Bullet Train) back to Okayama. Overnight stay in Okayama.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Okayama",
+      },
+      {
+        day: 9,
+        title: "24th Nov – Okayama – Osaka – Kansai Airport Area",
+        description:
+          "After breakfast, check out and depart at 09:00 Hrs for Osaka. Explore the lively Dotonbori & Shinsaibashi-suji shopping district with its neon lights and local treats. Visit Osaka Kaiyukan Aquarium, home to whale sharks and marine species. Enjoy last-minute shopping at Rinku Premium Outlets before proceeding to your hotel near Kansai Airport. Overnight stay near Kansai Airport.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Kansai Airport Area",
+      },
+      {
+        day: 10,
+        title: "25th Nov – Kansai Airport Departure",
+        description:
+          "After breakfast, check out from the hotel. Take the complimentary hotel shuttle service to Kansai International Airport (KIX) (approx. 20 minutes) for your onward flight home. Guests with later departures may explore the nearby Kansai Outlet Mall within walking distance. Sayonara!",
+        meals: "Breakfast",
+        stay: "—",
+      },
+    ],
+    inclusions: [
+      "09 Nights' accommodation in 4-star hotels on twin/double sharing basis",
+      "Multicuisine Meal Options – Veg, Non-Veg and Jain (8 set lunches, 9 dinners)",
+      "Tour Manager throughout the tour",
+      "02 x 500 ml bottled water per person on coach service days",
+      "Services of an English-speaking guide/assistant as per itinerary",
+      "All Sightseeing Entrance Tickets: Tokyo Skytree, TeamLab Planets, Sumo Show, Mt. Fuji Ropeway, Toyota Museum, Nabana no Sato, Kimono experience, Todaiji Temple, Umeda Sky Observatory, Sagano Romantic Train, Kinkaku-ji, Mt. Rokko Cable Car, Himeji Castle, Hiroshima Peace Museum, Miyajima Ferry, Itsukushima Shrine, Kaiyukan Aquarium",
+      "Regular Class (2nd Class) Shinkansen (Bullet Train) tickets",
       "One baggage transfer (up to 23 kg) per adult/child",
-      "Airport transfers and sightseeing by air-conditioned coach",
-      "2 x 500ml bottled water per person on coach days"
+      "Airport transfers and sightseeing by air-conditioned coach as per itinerary",
     ],
-    "exclusions": [
-      "5% GST and 2% TCS",
-      "International and domestic airfare",
-      "Visa and travel insurance",
+    exclusions: [
+      "5% GST & 2% TCS",
+      "International & Domestic Airfare",
+      "Visa & Travel Insurance",
       "Driver and guide tips",
-      "Hotel city tax, payable directly at the hotel",
-      "Sightseeing and entrance fees not specified in the itinerary",
-      "Early check-in, late check-out and personal expenses"
-    ]
+      "Hotel city tax (payable directly at hotel, where applicable)",
+      "Guaranteed early check-in or late check-out",
+      "Personal expenses such as laundry, phone calls, mini bar, shopping",
+    ],
+    faqs: [
+      {
+        question: "What is the total tour cost and sharing pricing?",
+        answer:
+          "Tour Pricing (valid till 15th Sep 2026):\n• Double sharing basis: ₹2,84,999/- + 5% GST + 2% TCS per person\n• Single occupancy supplement will be charged separately.",
+      },
+      {
+        question: "What are the departure dates and visa requirements?",
+        answer:
+          "• Tour Departure Date: 16 Nov 2026.\n• Passport must be valid for at least 6 months from the date of return.\n• Grant of Japan Visa is solely at the discretion of the Embassy/Consulate.",
+      },
+      {
+        question: "What is the payment policy and cancellation schedule?",
+        answer:
+          "Payment Terms:\n• At booking: 50% non-refundable booking amount.\n• 30 days prior to departure (D-30): Full balance payment (ROE calculated as XE.com + 2).\n\nCancellation Charges:\n• Up to 45 days before departure: INR 40,000 per adult/child.\n• Less than 30 days prior to departure: 100% cancellation charges apply.",
+      },
+    ],
   },
   {
-    "id": "scandinavia-northern-lights",
-    "title": "Highlights of Scandinavia with Northern Lights",
-    "image": "https://images.unsplash.com/photo-1483347756197-71ef80e95f73?auto=format&fit=crop&q=85&w=1800",
-    "duration": "8 Nights / 9 Days",
-    "price": "₹4,73,999",
-    "highlights": [
-      "Northern Lights hunt in Rovaniemi",
+    id: "scandinavia-northern-lights",
+    title: "Highlights of Scandinavia with Northern Lights (8 Nights / 9 Days)",
+    image: "https://images.unsplash.com/photo-1517411032315-54ef2cb783bb?auto=format&fit=crop&q=85&w=1800",
+    duration: "8 Nights / 9 Days",
+    price: "₹4,73,999",
+    highlights: [
+      "To and Fro Flights Included (into Oslo & out of Rovaniemi)",
+      "Oslo City Orientation Tour & scenic Oslo Fjord Cruise",
+      "Holmenkollen Ski Jump & Historic Ski Museum",
+      "Guided Stockholm City Tour & picturesque Gamla Stan Old Town",
+      "Overnight Baltic Sea Cruise from Stockholm to Helsinki with dinner onboard",
+      "Guided Helsinki City Tour & Temppeliaukio Rock Church",
+      "Excursion to the charming medieval wooden town of Porvoo",
+      "High-speed ferry day excursion to Tallinn, Estonia (UNESCO Old Town & Toompea Castle)",
+      "Overnight sleeper train aboard the legendary Santa Claus Express to Rovaniemi",
+      "Ranua Wildlife Park (polar bears, Arctic foxes, wolves, snowy owls)",
+      "Thrilling Night Northern Lights (Aurora Borealis) Hunting Excursion",
+      "Santa Claus Village Excursion at the Arctic Circle & Santa's Post Office",
+      "Traditional Husky Farm visit with an included Husky Sled Ride",
+    ],
+    category: "International",
+    tagline: "Oslo – Stockholm – Baltic Cruise – Helsinki – Tallinn – Rovaniemi · 8N/9D",
+    overview:
+      "A once-in-a-lifetime 8 Nights / 9 Days Arctic and Scandinavian winter wonderland journey spanning Norway, Sweden, Finland, and Estonia. Sail the Oslo Fjord, explore Stockholm's cobbled streets, cruise the Baltic Sea to Helsinki, ferry across to medieval Tallinn, cross the Arctic Circle on the Santa Claus Express sleeper train, meet polar bears at Ranua Wildlife Park, hunt the magical Northern Lights (Aurora Borealis) in the night sky, meet Santa Claus at his official village in Rovaniemi, and mush Siberian huskies through snow-draped forests.\n\nDeparture Date: 07 Dec 2026.",
+    heroImage: "https://images.unsplash.com/photo-1517411032315-54ef2cb783bb?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "December (Departure: 07 Dec 2026)",
+    startingPoint: "Oslo Airport (OSL) / Return from Rovaniemi Airport (RVN)",
+    groupSize: "Group departure: 07 Dec 2026",
+    themes: ["Snow", "Northern Lights", "Cruise", "Family"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1517411032315-54ef2cb783bb?auto=format&fit=crop&q=85&w=1800", caption: "Northern Lights in Lapland" },
+      { image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800", caption: "Santa Claus Village, Rovaniemi" },
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: "07th Dec – Arrival in Oslo",
+        description:
+          "Welcome to Norway! Upon arrival at Oslo Airport, meet your tour manager and transfer to your hotel. Norway's vibrant capital blends Scandinavian charm with modern architecture, Viking heritage, and stunning waterfront views. The rest of the day is at leisure to relax after your journey. In the evening, enjoy dinner followed by a short tour briefing. Overnight stay in Oslo.",
+        meals: "Dinner",
+        stay: "Oslo",
+      },
+      {
+        day: 2,
+        title: "Oslo Fjord Cruise & Holmenkollen Ski Jump",
+        description:
+          "After breakfast, begin the day with a scenic cruise on the beautiful Oslo Fjord, sailing past charming islands, picturesque harbors, and the city’s impressive skyline. Later, visit the iconic Holmenkollen Ski Jump, offering spectacular panoramic views over Oslo. Explore the historic Ski Museum, showcasing over 4,000 years of skiing history. The afternoon is free to explore the city at your own pace. Overnight stay in Oslo.",
+        meals: "Breakfast, Dinner",
+        stay: "Oslo",
+      },
+      {
+        day: 3,
+        title: "Oslo City Tour – Stockholm",
+        description:
+          "Enjoy breakfast before setting out on an orientation tour of Oslo, passing the Royal Palace, Karl Johans Gate, Oslo City Hall, Parliament House, and the striking Oslo Opera House. Later, depart by luxury coach for Stockholm, enjoying scenic Nordic landscapes of forests, lakes, and charming villages. Check in to hotel in Stockholm and relax before dinner. Overnight stay in Stockholm.",
+        meals: "Breakfast, Dinner",
+        stay: "Stockholm",
+      },
+      {
+        day: 4,
+        title: "Stockholm City Tour & Overnight Baltic Cruise",
+        description:
+          "After breakfast, discover the highlights of Stockholm on a guided city tour. Explore the charming cobbled streets of Gamla Stan (Old Town), admire the Royal Palace, Stockholm Cathedral, City Hall, and enjoy beautiful views from Fjällgatan. After some free time, transfer to the port and board your overnight Baltic Sea cruise to Helsinki. Enjoy dinner on board while sailing through the stunning archipelago. Overnight onboard the cruise.",
+        meals: "Breakfast, Dinner",
+        stay: "Overnight Baltic Cruise",
+      },
+      {
+        day: 5,
+        title: "Helsinki City Tour & Porvoo",
+        description:
+          "Arrive in Helsinki after breakfast and begin a guided city tour covering Senate Square, Helsinki Cathedral, the remarkable Rock Church (Temppeliaukio Church), the Sibelius Monument, and Uspenski Cathedral. Continue to the charming medieval town of Porvoo, famous for its colorful wooden houses and cobbled riverside streets. Return to Helsinki in the evening and relax at your hotel. Overnight stay in Helsinki.",
+        meals: "Breakfast, Dinner",
+        stay: "Helsinki",
+      },
+      {
+        day: 6,
+        title: "Tallinn Excursion & Santa Claus Express",
+        description:
+          "After breakfast, board a high-speed ferry to Tallinn, Estonia’s enchanting medieval capital. Explore the UNESCO-listed Old Town, including Toompea Castle, Alexander Nevsky Cathedral, Town Hall Square, and narrow streets lined with cafés and boutiques. Return to Helsinki by ferry. In the evening, board the legendary Santa Claus Express overnight train to Rovaniemi, travelling across the Arctic Circle while you sleep. Overnight onboard Santa Claus Express.",
+        meals: "Breakfast, Dinner",
+        stay: "Santa Claus Express Train",
+      },
+      {
+        day: 7,
+        title: "Ranua Wildlife Park & Northern Lights Experience",
+        description:
+          "Arrive in Rovaniemi and begin your Arctic adventure with a visit to Ranua Wildlife Park, Finland’s northernmost zoo. Walk through snowy forest trails to observe Arctic wildlife including polar bears, Arctic foxes, wolves, lynx, moose, and snowy owls. Return to Rovaniemi, enjoy dinner, and head out on an exciting Northern Lights hunting excursion to witness the magical Aurora Borealis in shades of green and violet (weather permitting). Overnight stay in Rovaniemi.",
+        meals: "Breakfast, Dinner",
+        stay: "Rovaniemi",
+      },
+      {
+        day: 8,
+        title: "Santa Claus Village & Husky Safari",
+        description:
+          "After breakfast, visit the world-famous Santa Claus Village, where Christmas is celebrated every day. Cross the Arctic Circle, meet Santa Claus, visit his official post office, and browse festive souvenir shops. Later, visit a traditional Husky Farm, meet energetic Siberian huskies, and enjoy an exhilarating husky sled ride through snow-covered forests. Return to hotel for a farewell dinner. Overnight stay in Rovaniemi.",
+        meals: "Breakfast, Dinner",
+        stay: "Rovaniemi",
+      },
+      {
+        day: 9,
+        title: "Departure from Rovaniemi",
+        description:
+          "After breakfast, check out from the hotel and transfer to Rovaniemi Airport for your onward flight home, taking unforgettable memories of Scandinavia's fjords, medieval towns, Arctic adventures, magical Northern Lights, and the home of Santa Claus. Safe travels!",
+        meals: "Breakfast",
+        stay: "—",
+      },
+    ],
+    inclusions: [
+      "To and Fro Flights Included (into Oslo & out of Rovaniemi)",
+      "International flights include 23 kg check-in baggage and in-flight meals",
+      "Meals Included as per itinerary (Packed Indian Dinner / On-Board Cruise Dinner)",
+      "4* Hotels conveniently situated on the outskirts",
+      "All Driver Tips Included",
+      "Group Tour with dedicated Tour Manager",
+      "All sightseeing and entrance fees as per itinerary",
+      "Travel by luxury air-conditioned coach, overnight Baltic cruise, and Santa Claus Express train",
       "Oslo Fjord cruise & Holmenkollen Ski Jump",
-      "Overnight Baltic cruise & Santa Claus Express",
-      "Santa Claus Village & husky sled ride"
+      "Entrance to Temppeliaukio Rock Church in Helsinki",
+      "Day trip high-speed ferry to Tallinn, Estonia return",
+      "Ranua Wildlife Park entrance & Arctic wildlife experience",
+      "Night Northern Lights (Aurora Borealis) hunting excursion",
+      "Santa Claus Village excursion at the Arctic Circle",
+      "Husky Farm visit with an included husky sled ride",
     ],
-    "category": "International",
-    "tagline": "Oslo, Stockholm, Helsinki and Tallinn, then the Arctic Circle for the Aurora and Santa Claus Village.",
-    "overview": "Nordic capitals by coach, ferry and rail — an Oslo Fjord cruise, Stockholm's Gamla Stan, an overnight Baltic cruise to Helsinki, a day trip to medieval Tallinn, and the Santa Claus Express north to Rovaniemi for Ranua Wildlife Park, a Northern Lights excursion, Santa Claus Village and a husky sled ride.",
-    "heroImage": "https://images.unsplash.com/photo-1483347756197-71ef80e95f73?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "December to March",
-    "startingPoint": "Oslo Airport",
-    "groupSize": "Group departure — 07 Dec 2026",
-    "themes": [
-      "Northern Lights",
-      "Winter",
-      "Scenic"
+    exclusions: [
+      "5% GST & 2% TCS",
+      "Domestic Airfare (within India)",
+      "Visa fees & Travel insurance",
+      "Personal expenses, shopping, and laundry",
+      "Hotel city tax",
+      "Tips and gratuities not mentioned",
     ],
-    "gallery": [
+    faqs: [
       {
-        "image": "https://images.unsplash.com/photo-1483347756197-71ef80e95f73?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Aurora Borealis over Arctic forest"
+        question: "What is the total tour cost and sharing options?",
+        answer:
+          "Tour Pricing (valid till 15th Sep 2026):\n• Double sharing basis: ₹4,73,999/- + 5% GST + 2% TCS per person (Flights Included)\n• Single sharing basis: ₹5,98,999/- + 5% GST + 2% TCS per person (Flights Included)",
       },
       {
-        "image": "https://images.unsplash.com/photo-1579033461380-adb47c3eb938?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Northern Lights above a frozen lake"
-      }
+        question: "Are international flights and baggage included?",
+        answer:
+          "Yes, to-and-fro international flights (into Oslo and out of Rovaniemi) are included in the package, including 23 kg check-in baggage and complimentary in-flight meals.",
+      },
+      {
+        question: "What are the payment terms and cancellation charges?",
+        answer:
+          "Payment Terms:\n• At booking: 50% non-refundable booking amount.\n• 30 days prior to departure (D-30): Full balance payment (ROE calculated as XE.com + 2).\n\nCancellation Charges:\n• Up to 45 days before departure: INR 40,000 per adult/child.\n• Less than 30 days prior to departure: 100% cancellation charges apply.",
+      },
     ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Oslo Arrival — Welcome to the Viking Capital",
-        "description": "Arrive at Oslo Gardermoen Airport (OSL). Meet your Bandhan tour manager and transfer to your hotel. Attend an evening tour briefing and welcome Scandinavian/Indian dinner.",
-        "meals": "Dinner",
-        "stay": "Oslo"
-      },
-      {
-        "day": 2,
-        "title": "Oslo Fjord Sightseeing Cruise & Holmenkollen Olympic Ski Jump",
-        "description": "Board a scenic sightseeing boat cruising past narrow sounds and picturesque summer houses in the Oslo Fjord. In the afternoon, visit the legendary Holmenkollen Ski Jump for panoramic views of the city and fjord, exploring the world's oldest Ski Museum.",
-        "meals": "Breakfast, Dinner",
-        "stay": "Oslo"
-      },
-      {
-        "day": 3,
-        "title": "Oslo Guided City Tour — Cross Country Drive to Stockholm (Sweden)",
-        "description": "City tour of Oslo: view the Royal Palace, Parliament, City Hall (Nobel Peace Prize venue), and the unique Vigeland Sculpture Park with over 200 granite statues. Drive through Swedish pine forests and lake districts to Stockholm.",
-        "meals": "Breakfast, Dinner",
-        "stay": "Stockholm"
-      },
-      {
-        "day": 4,
-        "title": "Stockholm Gamla Stan Old Town & Overnight Luxury Baltic Sea Cruise",
-        "description": "Tour Stockholm: wander through the medieval cobblestone lanes of Gamla Stan (Old Town), view the Royal Palace and Stockholm Cathedral, and look out over the archipelago from Fjällgatan viewpoint. In the evening, board a luxury cruise ship with dining and entertainment to sail overnight across the Baltic Sea to Finland.",
-        "meals": "Breakfast, Dinner",
-        "stay": "Onboard the Baltic cruise"
-      },
-      {
-        "day": 5,
-        "title": "Helsinki City Tour & Medieval Riverside Town of Porvoo",
-        "description": "Disembark in Helsinki, Finland. Tour Senate Square, Helsinki Cathedral, the rock-carved Temppeliaukio Church, and the Sibelius Monument. In the afternoon, drive to the 800-year-old medieval town of Porvoo to walk among red ochre riverside wooden storehouses.",
-        "meals": "Breakfast, Dinner",
-        "stay": "Helsinki"
-      },
-      {
-        "day": 6,
-        "title": "Tallinn (Estonia) Day Trip & Overnight Santa Claus Express Train",
-        "description": "Take a high-speed ferry across the Gulf of Finland to medieval Tallinn (Estonia) to explore its UNESCO Old Town, Toompea Castle, and Alexander Nevsky Cathedral. Return to Helsinki to board the famous overnight double-decker Santa Claus Express train bound for Finnish Lapland.",
-        "meals": "Breakfast, Dinner",
-        "stay": "Onboard the Santa Claus Express"
-      },
-      {
-        "day": 7,
-        "title": "Rovaniemi Arrival — Ranua Arctic Wildlife Park & Aurora Borealis Hunt",
-        "description": "Arrive in Rovaniemi in the Arctic Circle. Walk through the snowy forest paths of Ranua Wildlife Park to see polar bears, snowy owls, arctic foxes, and lynx. In the evening, head out into the dark wilderness on an Aurora Borealis Northern Lights expedition.",
-        "meals": "Breakfast, Dinner",
-        "stay": "Rovaniemi"
-      },
-      {
-        "day": 8,
-        "title": "Official Santa Claus Village, Arctic Circle Line & Husky Sled Safari",
-        "description": "Step across the painted Arctic Circle line at the official Santa Claus Village in Rovaniemi. Meet Santa Claus in his office, send postcards with the Arctic Circle postmark from Santa's Post Office, and take an exhilarating Siberian Husky sled ride through snow-blanketed pine forests, followed by a celebratory farewell dinner.",
-        "meals": "Breakfast, Dinner",
-        "stay": "Rovaniemi"
-      },
-      {
-        "day": 9,
-        "title": "Departure from Rovaniemi (Lapland)",
-        "description": "Breakfast at the hotel before your transfer to Rovaniemi Airport for your onward return flight home.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
-    ],
-    "inclusions": [
-      "Return international flights into Oslo and out of Rovaniemi, with 23 kg check-in baggage",
-      "4-star hotels and meals as per the itinerary",
-      "Group tour with a tour manager, all driver tips included",
-      "All sightseeing and entrance fees as per the itinerary",
-      "Luxury air-conditioned coach, overnight Baltic ferry and Santa Claus Express train"
-    ],
-    "exclusions": [
-      "Domestic airfare",
-      "Visa fees and travel insurance",
-      "Hotel city tax, tips and gratuities",
-      "Personal expenses, shopping and laundry",
-      "Any service not explicitly listed under inclusions"
-    ]
   },
   {
-    "id": "best-of-georgia",
-    "title": "Best of Georgia",
-    "image": "https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&q=85&w=1800",
-    "duration": "6 Nights / 7 Days",
-    "price": "₹64,999",
-    "highlights": [
-      "Narikala Fortress cable car, Tbilisi",
-      "Jvari Monastery & Svetitskhoveli Cathedral",
-      "Prometheus Cave & Martvili Canyon",
-      "Ananuri, Gudauri & Kazbegi drive"
+    id: "best-of-georgia",
+    title: "Best of Georgia - 6 Nights & 7 Days (4N Tbilisi | 2N Batumi)",
+    image: "https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&q=85&w=1800",
+    duration: "6 Nights / 7 Days",
+    price: "₹64,999",
+    highlights: [
+      "Tbilisi Panoramic & City Tour: Holy Trinity (Sameba), Bridge of Peace & Sulfur Baths",
+      "Mtatsminda Mountain Funicular Ride & Cable Car to historic Narikala Fortress",
+      "Ancient capital of Mtskheta: UNESCO Jvari Monastery & Svetitskhoveli Cathedral",
+      "Batumi Black Sea City Tour: Piazza Square, Boulevard & Miracle Park",
+      "Moving Ali & Nino kinetic statue & architectural Alphabet Tower",
+      "Prometheus Cave limestone chambers & scenic Martvili Canyon turquoise gorges",
+      "Scenic Georgian Military Highway: Ananuri Fortress, Gudauri & Kazbegi",
+      "Private air-conditioned vehicle transfers (Sedan/Minivan/Sprinter) with English-speaking guide",
+      "Comfortable hotel stays with daily breakfast",
     ],
-    "category": "International",
-    "tagline": "Tbilisi's old town, Batumi's Black Sea waterfront and the Caucasus road to Kazbegi.",
-    "overview": "Four nights in Tbilisi and two in Batumi covering the Holy Trinity Cathedral and Narikala Fortress, the ancient capital of Mtskheta, the Black Sea boulevard and Ali & Nino statue, Prometheus Cave and Martvili Canyon, and a Georgian Military Highway drive to Gudauri and Kazbegi.",
-    "heroImage": "https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "April to October",
-    "startingPoint": "Tbilisi International Airport",
-    "groupSize": "Min 2 pax for quoted rate",
-    "themes": [
-      "Heritage",
-      "Mountains",
-      "Culture"
+    category: "International",
+    tagline: "Tbilisi's old town, Batumi's Black Sea waterfront and the Caucasus road to Kazbegi.",
+    overview:
+      "Experience the soul of the Caucasus on a 6-night, 7-day tour through Georgia. Spend 4 nights in Tbilisi taking in the Mtatsminda Funicular, Narikala Cable Car, the spiritual sanctuary of Mtskheta, and the majestic Caucasus vistas of Gudauri and Kazbegi along the Georgian Military Highway. Spend 2 nights in coastal Batumi exploring its vibrant seaside boulevard, Piazza Square, moving Ali & Nino statue, the subterranean stalactites of Prometheus Cave, and Martvili Canyon.",
+    heroImage: "https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "April to October",
+    startingPoint: "Tbilisi International Airport (TBS)",
+    groupSize: "Min 2 travellers",
+    themes: ["Caucasus Mountains", "Black Sea Coast", "Ancient Christian Heritage", "Scenic Gorges"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&q=85&w=1800", caption: "Tbilisi old town and Narikala Fortress at dusk" },
+      { image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=85&w=1800", caption: "Caucasus peaks along the Georgian Military Highway" },
+      { image: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=85&w=1800", caption: "Batumi seaside boulevard and Black Sea waterfront" },
     ],
-    "gallery": [
+    itinerary: [
       {
-        "image": "https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Tbilisi at sunset"
+        day: 1,
+        title: "Arrival in Georgia – Tbilisi Panoramic Tour",
+        description:
+          "Upon arrival at Tbilisi International Airport, meet your representative and transfer to the hotel. After check-in and some leisure time, proceed for an evening panoramic city tour by car. Visit Mtatsminda Mountain and enjoy the Funicular Ride, offering beautiful panoramic views of Tbilisi. Later, return to the hotel for an overnight stay in Tbilisi.",
+        meals: "—",
+        stay: "Tbilisi",
       },
       {
-        "image": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=85&w=1800",
-        "caption": "The Greater Caucasus range"
-      }
+        day: 2,
+        title: "Tbilisi City Tour",
+        description:
+          "After breakfast, proceed for a full-day Tbilisi City Tour. Begin with the magnificent Holy Trinity Cathedral (Sameba), followed by a visit to Rike Park and the iconic Bridge of Peace. Continue to the famous Rezo Gabriadze Clock Tower, Anchiskhati Basilica and Sioni Cathedral. Explore the historic Sulfur Bath District and walk through the charming Sharden Area, known for its cafés, wine bars and souvenir shops. Continue to Metekhi Church and the monument of King Vakhtang Gorgasali, the legendary founder of Tbilisi. Later, enjoy a Cable Car Ride to Narikala Fortress, one of the best viewpoints overlooking the old city. Return to the hotel and overnight in Tbilisi.",
+        meals: "Breakfast",
+        stay: "Tbilisi",
+      },
+      {
+        day: 3,
+        title: "Mtskheta Tour – Transfer to Batumi",
+        description:
+          "After breakfast, proceed towards the ancient city of Mtskheta, one of Georgia’s most historic and religious destinations, often referred to as the 'Second Jerusalem.' Visit the beautiful Jvari Monastery, situated on a hill overlooking the confluence of the Aragvi and Mtkvari rivers, followed by Svetitskhoveli Cathedral, one of Georgia’s most revered religious sites. After sightseeing, continue your journey towards Batumi on the Black Sea coast. Upon arrival, check in to the hotel and relax. Overnight stay in Batumi.",
+        meals: "Breakfast",
+        stay: "Batumi",
+      },
+      {
+        day: 4,
+        title: "Batumi City Tour",
+        description:
+          "After breakfast, proceed for a city tour of Batumi. Visit charming Piazza Square and St. Nicholas Church, followed by a relaxing walk through Seaside Park and Batumi Boulevard. Continue to Miracle Park, home to several of Batumi’s iconic landmarks. See the famous Ali & Nino Statue, a unique kinetic moving sculpture symbolizing eternal love and unity. You will also have an opportunity to admire the Alphabet Tower, an architectural landmark inspired by the ancient Georgian script. Later, enjoy leisure time along the beautiful Batumi waterfront before returning to the hotel. Overnight stay in Batumi.",
+        meals: "Breakfast",
+        stay: "Batumi",
+      },
+      {
+        day: 5,
+        title: "Prometheus Cave & Martvili Canyon – Return to Tbilisi",
+        description:
+          "After breakfast, check out and proceed towards Prometheus Cave, one of Georgia’s most spectacular natural attractions. Explore the impressive underground chambers decorated with beautiful stalactites, stalagmites and limestone formations. Continue to Martvili Canyon, known for its turquoise waters, lush surroundings and dramatic canyon landscapes. Enjoy a walk along the scenic trails and, subject to operation and weather conditions, experience the optional boat ride through the canyon. After sightseeing, continue towards Tbilisi. Upon arrival, check in to the hotel and relax. Overnight stay in Tbilisi.",
+        meals: "Breakfast",
+        stay: "Tbilisi",
+      },
+      {
+        day: 6,
+        title: "Ananuri – Gudauri – Kazbegi Tour",
+        description:
+          "After breakfast, proceed towards the scenic Georgian Military Highway. Visit Ananuri Fortress, a historic architectural complex overlooking the turquoise Zhinvali Reservoir. Continue towards Gudauri, a popular mountain resort surrounded by the magnificent Caucasus Mountains. Proceed further to Kazbegi (Stepantsminda), offering breathtaking views of the surrounding alpine landscape and Mount Kazbek. Enjoy the scenic drive through the Caucasus region before returning to Tbilisi. Overnight stay in Tbilisi.",
+        meals: "Breakfast",
+        stay: "Tbilisi",
+      },
+      {
+        day: 7,
+        title: "Departure from Georgia",
+        description:
+          "After breakfast, check out from the hotel and proceed to Tbilisi International Airport for your return flight, marking the end of your memorable Georgia tour. Safe travels!",
+        meals: "Breakfast",
+        stay: "—",
+      },
     ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Tbilisi Arrival — Panoramic Mtatsminda Funicular Ride",
-        "description": "Arrive at Shota Rustaveli Tbilisi International Airport (TBS). Meet your guide and transfer to your hotel. In the evening, take the historic funicular railway up to Mtatsminda Park for sweeping panoramic sunset views over the illuminated Georgian capital.",
-        "meals": "—",
-        "stay": "Tbilisi"
-      },
-      {
-        "day": 2,
-        "title": "Tbilisi Old Town Tour — Narikala Cable Car, Bridge of Peace & Sulfur Baths",
-        "description": "Tour the Holy Trinity Cathedral (Sameba), walk across the glass Bridge of Peace in Rike Park, and take the aerial cable car up to the 4th-century Narikala Fortress. Walk down through the historic Abanotubani sulfur bath district and explore the quirky leaning clock tower of puppet master Rezo Gabriadze.",
-        "meals": "Breakfast",
-        "stay": "Tbilisi"
-      },
-      {
-        "day": 3,
-        "title": "Ancient Mtskheta UNESCO Capital — Drive to Coastal Batumi (Black Sea)",
-        "description": "Visit the ancient capital of Mtskheta: stand at the 6th-century Jvari Monastery perched high above the confluence of the Aragvi and Mtkvari rivers, and visit the 11th-century Svetitskhoveli Cathedral. Drive west through the Surami mountain pass to the Black Sea resort city of Batumi.",
-        "meals": "Breakfast",
-        "stay": "Batumi"
-      },
-      {
-        "day": 4,
-        "title": "Batumi City Tour — Miracle Park, Ali & Nino Moving Statue & Boulevard",
-        "description": "Explore Batumi: stroll through Italian-inspired Piazza Square, walk the 7-km Batumi Boulevard palm promenade, and view the 8-metre mechanical metal kinetic sculpture of Ali and Nino merging together. Visit the Batumi Botanical Garden on the Green Cape cliff before evening leisure on the beach.",
-        "meals": "Breakfast",
-        "stay": "Batumi"
-      },
-      {
-        "day": 5,
-        "title": "Prometheus Underground Cave & Martvili Canyon Emerald Boat Ride — Return to Tbilisi",
-        "description": "Explore the illuminated stalactite and stalagmite halls of Prometheus Cave. Drive to Martvili Canyon to take an inflatable boat ride down emerald waters between sheer moss-covered limestone canyon walls and waterfalls, returning to Tbilisi for overnight stay.",
-        "meals": "Breakfast",
-        "stay": "Tbilisi"
-      },
-      {
-        "day": 6,
-        "title": "Georgian Military Highway — Ananuri Fortress, Gudauri & Kazbegi 4x4 Mountain Drive",
-        "description": "Drive the dramatic Georgian Military Highway along the Zhinvali Reservoir to the 17th-century Ananuri Fortress. Pass through the mountain ski resort of Gudauri and the Russia-Georgia Friendship Monument over Jvari Pass. In Stepantsminda (Kazbegi), board 4x4 vehicles climbing to the 14th-century Gergeti Trinity Church situated at 7,120 feet beneath the soaring snow peak of Mount Kazbek (16,558 ft).",
-        "meals": "Breakfast",
-        "stay": "Tbilisi"
-      },
-      {
-        "day": 7,
-        "title": "Departure from Tbilisi",
-        "description": "After breakfast, explore the dry bridge flea market for Georgian enamel art and souvenirs before transferring to Tbilisi International Airport for your departure flight.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
+    inclusions: [
+      "Accommodation in Hotel including breakfast: 4 nights in Tbilisi, 2 nights in Batumi",
+      "Sightseeing as mentioned in the itinerary",
+      "Meals as per itinerary: Breakfast",
+      "English-speaking driver cum guide / guide",
+      "Entrance fees included: Cable Car Tbilisi, Funicular, Botanical Garden Batumi, 4x4 car for Gergeti, Martvili Canyon, Prometheus Cave",
+      "2 Bottles of water per person per day",
+      "All transfers according to program including airport transfers (Sedan / Minivan / Sprinter)",
     ],
-    "inclusions": [
-      "4 nights in Tbilisi and 2 nights in Batumi with breakfast",
-      "All sightseeing and transfers as per the itinerary, including airport transfers",
-      "English-speaking driver-cum-guide",
-      "Entrance fees: Tbilisi cable car, funicular, Batumi Botanical Garden, 4x4 to Gergeti, Martvili Canyon, Prometheus Cave",
-      "2 bottles of water per person per day"
+    exclusions: [
+      "Any International or Domestic Airfare",
+      "5% GST & 2% TCS (payable per government regulations)",
+      "Cost of pre or post tour hotel accommodation",
+      "Expenses of personal nature such as drinks, telephone, shopping, snacks, porterage and laundry bills",
+      "Tips and porter charges",
+      "Any additional expenses incurred due to flight delays, cancellations, or weather conditions",
     ],
-    "exclusions": [
-      "Any airfare",
-      "5% GST and 2% TCS",
-      "Pre and post-tour hotel accommodation",
-      "Meals other than breakfast",
-      "Tips, porterage and personal expenses",
-      "Costs arising from flight delays, cancellations or weather"
-    ]
+    faqs: [
+      {
+        question: "What are the package rates and validity for Best of Georgia?",
+        answer:
+          "Total Tour Cost on Double sharing basis is ₹64,999/- + 5% GST + 2% TCS (based on minimum 2 passengers). Rates are valid for travel until 31st October 2026 (excluding Diwali, Christmas, New Year, and peak festival periods).",
+      },
+      {
+        question: "Which entrance tickets, cable cars, and vehicles are included?",
+        answer:
+          "The package includes entrance fees for the Mtatsminda Funicular, Narikala Cable Car, Batumi Botanical Garden, Prometheus Cave, Martvili Canyon, and a 4x4 vehicle for Gergeti.",
+      },
+      {
+        question: "What is the payment and cancellation schedule?",
+        answer:
+          "A 50% non-refundable deposit is required at booking, with balance due 30 days prior to departure (D-30). ROE will be calculated as XE.com + 2. Cancellations up to 45 days prior incur INR 40,000 per adult/child; cancellations within 30 days incur 100% cancellation charges.",
+      },
+    ],
   },
   {
-    "id": "best-of-europe-2027",
-    "title": "Best of Europe",
-    "image": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=85&w=1800",
-    "duration": "10 Nights / 11 Days",
-    "price": "₹2,99,376",
-    "highlights": [
-      "Eiffel Tower 3rd level & Disneyland Paris",
-      "Jungfraujoch and Mount Titlis",
-      "Venice gondola ride & Leaning Tower of Pisa",
-      "Vatican City, Colosseum & Trevi Fountain"
+    id: "best-of-europe-2027",
+    title: "Best of Europe (10 Nights / 11 Days)",
+    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
+    duration: "10 Nights / 11 Days",
+    price: "₹2,99,376",
+    highlights: [
+      "Guided tour of Paris, Palace of Versailles, Vaduz & Florence",
+      "Eiffel Tower 3rd Level (Top Level)",
+      "Romantic Seine River Cruise & Paris by Night illumination tour",
+      "Full day at Disneyland® Paris (Park or Studios)",
+      "Geneva Orientation Tour (Jet d'Eau, UN Office, Flower Clock)",
+      "Excursion to Jungfraujoch – Top of Europe with Eiger Express & cogwheel train",
+      "Mount Titlis with Rotair revolving cable car & Cliff Walk",
+      "Scenic cruise on Lake Lucerne",
+      "Rhine Falls with a thrilling boat ride",
+      "Mini Train Ride in Vaduz, Liechtenstein",
+      "Swarovski Crystal Worlds in Wattens & Innsbruck Golden Roof",
+      "Venice: Private boat to St. Mark's & romantic Gondola Ride",
+      "Florence Walking Tour & Square of Miracles / Leaning Tower of Pisa",
+      "Rome: Vatican City, St. Peter's Basilica, Colosseum & Trevi Fountain",
     ],
-    "category": "International",
-    "tagline": "Paris, Switzerland, Liechtenstein, Austria and Italy across one grand eleven-day coach tour.",
-    "overview": "A five-country grand tour from Paris's Eiffel Tower and Disneyland through Geneva, Jungfraujoch and Mount Titlis, on via Rhine Falls, Vaduz and Innsbruck to Venice's canals, Florence and Pisa, ending with Vatican City, the Colosseum and the Trevi Fountain in Rome.",
-    "heroImage": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "March to October",
-    "startingPoint": "Paris CDG Airport",
-    "groupSize": "Group departures — 8, 16 & 27 March 2027",
-    "themes": [
-      "City",
-      "Mountains",
-      "Heritage"
+    category: "International",
+    tagline: "Paris – Geneva – Central Swiss – Innsbruck – Venice – Tuscany – Rome · 10N/11D",
+    overview:
+      "A magnificent 10 Nights / 11 Days classical European voyage spanning France, Switzerland, Liechtenstein, Austria, and Italy. Highlights include Paris icons, Eiffel Tower 3rd level, Versailles Palace, Disneyland® Paris, Geneva, the alpine wonderland of Jungfraujoch (Top of Europe) and Mount Titlis, Rhine Falls boat ride, Vaduz mini train, Swarovski Crystal Worlds in Innsbruck, a romantic Venetian Gondola ride, Renaissance Florence and the Leaning Tower of Pisa, concluding in the Eternal City of Rome with the Vatican and Colosseum.\n\nDeparture Dates: 8, 16 & 27 March 2027.",
+    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "March 2027 (Departures: 8, 16 & 27 March 2027)",
+    startingPoint: "Paris CDG Airport (Flight landing time: 08:00 AM – 02:00 PM)",
+    groupSize: "Group departures: 8, 16 & 27 March 2027",
+    themes: ["City", "Mountains", "Heritage", "Family"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "Paris and Eiffel Tower" },
+      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Rome Colosseum" },
     ],
-    "gallery": [
+    itinerary: [
       {
-        "image": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=85&w=1800",
-        "caption": "The Eiffel Tower, Paris"
+        day: 1,
+        title: "Arrival in Paris – The City of Romance, Lights & Glamour",
+        description:
+          "Welcome to Paris, one of Europe’s most elegant and enchanting cities, renowned for its haute couture, world-famous museums, magnificent monuments and vibrant culture. Upon arrival, complete immigration formalities and collect your baggage. Meet your professional Tour Manager and transfer to your hotel for check-in. Relax and enjoy the comforts of your hotel. Overnight stay in Paris.",
+        meals: "Dinner",
+        stay: "Paris",
       },
       {
-        "image": "https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Venice's Grand Canal"
+        day: 2,
+        title: "Paris City Tour – Eiffel Tower – Versailles – Seine Cruise – Paris by Night",
+        description:
+          "After breakfast, proceed for a guided city tour of Paris covering Place Vendôme, Opéra Garnier, Musée d’Orsay, Place de la Concorde, Champs-Élysées, Arc de Triomphe, Alexander Bridge, and Les Invalides. Ascend to the 3rd Level (Top Level) of the Eiffel Tower for spectacular views. Continue to the magnificent Palace of Versailles, a masterpiece of French architecture. Enjoy a relaxing cruise on the River Seine. In the evening, experience Paris by Night with illuminated monuments. (Note: 3rd level access subject to operation; 2nd level provided if closed). Overnight stay in Paris.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Paris",
       },
       {
-        "image": "https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&q=85&w=1800",
-        "caption": "St. Peter's Square, Vatican City"
-      }
+        day: 3,
+        title: "Disneyland® Paris – A Day of Fun & Adventure",
+        description:
+          "Today, get ready for an exciting day at Disneyland® Paris. Choose between Disney® Park with its classic fairy-tale attractions and Disney character parades, or Walt Disney Studios® Park featuring thrilling stunt shows, movie magic, and behind-the-scenes experiences. Return to hotel in the evening. Overnight stay in Paris.",
+        meals: "Breakfast, Packed Lunch, Dinner",
+        stay: "Paris",
+      },
+      {
+        day: 4,
+        title: "Paris – Geneva Orientation Tour",
+        description:
+          "After breakfast, check out and proceed towards Switzerland. On arrival in Geneva, enjoy an orientation tour of this elegant Swiss city. See the famous Jet d’Eau, the United Nations Office, and the beautiful Flower Clock located near Lake Geneva. Proceed to your hotel and check in. Overnight stay in Geneva.",
+        meals: "Breakfast, Packed Lunch, Dinner",
+        stay: "Geneva",
+      },
+      {
+        day: 5,
+        title: "Jungfraujoch – Top of Europe – Grindelwald – Interlaken",
+        description:
+          "Embark on an unforgettable excursion to Jungfraujoch – The Top of Europe. Board the spectacular Eiger Express 3S cable car from Grindelwald Terminal to Eigergletscher, then continue by cogwheel train to Europe's highest railway station at 3,454 metres. Explore the Ice Palace and visit the Sphinx Observatory for panoramic views of the Aletsch Glacier. Enjoy the picturesque surroundings of Interlaken before returning to your hotel. Overnight stay in Central Switzerland.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Central Switzerland",
+      },
+      {
+        day: 6,
+        title: "Mount Titlis – Lucerne – Lake Lucerne Cruise",
+        description:
+          "After breakfast, proceed for an exciting excursion to Mount Titlis (3,020 metres) aboard the famous Titlis Rotair, the world's first revolving cable car. Experience the spectacular Cliff Walk suspension bridge. Proceed to Lucerne for an orientation tour covering the Lion Monument and Chapel Bridge (Kapellbrücke), with free time for Swiss watch and chocolate shopping. Later, enjoy a relaxing cruise on Lake Lucerne. Overnight stay in Central Switzerland.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Central Switzerland",
+      },
+      {
+        day: 7,
+        title: "Rhine Falls – Vaduz – Swarovski Crystal World – Innsbruck",
+        description:
+          "After breakfast, check out and proceed to Schaffhausen to experience Rhine Falls with a thrilling boat ride. Continue to Vaduz, capital of Liechtenstein, for a guided mini-train ride. Proceed to Wattens to explore the sparkling installations of Swarovski Crystal Worlds. Continue to Innsbruck for an orientation tour seeing the Golden Roof and Maria-Theresien-Strasse. Overnight stay in Innsbruck / Seefeld.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Innsbruck / Seefeld",
+      },
+      {
+        day: 8,
+        title: "Innsbruck – Venice – Gondola Ride",
+        description:
+          "After breakfast, check out and proceed towards Venice, the floating city. Board a private boat to St. Mark's Square. View St. Mark's Basilica, Bell Tower, Clock Tower, and the Bridge of Sighs. Enjoy a traditional Gondola Ride through the picturesque Venetian canals gliding past historic palaces. Proceed to your hotel for check-in. Overnight stay in Padova / Ferrara.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Padova / Ferrara",
+      },
+      {
+        day: 9,
+        title: "Florence Walking Tour – Pisa – Leaning Tower",
+        description:
+          "After breakfast, check out and proceed to Florence for a guided walking tour covering the Duomo, Campanile, Baptistery, Piazza della Signoria, and Ponte Vecchio. Later, proceed to Pisa to visit the Square of Miracles (Piazza dei Miracoli) and admire the world-renowned Leaning Tower of Pisa. Continue to hotel in Tuscany region. Overnight stay in Tuscany Region.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Tuscany Region",
+      },
+      {
+        day: 10,
+        title: "Florence / Tuscany – Rome – Vatican City – Colosseum – Trevi Fountain",
+        description:
+          "After breakfast, proceed towards Rome. Visit Vatican City and explore the magnificent St. Peter's Basilica. Continue sightseeing with a visit to the iconic ancient Colosseum and toss a coin into the beautiful Trevi Fountain. Check in to hotel. Overnight stay in Rome.",
+        meals: "Breakfast, Lunch, Dinner",
+        stay: "Rome",
+      },
+      {
+        day: 11,
+        title: "Rome – Departure – Fly Back Home",
+        description:
+          "After breakfast, check out from the hotel and transfer to Rome FCO Airport (coach drop by 11:00 AM) for your return flight. Say goodbye to Europe with memories that will last a lifetime.",
+        meals: "Breakfast",
+        stay: "—",
+      },
     ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Paris Arrival — City of Light Welcome",
-        "description": "Arrive at Paris Charles de Gaulle Airport (CDG). Meet your Bandhan Tour Manager and transfer by luxury coach to your hotel. Settle in and enjoy a welcome Indian dinner.",
-        "meals": "Dinner",
-        "stay": "Paris"
-      },
-      {
-        "day": 2,
-        "title": "Paris City Tour — Eiffel Tower 3rd Level, Versailles Palace & Seine Cruise",
-        "description": "Guided tour of Paris: drive down the Champs-Élysées, view the Arc de Triomphe and Opéra Garnier. Ascend to the 3rd Level of the Eiffel Tower, tour the Hall of Mirrors at the Royal Palace of Versailles, and take a romantic Seine River Cruise, concluding with an illuminated Paris by Night coach drive.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Paris"
-      },
-      {
-        "day": 3,
-        "title": "Disneyland Paris Full-Day Adventure",
-        "description": "Full day of excitement at Disneyland Paris with access to Disneyland Park or Walt Disney Studios Park, including packed Indian lunch and the evening fireworks show.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Paris"
-      },
-      {
-        "day": 4,
-        "title": "Paris to Geneva (Switzerland) — Lake Geneva & UN Headquarters",
-        "description": "Drive into Switzerland to Geneva. View the Jet d'Eau, the United Nations Office, and the Flower Clock beside Lake Geneva before checking into your hotel.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Geneva"
-      },
-      {
-        "day": 5,
-        "title": "Jungfraujoch (Top of Europe 11,333 ft) & Scenic Interlaken",
-        "description": "Ride the Eiger Express gondola and cogwheel train up to Jungfraujoch (11,333 ft). Walk through the Ice Palace, step onto the Aletsch Glacier plateau, and visit Interlaken.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Central Switzerland"
-      },
-      {
-        "day": 6,
-        "title": "Mount Titlis Revolving Rotair, Cliff Walk & Lake Lucerne Cruise",
-        "description": "Ascend to 10,000 feet on the Titlis Rotair revolving cable car, cross the Cliff Walk suspension bridge, and explore Lucerne's Chapel Bridge and Lion Monument, ending with a Lake Lucerne cruise.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Central Switzerland"
-      },
-      {
-        "day": 7,
-        "title": "Rhine Falls — Liechtenstein (Vaduz) — Swarovski Worlds — Innsbruck",
-        "description": "Take a boat ride at Rhine Falls, ride the Vaduz mini-train in Liechtenstein, visit Swarovski Crystal Worlds in Wattens, and view Innsbruck's Golden Roof.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Innsbruck / Seefeld"
-      },
-      {
-        "day": 8,
-        "title": "Innsbruck to Venice — Private Boat, St. Mark's & Romantic Gondola Ride",
-        "description": "Private boat into St. Mark's Square in Venice: view St. Mark's Basilica, Doge's Palace, and take a gondola ride through historic canals.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Padova / Ferrara"
-      },
-      {
-        "day": 9,
-        "title": "Florence Renaissance Walking Tour & Leaning Tower of Pisa",
-        "description": "Tour Florence: see the Duomo, Ponte Vecchio, and Piazza della Signoria, then drive to Pisa to pose with the Leaning Tower in the Square of Miracles.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Tuscany region"
-      },
-      {
-        "day": 10,
-        "title": "Rome — Vatican St. Peter's Basilica, Colosseum & Trevi Fountain",
-        "description": "Visit St. Peter's Basilica in Vatican City, view the monumental Colosseum, Roman Forum, and toss a coin into the baroque Trevi Fountain.",
-        "meals": "Breakfast, Lunch, Dinner",
-        "stay": "Rome"
-      },
-      {
-        "day": 11,
-        "title": "Departure from Rome — Flight Home",
-        "description": "Breakfast at the hotel, then transfer to Rome Fiumicino Airport for your departure flight.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
+    inclusions: [
+      "Accommodation in 4-star hotels with daily buffet breakfast",
+      "Sightseeing & attraction tickets as mentioned in the itinerary",
+      "Tips to coach drivers for the duration of the tour is included",
+      "Daily Mineral Water Bottle (500ml) per person",
+      "Daily Continental Buffet Breakfast, 09 Indian Lunches, 10 Indian Dinners (packed lunch on Geneva drive & Disneyland Paris day)",
+      "Eiffel Tower 3rd Level, Versailles Palace, Seine Cruise, Paris by Night",
+      "Full day Disneyland® Paris pass",
+      "Jungfraujoch Top of Europe with Eiger Express 3S cable car & cogwheel train",
+      "Mount Titlis Rotair revolving cable car & Cliff Walk",
+      "Lake Lucerne scenic cruise",
+      "Rhine Falls thrilling boat ride",
+      "Vaduz (Liechtenstein) guided mini train ride",
+      "Swarovski Crystal Worlds entrance in Wattens",
+      "Venice private boat transfer & romantic Gondola ride",
+      "Florence walking tour & Leaning Tower of Pisa photo-stop",
+      "Rome: St. Peter's Basilica, Colosseum, Trevi Fountain",
     ],
-    "inclusions": [
-      "4-star hotels with daily continental buffet breakfast",
-      "Sightseeing and attraction tickets as listed in the highlights",
-      "9 Indian Jain/vegetarian/non-vegetarian lunches and 10 dinners",
-      "Packed lunch on the Disneyland Paris and Geneva travel days",
-      "Guide tips and coach driver tips for the duration of the tour",
-      "Daily 500ml mineral water bottle per person"
+    exclusions: [
+      "5% GST & 2% TCS",
+      "International & Domestic Airfare",
+      "Visa & Travel Insurance",
+      "Airport taxes and other applicable charges",
+      "Cost of excursions and sightseeing not mentioned in Inclusions",
+      "Personal expenses such as laundry, telephone calls, shopping, etc.",
+      "City tax and porterage charges",
     ],
-    "exclusions": [
-      "5% GST and 2% TCS",
-      "International and domestic airfare and airport taxes",
-      "Visa, passport and POE charges, travel insurance",
-      "Excursions, entrance fees and local guides not listed under inclusions",
-      "Pre and post-tour accommodation, porterage and city tax",
-      "Expenses arising from flight delays, cancellations or weather"
-    ]
+    faqs: [
+      {
+        question: "What is the total tour cost across sharing categories?",
+        answer:
+          "Total Tour Cost (valid till 15th Sep 2026):\n• Double/Triple sharing basis: ₹2,99,376/- + 5% GST + 2% TCS per person\n• Single basis: ₹3,96,144/- + 5% GST + 2% TCS per person\n• Child with bed (below 12 years): ₹2,39,652/- + 5% GST + 2% TCS\n• Child no bed (below 12 years): ₹2,01,096/- + 5% GST + 2% TCS\n• Infant (below 02 years): ₹7,560/- + 5% GST + 2% TCS",
+      },
+      {
+        question: "What are the departure dates for Best of Europe?",
+        answer: "Departure dates: 8, 16 & 27 March 2027.",
+      },
+      {
+        question: "What are the coach transfer timings for arrival and departure?",
+        answer:
+          "• Paris (CDG Airport) Arrival Transfer: Flight landing time should be between 08:00 AM – 02:00 PM.\n• Rome (FCO Airport) Departure Transfer: The coach will drop at FCO Airport by 11:00 AM.\n(Waiting up to 02:30 hours in arrival hall may be required for scheduled coach transfers).",
+      },
+      {
+        question: "What is the booking, payment, and cancellation policy?",
+        answer:
+          "Payment Terms:\n• At booking: 50% non-refundable booking amount.\n• 30 days prior to departure (D-30): Full balance payment (ROE calculated as XE.com + 2).\n\nCancellation Charges:\n• Up to 45 days before departure: INR 40,000 per adult/child.\n• Less than 30 days prior to departure: 100% cancellation charges apply.",
+      },
+    ],
   },
   {
-    "id": "azerbaijan-highlights",
-    "title": "Azerbaijan Highlights",
-    "image": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&q=85&w=1800",
-    "duration": "6 Nights / 7 Days",
-    "price": "₹51,999",
-    "highlights": [
-      "Icherisheher Old City & Maiden Tower",
-      "Gobustan National Park petroglyphs",
-      "Tufandag & Shahdag mountain cable cars",
-      "Ateshgah Fire Temple & Yanardag"
+    id: "azerbaijan-highlights",
+    title: "Azerbaijan Highlights – 6 Nights & 7 Days (5N Baku | 1N Gabala)",
+    image: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&q=85&w=1800",
+    duration: "6 Nights / 7 Days",
+    price: "₹51,999",
+    highlights: [
+      "Evening Panoramic City Tour: Highland Park, Flame Towers & Caspian Sea",
+      "Full-Day Baku City Tour: UNESCO Icherisheher, Maiden Tower & Heydar Aliyev Center",
+      "Scenic mountain getaway to Gabala surrounded by the Greater Caucasus",
+      "Tufandag Mountain Resort with 2-line Cable Car ride & peaceful Nohur Lake",
+      "Full-Day Gobustan National Park: Prehistoric petroglyphs & rock art",
+      "Land of Fire Tour: Ateshgah Fire Temple & Yanardag Burning Mountain",
+      "Full-Day Shahdag Mountain Resort excursion with 1-line Cable Car ride",
+      "Shopping at premier venues: Deniz Mall on the Caspian & Ganjlik Mall",
+      "Private air-conditioned vehicle transfers throughout with English-speaking guide",
     ],
-    "category": "International",
-    "tagline": "Baku's Flame Towers and Old City, Gobustan's rock art and the Caucasus resorts of Gabala and Shahdag.",
-    "overview": "Five nights in Baku and one in Gabala covering the UNESCO-listed Icherisheher Old City, the Heydar Aliyev Center, Gobustan's prehistoric petroglyphs, the eternal flames of Ateshgah and Yanardag, and cable car rides at the Tufandag and Shahdag mountain resorts.",
-    "heroImage": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "April to October",
-    "startingPoint": "Heydar Aliyev International Airport, Baku",
-    "groupSize": "Min 2 pax for quoted rate",
-    "themes": [
-      "City",
-      "Mountains",
-      "Heritage"
+    category: "International",
+    tagline: "Baku's futuristic Flame Towers, ancient petroglyphs, burning fires & Caucasus mountain resorts.",
+    overview:
+      "Embark on an unforgettable journey through Azerbaijan, the enchanting Land of Fire. Spend 5 nights in Baku exploring the UNESCO-listed Icherisheher Old City, Zaha Hadid's Heydar Aliyev Center, the eternal fires of Ateshgah and Yanardag, and the prehistoric petroglyphs of Gobustan. Head into the Greater Caucasus Mountains for an overnight in Gabala with the Tufandag cable car and Nohur Lake, followed by a full-day adventure at Shahdag Mountain Resort.",
+    heroImage: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "April to October & Winter for Shahdag Skiing",
+    startingPoint: "Heydar Aliyev International Airport (GYD), Baku",
+    groupSize: "Min 2 travellers",
+    themes: ["Land of Fire", "Caucasian Mountain Resorts", "Ancient Silk Road", "Modern Architecture"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&q=85&w=1800", caption: "Baku's Caspian waterfront and Flame Towers" },
+      { image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=85&w=1800", caption: "The Greater Caucasus above Gabala" },
+      { image: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=85&w=1800", caption: "Shahdag Mountain Resort alpine scenery" },
     ],
-    "gallery": [
+    itinerary: [
       {
-        "image": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Baku's Caspian waterfront"
+        day: 1,
+        title: "Arrival in Baku & Panoramic City Tour",
+        description: "Welcome to Azerbaijan! Upon arrival at Heydar Aliyev International Airport, meet your local representative and transfer to your hotel. After check-in and time to relax, assemble in the evening for a panoramic city tour. Visit Highland Park (Alley of Martyrs), offering breathtaking views of Baku's skyline and the Caspian Sea. Continue past the National Assembly (Milli Majlis) and admire the magnificent Flame Towers, the city's most iconic illuminated landmarks. Overnight stay in Baku.",
+        meals: "—",
+        stay: "Baku (3* Diamond Hotel Baku or similar)",
       },
       {
-        "image": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=85&w=1800",
-        "caption": "The Greater Caucasus above Gabala"
-      }
+        day: 2,
+        title: "Discover Historic & Modern Baku",
+        description: "After breakfast, begin your exploration of Icherisheher (Old City), the UNESCO World Heritage-listed historic heart of Baku. Wander through its ancient stone alleys while visiting landmarks such as the Maiden Tower and the Palace of the Shirvanshahs. Later, enjoy a photo stop at the stunning Heydar Aliyev Center, an architectural masterpiece designed by Zaha Hadid. Continue with a relaxing walk along Baku Boulevard stretching along the Caspian Sea waterfront. Overnight stay in Baku.",
+        meals: "Breakfast",
+        stay: "Baku",
+      },
+      {
+        day: 3,
+        title: "Gabala Tour",
+        description: "After breakfast, depart for the scenic mountain town of Gabala in northwestern Azerbaijan. Surrounded by the majestic Greater Caucasus Mountains, visit the Tufandag Mountain Resort and enjoy an exhilarating 2-line cable car ride offering spectacular alpine views. Later, visit the tranquil Nohur Lake, a picturesque alpine lake surrounded by dense forests, perfect for photography and relaxation. Overnight stay in Gabala.",
+        meals: "Breakfast",
+        stay: "Gabala (5* Gabala Garden Hotel or similar)",
+      },
+      {
+        day: 4,
+        title: "Gobustan & Deniz Mall",
+        description: "Enjoy breakfast before departing for Gobustan National Park, a UNESCO World Heritage Site famous for ancient rock carvings dating back tens of thousands of years. Explore fascinating prehistoric petroglyphs depicting hunting scenes, wildlife, and early human life, alongside the interactive museum. Later, return towards Baku to visit the modern Deniz Mall overlooking the Caspian Sea for shopping, dining, and leisure. Overnight stay in Baku.",
+        meals: "Breakfast",
+        stay: "Baku",
+      },
+      {
+        day: 5,
+        title: "Flames Tour",
+        description: "After breakfast, visit the historic Ateshgah Fire Temple in Surakhani, an ancient place of worship for Zoroastrians and Hindu pilgrims with eternal flames fed by natural gas vents. Continue to Yanardag (Burning Mountain), where natural gas flames have burned continuously on the hillside for centuries, showcasing the origin of Azerbaijan's title as the 'Land of Fire'. Later, enjoy leisure and shopping at Ganjlik Mall. Overnight stay in Baku.",
+        meals: "Breakfast",
+        stay: "Baku",
+      },
+      {
+        day: 6,
+        title: "Shahdag Mountain Resort Tour",
+        description: "After breakfast, travel to the spectacular Shahdag Mountain Resort, nestled high in the Greater Caucasus Mountains. As Azerbaijan's premier mountain resort, Shahdag offers dramatic alpine scenery and an included 1-line cable car ride, with a wide range of seasonal activities such as the alpine coaster, zipline, quad biking, and winter snow sports (activities at own expense). Return to Baku in the evening. Overnight stay in Baku.",
+        meals: "Breakfast",
+        stay: "Baku",
+      },
+      {
+        day: 7,
+        title: "Departure from Baku",
+        description: "After breakfast, check out from the hotel and transfer to Heydar Aliyev International Airport for your onward flight. Depart Azerbaijan with unforgettable memories of its ancient heritage, modern architecture, scenic mountain landscapes, and unique natural wonders. Safe travels!",
+        meals: "Breakfast",
+        stay: "—",
+      },
     ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Baku Arrival — Highland Park & Flame Towers Panoramic Tour",
-        "description": "Arrive at Heydar Aliyev International Airport (GYD) in Baku. Meet your guide and transfer to your hotel. In the evening, visit Highland Park for breathtaking panoramic views of Baku Bay, the Caspian Sea, and the illuminated 33-storey Flame Towers displaying animated fire effects.",
-        "meals": "—",
-        "stay": "Baku"
-      },
-      {
-        "day": 2,
-        "title": "Historic Icherisheher (Old City), Maiden Tower & Heydar Aliyev Center",
-        "description": "Guided walking tour of the UNESCO-listed Icherisheher (Old City): climb the 12th-century Maiden Tower, visit the Palace of the Shirvanshahs, and wander past ancient caravanserais. Admire the futuristic architecture of Zaha Hadid's Heydar Aliyev Center and take a scenic walk along Baku Seaside Boulevard.",
-        "meals": "Breakfast",
-        "stay": "Baku"
-      },
-      {
-        "day": 3,
-        "title": "Baku to Gabala — Tufandag Mountain Cable Car & Nohur Lake",
-        "description": "Drive into the forested Greater Caucasus Mountains to Gabala (220 km / 3.5 hrs). Ride the two-tier Tufandag Mountain Resort cable car soaring over mountain valleys, and relax beside the peaceful forested waters of Nohur Lake with optional pedalo boating.",
-        "meals": "Breakfast",
-        "stay": "Gabala"
-      },
-      {
-        "day": 4,
-        "title": "Gobustan Prehistoric Rock Art, Mud Volcanoes & Deniz Mall",
-        "description": "Drive to Gobustan National Park to explore over 6,000 prehistoric petroglyphs and 3D interactive museum exhibits. Board 4x4 Lada taxis to witness active bubbling Mud Volcanoes erupting cool mineral mud, returning to Baku for shopping at the lotus-inspired Deniz Mall.",
-        "meals": "Breakfast",
-        "stay": "Baku"
-      },
-      {
-        "day": 5,
-        "title": "Absheron Peninsula Fire Tour — Ateshgah Fire Temple & Burning Mountain (Yanar Dag)",
-        "description": "Explore the historic Zoroastrian Ateshgah Fire Temple in Surakhani, where natural subterranean gas flames have burned for centuries. Visit Yanar Dag (Burning Mountain), a natural 10-metre hillside continuously blazing with eternal natural gas fire, followed by shopping at Ganjlik Mall.",
-        "meals": "Breakfast",
-        "stay": "Baku"
-      },
-      {
-        "day": 6,
-        "title": "Shahdag Mountain Alpine Resort Full-Day Excursion",
-        "description": "Travel to Shahdag Mountain Resort in the northern Caucasus Mountains. Ride the high-altitude panoramic cable car, walk across alpine meadows, or participate in seasonal activities like mountain coasters, quad biking, or snow sports before returning to Baku.",
-        "meals": "Breakfast",
-        "stay": "Baku"
-      },
-      {
-        "day": 7,
-        "title": "Departure from Baku",
-        "description": "After breakfast, explore the Nizami pedestrian street for local baklava and caviar before transferring to Heydar Aliyev Airport for your flight home.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
+    inclusions: [
+      "05 Nights' accommodation in Baku (3* Diamond Hotel or similar) & 1 Night in Gabala (5* Gabala Garden Hotel or similar)",
+      "Daily buffet breakfast at hotels",
+      "Sightseeing across Baku, Absheron, Gobustan, Gabala, and Shahdag",
+      "Entrance fees included: Flame Temple (Ateshgah), Burning Mountain (Yanardag), Gobustan Museum, Gabala Cable Car (2 lines), Shahdag Cable Car (1 line)",
+      "2 bottles of mineral water per person per day",
+      "All transfers including airport arrival & departure transfers",
+      "Private air-conditioned vehicle for all sightseeing and point-to-point transfers",
+      "English-speaking driver/guide throughout the itinerary",
+      "All applicable parking fees, road tolls, and fuel charges",
+      "All applicable local government taxes",
     ],
-    "inclusions": [
-      "5 nights in Baku and 1 night in Gabala with daily breakfast",
-      "Sightseeing across Baku, Absheron, Gobustan, Gabala and Shahdag",
-      "Entrance fees: Fire Temple, Yanardag, Gobustan Museum, Gabala cable car (2 lines), Shahdag cable car (1 line)",
-      "Private air-conditioned vehicle for all point-to-point transfers and sightseeing",
-      "English-speaking driver/guide, parking, tolls, fuel and local taxes",
-      "2 bottles of water per person per day"
+    exclusions: [
+      "5% GST & 2% TCS",
+      "International & Domestic airfares",
+      "Azerbaijan Visa fees & Comprehensive Travel Insurance",
+      "Lunches, dinners, and beverages unless specifically mentioned",
+      "Optional adventure sports and activities at Shahdag Mountain Resort (coaster, zipline, ski equipment, etc.)",
+      "Additional cable car lines or activities not mentioned in inclusions",
+      "Early check-in and late check-out fees",
+      "Personal expenses (laundry, telephone calls, minibar, camera/video fees)",
+      "Tips and gratuities for drivers and guides",
     ],
-    "exclusions": [
-      "5% GST and 2% TCS",
-      "International and domestic airfare",
-      "Azerbaijan visa charges and travel insurance",
-      "Lunches, dinners and beverages unless specified",
-      "Optional activities and adventure sports at Shahdag",
-      "Additional cable car rides not listed under inclusions",
-      "Early check-in, late check-out, tips and porterage"
-    ]
+    faqs: [
+      {
+        question: "What is the price and hotel selection for Azerbaijan Highlights?",
+        answer: "Per Person Cost on Double/Twin sharing basis is ₹51,999/- + 5% GST + 2% TCS (based on a minimum of 2 passengers). Accommodation includes 5 nights at the 3-star Diamond Hotel Baku (or similar) and 1 night at the 5-star Gabala Garden Hotel (or similar).",
+      },
+      {
+        question: "Which entrance tickets and cable cars are included in the package?",
+        answer: "The package includes entrance fees for Ateshgah Fire Temple, Yanardag Burning Mountain, Gobustan Museum & Petroglyphs, Tufandag Gabala Cable Car (2 lines), and Shahdag Mountain Resort Cable Car (1 line).",
+      },
+      {
+        question: "What is the booking and cancellation policy?",
+        answer: "A 50% non-refundable deposit is required at booking, with balance payable 30 days prior to departure (D-30). ROE is XE.com + 2. Cancellations up to 45 days prior incur INR 40,000 per person; under 30 days incurs 100% cancellation charges.",
+      },
+    ],
   },
   {
-    "id": "almaty-bliss",
-    "title": "Almaty Bliss",
-    "image": "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&q=85&w=1800",
-    "duration": "6 Nights / 7 Days",
-    "price": "₹74,999",
-    "highlights": [
-      "Kok-Tobe cable car ride",
-      "Medeu & Shymbulak mountain resort",
-      "Charyn Canyon's Valley of Castles",
-      "Kolsai Lakes & eagle hunting show"
+    id: "almaty-bliss",
+    title: "Almaty Bliss - 6 Nights & 7 Days (6N Almaty)",
+    image: "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&q=85&w=1800",
+    duration: "6 Nights / 7 Days",
+    price: "₹74,999",
+    highlights: [
+      "Kok-Tobe Hill panoramic cable car ride overlooking Almaty",
+      "Almaty City & Golden Square: Panfilov Park, Ascension Cathedral & Arbat",
+      "Medeu High-Altitude Rink & Shymbulak Mountain Resort (3-line Cable Car)",
+      "Alma-Arasan Gorge excursion & traditional Kazakh Eagle Hunting Show",
+      "Oi-Qaragai Mountain Resort in the coniferous Zailiyskiy Alatau foothills",
+      "Full-day excursion to Charyn Canyon & the famous Valley of Castles",
+      "Scenic alpine Kolsai Lakes, the 'Pearls of the Tien Shan'",
+      "Shopping at authentic venues: Green Bazaar, Rakhat Chocolate Shop & MEGA Mall",
+      "All transfers and excursions by comfortable air-conditioned coach with guide",
+      "6 nights' hotel accommodation in Almaty with daily breakfast",
     ],
-    "category": "International",
-    "tagline": "Kazakhstan's mountain city — cable cars, canyons, alpine lakes and Green Bazaar shopping.",
-    "overview": "Six nights based in Almaty beneath the Zailiyskiy Alatau, combining Kok-Tobe and Shymbulak cable cars, the Golden Square city tour, a traditional eagle hunting show, the Oi-Qaragai mountain resort, and a full-day excursion to Charyn Canyon and the Kolsai Lakes.",
-    "heroImage": "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&q=90&w=3200",
-    "bestTime": "May to October",
-    "startingPoint": "Almaty International Airport",
-    "groupSize": "Min 2 pax for quoted rate",
-    "themes": [
-      "Mountains",
-      "Adventure",
-      "City"
+    category: "International",
+    tagline: "Kazakhstan's mountain city — cable cars, canyons, alpine lakes and Green Bazaar shopping.",
+    overview:
+      "Experience the enchanting beauty of Kazakhstan with 6 nights based in Almaty beneath the snow-capped Zailiyskiy Alatau mountains. Enjoy panoramic cable car rides at Kok-Tobe and Shymbulak, visit the world-famous Medeu skating rink, witness an authentic Kazakh nomadic eagle hunting show in Alma-Arasan Gorge, relax at Oi-Qaragai Mountain Resort, and embark on a breathtaking full-day expedition to the grand red formations of Charyn Canyon and the pristine turquoise waters of Kolsai Lakes.",
+    heroImage: "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&q=90&w=3200",
+    bestTime: "May to October & Winter for Shymbulak Skiing",
+    startingPoint: "Almaty International Airport (ALA)",
+    groupSize: "Min 2 travellers",
+    themes: ["Tien Shan Mountains", "Canyons & Lakes", "Nomadic Traditions", "Alpine Resorts"],
+    gallery: [
+      { image: "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&q=85&w=1800", caption: "Pristine alpine waters of Kolsai Lake" },
+      { image: "https://images.unsplash.com/photo-1605540436563-5bca919ae766?auto=format&fit=crop&q=85&w=1800", caption: "Snow-covered peaks at Shymbulak Mountain Resort" },
+      { image: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=85&w=1800", caption: "Dramatic red rock formations of Charyn Canyon" },
     ],
-    "gallery": [
+    itinerary: [
       {
-        "image": "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Alpine lakes of the Tien Shan"
+        day: 1,
+        title: "Welcome to Almaty – Kok-Tobe Tour",
+        description:
+          "Upon arrival at Almaty International Airport, meet your representative and transfer to the hotel. After check-in and some leisure time, proceed for a half-day visit to Kok-Tobe Hill. Enjoy the scenic Cable Car Ride, offering beautiful panoramic views of Almaty and the surrounding mountains. Spend some time exploring Kok-Tobe before returning to the hotel. Overnight stay in Almaty.",
+        meals: "—",
+        stay: "Almaty",
       },
       {
-        "image": "https://images.unsplash.com/photo-1605540436563-5bca919ae766?auto=format&fit=crop&q=85&w=1800",
-        "caption": "Shymbulak's snow-covered slopes"
-      }
+        day: 2,
+        title: "Almaty City Tour – Medeu & Shymbulak",
+        description:
+          "After breakfast, proceed for a city tour covering the highlights of Almaty’s Golden Square. Visit 28 Panfilov Guardsmen Park, the Eternal Flame, Ascension Cathedral, Green Bazaar and Arbat Shopping Street. Later, proceed towards the mountains for a visit to Medeu, one of the world’s highest-altitude skating rinks. Continue to Shymbulak Mountain Resort, surrounded by the beautiful Zailiyskiy Alatau mountains. Enjoy the scenic mountain atmosphere and breathtaking views before returning to the hotel. Overnight stay in Almaty.",
+        meals: "Breakfast",
+        stay: "Almaty",
+      },
+      {
+        day: 3,
+        title: "Alma-Arasan Gorge – Eagle Hunting Show – Dostyk Plaza",
+        description:
+          "After breakfast, proceed for a half-day excursion to Alma-Arasan Gorge, a beautiful mountain valley known for its forests, fresh mountain air and scenic landscapes. Later, experience a traditional Birds of Prey / Eagle Hunting Show, showcasing the ancient Kazakh nomadic tradition of hunting with golden eagles and other birds of prey. Continue to Dostyk Plaza for some leisure and shopping time before returning to the hotel. Overnight stay in Almaty.",
+        meals: "Breakfast",
+        stay: "Almaty",
+      },
+      {
+        day: 4,
+        title: "Shopping Tour – Green Bazaar, Rakhat & Mega Mall",
+        description:
+          "After breakfast, enjoy a shopping day in Almaty. Visit the famous Green Bazaar, where you can explore local delicacies, dried fruits, nuts, spices and traditional Kazakh products. Continue to Rakhat Chocolate Factory/Shop, one of Kazakhstan’s well-known confectionery brands, where you can shop for chocolates and sweets. Later, visit MEGA Mall for shopping and leisure. Return to the hotel. Overnight stay in Almaty.",
+        meals: "Breakfast",
+        stay: "Almaty",
+      },
+      {
+        day: 5,
+        title: "Oi-Qaragai Mountain Resort",
+        description:
+          "After breakfast, proceed towards Oi-Qaragai Mountain Resort, located in the picturesque foothills of the Zailiyskiy Alatau, surrounded by dense coniferous forests and mountain landscapes. Enjoy the resort’s natural surroundings and leisure activities. Depending on availability and operating conditions, guests can enjoy activities such as the Trolley Park, Rope Adventure Park, Mountain Karting, Climbing Park, Electric Bike, Aport Coaster, Horse Riding and other outdoor experiences. Later, return to Almaty. Overnight stay in Almaty.",
+        meals: "Breakfast",
+        stay: "Almaty",
+      },
+      {
+        day: 6,
+        title: "Charyn Canyon & Kolsai Lakes",
+        description:
+          "After an early breakfast, proceed for a full-day excursion to Charyn Canyon, one of Kazakhstan’s most spectacular natural attractions. Explore the dramatic rock formations and the famous Valley of Castles, created over millions of years by natural erosion. Continue towards the beautiful Kolsai Lakes, often known as the 'Pearls of the Tien Shan.' Surrounded by mountains and forests, these scenic alpine lakes offer breathtaking views and excellent opportunities for photography. After sightseeing, drive back to Almaty. Overnight stay in Almaty.",
+        meals: "Breakfast",
+        stay: "Almaty",
+      },
+      {
+        day: 7,
+        title: "Departure from Almaty",
+        description:
+          "After breakfast, enjoy some free time at the hotel or for last-minute shopping, depending on your flight schedule. Later, check out and proceed to Almaty International Airport for your return flight. End of the tour with wonderful memories of Kazakhstan. Safe travels!",
+        meals: "Breakfast",
+        stay: "—",
+      },
     ],
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Almaty Arrival — Kok-Tobe Hill Panoramic Cable Car Ride",
-        "description": "Arrive at Almaty International Airport (ALA), meet your guide, and transfer to your hotel. In the afternoon, ride the cable car up to Kok-Tobe Hill (3,600 ft) for sweeping panoramic views of the Almaty skyline against the towering Tian Shan mountains, visiting the Beatles Bronze Monument and the mini-zoo.",
-        "meals": "—",
-        "stay": "Almaty"
-      },
-      {
-        "day": 2,
-        "title": "Almaty Golden Square City Tour & Medeu – Shymbulak Ski Resort (10,500 ft)",
-        "description": "Tour Almaty's historical center: stroll through Panfilov Park to see the 1907 Ascension Cathedral (Zenkov Cathedral, built entirely of wood without metal nails) and the Glory Memorial. Visit the Medeu High-Altitude Ice Skating Rink (5,550 ft) and ride three connecting cable car gondolas up to Shymbulak Ski Resort and Talgar Pass at 10,500 feet for snow and glacier panoramas.",
-        "meals": "Breakfast",
-        "stay": "Almaty"
-      },
-      {
-        "day": 3,
-        "title": "Forested Alma-Arasan Gorge & Kazakh Nomadic Eagle Hunting Show",
-        "description": "Drive into the scenic Alma-Arasan Gorge in the Ile-Alatau National Park. Visit the Sunkar Falcon & Bird of Prey Sanctuary to witness a traditional Kazakh eagle-hunting demonstration showcasing the ancient nomadic art of hunting with Golden Eagles and falcons, followed by leisure time at Dostyk Plaza.",
-        "meals": "Breakfast",
-        "stay": "Almaty"
-      },
-      {
-        "day": 4,
-        "title": "Cultural Shopping — Green Bazaar, Famous Rakhat Chocolate Factory & Mega Center",
-        "description": "Immerse in local culture at the vibrant Green Bazaar (Zelyony Bazar), sampling Kazakh dried fruits, honey, spices, and horse cheese. Visit the brand shop of the historic Rakhat Chocolate Factory to stock up on world-famous confectionery, followed by shopping at the MEGA Center on Rozybakiyev.",
-        "meals": "Breakfast",
-        "stay": "Almaty"
-      },
-      {
-        "day": 5,
-        "title": "Oi-Qaragai Mountain Alpine Resort & Forest Adventures",
-        "description": "Spend a refreshing day at Oi-Qaragai (Lesnaya Skazka) eco-resort nestled in pine-covered mountain foothills. Enjoy scenic forest nature trails, mountain air, and optional activities like tree-top rope parks, mountain karting, and horseback riding through alpine meadows.",
-        "meals": "Breakfast",
-        "stay": "Almaty"
-      },
-      {
-        "day": 6,
-        "title": "Full-Day Charyn Canyon (Valley of Castles) & Turquoise Kolsai Lakes Expedition",
-        "description": "Embark on an expedition to Charyn Canyon, often called the 'Grand Canyon of Central Asia'. Hike down the dramatic red sandstone 'Valley of Castles' carved over 12 million years by the Charyn River. Continue to the emerald mountain waters of Kolsai Lakes, the 'Pearls of the Northern Tien Shan', surrounded by coniferous forests and snowy peaks.",
-        "meals": "Breakfast",
-        "stay": "Almaty"
-      },
-      {
-        "day": 7,
-        "title": "Departure from Almaty",
-        "description": "Enjoy breakfast and free time for last-minute shopping at Arbat pedestrian street before your transfer to Almaty International Airport for your flight home.",
-        "meals": "Breakfast",
-        "stay": "—"
-      }
+    inclusions: [
+      "06 Nights' accommodation with breakfast in Almaty (except Day 1)",
+      "All Airport transfers mentioned within the Itinerary by coach",
+      "Sightseeing in Alma-Arasan, Oi-Qaragai, Almaty City, Medeu, Shymbulak, and Kok-Tobe",
+      "Full-day excursion to Kolsai Lake and Charyn Canyon Valley of Castles",
+      "Shymbulak Cable Car – 3 lines",
+      "Kok-Tobe Cable Car – Round Trip",
+      "Traditional Eagle Hunting / Birds of Prey Show admission",
+      "English-speaking guide or driver-guide as per group arrangements",
+      "2 bottles of water (0.5L) per person per day",
     ],
-    "inclusions": [
-      "6 nights' accommodation with breakfast (except day 1)",
-      "Sightseeing across Almaty city, Kok-Tobe, Medeu, Shymbulak, Alma-Arasan and Oi-Qaragai",
-      "Full-day excursion to Charyn Canyon and Kolsai Lakes",
-      "Shymbulak cable car (3 lines) and Kok-Tobe cable car return",
-      "English-speaking guide or driver-guide",
-      "All transfers including airport transfers by coach",
-      "2 bottles of water (0.5L) per person per day"
+    exclusions: [
+      "International and Domestic airfare and airport taxes",
+      "5% GST & 2% TCS",
+      "Kazakhstan Visa charges and Comprehensive Travel Insurance",
+      "Optional outdoor activities at Oi-Qaragai Mountain Resort (Trolley Park, Aport Coaster, Karting, etc.)",
+      "Lunches and dinners unless specifically mentioned",
+      "Personal expenses (laundry, telephone calls, minibar, room service, shopping)",
+      "Tips and gratuities for drivers and guides",
+      "Early check-in and late check-out charges",
     ],
-    "exclusions": [
-      "International and domestic airfare and airport taxes",
-      "5% GST and 2% TCS",
-      "Visa charges and travel insurance",
-      "Lunches and dinners unless specified",
-      "Optional activities, hard drinks and beverages",
-      "Early check-in, late check-out and porterage"
-    ]
+    faqs: [
+      {
+        question: "What are the tour costs and validity for Almaty Bliss?",
+        answer:
+          "Per Person Cost on Double/Twin sharing basis is ₹74,999/- + 5% GST + 2% TCS (based on minimum 2 passengers). Rates are valid for travel until 31st October 2026 (not applicable during Diwali, Christmas, New Year, or other peak/festival periods).",
+      },
+      {
+        question: "Which cable cars and attraction admissions are included?",
+        answer:
+          "The package includes round-trip Kok-Tobe Cable Car, all 3 lines of the Shymbulak Cable Car, entry to the Alma-Arasan traditional Eagle Hunting Show, and full-day excursions to Charyn Canyon and Kolsai Lake.",
+      },
+      {
+        question: "What is the booking, payment, and cancellation policy?",
+        answer:
+          "A 50% non-refundable deposit is required at booking, with balance due 30 days prior to departure (D-30). ROE will be XE.com + 2. Cancellations up to 45 days prior incur INR 40,000 per adult/child; under 30 days incurs 100% cancellation charges.",
+      },
+    ],
   }
 ];
 
