@@ -355,7 +355,7 @@ export default function DestinationGuideClient({ id }: { id: string }) {
           </h1>
           <p className="mt-6 max-w-4xl text-sm leading-7 text-white/80 sm:text-lg sm:leading-8">{destination.tagline || destination.description}</p>
 
-          <div className="mt-10 grid w-full grid-cols-2 border-y border-white/20 sm:grid-cols-4">
+          <div className="mt-8 grid w-full grid-cols-2 border-y border-white/20 sm:grid-cols-4">
             {facts.map((fact) => {
               const Icon = fact.icon;
               return (
@@ -382,9 +382,9 @@ export default function DestinationGuideClient({ id }: { id: string }) {
         </Container>
       </div>
 
-      <section className="bg-[#fbfaf7] py-16 sm:py-24">
-        <Container className="grid grid-cols-1 items-start gap-14 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-16">
-          <div className="min-w-0 space-y-20 sm:space-y-28">
+      <section className="bg-[#fbfaf7] py-12 sm:py-20">
+        <Container className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-14">
+          <div className="min-w-0 space-y-14 sm:space-y-20">
             <ScrollReveal>
               <section id="overview" className="scroll-mt-28">
                 <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">The destination</span>
@@ -392,14 +392,14 @@ export default function DestinationGuideClient({ id }: { id: string }) {
                 <div className="mt-6 space-y-5 text-sm leading-7 text-foreground-muted sm:text-base sm:leading-8">
                   {guide.overview.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                 </div>
-                <figure className="relative mt-10 h-[280px] w-full overflow-hidden bg-sand-dark sm:h-[420px]">
+                <figure className="relative mt-8 h-[260px] w-full overflow-hidden bg-sand-dark sm:h-[420px]">
                   <Image src={guide.gallery[0]} alt={`${destination.name} landscape`} fill sizes="(max-width: 1023px) 100vw, 70vw" className="object-cover" />
                   <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-deep/85 to-transparent px-5 pb-5 pt-16 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80">{destination.name}</figcaption>
                 </figure>
                 {guide.themes.length > 0 ? (
-                  <div className="mt-10 border-y border-primary/15 sm:grid sm:grid-cols-2">
+                  <div className="mt-8 border-y border-primary/15 sm:grid sm:grid-cols-2">
                     {guide.themes.map((theme, index) => (
-                      <div key={theme} className="flex items-start gap-4 border-b border-primary/10 py-5 last:border-b-0 sm:px-5 sm:first:pl-0 sm:[&:nth-child(odd)]:border-r">
+                      <div key={theme} className="flex items-start gap-4 border-b border-primary/10 py-4 last:border-b-0 sm:px-5 sm:first:pl-0 sm:[&:nth-child(odd)]:border-r sm:[&:nth-child(odd):last-child]:col-span-2 sm:[&:nth-child(odd):last-child]:border-r-0 sm:[&:nth-child(odd):last-child]:pl-0">
                         <span className="font-heading text-xl font-extrabold text-gold-dark">{String(index + 1).padStart(2, "0")}</span>
                         <span className="pt-1 text-sm font-semibold leading-6 text-primary">{theme}</span>
                       </div>
@@ -413,9 +413,9 @@ export default function DestinationGuideClient({ id }: { id: string }) {
               <section id="experiences" className="scroll-mt-28">
                 <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">Signature moments</span>
                 <h2 className="mt-3 font-heading text-4xl font-extrabold tracking-[-0.03em] text-primary sm:text-5xl">Experiences worth travelling for</h2>
-                <div className="mt-8 grid border-t border-primary/15 sm:grid-cols-2">
+                <div className="mt-7 grid border-t border-primary/15 sm:grid-cols-2">
                   {guide.experiences.map((experience, index) => (
-                    <article key={experience.title} className="border-b border-primary/15 py-7 sm:px-6 sm:[&:nth-child(odd)]:border-r sm:[&:nth-child(odd)]:pl-0">
+                    <article key={experience.title} className="border-b border-primary/15 py-6 sm:px-6 sm:[&:nth-child(odd)]:border-r sm:[&:nth-child(odd)]:pl-0 sm:[&:nth-child(odd):last-child]:col-span-2 sm:[&:nth-child(odd):last-child]:border-r-0">
                       <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-gold-dark">Experience {String(index + 1).padStart(2, "0")}</span>
                       <h3 className="mt-3 font-heading text-2xl font-extrabold text-primary">{experience.title}</h3>
                       <p className="mt-3 text-sm leading-7 text-foreground-muted">{experience.description}</p>
@@ -428,13 +428,13 @@ export default function DestinationGuideClient({ id }: { id: string }) {
             <ScrollReveal>
               <section id="route" className="scroll-mt-28">
                 <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">Suggested flow</span>
-                <div className="mt-3 flex flex-wrap items-end justify-between gap-4 border-b border-primary/15 pb-7">
+                <div className="mt-3 flex flex-wrap items-end justify-between gap-4 border-b border-primary/15 pb-5">
                   <h2 className="font-heading text-4xl font-extrabold tracking-[-0.03em] text-primary sm:text-5xl">A route with room to breathe</h2>
                   <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-foreground-muted">Fully customisable</span>
                 </div>
                 <ol>
                   {guide.route.map((stop, index) => (
-                    <li key={`${stop.label}-${stop.title}`} className="grid gap-4 border-b border-primary/10 py-7 sm:grid-cols-[90px_minmax(0,1fr)] sm:gap-7">
+                    <li key={`${stop.label}-${stop.title}`} className="grid gap-3 border-b border-primary/10 py-6 sm:grid-cols-[84px_minmax(0,1fr)] sm:gap-6">
                       <div><span className="font-heading text-3xl font-extrabold text-gold-dark">{String(index + 1).padStart(2, "0")}</span><span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.15em] text-foreground-muted">{stop.label}</span></div>
                       <div><h3 className="font-heading text-2xl font-extrabold text-primary">{stop.title}</h3><p className="mt-2 text-sm leading-7 text-foreground-muted">{stop.description}</p></div>
                     </li>
@@ -447,9 +447,9 @@ export default function DestinationGuideClient({ id }: { id: string }) {
               <section id="seasons" className="scroll-mt-28">
                 <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">When to go</span>
                 <h2 className="mt-3 font-heading text-4xl font-extrabold tracking-[-0.03em] text-primary sm:text-5xl">Choose your season</h2>
-                <div className="mt-8 divide-y divide-primary/10 border-y border-primary/15">
+                <div className="mt-7 divide-y divide-primary/10 border-y border-primary/15">
                   {guide.seasons.map((season) => (
-                    <article key={season.title} className="grid gap-3 py-6 sm:grid-cols-[60px_190px_minmax(0,1fr)] sm:items-start sm:gap-6">
+                    <article key={season.title} className="grid gap-2 py-5 sm:grid-cols-[28px_190px_minmax(0,1fr)] sm:items-start sm:gap-5">
                       <Sun size={22} className="text-gold-dark" />
                       <h3 className="font-heading text-xl font-extrabold text-primary">{season.title}</h3>
                       <p className="text-sm leading-7 text-foreground-muted">{season.detail}</p>
@@ -463,9 +463,9 @@ export default function DestinationGuideClient({ id }: { id: string }) {
               <section id="gallery" className="scroll-mt-28">
                 <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">A sense of place</span>
                 <h2 className="mt-3 font-heading text-4xl font-extrabold tracking-[-0.03em] text-primary sm:text-5xl">See {destination.name}</h2>
-                <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3">
                   {guide.gallery.slice(0, 6).map((image, index) => (
-                    <button key={`${image}-${index}`} type="button" onClick={() => setGalleryIndex(index)} className={`group relative overflow-hidden bg-sand-dark text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-gold ${index === 0 ? "col-span-2 min-h-[300px] sm:min-h-[440px]" : "min-h-44 sm:min-h-[220px]"}`} aria-label={`View ${destination.name} image ${index + 1}, enlarged`}>
+                    <button key={`${image}-${index}`} type="button" onClick={() => setGalleryIndex(index)} className={`group relative overflow-hidden bg-sand-dark text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-gold ${index === 0 ? "col-span-2 min-h-[240px] sm:min-h-[400px]" : "min-h-40 sm:min-h-[200px]"}`} aria-label={`View ${destination.name} image ${index + 1}, enlarged`}>
                       <Image src={image} alt={`${destination.name} travel moment ${index + 1}`} fill sizes="(max-width: 640px) 100vw, 50vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
                       <span className="absolute bottom-3 right-3 flex h-9 w-9 items-center justify-center bg-white/90 text-primary"><Expand size={15} /></span>
                     </button>
@@ -479,7 +479,7 @@ export default function DestinationGuideClient({ id }: { id: string }) {
                 <section id="faqs" className="scroll-mt-28">
                   <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">Before you travel</span>
                   <h2 className="mt-3 font-heading text-4xl font-extrabold tracking-[-0.03em] text-primary sm:text-5xl">Frequently asked questions</h2>
-                  <div className="mt-8 divide-y divide-primary/10 border-y border-primary/15">
+                  <div className="mt-7 divide-y divide-primary/10 border-y border-primary/15">
                     {destination.faqs.map((faq) => (
                       <details key={faq.question} className="group py-5">
                         <summary className="flex cursor-pointer list-none items-center justify-between gap-5 text-sm font-bold text-primary">{faq.question}<span className="text-xl font-light text-gold-dark transition-transform group-open:rotate-45">+</span></summary>
@@ -518,7 +518,7 @@ export default function DestinationGuideClient({ id }: { id: string }) {
         </Container>
       </section>
 
-      <section className="relative overflow-hidden bg-primary py-20 text-white sm:py-28">
+      <section className="relative overflow-hidden bg-primary py-16 text-white sm:py-24">
         <Image src={destination.image} alt="" fill sizes="100vw" className="object-cover opacity-20" />
         <div className="pointer-events-none absolute inset-0 bg-ink-deep/70" />
         <Container className="relative text-center">

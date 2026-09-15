@@ -24,7 +24,7 @@ export default function PackageServiceDetails({ details }: { details: PackageSer
   const SelectedIcon = selected.icon;
 
   return (
-    <div className="mt-10 border-y border-primary/15 bg-transparent">
+    <div className="mt-8 border-y border-primary/15 bg-transparent">
       <div className="grid grid-cols-3 border-b border-primary/15 sm:grid-cols-6">
         {SERVICES.map((service) => {
           const isActive = active === service.kind;
@@ -49,7 +49,7 @@ export default function PackageServiceDetails({ details }: { details: PackageSer
         })}
       </div>
 
-      <div className="bg-white/55 px-5 py-7 sm:px-8 sm:py-8">
+      <div className="bg-white/55 px-5 py-6 sm:px-8 sm:py-7">
         <div className="mb-6 flex items-center gap-4">
           <span className="flex h-10 w-10 items-center justify-center border border-gold-dark/35 text-gold-dark"><SelectedIcon size={18} strokeWidth={1.6} /></span>
           <div><p className="font-heading text-lg font-bold text-primary">{selected.label} details</p><p className="text-xs text-foreground-muted">Arrangements planned for this journey</p></div>

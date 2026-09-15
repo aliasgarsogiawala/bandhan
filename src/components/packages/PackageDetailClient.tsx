@@ -156,7 +156,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
             {pkg.tagline}
           </p>
 
-          <div className="mt-10 grid w-full grid-cols-2 border-y border-white/20 sm:grid-cols-4">
+          <div className="mt-8 grid w-full grid-cols-2 border-y border-white/20 sm:grid-cols-4">
             {quickFacts.map((fact) => {
               const Icon = fact.icon;
               return (
@@ -204,9 +204,9 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
         </Container>
       </div>
 
-      <section className="bg-[#fbfaf7] py-16 sm:py-24">
-        <Container className="grid grid-cols-1 items-start gap-14 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-16">
-          <div className="min-w-0 space-y-20 sm:space-y-28">
+      <section className="bg-[#fbfaf7] py-12 sm:py-20">
+        <Container className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-14">
+          <div className="min-w-0 space-y-14 sm:space-y-20">
             {/* Overview */}
             <ScrollReveal>
               <section id="overview" className="scroll-mt-28">
@@ -218,7 +218,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                   {pkg.overview || pkg.tagline}
                 </p>
 
-                <figure className="relative mt-10 h-[280px] w-full overflow-hidden bg-sand-dark sm:h-[420px]">
+                <figure className="relative mt-8 h-[260px] w-full overflow-hidden bg-sand-dark sm:h-[420px]">
                   <Image
                     src={pkg.gallery[0]?.image || pkg.heroImage}
                     alt={pkg.gallery[0]?.caption || pkg.title}
@@ -232,9 +232,9 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                 </figure>
 
                 {pkg.highlights.length > 0 && (
-                  <div className="mt-12 border-y border-primary/15 sm:grid sm:grid-cols-2">
+                  <div className="mt-8 border-y border-primary/15 sm:grid sm:grid-cols-2">
                     {pkg.highlights.map((highlight, index) => (
-                      <div key={highlight} className="flex items-start gap-4 border-b border-primary/10 py-5 last:border-b-0 sm:px-5 sm:first:pl-0 sm:[&:nth-child(odd)]:border-r">
+                      <div key={highlight} className="flex items-start gap-4 border-b border-primary/10 py-4 last:border-b-0 sm:px-5 sm:first:pl-0 sm:[&:nth-child(odd)]:border-r sm:[&:nth-child(odd):last-child]:col-span-2 sm:[&:nth-child(odd):last-child]:border-r-0 sm:[&:nth-child(odd):last-child]:pl-0">
                         <span className="tabular font-heading text-xl font-extrabold text-gold-dark">{String(index + 1).padStart(2, "0")}</span>
                         <span className="pt-1 text-sm font-semibold leading-6 text-primary">{highlight}</span>
                       </div>
@@ -249,7 +249,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
             <ScrollReveal>
               <section id="itinerary" className="scroll-mt-28">
                 <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">Day by day</span>
-                <div className="mt-3 flex flex-wrap items-end justify-between gap-4 border-b border-primary/15 pb-7">
+                <div className="mt-3 flex flex-wrap items-end justify-between gap-4 border-b border-primary/15 pb-5">
                   <h2 className="font-heading text-4xl font-extrabold tracking-[-0.03em] text-primary sm:text-5xl">Your proposed itinerary</h2>
                   <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-foreground-muted">{pkg.itinerary.length} days</span>
                 </div>
@@ -262,12 +262,12 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                     const image = galleryItem?.image;
                     const showImage = Boolean(image) && (index === 0 || index % 3 === 2);
                     return (
-                      <article key={day.day} className="grid gap-5 border-b border-primary/12 py-8 sm:grid-cols-[72px_minmax(0,1fr)] sm:gap-8">
+                      <article key={day.day} className="grid gap-4 border-b border-primary/12 py-6 sm:grid-cols-[72px_minmax(0,1fr)] sm:gap-7">
                         <div>
                           <span className="block text-[9px] font-bold uppercase tracking-[0.18em] text-gold-dark">Day</span>
                           <span className="tabular mt-1 block font-heading text-4xl font-extrabold leading-none text-primary">{String(day.day).padStart(2, "0")}</span>
                         </div>
-                        <div className={showImage ? "grid gap-6 md:grid-cols-[minmax(0,1fr)_260px]" : ""}>
+                        <div className={showImage ? "flex flex-col gap-4 md:grid md:grid-cols-[minmax(0,1fr)_240px] md:gap-5" : ""}>
                           <div>
                             <h3 className="font-heading text-2xl font-bold leading-tight text-primary">{day.title}</h3>
                             <p className="mt-3 whitespace-pre-line text-sm leading-7 text-foreground-muted">{day.description}</p>
@@ -277,8 +277,8 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                             </div>
                           </div>
                           {showImage && (
-                            <div className="relative min-h-36 overflow-hidden bg-sand-dark md:min-h-full">
-                              <Image src={image!} alt={galleryItem?.caption || day.title} fill sizes="260px" className="object-cover" />
+                            <div className="relative order-first h-52 overflow-hidden bg-sand-dark md:order-none md:h-auto md:min-h-full">
+                              <Image src={image!} alt={galleryItem?.caption || day.title} fill sizes="(max-width: 768px) 100vw, 240px" className="object-cover" />
                             </div>
                           )}
                         </div>
@@ -298,9 +298,9 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
 
                 <PackageServiceDetails details={pkg.serviceDetails} />
 
-                {(pkg.inclusions.length > 0 || pkg.exclusions.length > 0) && <div className="mt-10 grid grid-cols-1 gap-10 border-t border-primary/15 pt-8 md:grid-cols-2">
-                  {pkg.inclusions.length > 0 && <div className="md:border-r md:border-primary/12 md:pr-10">
-                    <h3 className="mb-6 font-heading text-2xl font-bold text-primary">Included in your journey</h3>
+                {(pkg.inclusions.length > 0 || pkg.exclusions.length > 0) && <div className="mt-8 grid grid-cols-1 gap-8 border-t border-primary/15 pt-7 md:grid-cols-2">
+                  {pkg.inclusions.length > 0 && <div className="md:border-r md:border-primary/12 md:pr-8">
+                    <h3 className="mb-5 font-heading text-2xl font-bold text-primary">Included in your journey</h3>
                     <ul className="space-y-3">
                       {pkg.inclusions.map((item) => (
                         <li
@@ -315,7 +315,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                   </div>}
 
                   {pkg.exclusions.length > 0 && <div>
-                    <h3 className="mb-6 font-heading text-2xl font-bold text-primary">Not included</h3>
+                    <h3 className="mb-5 font-heading text-2xl font-bold text-primary">Not included</h3>
                     <ul className="space-y-3">
                       {pkg.exclusions.map((item) => (
                         <li
@@ -338,7 +338,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                 <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">Postcards from the route</span>
                 <h2 className="mt-3 font-heading text-4xl font-extrabold tracking-[-0.03em] text-primary sm:text-5xl">A sense of place</h2>
 
-                <div className="mt-10 grid auto-rows-[180px] grid-cols-2 gap-3 sm:auto-rows-[220px] sm:grid-cols-3">
+                <div className="mt-8 grid auto-rows-[180px] grid-cols-2 gap-3 sm:auto-rows-[220px] sm:grid-cols-3">
                   {pkg.gallery.map((item, index) => (
                     <button
                       key={item.image + index}
@@ -391,7 +391,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                       Read all reviews →
                     </Link>
                   </div>
-                  <div className="mt-10 grid gap-5 md:grid-cols-2">
+                  <div className="mt-8 grid gap-5 md:grid-cols-2">
                     {testimonials.map((item) => (
                       <article key={item.id} className="relative overflow-hidden border border-primary/12 bg-white p-6 shadow-soft sm:p-7">
                         <Quote className="absolute -right-3 -top-4 h-24 w-24 text-gold/10" strokeWidth={1} aria-hidden="true" />
@@ -426,7 +426,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                 <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">Good to know</span>
                 <h2 className="mt-3 font-heading text-4xl font-extrabold tracking-[-0.03em] text-primary sm:text-5xl">Before you travel</h2>
 
-                <div className="mt-10 border-t border-primary/15">
+                <div className="mt-8 border-t border-primary/15">
                   {pkg.faqs.map((faq, index) => {
                     const isOpen = openFaq === index;
                     return (
@@ -561,7 +561,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
 
         {/* Related packages */}
         {relatedPackages.length > 0 && (
-          <Container className="mt-24 border-t border-primary/15 pt-16 sm:mt-32 sm:pt-20">
+          <Container className="mt-14 border-t border-primary/15 pt-10 sm:mt-20 sm:pt-14">
             <ScrollReveal>
               <div className="flex items-end justify-between gap-4 mb-8">
                 <div>
