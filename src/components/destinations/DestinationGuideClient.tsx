@@ -18,6 +18,7 @@ import PageShell from "@/components/ui/PageShell";
 import { Container } from "@/components/ui/Container";
 import type { Destination, DestinationExperience, DestinationRouteStop, DestinationSeason } from "@/data/mockData";
 import { useCollection } from "@/lib/admin/store";
+import NotFoundView from "@/components/notFound/NotFoundView";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { Lightbox } from "@/components/ui/Lightbox";
 
@@ -307,19 +308,20 @@ const sectionLinks = [
 ];
 
 export default function DestinationGuideClient({ id }: { id: string }) {
-  const { items } = useCollection<Destination>("destinations");
+  const { items, ready } = useCollection<Destination>("destinations");
   const [galleryIndex, setGalleryIndex] = useState<number | null>(null);
   const destination = useMemo(() => items.find((item) => item.id === id && item.status !== "draft"), [id, items]);
 
   if (!destination) {
+    // Destinations added in the admin only exist in the live data.
+    if (!ready) return <main className="min-h-screen bg-sand" aria-busy="true" />;
     return (
-      <PageShell tone="sand" offsetTop mainClassName="flex items-center justify-center px-6 py-24 text-center">
-        <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-accent">Destination unavailable</p>
-          <h1 className="mt-3 font-heading text-3xl font-extrabold text-primary">This guide is off the map.</h1>
-          <Link href="/destinations" className="mt-6 inline-flex rounded-full bg-primary px-5 py-3 text-sm font-bold text-white">Explore destinations</Link>
-        </div>
-      </PageShell>
+      <NotFoundView
+        title="This guide is off the map."
+        description="This destination may have been retired or isn't published yet. Explore the places we travel to right now."
+        primaryHref="/destinations"
+        primaryLabel="Explore destinations"
+      />
     );
   }
 

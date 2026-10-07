@@ -37,6 +37,9 @@ export async function refreshCollection(key: CollectionKey): Promise<void> {
       // Public pages keep their bundled catalogue if the database is down.
       // Admin mutations still surface the actual error to the editor.
       console.error(`refresh ${key} error:`, error);
+      // A new array reference makes useSyncExternalStore re-render, so
+      // components waiting on `ready` see the load finish.
+      if (!snapshots.has(key)) snapshots.set(key, [...seedForCollection(key)]);
       readyCollections.add(key);
       emit(key);
     })
