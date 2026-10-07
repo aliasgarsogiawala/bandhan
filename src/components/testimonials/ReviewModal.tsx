@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
-import Image from "next/image";
+import Image from "@/components/ui/SiteImage";
 import { AnimatePresence, motion } from "framer-motion";
 import { Calendar, Camera, CheckCircle2, MapPin, Quote, Star, X } from "lucide-react";
 import { TestimonialItem } from "@/data/testimonialData";

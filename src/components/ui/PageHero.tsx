@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+import Image from "@/components/ui/SiteImage";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import HeroParallax from "@/components/ui/HeroParallax";

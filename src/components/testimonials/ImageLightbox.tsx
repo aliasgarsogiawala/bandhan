@@ -2,7 +2,7 @@
 
 import React, { useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
-import Image from "next/image";
+import Image from "@/components/ui/SiteImage";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 

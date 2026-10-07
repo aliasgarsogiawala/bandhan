@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+import Image from "@/components/ui/SiteImage";
 
 interface ParallaxBandProps {
   /** Full-bleed artwork that stays put while the content scrolls over it. */

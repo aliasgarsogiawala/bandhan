@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
+import Image from "@/components/ui/SiteImage";
 import { ArrowRight, CalendarDays, CheckCircle2, Clock3, MapPin } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";

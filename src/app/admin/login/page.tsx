@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Suspense, useState } from "react";
-import Image from "next/image";
+import Image from "@/components/ui/SiteImage";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 

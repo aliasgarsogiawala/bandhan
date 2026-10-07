@@ -2,7 +2,7 @@
 
 import React, { useMemo, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "@/components/ui/SiteImage";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Compass, MessageSquarePlus, ShieldCheck, Star } from "lucide-react";
 import { Container } from "@/components/ui/Container";
