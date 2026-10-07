@@ -2088,7 +2088,7 @@ export const Chatbot: React.FC = () => {
     <>
       {/* Teaser bubble */}
       {showTeaser && !open && pathname !== "/" && pathname !== "/book" && !pathname?.startsWith("/account/bookings/") && (
-        <div className="fixed bottom-[calc(5rem+env(safe-area-inset-bottom))] left-3 right-3 z-40 lg:bottom-24 lg:left-auto lg:right-6 lg:max-w-[280px]">
+        <div className="fixed bottom-[calc(5rem+env(safe-area-inset-bottom))] left-3 right-3 z-40 lg:bottom-24 lg:left-6 lg:right-auto lg:max-w-[280px]">
           <div className="relative border border-primary/10 bg-white px-4 py-3.5 pr-12 shadow-[0_18px_60px_rgba(7,32,60,0.16)]">
             <button
               onClick={() => {
@@ -2128,7 +2128,7 @@ export const Chatbot: React.FC = () => {
           aria-modal="true"
           aria-label={`${BOT_NAME}, travel assistant`}
           tabIndex={-1}
-          className="chatbot-panel-enter fixed inset-0 z-[70] flex h-[100dvh] w-full flex-col overflow-hidden bg-[#f7f5ef] outline-none lg:inset-auto lg:bottom-24 lg:right-6 lg:h-[min(720px,calc(100dvh-7rem))] lg:w-[420px] lg:border lg:border-primary/10 lg:shadow-[0_30px_90px_rgba(7,32,60,0.26)]"
+          className="chatbot-panel-enter fixed inset-0 z-[70] flex h-[100dvh] w-full flex-col overflow-hidden bg-[#f7f5ef] outline-none lg:inset-auto lg:bottom-24 lg:left-6 lg:h-[min(720px,calc(100dvh-7rem))] lg:w-[420px] lg:border lg:border-primary/10 lg:shadow-[0_30px_90px_rgba(7,32,60,0.26)]"
         >
           {/* Header */}
           <div className="relative shrink-0 bg-primary px-3 pb-2.5 pt-[max(0.75rem,env(safe-area-inset-top))] text-white sm:px-4 lg:px-5 lg:pb-4 lg:pt-5">
@@ -2321,7 +2321,7 @@ export const Chatbot: React.FC = () => {
       <button
         ref={launcherRef}
         onClick={() => (open ? setOpen(false) : openPanel())}
-        className={`${open ? "hidden lg:flex" : "flex"} fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-40 h-14 w-14 items-center justify-center rounded-full bg-primary text-gold shadow-[0_14px_40px_rgba(7,32,60,0.28)] transition duration-300 hover:-translate-y-0.5 hover:scale-105 hover:bg-primary-light active:translate-y-0 active:scale-95 lg:bottom-6 lg:right-6`}
+        className={`${open ? "hidden lg:flex" : "flex"} fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-4 z-40 h-14 w-14 items-center justify-center rounded-full bg-primary text-gold shadow-[0_14px_40px_rgba(7,32,60,0.28)] transition duration-300 hover:-translate-y-0.5 hover:scale-105 hover:bg-primary-light active:translate-y-0 active:scale-95 lg:bottom-6 lg:left-6`}
         aria-label={open ? "Close chat" : `Chat with ${BOT_NAME}`}
         aria-expanded={open}
         aria-controls="bandhan-chat-panel"

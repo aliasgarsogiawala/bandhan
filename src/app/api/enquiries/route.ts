@@ -38,7 +38,9 @@ export async function POST(request: Request) {
     subject: (body?.subject || "").trim(),
     message: message.slice(0, 8000),
     source:
-      body?.source === "contact-page" || body?.source === "mice-page"
+      body?.source === "contact-page" ||
+      body?.source === "mice-page" ||
+      body?.source === "welcome-popup"
         ? body.source
         : "enquiry-modal",
     status: "new" as const,
