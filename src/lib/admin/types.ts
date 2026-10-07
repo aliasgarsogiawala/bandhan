@@ -65,7 +65,7 @@ export interface Enquiry {
   guests?: string;
   subject?: string;
   message: string;
-  source: "enquiry-modal" | "contact-page" | "mice-page";
+  source: "enquiry-modal" | "contact-page" | "mice-page" | "welcome-popup";
   status: "new" | "contacted" | "closed";
   createdAt: string; // ISO timestamp
 }

@@ -6,6 +6,7 @@ import {
   ClipboardList,
   FileCheck2,
   GalleryHorizontal,
+  ImageUp,
   Images,
   MapPinned,
   MessageSquareText,
@@ -45,6 +46,7 @@ export const adminNavGroups: AdminNavGroup[] = [
     items: [
       { label: "Packages", href: "/admin/packages", icon: PackageOpen },
       { label: "Destinations", href: "/admin/destinations", icon: MapPinned },
+      { label: "Image Manager", href: "/admin/images", icon: ImageUp },
       { label: "Departures", href: "/admin/departures", icon: CalendarRange },
       { label: "Testimonials", href: "/admin/testimonials", icon: FileCheck2 },
       { label: "Gallery", href: "/admin/gallery", icon: Images },

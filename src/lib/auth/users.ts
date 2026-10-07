@@ -25,12 +25,13 @@ interface DbUser extends PublicUser {
 export async function createUser(
   name: string,
   email: string,
-  passwordHash: string
+  passwordHash: string,
+  phone: string
 ): Promise<PublicUser> {
   const sql = getSql();
   const rows = (await sql`
-    INSERT INTO users (name, email, password_hash)
-    VALUES (${name}, ${email.toLowerCase()}, ${passwordHash})
+    INSERT INTO users (name, email, phone, password_hash)
+    VALUES (${name}, ${email.toLowerCase()}, ${phone.trim()}, ${passwordHash})
     RETURNING id, name, email, phone
   `) as PublicUser[];
   return rows[0];

@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { OPTIMIZED_IMAGE_HOSTS } from "./src/lib/imageHosts";
 
 const nextConfig: NextConfig = {
   // The PDF renderer reads its fonts, the brand logo and any locally-hosted
@@ -28,20 +29,11 @@ const nextConfig: NextConfig = {
     // for hero and gallery artwork; 82 is the default for cards.
     qualities: [50, 75, 82, 90],
     minimumCacheTTL: 60 * 60 * 24 * 30,
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-      },
-      {
-        protocol: "https",
-        hostname: "utfs.io",
-      },
-      {
-        protocol: "https",
-        hostname: "*.ufs.sh",
-      },
-    ],
+    // Other hosts still render (unoptimized) via `SiteImage`.
+    remotePatterns: OPTIMIZED_IMAGE_HOSTS.map((hostname) => ({
+      protocol: "https" as const,
+      hostname,
+    })),
   },
 };
 

@@ -17,6 +17,7 @@ const sourceLabels: Record<Enquiry["source"], string> = {
   "contact-page": "Contact page",
   "enquiry-modal": "Enquiry form",
   "mice-page": "Corporate / MICE",
+  "welcome-popup": "Welcome popup",
 };
 
 function formatDate(iso: string) {

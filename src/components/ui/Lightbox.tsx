@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
-import Image from "next/image";
+import Image from "@/components/ui/SiteImage";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
 export interface LightboxSlide {

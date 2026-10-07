@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import Image from "next/image";
+import Image from "@/components/ui/SiteImage";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Search, X, MapPin, Newspaper, ArrowRight, Clock } from "lucide-react";

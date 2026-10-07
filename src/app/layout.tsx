@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Poppins, Noto_Sans_Devanagari } from "next/font/google";
 import "@/styles/globals.css";
 import Chatbot from "@/components/common/Chatbot";
+import WelcomePopup from "@/components/common/WelcomePopup";
+import WhatsAppButton from "@/components/common/WhatsAppButton";
 import { siteUrl } from "@/lib/siteConfig";
 import { AuthProvider } from "@/lib/auth/useAuth";
 import ScrollProgress from "@/components/ui/ScrollProgress";
@@ -51,6 +53,8 @@ export default function RootLayout({
         <AuthProvider>
           {children}
           <Chatbot />
+          <WhatsAppButton />
+          <WelcomePopup />
         </AuthProvider>
       </body>
     </html>
