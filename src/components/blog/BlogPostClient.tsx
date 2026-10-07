@@ -8,6 +8,7 @@ import { Container } from "@/components/ui/Container";
 import PageShell from "@/components/ui/PageShell";
 import PageHero from "@/components/ui/PageHero";
 import { useCollection } from "@/lib/admin/store";
+import NotFoundView from "@/components/notFound/NotFoundView";
 import type { BlogPost } from "@/lib/admin/types";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
 import { placeholderImage } from "@/lib/placeholderImages";
@@ -39,19 +40,12 @@ export const BlogPostClient: React.FC<{ slug: string }> = ({ slug }) => {
 
   if (ready && (!post || !post.isPublished)) {
     return (
-      <PageShell tone="sand" offsetTop mainClassName="flex items-center justify-center pb-20 pt-8" onEnquiryClick={() => router.push(contactEnquiryHref(""))}>
-          <div className="text-center">
-            <p className="text-5xl mb-4">🧭</p>
-            <h1 className="text-2xl font-heading font-bold text-primary">Article not found</h1>
-            <p className="mt-2 text-foreground-muted">This story may have been moved or unpublished.</p>
-            <Link
-              href="/blog"
-              className="inline-block mt-6 px-6 py-2.5 rounded-full bg-accent text-white text-sm font-semibold hover:bg-accent-dark transition-colors"
-            >
-              Back to all articles
-            </Link>
-          </div>
-      </PageShell>
+      <NotFoundView
+        title="This story wandered off."
+        description="This article may have been moved or unpublished. There are plenty more travel stories on the blog."
+        primaryHref="/blog"
+        primaryLabel="Back to all articles"
+      />
     );
   }
 
