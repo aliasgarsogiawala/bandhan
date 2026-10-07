@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     );
   }
 
-  let body: { name?: string; email?: string; password?: string };
+  let body: { name?: string; email?: string; phone?: string; password?: string };
   try {
     body = await request.json();
   } catch {
@@ -26,14 +26,16 @@ export async function POST(request: Request) {
 
   const name = (body.name || "").trim();
   const email = (body.email || "").trim().toLowerCase();
+  const phone = (body.phone || "").trim();
   const password = body.password || "";
 
   if (name.length < 2) return fail("Please enter your name.");
   if (!EMAIL_RE.test(email)) return fail("Please enter a valid email address.");
+  if (phone.replace(/\D/g, "").length < 8) return fail("Please enter a valid mobile number.");
   if (password.length < 8) return fail("Password must be at least 8 characters.");
 
   try {
-    const user = await createUser(name, email, hashPassword(password));
+    const user = await createUser(name, email, hashPassword(password), phone);
     const response = NextResponse.json({ ok: true, user });
     response.cookies.set(USER_COOKIE, signSession(user.id), sessionCookieOptions());
     return response;

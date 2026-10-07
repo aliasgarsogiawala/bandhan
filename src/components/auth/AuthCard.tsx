@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "@/components/ui/SiteImage";
 import { useRouter, useSearchParams } from "next/navigation";
 import { BriefcaseBusiness } from "lucide-react";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
@@ -47,7 +47,7 @@ export function AuthCard({
   const copy = COPY[mode];
   const isAgentPortal = mode === "signin" && portal === "agent";
 
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -154,6 +154,13 @@ export function AuthCard({
                 className={inputClass}
               />
             </div>
+
+            {mode === "signup" && (
+              <div className="space-y-1.5">
+                <label htmlFor="customer-phone" className="text-xs font-semibold text-primary uppercase tracking-wide">Mobile Number</label>
+                <input id="customer-phone" type="tel" required autoComplete="tel" value={form.phone} onChange={update("phone")} placeholder="E.g. +91 98765 43210" className={inputClass} />
+              </div>
+            )}
 
             <div className="space-y-1.5">
               <label htmlFor={`${portal}-password`} className="text-xs font-semibold text-primary uppercase tracking-wide">Password</label>
