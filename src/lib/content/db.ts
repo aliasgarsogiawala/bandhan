@@ -41,12 +41,14 @@ export async function listContent<T extends WithId = WithId>(key: CollectionKey)
   await ensureSeeded(key);
   const sql = getSql();
   const rows = (await sql`
-    SELECT data
+    SELECT data, created_at, updated_at
     FROM site_content
     WHERE collection_key = ${key}
     ORDER BY sort_order ASC, created_at ASC
-  `) as Array<{ data: T }>;
-  return rows.map((row) => row.data);
+  `) as Array<{ data: T; created_at: string; updated_at: string }>;
+  return rows.map((row) => key === "packages"
+    ? { ...row.data, createdAt: row.created_at, updatedAt: row.updated_at }
+    : row.data);
 }
 
 export async function listPublicContent<T extends WithId = WithId>(

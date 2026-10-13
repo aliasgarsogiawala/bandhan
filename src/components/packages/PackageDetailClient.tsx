@@ -16,6 +16,8 @@ import { packageDestinationLabel } from "@/lib/packageCategory";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
 import { SecondaryButton } from "@/components/ui/SecondaryButton";
 import PackageServiceDetails from "./PackageServiceDetails";
+import PackageDepartureDates from "./PackageDepartureDates";
+import { upcomingPackageDates } from "@/lib/packageDates";
 
 interface PackageDetailClientProps {
   pkg: FullPackage;
@@ -79,6 +81,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
   const router = useRouter();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [galleryIndex, setGalleryIndex] = useState<number | null>(null);
+  const departureDates = upcomingPackageDates(pkg.departureDates);
 
   const testimonials = useMemo(() => {
     const destination = packageDestinationLabel(pkg).toLowerCase();
@@ -108,6 +111,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
   ];
   const sectionLinks = [
     { id: "overview", label: "Overview" },
+    ...(departureDates.length ? [{ id: "departure-dates", label: "Dates" }] : []),
     ...(pkg.itinerary.length ? [{ id: "itinerary", label: "Itinerary" }] : []),
     { id: "inclusions", label: "What's Included" },
     ...(pkg.gallery.length ? [{ id: "gallery", label: "Gallery" }] : []),
@@ -243,6 +247,10 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                 )}
               </section>
             </ScrollReveal>
+
+            {departureDates.length > 0 ? (
+              <ScrollReveal><PackageDepartureDates packageId={pkg.id} dates={departureDates} /></ScrollReveal>
+            ) : null}
 
             {/* Itinerary timeline */}
             {pkg.itinerary.length > 0 && (

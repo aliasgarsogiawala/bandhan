@@ -45,6 +45,7 @@ export const adminNavGroups: AdminNavGroup[] = [
     label: "Website",
     items: [
       { label: "Packages", href: "/admin/packages", icon: PackageOpen },
+      { label: "Group Tours", href: "/admin/group-tours", icon: UsersRound },
       { label: "Destinations", href: "/admin/destinations", icon: MapPinned },
       { label: "Image Manager", href: "/admin/images", icon: ImageUp },
       { label: "Departures", href: "/admin/departures", icon: CalendarRange },

@@ -1,26 +1,24 @@
 import type { Metadata } from "next";
 import PackageRouteClient from "@/components/packages/PackageRouteClient";
-import {
-  getAllPackageIds,
-  getFullPackage,
-} from "@/data/packageDetails";
+import { getFullPackageForPackage } from "@/data/packageDetails";
+import { getPublishedPackage } from "@/lib/content/packages";
+import { notFound } from "next/navigation";
 
 interface PackagePageProps {
   params: Promise<{ id: string }>;
 }
 
-export function generateStaticParams() {
-  return getAllPackageIds().map((id) => ({ id }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
 }: PackagePageProps): Promise<Metadata> {
   const { id } = await params;
-  const pkg = getFullPackage(id);
-  if (!pkg) {
+  const live = await getPublishedPackage(id);
+  if (!live) {
     return { title: "Package Not Found | Bandhan Tours" };
   }
+  const pkg = getFullPackageForPackage(live);
   return {
     title: `${pkg.title} | Bandhan Tours`,
     description: `${pkg.duration} · from ${pkg.price} — ${pkg.tagline}`,
@@ -34,5 +32,7 @@ export async function generateMetadata({
 
 export default async function PackagePage({ params }: PackagePageProps) {
   const { id } = await params;
-  return <PackageRouteClient id={id} />;
+  const pkg = await getPublishedPackage(id);
+  if (!pkg) notFound();
+  return <PackageRouteClient id={id} initialPackage={pkg} />;
 }

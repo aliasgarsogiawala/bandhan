@@ -9,6 +9,7 @@ import type { BlogPost } from "@/lib/admin/types";
 import { fuzzySearchScored } from "@/lib/fuzzySearch";
 import { formatMoney, parseMoney } from "@/lib/bookings/pricing";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
+import { WHATSAPP_HREF, WHATSAPP_LABEL } from "@/lib/contact";
 
 /**
  * Miles — Bandhan Tours' corner FAQ assistant.
@@ -192,7 +193,7 @@ export function validateChatInput(raw: string): ValidatedInput {
 function isSafeActionHref(href: string): boolean {
   if (/^\/(?:packages|destinations|blog|book|plan-trip|contact|testimonials|about|mice)(?:[/?#]|$)/.test(href)) return true;
   if (/^\/#(?:departures|packages|testimonials|contact)/.test(href)) return true;
-  if (href === "https://wa.me/919422332610") return true;
+  if (href === WHATSAPP_HREF) return true;
   if (href === "tel:+919422332610") return true;
   return false;
 }
@@ -220,7 +221,7 @@ function faqResponse(faq: Faq, ctx: KnowledgeContext): BotResponse {
   const response: BotResponse = { text: resolveAnswer(faq, ctx), chips: faq.followups };
   if (faq.id === "contact") {
     response.actions = [
-      { label: "WhatsApp", href: "https://wa.me/919422332610" },
+      { label: "WhatsApp", href: WHATSAPP_HREF },
       { label: "Call now", href: "tel:+919422332610" },
       { label: "Send an enquiry", href: contactEnquiryHref() },
     ];
@@ -901,7 +902,7 @@ const FAQS: Record<string, Faq> = {
       "representative",
     ],
     answer:
-      "You can reach our Thane travel desk directly:\n📞 Phone: +91 94223 32610\n✉️ Email: info@bandhantours.com\n💬 WhatsApp: +91 94223 32610\n\nTypical enquiry response time is within 24 hours, Mon-Sat 10 AM – 7 PM.",
+      `You can reach our Thane travel desk directly:\n📞 Phone: +91 94223 32610\n✉️ Email: info@bandhantours.com\n💬 WhatsApp: ${WHATSAPP_LABEL}\n\nTypical enquiry response time is within 24 hours, Mon-Sat 10 AM – 7 PM.`,
     followups: ["hours", "location", "booking"],
   },
   location: {

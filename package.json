@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test:tour-publishing": "node scripts/test-tour-publishing.mjs",
+    "test:tour-dates": "node scripts/test-tour-dates.mjs",
     "db:migrate": "node scripts/migrate.mjs"
   },
   "dependencies": {

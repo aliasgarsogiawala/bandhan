@@ -1,4 +1,7 @@
-import { neon } from "@neondatabase/serverless";
+import { neon, neonConfig } from "@neondatabase/serverless";
+
+// Every query reads shared live content. Cache the rendered UI separately, never SQL HTTP responses.
+neonConfig.fetchFunction = (input: RequestInfo | URL, init?: RequestInit) => fetch(input, { ...init, cache: "no-store" });
 
 /**
  * Neon (serverless Postgres) client.

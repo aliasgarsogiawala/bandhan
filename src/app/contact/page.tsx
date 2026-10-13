@@ -8,6 +8,7 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import PageShell from "@/components/ui/PageShell";
 import PageHero from "@/components/ui/PageHero";
 import { submitEnquiry } from "@/lib/admin/store";
+import { WHATSAPP_HREF } from "@/lib/contact";
 
 const bentoIcon = (
   path: React.ReactNode,
@@ -122,7 +123,7 @@ function ContactContent() {
               Start an Enquiry
             </PrimaryButton>
             <a
-              href="https://wa.me/919422332610"
+              href={WHATSAPP_HREF}
               target="_blank"
               rel="noreferrer"
               className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/25 bg-white/10 px-6 py-3 text-sm font-bold text-white backdrop-blur transition hover:bg-white/20 sm:w-auto"
@@ -158,7 +159,7 @@ function ContactContent() {
                   <div className="flex items-center gap-2 text-xs font-semibold text-emerald-700"><span className="h-2 w-2 bg-emerald-500" /> Travel desk open today</div>
                   <h3 className="mt-8 font-heading text-2xl font-bold sm:text-3xl">Choose how we talk.</h3>
                   <div className="mt-7 divide-y divide-slate-200 border-y border-slate-200">
-                    <a href="https://wa.me/919422332610" target="_blank" rel="noreferrer" className="group flex items-center justify-between gap-4 py-5"><div><span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Fastest</span><p className="mt-1 text-lg font-bold">WhatsApp our team</p></div><span className="text-2xl text-accent transition-transform group-hover:translate-x-1">→</span></a>
+                    <a href={WHATSAPP_HREF} target="_blank" rel="noreferrer" className="group flex items-center justify-between gap-4 py-5"><div><span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Fastest</span><p className="mt-1 text-lg font-bold">WhatsApp our team</p></div><span className="text-2xl text-accent transition-transform group-hover:translate-x-1">→</span></a>
                     <a href="tel:+919422332610" className="group flex items-center justify-between gap-4 py-5"><div><span className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground-light">Speak directly</span><p className="mt-1 text-lg font-bold">+91 94223 32610</p></div><span className="text-2xl text-accent transition-transform group-hover:translate-x-1">→</span></a>
                     <a href="mailto:info@bandhantours.com" className="group flex items-center justify-between gap-4 py-5"><div><span className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground-light">Write to us</span><p className="mt-1 text-lg font-bold">info@bandhantours.com</p></div><span className="text-2xl text-accent transition-transform group-hover:translate-x-1">→</span></a>
                   </div>

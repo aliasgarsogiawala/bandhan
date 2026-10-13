@@ -7,9 +7,11 @@ import { getFullPackageForPackage } from "@/data/packageDetails";
 import { useCollection } from "@/lib/admin/store";
 import NotFoundView from "@/components/notFound/NotFoundView";
 
-export default function PackageRouteClient({ id }: { id: string }) {
+export default function PackageRouteClient({ id, initialPackage }: { id: string; initialPackage?: TourPackage }) {
   const { items, ready } = useCollection<TourPackage>("packages");
-  const pkg = useMemo(() => items.find((item) => item.id === id && item.status !== "draft"), [items, id]);
+  const pkg = useMemo(() => ready
+    ? items.find((item) => item.id === id && item.status !== "draft")
+    : initialPackage ?? items.find((item) => item.id === id && item.status !== "draft"), [items, id, ready, initialPackage]);
   const related = useMemo(() => items.filter((item) => item.id !== id && item.status !== "draft").slice(0, 3), [items, id]);
 
   if (!pkg) {

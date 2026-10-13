@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { initialBookingDate } from "@/lib/packageDates";
 import Image from "@/components/ui/SiteImage";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -316,7 +317,7 @@ export default function BookingEngine() {
   const [selectedId, setSelectedId] = useState(searchParams.get("id") || "");
   const [step, setStep] = useState(0);
   const [customDestination, setCustomDestination] = useState(initialCustomDestination);
-  const [travelDate, setTravelDate] = useState(initialTravelMonth ? `${initialTravelMonth}-01` : "");
+  const [travelDate, setTravelDate] = useState(() => initialBookingDate(searchParams.get("date"), initialTravelMonth));
   const [departureCity, setDepartureCity] = useState("");
   const [durationLabel, setDurationLabel] = useState(initialDuration);
   const [budgetPerAdult, setBudgetPerAdult] = useState(initialBudget);

@@ -47,6 +47,16 @@ The complete customer configurator is available at `/book` and supports:
 Package rates, child rates, room supplements, advance percentage, quotation
 validity and optional activities are configured in **Admin → Tour Packages**.
 
+In **Admin → Packages** or **Group Tours**, the **Dates & itinerary** section
+lets you add multiple departure start dates and optional end dates. Upcoming
+dates appear on the tour page, and choosing one prefills the booking form.
+Save a draft to keep a tour hidden, or publish it to show it on the website.
+Existing tours can be selected together to add them to Group Tours or move
+them between categories.
+
+Run `npm run test:tour-publishing` for the publishing checks and
+`npm run test:tour-dates` for date validation, persistence and booking-link checks.
+
 Run `npm run db:migrate` after pulling booking-engine changes. To deliver emails
 directly, configure `RESEND_API_KEY` and `EMAIL_FROM` in `.env.local`. Without a
 mail provider the system opens a prepared email draft and keeps PDF download and

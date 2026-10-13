@@ -8,9 +8,9 @@ import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import type { TourPackage } from "@/data/mockData";
 import { useCollection } from "@/lib/admin/store";
-import { CATEGORY_TABS, matchesCategory, type CategoryTab } from "@/lib/packageCategory";
+import { CATEGORY_TABS, homepagePackages, type CategoryTab } from "@/lib/packageCategory";
 
-function PackageCard({ pkg }: { pkg: TourPackage }) {
+export function PackageCard({ pkg }: { pkg: TourPackage }) {
   return (
     <Link href={`/packages/${pkg.id}`} className="group flex h-full flex-col overflow-hidden rounded-lg border border-primary/10 bg-white transition-colors hover:border-primary/25">
       <div className="relative aspect-[16/10] overflow-hidden bg-sand">
@@ -37,10 +37,7 @@ function PackageCard({ pkg }: { pkg: TourPackage }) {
 export const FeaturedPackages: React.FC = () => {
   const { items: packages } = useCollection<TourPackage>("packages");
   const [activeTab, setActiveTab] = useState<CategoryTab>("all");
-  const visiblePackages = packages
-    .filter((pkg) => pkg.status !== "draft")
-    .filter((pkg) => matchesCategory(pkg.category, activeTab))
-    .slice(0, 6);
+  const visiblePackages = homepagePackages(packages, activeTab);
 
   return (
     <section id="international-tours" className="relative z-10 bg-sand-light py-16 sm:py-24">

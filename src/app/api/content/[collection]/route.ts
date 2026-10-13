@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { isDbConfigured } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin/auth";
+import { normalizePackageDates, PackageDateError } from "@/lib/packageDates";
 import {
   createContentItem,
   deleteContentItem,
@@ -13,6 +14,9 @@ import {
 interface RouteParams {
   params: Promise<{ collection: string }>;
 }
+
+export const dynamic = "force-dynamic";
+const noStore = { "Cache-Control": "private, no-store, max-age=0" };
 
 function unavailable() {
   return NextResponse.json(
@@ -35,7 +39,7 @@ export async function GET(request: Request, { params }: RouteParams) {
     const items = requireAdmin(request)
       ? await listContent(collection)
       : await listPublicContent(collection as Exclude<typeof collection, "enquiries">);
-    return NextResponse.json({ ok: true, items });
+    return NextResponse.json({ ok: true, items }, { headers: noStore });
   } catch (error) {
     console.error("list content error:", error);
     return NextResponse.json({ ok: false, error: "Could not load content." }, { status: 500 });
@@ -57,9 +61,13 @@ export async function POST(request: Request, { params }: RouteParams) {
     return NextResponse.json({ ok: false, error: "Every content item needs an id." }, { status: 400 });
   }
   try {
-    const item = await createContentItem(collection, { ...body, id });
+    const fields = collection === "packages" && Object.hasOwn(body, "departureDates")
+      ? { ...body, departureDates: normalizePackageDates(body.departureDates) }
+      : body;
+    const item = await createContentItem(collection, { ...fields, id });
     return NextResponse.json({ ok: true, item }, { status: 201 });
   } catch (error) {
+    if (error instanceof PackageDateError) return NextResponse.json({ ok: false, error: error.message }, { status: 400 });
     console.error("create content error:", error);
     return NextResponse.json({ ok: false, error: "Could not save content." }, { status: 500 });
   }
@@ -81,10 +89,14 @@ export async function PATCH(request: Request, { params }: RouteParams) {
     return NextResponse.json({ ok: false, error: "Missing item id or update." }, { status: 400 });
   }
   try {
-    const item = await updateContentItem(collection, body.id, body.patch);
+    const patch = collection === "packages" && Object.hasOwn(body.patch, "departureDates")
+      ? { ...body.patch, departureDates: normalizePackageDates(body.patch.departureDates) }
+      : body.patch;
+    const item = await updateContentItem(collection, body.id, patch);
     if (!item) return NextResponse.json({ ok: false, error: "Item not found." }, { status: 404 });
     return NextResponse.json({ ok: true, item });
   } catch (error) {
+    if (error instanceof PackageDateError) return NextResponse.json({ ok: false, error: error.message }, { status: 400 });
     console.error("update content error:", error);
     return NextResponse.json({ ok: false, error: "Could not update content." }, { status: 500 });
   }

@@ -96,7 +96,14 @@ export interface PackageServiceDetails {
   items: string[];
 }
 
+export interface PackageDepartureDate {
+  startDate: string;
+  endDate?: string;
+}
+
 export interface TourPackage {
+  createdAt?: string;
+  updatedAt?: string;
   id: string;
   title: string;
   image: string;
@@ -106,7 +113,7 @@ export interface TourPackage {
   category: string;
   /** Primary destination label used by catalogue filtering and quotations. */
   destination?: string;
-  /** Overlapping commercial collections; geographic category remains separate. */
+  /** Travel-style collections can overlap the primary category. */
   travelStyles?: TravelStyle[];
   isPopular?: boolean;
   tagline?: string;
@@ -117,6 +124,7 @@ export interface TourPackage {
   groupSize?: string;
   themes?: string[];
   itinerary?: ItineraryDay[];
+  departureDates?: PackageDepartureDate[];
   inclusions?: string[];
   exclusions?: string[];
   serviceDetails?: PackageServiceDetails[];

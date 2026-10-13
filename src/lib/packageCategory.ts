@@ -1,12 +1,15 @@
 import type { TourPackage, TravelStyle } from "@/data/mockData";
 
-export type CategoryTab = "all" | "domestic" | "international" | "north-east";
+export type CategoryTab = "all" | "domestic" | "international" | "north-east" | "group-tours";
+
+export const PACKAGE_CATEGORIES = ["Domestic", "North East", "International", "Group Tours"] as const;
 
 export const CATEGORY_TABS: { key: CategoryTab; label: string }[] = [
   { key: "all", label: "All Packages" },
   { key: "north-east", label: "North East" },
   { key: "domestic", label: "Domestic Tours" },
   { key: "international", label: "International" },
+  { key: "group-tours", label: "Group Tours" },
 ];
 
 export type TravelStyleFilter = "all" | TravelStyle;
@@ -19,7 +22,7 @@ export const TRAVEL_STYLE_FILTERS: { key: TravelStyleFilter; label: string }[] =
   { key: "special-departure", label: "Special departures" },
 ];
 
-const VALID_TABS: CategoryTab[] = ["north-east", "domestic", "international"];
+const VALID_TABS: CategoryTab[] = ["north-east", "domestic", "international", "group-tours"];
 
 /** "North East" -> "north-east", so free-text category strings compare cleanly against tab keys. */
 export function categorySlug(category: string): string {
@@ -76,9 +79,13 @@ export function packageDestinationLabel(pkg: TourPackage): string {
 }
 
 export function packageTravelStyles(pkg: TourPackage): TravelStyle[] {
-  if (pkg.travelStyles?.length) return pkg.travelStyles;
+  const isGroupCategory = categorySlug(pkg.category) === "group-tours";
+  if (Array.isArray(pkg.travelStyles)) {
+    return [...new Set<TravelStyle>([...pkg.travelStyles, ...(isGroupCategory ? ["group" as const] : [])])];
+  }
   const source = `${pkg.title} ${pkg.groupSize || ""} ${(pkg.themes || []).join(" ")}`;
   const styles = new Set<TravelStyle>();
+  if (isGroupCategory) styles.add("group");
   if (/group|min\s*25|tour manager/i.test(source)) styles.add("group");
   if (/departure|\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\b.*\b20\d{2}\b/i.test(source)) {
     styles.add("special-departure");
@@ -96,4 +103,30 @@ export function parseTravelStyle(value: string | null): TravelStyleFilter {
   return TRAVEL_STYLE_FILTERS.some((item) => item.key === value)
     ? (value as TravelStyleFilter)
     : "all";
+}
+
+export function matchesPackageCategory(pkg: TourPackage, tab: CategoryTab): boolean {
+  return tab === "group-tours"
+    ? packageTravelStyles(pkg).includes("group")
+    : matchesCategory(pkg.category, tab);
+}
+
+/** Only classification fields change; itinerary, prices, photos and publish status stay intact. */
+export function packageCategoryPatch(pkg: TourPackage, target: string, mode: "move" | "add-group") {
+  const styles = packageTravelStyles(pkg);
+  if (mode === "add-group") return { travelStyles: [...new Set<TravelStyle>([...styles, "group"])] };
+  if (!(PACKAGE_CATEGORIES as readonly string[]).includes(target)) throw new Error("Choose a valid category.");
+  return {
+    category: target,
+    travelStyles: target === "Group Tours"
+      ? [...new Set<TravelStyle>([...styles, "group"])]
+      : styles.filter((style) => style !== "group"),
+  };
+}
+
+/** New published trips lead the homepage instead of being permanently below its six-card cutoff. */
+export function homepagePackages(packages: TourPackage[], category: CategoryTab, limit = 6) {
+  return packages.filter((pkg) => pkg.status !== "draft" && matchesPackageCategory(pkg, category))
+    .sort((a, b) => (Date.parse(b.createdAt || "") || 0) - (Date.parse(a.createdAt || "") || 0))
+    .slice(0, limit);
 }

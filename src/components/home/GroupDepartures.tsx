@@ -8,6 +8,11 @@ import { SectionTitle } from "@/components/ui/SectionTitle";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { Stagger, StaggerItem } from "@/components/ui/Stagger";
 import BookingModal from "@/components/packages/BookingModal";
+import Link from "next/link";
+import { useCollection } from "@/lib/admin/store";
+import type { TourPackage } from "@/data/mockData";
+import { homepagePackages } from "@/lib/packageCategory";
+import { PackageCard } from "@/components/home/FeaturedPackages";
 import {
   getDepartureUrgency,
   type DepartureStatus,
@@ -100,6 +105,8 @@ function getDepartureVisual(destination: string) {
 }
 
 export const GroupDepartures: React.FC = () => {
+  const { items: packages } = useCollection<TourPackage>("packages");
+  const groupPackages = homepagePackages(packages, "group-tours", Number.POSITIVE_INFINITY);
   const [groupDepartures, setGroupDepartures] = useState<GroupDeparture[]>([]);
   const [selected, setSelected] = useState<GroupDeparture | null>(null);
 
@@ -110,7 +117,7 @@ export const GroupDepartures: React.FC = () => {
       .catch(() => setGroupDepartures([]));
   }, []);
 
-  if (groupDepartures.length === 0) return null;
+  if (groupDepartures.length === 0 && groupPackages.length === 0) return null;
 
   return (
     <section
@@ -121,9 +128,9 @@ export const GroupDepartures: React.FC = () => {
         <div className="mb-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionTitle
             align="left"
-            badge="Fixed-date tours"
-            title="Travel together, without the planning"
-            description="Confirmed dates, clear availability, and an itinerary managed from start to finish."
+            badge="Travel together"
+            title="Group Tours"
+            description="Explore our group journeys and upcoming departures, with an itinerary managed from start to finish."
             className="max-w-3xl"
           />
           <div className="hidden items-center gap-3 border-l border-primary/15 pl-5 text-primary lg:flex">
@@ -137,6 +144,15 @@ export const GroupDepartures: React.FC = () => {
           </div>
         </div>
 
+        {groupPackages.length > 0 ? (
+          <div className="mb-10">
+            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {groupPackages.map((pkg) => <PackageCard key={pkg.id} pkg={pkg} />)}
+            </div>
+            <Link href="/packages?category=group-tours" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-accent">Browse all group tours <ArrowRight size={16} /></Link>
+          </div>
+        ) : null}
+        {groupDepartures.length > 0 ? <h3 className="mb-5 text-xl font-bold text-primary">Upcoming departures</h3> : null}
         <Stagger className="grid gap-5 md:grid-cols-2 xl:grid-cols-4" stagger={0.05}>
           {groupDepartures.map((departure) => {
             const soldOut = departure.seats_left <= 0;

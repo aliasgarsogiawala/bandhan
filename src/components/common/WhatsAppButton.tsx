@@ -1,17 +1,17 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { WHATSAPP_HREF } from "@/lib/contact";
 
 // Floating "chat on WhatsApp" button, bottom-right on every public page.
 // Miles (the chatbot) sits bottom-left.
-const WHATSAPP_NUMBER = "919422332610"; // +91 94223 32610, digits only for wa.me
 const DEFAULT_MESSAGE = "Hello Bandhan Tours! I would like to know more about your tour packages.";
 
 export default function WhatsAppButton() {
   const pathname = usePathname();
   if (pathname?.startsWith("/admin") || pathname?.startsWith("/agent")) return null;
 
-  const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(DEFAULT_MESSAGE)}`;
+  const href = `${WHATSAPP_HREF}?text=${encodeURIComponent(DEFAULT_MESSAGE)}`;
 
   return (
     <a

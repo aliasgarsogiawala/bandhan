@@ -17,7 +17,7 @@ import { fuzzySearch } from "@/lib/fuzzySearch";
 import {
   CATEGORY_TABS as TABS,
   TRAVEL_STYLE_FILTERS,
-  matchesCategory,
+  matchesPackageCategory,
   matchesTravelStyle,
   packageDestinationLabel,
   packageTravelStyles,
@@ -50,6 +50,13 @@ export const PackagesPageClient: React.FC = () => {
   const initialCategory = searchParams.get("category");
 
   const [activeTab, setActiveTab] = useState<CategoryTab>(() => parseCategoryParam(initialCategory));
+  const [categoryParam, setCategoryParam] = useState(initialCategory);
+  // The navbar can change the query while this page stays mounted. Reflect that
+  // navigation before committing its filter URL, rather than retaining the old tab.
+  if (categoryParam !== initialCategory) {
+    setCategoryParam(initialCategory);
+    setActiveTab(parseCategoryParam(initialCategory));
+  }
   const [budget, setBudget] = useState<BudgetKey>(
     () => budgetRange(searchParams.get("budget")).key
   );
@@ -113,7 +120,7 @@ export const PackagesPageClient: React.FC = () => {
 
   const filteredPackages = searchedPackages
     .filter((pkg) => pkg.status !== "draft")
-    .filter((pkg) => matchesCategory(pkg.category, activeTab))
+    .filter((pkg) => matchesPackageCategory(pkg, activeTab))
     .filter((pkg) => destination === "all" || packageDestinationLabel(pkg) === destination)
     .filter((pkg) => matchesTravelStyle(pkg, travelStyle))
     .filter((pkg) => !featuredOnly || Boolean(pkg.isPopular))

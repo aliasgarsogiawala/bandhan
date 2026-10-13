@@ -255,7 +255,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
 
   const navLinks = [
     { label: "Home", href: "/" },
-    { label: "Group Tours", href: "/#group-departures" },
+    { label: "Group Tours", href: "/packages?category=group-tours" },
     { label: "Plan a Custom Trip", href: "/plan-trip" },
     { label: "Corporate / MICE", href: "/mice" },
     { label: "Blog", href: "/blog" },

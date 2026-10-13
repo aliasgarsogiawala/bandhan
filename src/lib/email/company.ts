@@ -4,14 +4,16 @@
  * fonts or CSS classes reliably, so templates use these hex values inline.
  */
 
+import { WHATSAPP_HREF, WHATSAPP_LABEL } from "@/lib/contact";
+
 export const COMPANY = {
   name: "Bandhan Tours",
   tagline: "Where Colours Come Alive",
   email: "info@bandhantours.com",
   phoneLabel: "+91 94223 32610",
   phoneHref: "tel:+919422332610",
-  whatsappLabel: "+91 94223 32610",
-  whatsappHref: "https://wa.me/919422332610",
+  whatsappLabel: WHATSAPP_LABEL,
+  whatsappHref: WHATSAPP_HREF,
   address: "226, Lodha Supremus Tower 2, Road No. 22, Wagle Industrial Estate, Thane West – 400604",
   website: "https://bandhantours.com",
   hours: "Mon–Sat, 10:00 AM – 7:00 PM IST",
