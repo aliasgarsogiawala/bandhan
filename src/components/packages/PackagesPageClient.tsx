@@ -13,7 +13,9 @@ import type { TourPackage } from "@/data/mockData";
 import { getFullPackageForPackage } from "@/data/packageDetails";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
 import { useCollection } from "@/lib/admin/store";
-import { fuzzySearch } from "@/lib/fuzzySearch";
+import { fuzzySearch, PACKAGE_SEARCH_KEYS } from "@/lib/fuzzySearch";
+import { PlaceSearchInput } from "@/components/ui/PlaceSearchInput";
+import { withTaxMark } from "@/lib/priceLabel";
 import {
   CATEGORY_TABS as TABS,
   TRAVEL_STYLE_FILTERS,
@@ -109,14 +111,7 @@ export const PackagesPageClient: React.FC = () => {
   const withinDuration = durationRange(duration).test;
   const monthFilter = monthNumber(month);
 
-  const searchedPackages = fuzzySearch(packages, query, [
-    "title",
-    "category",
-    "tagline",
-    "overview",
-    "highlights",
-    "themes",
-  ]);
+  const searchedPackages = fuzzySearch(packages, query, PACKAGE_SEARCH_KEYS);
 
   const filteredPackages = searchedPackages
     .filter((pkg) => pkg.status !== "draft")
@@ -154,12 +149,12 @@ export const PackagesPageClient: React.FC = () => {
                 size={17}
                 className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-white/50"
               />
-              <input
+              <PlaceSearchInput
                 id="package-search"
-                type="text"
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search by destination, title or theme…"
+                onValueChange={setQuery}
+                onPick={(place) => setQuery(place.label)}
+                placeholder="Search by destination, city or theme…"
                 className="min-h-12 w-full rounded-[8px] border border-white/20 bg-ink-deep/35 py-3 pl-11 pr-10 text-base text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-gold sm:text-sm"
               />
               {query && (
@@ -404,7 +399,7 @@ export const PackagesPageClient: React.FC = () => {
                             Starting price
                           </span>
                           <div className="text-xl font-extrabold text-primary">
-                            {pkg.price}
+                            {withTaxMark(pkg.price)}
                           </div>
                         </div>
                         <span className="inline-flex items-center gap-2 rounded-[5px] bg-primary px-4 py-2 text-xs font-semibold text-white transition-colors duration-300 group-hover:bg-accent">
@@ -432,7 +427,7 @@ export const PackagesPageClient: React.FC = () => {
                   in mind.
                 </p>
                 <button
-                  onClick={() => router.push("/book?type=custom")}
+                  onClick={() => router.push("/book?type=destination")}
                   className="mt-6 inline-flex items-center gap-2 rounded-[5px] bg-accent px-8 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:bg-accent-dark hover:shadow-lg hover:shadow-accent/20"
                 >
                   Build a Custom Trip

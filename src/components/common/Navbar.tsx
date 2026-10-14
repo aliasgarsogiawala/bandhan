@@ -12,7 +12,7 @@ import { useRecentSearches } from "@/lib/recentSearches";
 import { useCollection } from "@/lib/admin/store";
 import type { TourPackage } from "@/data/mockData";
 import type { BlogPost } from "@/lib/admin/types";
-import { fuzzySearch } from "@/lib/fuzzySearch";
+import { fuzzySearch, PACKAGE_SEARCH_KEYS } from "@/lib/fuzzySearch";
 
 interface Suggestion {
   key: string;
@@ -34,13 +34,7 @@ function useSearchSuggestions(query: string, limit = 6): Suggestion[] {
     const activePackages = packages.filter((p) => p.status !== "draft");
     const publishedPosts = posts.filter((p) => p.isPublished);
 
-    const packageMatches = fuzzySearch(activePackages, trimmed, [
-      "title",
-      "category",
-      "tagline",
-      "highlights",
-      "themes",
-    ]).slice(0, 4);
+    const packageMatches = fuzzySearch(activePackages, trimmed, PACKAGE_SEARCH_KEYS).slice(0, 4);
 
     const postMatches = fuzzySearch(publishedPosts, trimmed, [
       "title",

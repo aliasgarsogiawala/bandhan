@@ -10,6 +10,7 @@ import { Stagger, StaggerItem } from "@/components/ui/Stagger";
 import type { Destination } from "@/data/mockData";
 import { useCollection } from "@/lib/admin/store";
 import { placeholderImage } from "@/lib/placeholderImages";
+import { withTaxMark } from "@/lib/priceLabel";
 
 export const PopularDestinations: React.FC = () => {
   const { items } = useCollection<Destination>("destinations");
@@ -54,7 +55,7 @@ export const PopularDestinations: React.FC = () => {
                     <ArrowRight size={17} className="mt-1 shrink-0 text-accent transition-transform group-hover:translate-x-1" />
                   </div>
                   <p className="mt-2 line-clamp-2 text-sm leading-6 text-foreground-muted">{dest.description}</p>
-                  <p className="mt-4 text-xs font-bold uppercase tracking-[0.1em] text-primary/55">From {dest.price}</p>
+                  <p className="mt-4 text-xs font-bold uppercase tracking-[0.1em] text-primary/55">From {withTaxMark(dest.price)}</p>
                 </div>
               </Link>
             </StaggerItem>

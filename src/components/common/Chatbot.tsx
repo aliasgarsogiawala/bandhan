@@ -9,6 +9,8 @@ import type { BlogPost } from "@/lib/admin/types";
 import { fuzzySearchScored } from "@/lib/fuzzySearch";
 import { formatMoney, parseMoney } from "@/lib/bookings/pricing";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
+import { packageGroupSize } from "@/lib/packageCategory";
+import { withTaxMark } from "@/lib/priceLabel";
 import { WHATSAPP_HREF, WHATSAPP_LABEL } from "@/lib/contact";
 
 /**
@@ -275,11 +277,11 @@ function priceRange(pkgs: TourPackage[]): string {
   if (!prices.length) return "a custom quote";
   const min = Math.min(...prices);
   const max = Math.max(...prices);
-  return min === max ? `around ${formatMoney(min)}` : `${formatMoney(min)} – ${formatMoney(max)}`;
+  return min === max ? `around ${withTaxMark(formatMoney(min))}` : `${formatMoney(min)} – ${withTaxMark(formatMoney(max))}`;
 }
 
 function listPackages(pkgs: TourPackage[], limit = 4): string {
-  return pkgs.slice(0, limit).map((p) => `• ${p.title} (${p.duration}) — ${p.price}`).join("\n");
+  return pkgs.slice(0, limit).map((p) => `• ${p.title} (${p.duration}) — ${withTaxMark(p.price)}`).join("\n");
 }
 
 function listDetails(items: string[], emptyMessage: string, limit = 6): string {
@@ -302,7 +304,7 @@ function packageSummary(pkg: TourPackage): BotResponse {
   if (pkg.bestTime) extras.push(`Best time to go: ${pkg.bestTime}.`);
   if (pkg.inclusions?.length) extras.push(`Includes: ${pkg.inclusions.slice(0, 4).join(", ")}${pkg.inclusions.length > 4 ? "…" : ""}.`);
   return {
-    text: `${pkg.title} — ${pkg.duration}, from ${pkg.price} per person.\n${tagline}${
+    text: `${pkg.title} — ${pkg.duration}, from ${withTaxMark(pkg.price)} per person.\n${tagline}${
       topHighlights ? `Highlights: ${topHighlights}.` : ""
     }${extras.length ? `\n${extras.join(" ")}` : ""}`,
     actions: [
@@ -319,7 +321,7 @@ function destinationSummary(dest: Destination): BotResponse {
   if (dest.bestTime) extras.push(`Best time to go: ${dest.bestTime}.`);
   if (dest.duration) extras.push(`Typical trip length: ${dest.duration}.`);
   return {
-    text: `${dest.name} — ${dest.description}\nStarting from ${dest.price} per person.${extras.length ? ` ${extras.join(" ")}` : ""}`,
+    text: `${dest.name} — ${dest.description}\nStarting from ${withTaxMark(dest.price)} per person.${extras.length ? ` ${extras.join(" ")}` : ""}`,
     actions: [
       { label: `Explore ${dest.name}`, href: `/destinations/${dest.id}` },
       { label: "Plan this trip", href: contactEnquiryHref(dest.name) },
@@ -1519,7 +1521,7 @@ function packageQuestionAnswer(pkg: TourPackage, question: PackageQuestion): Bot
   if (question === "groupSize") {
     return {
       ...common,
-      text: `${pkg.title} group size: ${pkg.groupSize || "Flexible from 2+ guests for customized bookings or standard group batches for fixed departures."}`,
+      text: `${pkg.title} group size: ${packageGroupSize(pkg, "Flexible from 2+ guests for customized bookings or standard group batches for fixed departures.")}`,
       chips: ["custom", "booking", "contact"],
     };
   }
@@ -1540,7 +1542,7 @@ function packageQuestionAnswer(pkg: TourPackage, question: PackageQuestion): Bot
   if (question === "price") {
     return {
       ...common,
-      text: `${pkg.title} is published from ${pkg.price} per person for ${pkg.duration}. The final total depends on dates, traveller mix, room occupancy, add-ons, taxes and live availability; an agent confirms it before payment.`,
+      text: `${pkg.title} is published from ${withTaxMark(pkg.price)} per person for ${pkg.duration}. The final total depends on dates, traveller mix, room occupancy, add-ons, taxes and live availability; an agent confirms it before payment.`,
       chips: ["inclusions", "exclusions", "booking"],
     };
   }
@@ -1597,7 +1599,7 @@ function packageQuestionsAnswer(pkg: TourPackage, questions: PackageQuestion[]):
     sections.push(`📍 Starts from: ${pkg.startingPoint || "Designated airport / railway station"}.`);
   }
   if (questions.includes("price")) {
-    sections.push(`💰 Price: From ${pkg.price} per person for ${pkg.duration}.`);
+    sections.push(`💰 Price: From ${withTaxMark(pkg.price)} per person for ${pkg.duration}.`);
   }
   if (questions.includes("itinerary")) {
     const days = (pkg.itinerary ?? []).slice(0, 4).map((day) => `• Day ${day.day}: ${day.title}`);
@@ -1731,7 +1733,7 @@ export function resolveResponse(raw: string, ctx: KnowledgeContext, activePackag
           };
         }
         return {
-          text: `The best time to visit ${dest.name} is ${dest.bestTime || "throughout the year depending on the season and activities you prefer"}. Starting from ${dest.price} per person.`,
+          text: `The best time to visit ${dest.name} is ${dest.bestTime || "throughout the year depending on the season and activities you prefer"}. Starting from ${withTaxMark(dest.price)} per person.`,
           actions: [
             { label: `Explore ${dest.name}`, href: `/destinations/${dest.id}` },
             { label: "Plan this trip", href: contactEnquiryHref(dest.name) },
@@ -1775,7 +1777,7 @@ export function resolveResponse(raw: string, ctx: KnowledgeContext, activePackag
             };
           }
           return {
-            text: `The best time to visit ${matchedDest.name} is ${matchedDest.bestTime || "throughout the year depending on the season you prefer"}. Starting from ${matchedDest.price} per person.`,
+            text: `The best time to visit ${matchedDest.name} is ${matchedDest.bestTime || "throughout the year depending on the season you prefer"}. Starting from ${withTaxMark(matchedDest.price)} per person.`,
             actions: [
               { label: `Explore ${matchedDest.name}`, href: `/destinations/${matchedDest.id}` },
               { label: "Plan this trip", href: contactEnquiryHref(matchedDest.name) },

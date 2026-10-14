@@ -96,7 +96,9 @@ export default function MediaPicker({ value, onChange, multiple = false, label }
         {active && <span className="absolute inset-0 bg-accent/35 flex items-center justify-center text-white text-xl">✓</span>}
       </button>; })}{gallery.length === 0 && <p className="col-span-full py-4 text-xs text-foreground-muted">Add images in Gallery first, or upload new media.</p>}</div>}
 
-      <div className="flex gap-2"><input type="url" value={multiple ? urlInput : (typeof value === "string" ? value : "")} onChange={(event) => multiple ? setUrlInput(event.target.value) : onChange(event.target.value)} onKeyDown={(event) => { if (multiple && event.key === "Enter") { event.preventDefault(); addUrl(); } }} placeholder={multiple ? "Paste an image URL" : "Or paste an image URL"} className={fieldClass} />{multiple && <button type="button" onClick={addUrl} className="px-4 rounded-xl border border-slate-200 text-xs font-bold text-primary hover:bg-slate-50 whitespace-nowrap">Add URL</button>}</div>
+      {/* Plain text, not type="url": site paths such as /logo.svg are valid media but fail
+          the browser's absolute-URL check, which silently blocks the whole form submit. */}
+      <div className="flex gap-2"><input type="text" inputMode="url" autoComplete="off" value={multiple ? urlInput : (typeof value === "string" ? value : "")} onChange={(event) => multiple ? setUrlInput(event.target.value) : onChange(event.target.value)} onKeyDown={(event) => { if (multiple && event.key === "Enter") { event.preventDefault(); addUrl(); } }} placeholder={multiple ? "Paste an image URL" : "Or paste an image URL"} className={fieldClass} />{multiple && <button type="button" onClick={addUrl} className="px-4 rounded-xl border border-slate-200 text-xs font-bold text-primary hover:bg-slate-50 whitespace-nowrap">Add URL</button>}</div>
       <p className="text-[11px] text-foreground-light">JPG, PNG, WEBP, or GIF up to 8MB. Click Create/Save after uploading to attach the media.</p>
       {error && <div className="rounded-xl border border-accent/20 bg-accent/5 px-3 py-2 text-xs text-accent-dark">{error}</div>}
     </div>

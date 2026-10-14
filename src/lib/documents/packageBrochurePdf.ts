@@ -1,5 +1,6 @@
 import type { FullPackage } from "@/data/packageDetails";
 import { COMPANY } from "@/lib/email/company";
+import { TAX_NOTE, withTaxMark } from "@/lib/priceLabel";
 import { CONTENT_WIDTH, MARGIN, PdfDoc } from "./pdf/layout";
 import { drawImageCover, loadProposalImage } from "./pdf/images";
 import {
@@ -77,7 +78,7 @@ export async function renderPackageBrochurePdf(pkg: FullPackage): Promise<Uint8A
     tagline: pkg.tagline,
     meta: [
       ["Duration", pkg.duration || "To be confirmed"],
-      ["Starting from", `${pkg.price} per person`],
+      ["Starting from", `${withTaxMark(pkg.price)} per person`],
       ["Best time", pkg.bestTime || "Year-round"],
       ["Starts from", pkg.startingPoint || "To be confirmed"],
       ["Group size", pkg.groupSize || "2+ guests"],
@@ -170,7 +171,7 @@ export async function renderPackageBrochurePdf(pkg: FullPackage): Promise<Uint8A
   const priceTop = doc.y;
   doc.rect(MARGIN, priceTop, CONTENT_WIDTH, 92, C.primary);
   doc.rect(MARGIN, priceTop, 4, 92, C.gold);
-  labelValue(doc, "Starting from", `${pkg.price} per person`, MARGIN + 20, priceTop + 20, 220, {
+  labelValue(doc, "Starting from", `${withTaxMark(pkg.price)} per person`, MARGIN + 20, priceTop + 20, 220, {
     dark: true,
     valueSize: 15,
   });
@@ -185,7 +186,7 @@ export async function renderPackageBrochurePdf(pkg: FullPackage): Promise<Uint8A
   // `textAt` aligns within `width` but does not wrap, so break the disclaimer
   // into lines ourselves or it runs off the edge of the band.
   const disclaimer =
-    "Indicative published rate. Your final price depends on travel dates, hotel category, room configuration and party size, and is confirmed by your travel consultant before any payment.";
+    `${TAX_NOTE}. Indicative published rate. Your final price depends on travel dates, hotel category, room configuration and party size, and is confirmed by your travel consultant before any payment.`;
   let disclaimerY = priceTop + 60;
   for (const line of doc.wrap(disclaimer, CONTENT_WIDTH - 40, 6.8).slice(0, 2)) {
     doc.textAt(line, { x: MARGIN + 20, y: disclaimerY, width: CONTENT_WIDTH - 40, size: 6.8, color: C.light });

@@ -4,7 +4,7 @@ import type {
   PackagePricing,
   TourPackage,
 } from "@/data/mockData";
-import { packageDestinationLabel } from "@/lib/packageCategory";
+import { packageDestinationLabel, packageGroupSize } from "@/lib/packageCategory";
 
 export type BookingSource = "package" | "destination" | "custom";
 
@@ -212,7 +212,7 @@ export function packageSnapshot(pkg: TourPackage): BookingPackageSnapshot {
     heroImage: pkg.heroImage || pkg.image,
     bestTime: pkg.bestTime,
     startingPoint: pkg.startingPoint,
-    groupSize: pkg.groupSize,
+    groupSize: packageGroupSize(pkg),
     themes: pkg.themes,
     highlights: pkg.highlights,
     itinerary: pkg.itinerary,

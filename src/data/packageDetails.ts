@@ -8,7 +8,7 @@ import {
   type PackageServiceKey,
   type TourPackage,
 } from "./mockData";
-import { packageDestinationLabel } from "@/lib/packageCategory";
+import { packageDestinationLabel, packageGroupSize } from "@/lib/packageCategory";
 import { padGallery, placeholderImage } from "@/lib/placeholderImages";
 
 export type { ItineraryDay, PackageFaq, PackageServiceDetails, PackageServiceKey } from "./mockData";
@@ -120,6 +120,7 @@ export const getFullPackage = (id: string): FullPackage | undefined => {
  * complete detail fields directly.
  */
 export const getFullPackageForPackage = (pkg: TourPackage): FullPackage => {
+  const groupSize = packageGroupSize(pkg);
   return {
     ...pkg,
     tagline: pkg.tagline ?? `${pkg.title} — thoughtfully planned by Bandhan Tours.`,
@@ -135,10 +136,10 @@ export const getFullPackageForPackage = (pkg: TourPackage): FullPackage => {
     itinerary: pkg.itinerary?.length ? pkg.itinerary : [],
     inclusions: pkg.inclusions?.length ? pkg.inclusions : [],
     exclusions: pkg.exclusions?.length ? pkg.exclusions : [],
-    serviceDetails: pkg.serviceDetails?.length ? pkg.serviceDetails : serviceDetailsFromInclusions(pkg.inclusions ?? [], pkg.itinerary ?? [], pkg.groupSize),
+    serviceDetails: pkg.serviceDetails?.length ? pkg.serviceDetails : serviceDetailsFromInclusions(pkg.inclusions ?? [], pkg.itinerary ?? [], groupSize),
     bestTime: pkg.bestTime ?? "Year-round",
     startingPoint: pkg.startingPoint ?? "To be confirmed",
-    groupSize: pkg.groupSize ?? "2+ guests",
+    groupSize,
     themes: pkg.themes ?? [],
     faqs: pkg.faqs?.length ? pkg.faqs : defaultFaqs(pkg),
   };

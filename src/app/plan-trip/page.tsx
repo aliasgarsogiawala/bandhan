@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
 export default function PlanTripPage() {
-  redirect("/book?type=custom");
+  redirect("/book?type=destination");
 }

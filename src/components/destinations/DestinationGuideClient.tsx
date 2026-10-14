@@ -21,6 +21,7 @@ import { useCollection } from "@/lib/admin/store";
 import NotFoundView from "@/components/notFound/NotFoundView";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { Lightbox } from "@/components/ui/Lightbox";
+import { TAX_NOTE, withTaxMark } from "@/lib/priceLabel";
 
 type GuideProfile = {
   duration: string;
@@ -498,7 +499,8 @@ export default function DestinationGuideClient({ id }: { id: string }) {
             <div className="border border-primary/15 bg-white p-7 shadow-sm">
               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold-dark">Plan this destination</p>
               <p className="mt-4 text-xs font-semibold uppercase tracking-[0.12em] text-foreground-muted">Indicative trips from</p>
-              <p className="mt-1 font-heading text-4xl font-extrabold text-primary">{destination.price}</p>
+              <p className="mt-1 font-heading text-4xl font-extrabold text-primary">{withTaxMark(destination.price)}</p>
+              <p className="mt-1 text-[11px] text-foreground-light">{TAX_NOTE}</p>
               <p className="mt-4 text-sm leading-7 text-foreground-muted">{guide.planningDescription || "We shape a day-by-day plan around your dates, budget, hotel style and travel party."}</p>
               <div className="mt-6 space-y-3 border-t border-primary/10 pt-5">
                 {(guide.planningPoints?.length ? guide.planningPoints : ["Private transfers and handpicked stays", "Flexible pacing and optional experiences", "Support from enquiry to departure"]).map((item) => (

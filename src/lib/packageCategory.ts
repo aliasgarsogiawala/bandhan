@@ -40,42 +40,62 @@ export function parseCategoryParam(value: string | null): CategoryTab {
   return VALID_TABS.includes(normalised as CategoryTab) ? (normalised as CategoryTab) : "all";
 }
 
-const DESTINATION_PATTERNS: Array<[RegExp, string]> = [
-  [/sikkim|darjeeling/i, "Sikkim & Darjeeling"],
-  [/3 sisters|4 sisters/i, "North East India"],
-  [/andaman/i, "Andaman"],
-  [/kerala|kanyakumari/i, "Kerala"],
-  [/rajasthan/i, "Rajasthan"],
-  [/karnataka/i, "Karnataka"],
-  [/south india|temple/i, "South India"],
-  [/ayodhya|varanasi/i, "Ayodhya & Varanasi"],
-  [/singapore.*malaysia.*thailand/i, "Singapore, Malaysia & Thailand"],
-  [/singapore.*malaysia/i, "Singapore & Malaysia"],
-  [/thailand/i, "Thailand"],
-  [/vietnam/i, "Vietnam"],
-  [/bhutan/i, "Bhutan"],
-  [/bali/i, "Bali"],
-  [/swiss|paris/i, "France & Switzerland"],
-  [/austria/i, "Austria"],
-  [/italy/i, "Italy"],
-  [/london|edinburgh/i, "United Kingdom"],
-  [/germany/i, "Germany"],
-  [/turkish|turkey/i, "Turkey"],
-  [/south africa/i, "South Africa"],
-  [/japan/i, "Japan"],
-  [/scandinavia/i, "Scandinavia"],
-  [/georgia/i, "Georgia"],
-  [/azerbaijan/i, "Azerbaijan"],
-  [/almaty/i, "Kazakhstan"],
-  [/eastern europe/i, "Eastern Europe"],
-  [/grand tour of europe|best of europe/i, "Europe"],
+const DESTINATION_PATTERNS: Array<[RegExp, string, "india" | "abroad"]> = [
+  [/sikkim|darjeeling/i, "Sikkim & Darjeeling", "india"],
+  [/3 sisters|4 sisters/i, "North East India", "india"],
+  [/andaman/i, "Andaman", "india"],
+  [/kerala|kanyakumari/i, "Kerala", "india"],
+  [/rajasthan/i, "Rajasthan", "india"],
+  [/karnataka/i, "Karnataka", "india"],
+  [/south india|temple/i, "South India", "india"],
+  [/ayodhya|varanasi/i, "Ayodhya & Varanasi", "india"],
+  [/kashmir|vaishno/i, "Kashmir", "india"],
+  [/singapore.*malaysia.*thailand/i, "Singapore, Malaysia & Thailand", "abroad"],
+  [/singapore.*malaysia/i, "Singapore & Malaysia", "abroad"],
+  [/thailand/i, "Thailand", "abroad"],
+  [/vietnam/i, "Vietnam", "abroad"],
+  [/bhutan/i, "Bhutan", "abroad"],
+  [/bali/i, "Bali", "abroad"],
+  [/sri\s*lanka/i, "Sri Lanka", "abroad"],
+  [/swiss|paris/i, "France & Switzerland", "abroad"],
+  [/austria/i, "Austria", "abroad"],
+  [/italy/i, "Italy", "abroad"],
+  [/london|edinburgh/i, "United Kingdom", "abroad"],
+  [/germany/i, "Germany", "abroad"],
+  [/turkish|turkey/i, "Turkey", "abroad"],
+  [/south africa/i, "South Africa", "abroad"],
+  [/japan/i, "Japan", "abroad"],
+  [/scandinavia/i, "Scandinavia", "abroad"],
+  [/georgia/i, "Georgia", "abroad"],
+  [/azerbaijan/i, "Azerbaijan", "abroad"],
+  [/almaty/i, "Kazakhstan", "abroad"],
+  [/eastern europe/i, "Eastern Europe", "abroad"],
+  [/grand tour of europe|best of europe/i, "Europe", "abroad"],
 ];
 
+/** The admin field, unless an editor typed the list of stops there ("Katra, Srinagar, …"). */
+function explicitDestination(pkg: TourPackage): string {
+  const value = pkg.destination?.replace(/^[\s:;,.-]+/, "").trim() || "";
+  return value.includes(",") ? "" : value;
+}
+
 export function packageDestinationLabel(pkg: TourPackage): string {
-  if (pkg.destination?.trim()) return pkg.destination.trim();
-  return DESTINATION_PATTERNS.find(([pattern]) => pattern.test(pkg.title))?.[1]
+  return explicitDestination(pkg)
+    || DESTINATION_PATTERNS.find(([pattern]) => pattern.test(pkg.title))?.[1]
     || pkg.title.split(/\s+[—–-]\s+/)[0]?.trim()
     || pkg.title;
+}
+
+/** India-only trips have no visa step, so visa details are hidden for them. */
+export function isDomesticPackage(pkg: TourPackage): boolean {
+  const slug = categorySlug(pkg.category);
+  if (slug === "domestic" || slug === "north-east") return true;
+  if (slug === "international") return false;
+  // "Group Tours" holds both, so decide by where the trip actually goes.
+  const place = `${pkg.title} ${pkg.destination || ""}`;
+  const known = DESTINATION_PATTERNS.find(([pattern]) => pattern.test(place));
+  if (known) return known[2] === "india";
+  return !/\b(?:visa|passport)\b/i.test([...(pkg.inclusions || []), ...(pkg.exclusions || [])].join(" "));
 }
 
 export function packageTravelStyles(pkg: TourPackage): TravelStyle[] {
@@ -95,6 +115,17 @@ export function packageTravelStyles(pkg: TourPackage): TravelStyle[] {
   return [...styles];
 }
 
+/** Bandhan runs every group tour as a 24-guest batch, whatever older records say. */
+export const GROUP_TOUR_SIZE = "24 guests";
+
+export function isGroupTour(pkg: TourPackage): boolean {
+  return packageTravelStyles(pkg).includes("group");
+}
+
+export function packageGroupSize(pkg: TourPackage, fallback = "2+ guests"): string {
+  return isGroupTour(pkg) ? GROUP_TOUR_SIZE : pkg.groupSize?.trim() || fallback;
+}
+
 export function matchesTravelStyle(pkg: TourPackage, style: TravelStyleFilter): boolean {
   return style === "all" || packageTravelStyles(pkg).includes(style);
 }
@@ -107,7 +138,7 @@ export function parseTravelStyle(value: string | null): TravelStyleFilter {
 
 export function matchesPackageCategory(pkg: TourPackage, tab: CategoryTab): boolean {
   return tab === "group-tours"
-    ? packageTravelStyles(pkg).includes("group")
+    ? isGroupTour(pkg)
     : matchesCategory(pkg.category, tab);
 }
 

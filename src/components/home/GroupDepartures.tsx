@@ -13,6 +13,7 @@ import { useCollection } from "@/lib/admin/store";
 import type { TourPackage } from "@/data/mockData";
 import { homepagePackages } from "@/lib/packageCategory";
 import { PackageCard } from "@/components/home/FeaturedPackages";
+import { withTaxMark } from "@/lib/priceLabel";
 import {
   getDepartureUrgency,
   type DepartureStatus,
@@ -258,7 +259,7 @@ export const GroupDepartures: React.FC = () => {
                           Price per person
                         </span>
                         <div className="mt-0.5 text-xl font-extrabold text-primary">
-                          {departure.price || "On request"}
+                          {withTaxMark(departure.price) || "On request"}
                         </div>
                       </div>
 

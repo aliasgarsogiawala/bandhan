@@ -41,7 +41,7 @@ const pillars = [
   {
     label: "Custom itineraries",
     copy: "A destination, a date, or a half-formed idea is enough — we build the route, stays, and pacing around you.",
-    href: "/book?type=custom",
+    href: "/book?type=destination",
   },
 ];
 
@@ -520,7 +520,7 @@ export default function AboutPage() {
               </div>
               <div className="flex flex-wrap gap-3">
                 <Link
-                  href="/book?type=custom"
+                  href="/book?type=destination"
                   className="inline-flex items-center justify-center rounded-full bg-accent px-7 py-3.5 text-sm font-bold text-white transition hover:bg-accent-dark"
                 >
                   Plan a custom trip

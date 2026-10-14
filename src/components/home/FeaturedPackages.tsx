@@ -9,6 +9,7 @@ import { SectionTitle } from "@/components/ui/SectionTitle";
 import type { TourPackage } from "@/data/mockData";
 import { useCollection } from "@/lib/admin/store";
 import { CATEGORY_TABS, homepagePackages, type CategoryTab } from "@/lib/packageCategory";
+import { withTaxMark } from "@/lib/priceLabel";
 
 export function PackageCard({ pkg }: { pkg: TourPackage }) {
   return (
@@ -26,7 +27,7 @@ export function PackageCard({ pkg }: { pkg: TourPackage }) {
         <h3 className="mt-3 font-heading text-xl font-bold leading-snug text-primary sm:text-2xl">{pkg.title}</h3>
         <p className="mt-2 line-clamp-2 text-sm leading-6 text-foreground-muted">{pkg.tagline || pkg.overview || pkg.highlights?.[0]}</p>
         <div className="mt-auto flex items-end justify-between gap-4 border-t border-primary/10 pt-5">
-          <div><p className="text-[10px] font-bold uppercase tracking-wider text-foreground-light">From</p><p className="mt-1 text-lg font-bold text-primary">{pkg.price}</p></div>
+          <div><p className="text-[10px] font-bold uppercase tracking-wider text-foreground-light">From</p><p className="mt-1 text-lg font-bold text-primary">{withTaxMark(pkg.price)}</p></div>
           <span className="inline-flex items-center gap-1.5 text-sm font-bold text-primary transition-colors group-hover:text-accent">View trip <ArrowRight size={15} /></span>
         </div>
       </div>

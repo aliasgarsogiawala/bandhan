@@ -9,6 +9,7 @@ import PageHero from "@/components/ui/PageHero";
 import type { Destination } from "@/data/mockData";
 import { useCollection } from "@/lib/admin/store";
 import { placeholderImage } from "@/lib/placeholderImages";
+import { withTaxMark } from "@/lib/priceLabel";
 
 export default function DestinationsPageClient() {
   const { items } = useCollection<Destination>("destinations");
@@ -51,7 +52,7 @@ export default function DestinationsPageClient() {
                 )}
                 <div className="absolute bottom-0 left-0 w-full p-6 text-white">
                   <span className="text-xs font-bold uppercase tracking-widest text-gold">
-                    Starting from {dest.price}
+                    Starting from {withTaxMark(dest.price)}
                   </span>
                   <h2 className="mb-2 mt-1 font-heading text-2xl font-bold tracking-wide transition-colors group-hover:text-gold">
                     {dest.name}

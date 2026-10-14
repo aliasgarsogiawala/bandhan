@@ -12,12 +12,13 @@ import { Lightbox } from "@/components/ui/Lightbox";
 import type { TourPackage } from "@/data/mockData";
 import type { FullPackage } from "@/data/packageDetails";
 import { testimonialData } from "@/data/testimonialData";
-import { packageDestinationLabel } from "@/lib/packageCategory";
+import { isDomesticPackage, packageDestinationLabel } from "@/lib/packageCategory";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
 import { SecondaryButton } from "@/components/ui/SecondaryButton";
 import PackageServiceDetails from "./PackageServiceDetails";
 import PackageDepartureDates from "./PackageDepartureDates";
 import { upcomingPackageDates } from "@/lib/packageDates";
+import { TAX_NOTE, withTaxMark } from "@/lib/priceLabel";
 
 interface PackageDetailClientProps {
   pkg: FullPackage;
@@ -304,7 +305,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                 <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-dark">The details</span>
                 <h2 className="mt-3 font-heading text-4xl font-extrabold tracking-[-0.03em] text-primary sm:text-5xl">Everything, clearly arranged</h2>
 
-                <PackageServiceDetails details={pkg.serviceDetails} />
+                <PackageServiceDetails details={pkg.serviceDetails} showVisa={!isDomesticPackage(pkg)} />
 
                 {(pkg.inclusions.length > 0 || pkg.exclusions.length > 0) && <div className="mt-8 grid grid-cols-1 gap-8 border-t border-primary/15 pt-7 md:grid-cols-2">
                   {pkg.inclusions.length > 0 && <div className="md:border-r md:border-primary/12 md:pr-8">
@@ -484,13 +485,14 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                 </span>
                 <div className="mt-2.5 flex items-baseline gap-2">
                   <span className="tabular font-heading text-[2.5rem] font-extrabold leading-none tracking-[-0.03em]">
-                    {pkg.price}
+                    {withTaxMark(pkg.price)}
                   </span>
                   <span className="text-xs text-white/55">per person</span>
                 </div>
                 <span className="mt-2 block text-xs text-white/55">
                   {pkg.duration} · twin sharing
                 </span>
+                <span className="mt-1 block text-[11px] text-white/45">{TAX_NOTE}</span>
               </div>
 
               <div className="space-y-5 p-7">
@@ -624,7 +626,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                       <span className="text-xs text-slate-300 mt-1 block">
                         from{" "}
                         <span className="font-bold text-white">
-                          {related.price}
+                          {withTaxMark(related.price)}
                         </span>
                       </span>
                     </div>

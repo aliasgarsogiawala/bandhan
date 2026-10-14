@@ -13,21 +13,22 @@ const SERVICES: { kind: PackageServiceKey; label: string; icon: LucideIcon }[] =
   { kind: "visa", label: "Visa", icon: Stamp },
 ];
 
-export default function PackageServiceDetails({ details }: { details: PackageServiceDetails[] }) {
+export default function PackageServiceDetails({ details, showVisa = true }: { details: PackageServiceDetails[]; showVisa?: boolean }) {
   const [active, setActive] = useState<PackageServiceKey>("hotel");
+  const services = showVisa ? SERVICES : SERVICES.filter((service) => service.kind !== "visa");
   const entries = useMemo(
     () => new Map(details.map((detail) => [detail.kind, detail.items.filter(Boolean)])),
     [details]
   );
-  const selected = SERVICES.find((service) => service.kind === active) ?? SERVICES[0];
-  const items = entries.get(active) || [];
+  const selected = services.find((service) => service.kind === active) ?? services[0];
+  const items = entries.get(selected.kind) || [];
   const SelectedIcon = selected.icon;
 
   return (
     <div className="mt-8 border-y border-primary/15 bg-transparent">
-      <div className="grid grid-cols-3 border-b border-primary/15 sm:grid-cols-6">
-        {SERVICES.map((service) => {
-          const isActive = active === service.kind;
+      <div className={`grid grid-cols-3 border-b border-primary/15 ${services.length === 6 ? "sm:grid-cols-6" : "sm:grid-cols-5"}`}>
+        {services.map((service) => {
+          const isActive = selected.kind === service.kind;
           const Icon = service.icon;
           return (
             <button

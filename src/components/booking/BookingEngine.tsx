@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { initialBookingDate } from "@/lib/packageDates";
 import Image from "@/components/ui/SiteImage";
 import Link from "next/link";
@@ -20,7 +20,6 @@ import {
   ReceiptText,
   Send,
   ShieldCheck,
-  Sparkles,
   Users,
 } from "lucide-react";
 import type { Destination, PackageAddon, TourPackage } from "@/data/mockData";
@@ -35,14 +34,12 @@ import {
   pricingForStartingPrice,
   totalTravellers,
   type BookingPackageSnapshot,
-  type BookingSource,
   type RoomConfiguration,
   type SelectedAddon,
   type TravellerBreakdown,
 } from "@/lib/bookings/pricing";
 import { EMAIL_RE } from "@/lib/bookings/party";
 import { placeholderImage } from "@/lib/placeholderImages";
-import { saveRecentSearch, useRecentSearches } from "@/lib/recentSearches";
 import Counter from "@/components/booking/Counter";
 import InlineAuthModal from "@/components/booking/InlineAuthModal";
 import TravellerDetailsStep, {
@@ -52,6 +49,7 @@ import TravellerDetailsStep, {
 } from "@/components/booking/TravellerDetailsStep";
 import { CheckRow, Field, Select, fieldClass } from "@/components/booking/fields";
 import PdfPreviewModal from "@/components/ui/PdfPreviewModal";
+import { TAX_NOTE, withTaxMark } from "@/lib/priceLabel";
 
 /**
  * Each step carries its own panel header, so the question being asked is
@@ -62,7 +60,7 @@ const STEPS = [
     label: "Choose trip",
     title: "What are you planning?",
     description:
-      "Start from a published package, pick a destination, or build something entirely your own.",
+      "Start from a published package, or plan a custom trip around one of our destinations.",
   },
   {
     label: "Travel plan",
@@ -100,9 +98,15 @@ const TRUST = [
 
 const TRIP_TYPES = [
   ["package", "Tour package", "Book a structured itinerary", Package],
-  ["destination", "Destination", "Design around a location", MapPin],
-  ["custom", "Custom trip", "Start from your own idea", Sparkles],
+  ["destination", "Custom trip", "Design around a location", MapPin],
 ] as const;
+
+type TripSource = (typeof TRIP_TYPES)[number][0];
+
+/** Old links and bookmarks still say `type=custom`; that trip is now planned around a destination. */
+function initialTripSource(type: string | null): TripSource {
+  return type === "destination" || type === "custom" ? "destination" : "package";
+}
 
 /** Squared, uppercase CTA — the same button shape the package pages use. */
 const ctaClass =
@@ -162,7 +166,7 @@ function SummaryCard({
     snapshot.source === "package"
       ? "Tour package"
       : snapshot.source === "destination"
-        ? "Destination holiday"
+        ? "Custom trip"
         : "Custom journey";
 
   return (
@@ -302,25 +306,19 @@ function StepRail({
 
 export default function BookingEngine() {
   const searchParams = useSearchParams();
-  const initialCustomDestination = searchParams.get("destination") || "";
+  const requestedDestination = (searchParams.get("destination") || "").trim().toLowerCase();
   const initialTravelMonth = searchParams.get("month") || "";
   const initialDuration = searchParams.get("duration") || "";
-  const initialBudget = Number(searchParams.get("budget")) || 45000;
   const { items: packages } = useCollection<TourPackage>("packages");
   const { items: destinations } = useCollection<Destination>("destinations");
   const { user, refresh: refreshAuth } = useAuth();
 
-  const initialSource = (searchParams.get("type") || "package") as BookingSource;
-  const [source, setSource] = useState<BookingSource>(
-    ["package", "destination", "custom"].includes(initialSource) ? initialSource : "package"
-  );
+  const [source, setSource] = useState<TripSource>(() => initialTripSource(searchParams.get("type")));
   const [selectedId, setSelectedId] = useState(searchParams.get("id") || "");
   const [step, setStep] = useState(0);
-  const [customDestination, setCustomDestination] = useState(initialCustomDestination);
   const [travelDate, setTravelDate] = useState(() => initialBookingDate(searchParams.get("date"), initialTravelMonth));
   const [departureCity, setDepartureCity] = useState("");
   const [durationLabel, setDurationLabel] = useState(initialDuration);
-  const [budgetPerAdult, setBudgetPerAdult] = useState(initialBudget);
   const [travellers, setTravellers] = useState<TravellerBreakdown>({
     adults: 2,
     childrenWithBed: 0,
@@ -344,7 +342,6 @@ export default function BookingEngine() {
   const [brochurePreviewOpen, setBrochurePreviewOpen] = useState(false);
   const [quotationPreviewOpen, setQuotationPreviewOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const { items: recentSearches, clearRecentSearches } = useRecentSearches();
 
   const activePackages = packages.filter((item) => item.status !== "draft");
   const activeDestinations = destinations.filter((item) => item.status !== "draft");
@@ -352,20 +349,16 @@ export default function BookingEngine() {
   const effectiveSelectedId =
     selectedId ||
     (source === "package"
-      ? activePackages[0]?.id || ""
-      : source === "destination"
-        ? activeDestinations[0]?.id || ""
-        : "");
+      ? activePackages[0]?.id
+      : activeDestinations.find((item) => item.name.trim().toLowerCase() === requestedDestination)?.id ||
+        activeDestinations[0]?.id) ||
+    "";
   const selectedPackage = activePackages.find((item) => item.id === effectiveSelectedId);
   const selectedDestination = activeDestinations.find((item) => item.id === effectiveSelectedId);
   const fullPackage = selectedPackage ? getFullPackageForPackage(selectedPackage) : null;
   const effectiveDuration =
     durationLabel ||
-    (source === "package"
-      ? selectedPackage?.duration
-      : source === "destination"
-        ? selectedDestination?.duration
-        : "") ||
+    (source === "package" ? selectedPackage?.duration : selectedDestination?.duration) ||
     "6 Nights / 7 Days";
   const resolved = resolveParty(party, user);
   const deliveryEmail = resolved.traveller.email;
@@ -376,12 +369,11 @@ export default function BookingEngine() {
     if (source === "destination" && selectedDestination) {
       return destinationSnapshot(selectedDestination);
     }
+    // Shown only until the catalogue loads; submitting requires a selection.
     return {
       source: "custom",
-      title: customDestination
-        ? `${customDestination} Personalised Holiday`
-        : "Your Personalised Holiday",
-      destination: customDestination || "Destination to be planned",
+      title: "Your Personalised Holiday",
+      destination: "Destination to be planned",
       duration: effectiveDuration,
       tagline: "Designed around your dates, pace, interests and preferred budget.",
       overview:
@@ -400,12 +392,7 @@ export default function BookingEngine() {
     };
   })();
 
-  const startingPrice =
-    source === "package"
-      ? selectedPackage?.price
-      : source === "destination"
-        ? selectedDestination?.price
-        : budgetPerAdult;
+  const startingPrice = source === "package" ? selectedPackage?.price : selectedDestination?.price;
   const pricing = pricingForStartingPrice(
     startingPrice,
     source === "package" ? selectedPackage?.pricing : undefined
@@ -436,27 +423,13 @@ export default function BookingEngine() {
   const selectedImage = snapshot.heroImage;
   const roomCount = rooms.singleRooms + rooms.doubleRooms + rooms.tripleRooms;
 
-  const selectSource = (next: BookingSource) => {
+  const selectSource = (next: TripSource) => {
     setSource(next);
-    const nextItem =
-      next === "package"
-        ? activePackages[0]
-        : next === "destination"
-          ? activeDestinations[0]
-          : null;
+    const nextItem = next === "package" ? activePackages[0] : activeDestinations[0];
     setSelectedId(nextItem?.id || "");
-    setDurationLabel(nextItem?.duration || (next === "custom" ? "6 Nights / 7 Days" : ""));
+    setDurationLabel(nextItem?.duration || "");
     setAddonIds([]);
   };
-
-  useEffect(() => {
-    if (source === "custom" && initialCustomDestination.trim()) {
-      saveRecentSearch({
-        label: initialCustomDestination.trim(),
-        destination: initialCustomDestination.trim(),
-      });
-    }
-  }, [initialCustomDestination, source]);
 
   const hasPhone = (value: string) => value.replace(/\D/g, "").length >= 8;
 
@@ -473,9 +446,6 @@ export default function BookingEngine() {
     if (step === 0) {
       if (source === "package" && !selectedPackage) return "Please select a tour package.";
       if (source === "destination" && !selectedDestination) return "Please select a destination.";
-      if (source === "custom" && customDestination.trim().length < 2) {
-        return "Please enter your preferred destination.";
-      }
     }
     if (step === 1) {
       if (!travelDate) return "Please select a travel date.";
@@ -527,12 +497,6 @@ export default function BookingEngine() {
     // waiting on it.
     setSubmitting(true);
     setError("");
-    if (source === "custom" && customDestination.trim()) {
-      saveRecentSearch({
-        label: customDestination.trim(),
-        destination: customDestination.trim(),
-      });
-    }
     try {
       const response = await fetch("/api/bookings", {
         method: "POST",
@@ -553,7 +517,6 @@ export default function BookingEngine() {
           pricingSnapshot: quote,
           packageSnapshot: { ...snapshot, duration: effectiveDuration },
           travellerNames: tripNotes.travellerNames,
-          budget: source === "custom" ? formatMoney(budgetPerAdult) : undefined,
           specialRequirements: tripNotes.requirements,
           contact: resolved.traveller,
           termsAccepted,
@@ -767,8 +730,9 @@ export default function BookingEngine() {
             <aside className="border-t border-primary/10 bg-sand-light p-6 sm:p-8 lg:border-l lg:border-t-0">
               <Eyebrow tone="muted">Indicative trip total</Eyebrow>
               <p className="tabular mt-2 font-heading text-[2.25rem] font-extrabold leading-none tracking-[-0.03em] text-primary">
-                {formatMoney(quote.total)}
+                {withTaxMark(formatMoney(quote.total))}
               </p>
+              <p className="mt-1.5 text-[11px] text-foreground-light">{TAX_NOTE}</p>
 
               <dl className="mt-6 space-y-3 border-t border-primary/10 pt-5 text-sm">
                 <div className="flex justify-between gap-4">
@@ -847,16 +811,13 @@ export default function BookingEngine() {
   return (
     <div className="relative isolate mx-auto max-w-7xl">
       <header className="mb-7">
-        <Eyebrow>
-          {source === "custom" ? "Your trip · Your pace · Your story" : "Plan · Price · Personalise"}
-        </Eyebrow>
+        <Eyebrow>Plan · Price · Personalise</Eyebrow>
         <h1 className="mt-3 max-w-2xl font-heading text-3xl font-extrabold leading-[1.08] tracking-[-0.03em] text-primary sm:text-[2.75rem]">
-          {source === "custom" ? "Let's design a journey around you" : "Build your holiday proposal"}
+          Build your holiday proposal
         </h1>
         <p className="mt-4 max-w-2xl text-sm leading-7 text-foreground-muted sm:text-base">
-          {source === "custom"
-            ? "Tell us where you want to go, when you want to travel, and how you like to explore. Our travel designer will turn your idea into a considered itinerary."
-            : "Shape the trip in five steps and get an instant estimate, quotation and personalised brochure — without paying anything today."}
+          Shape the trip in five steps and get an instant estimate, quotation and personalised
+          brochure — without paying anything today.
         </p>
 
         <ul className="mt-7 grid border-y border-primary/10 sm:grid-cols-3">
@@ -877,24 +838,9 @@ export default function BookingEngine() {
         </ul>
       </header>
 
-      {source === "custom" ? (
-        <div className="mb-5 flex items-start gap-4 border-l-2 border-gold bg-gold/[0.07] px-4 py-4 sm:px-5">
-          <span className="tabular mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-[4px] bg-primary text-[11px] font-bold text-gold">
-            01
-          </span>
-          <div className="min-w-0">
-            <Eyebrow>A real person takes it from here</Eyebrow>
-            <p className="mt-1.5 max-w-3xl text-sm leading-6 text-foreground-muted">
-              Submit your brief and it goes to our admin desk first. We assign the right travel
-              consultant, who will contact you to refine the route and confirm live availability.
-            </p>
-          </div>
-        </div>
-      ) : null}
-
       <StepRail
         step={step}
-        estimate={formatMoney(quote.total)}
+        estimate={withTaxMark(formatMoney(quote.total))}
         onSelect={(index) => {
           setError("");
           setStep(index);
@@ -927,7 +873,7 @@ export default function BookingEngine() {
 
             {step === 0 ? (
               <div>
-                <div className="grid gap-px border border-primary/12 bg-primary/12 sm:grid-cols-3">
+                <div className="grid gap-px border border-primary/12 bg-primary/12 sm:grid-cols-2">
                   {TRIP_TYPES.map(([value, label, hint, Icon]) => {
                     const selected = source === value;
                     return (
@@ -975,13 +921,13 @@ export default function BookingEngine() {
                       >
                         {activePackages.map((item) => (
                           <option key={item.id} value={item.id}>
-                            {item.title} — {item.duration} — {item.price}
+                            {item.title} — {item.duration} — {withTaxMark(item.price)}
                           </option>
                         ))}
                       </Select>
                     </Field>
-                  ) : source === "destination" ? (
-                    <Field label="Select a published destination">
+                  ) : (
+                    <Field label="Choose a destination to plan around">
                       <Select
                         value={effectiveSelectedId}
                         onChange={(event) => {
@@ -994,68 +940,11 @@ export default function BookingEngine() {
                       >
                         {activeDestinations.map((item) => (
                           <option key={item.id} value={item.id}>
-                            {item.name} — starting {item.price}
+                            {item.name} — starting {withTaxMark(item.price)}
                           </option>
                         ))}
                       </Select>
                     </Field>
-                  ) : (
-                    <div className="space-y-6">
-                      <div className="grid gap-5 sm:grid-cols-2">
-                        <Field label="Preferred destination">
-                          <input
-                            value={customDestination}
-                            onChange={(event) => setCustomDestination(event.target.value)}
-                            className={fieldClass}
-                            placeholder="e.g. Japan, Ladakh, Europe"
-                          />
-                        </Field>
-                        <Field label="Budget per adult" hint="Indicative — we design around it.">
-                          <input
-                            type="number"
-                            min={5000}
-                            step={1000}
-                            value={budgetPerAdult}
-                            onChange={(event) =>
-                              setBudgetPerAdult(Number(event.target.value) || 0)
-                            }
-                            className={`${fieldClass} tabular`}
-                          />
-                        </Field>
-                      </div>
-
-                      {recentSearches.length > 0 ? (
-                        <div className="border border-primary/12 bg-sand-light p-5">
-                          <div className="flex flex-wrap items-start justify-between gap-3">
-                            <div>
-                              <Eyebrow>Recent searches</Eyebrow>
-                              <p className="mt-1.5 text-sm text-foreground-muted">
-                                Reuse a destination you looked up recently.
-                              </p>
-                            </div>
-                            <button
-                              type="button"
-                              onClick={clearRecentSearches}
-                              className="text-[11px] font-bold uppercase tracking-[0.14em] text-foreground-muted transition-colors hover:text-primary"
-                            >
-                              Clear
-                            </button>
-                          </div>
-                          <div className="mt-4 flex flex-wrap gap-2">
-                            {recentSearches.map((item) => (
-                              <button
-                                key={item.id}
-                                type="button"
-                                onClick={() => setCustomDestination(item.destination)}
-                                className="rounded-[4px] border border-primary/15 bg-white px-3 py-2 text-xs font-semibold text-primary transition-colors duration-200 hover:border-accent hover:text-accent"
-                              >
-                                {item.destination}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      ) : null}
-                    </div>
                   )}
                 </div>
               </div>
@@ -1127,7 +1016,7 @@ export default function BookingEngine() {
                             </span>
                             <span className="shrink-0 text-right">
                               <strong className="tabular block text-sm font-bold text-primary">
-                                {formatMoney(addon.price)}
+                                {withTaxMark(formatMoney(addon.price))}
                               </strong>
                               <span className="mt-0.5 block text-[10px] font-bold uppercase tracking-[0.1em] text-foreground-light">
                                 {addon.pricing === "per-person" ? "per traveller" : "per booking"}
@@ -1314,7 +1203,7 @@ export default function BookingEngine() {
                       </p>
                     </div>
                     <strong className="tabular font-heading text-2xl font-extrabold leading-none tracking-[-0.02em]">
-                      {formatMoney(quote.total)}
+                      {withTaxMark(formatMoney(quote.total))}
                     </strong>
                   </div>
                 </div>
@@ -1381,14 +1270,7 @@ export default function BookingEngine() {
                 disabled={submitting}
                 className={`${ctaClass} bg-accent text-white hover:bg-accent-dark`}
               >
-                {submitting
-                  ? source === "custom"
-                    ? "Creating proposal…"
-                    : "Creating booking…"
-                  : source === "custom"
-                    ? "Create quotation"
-                    : "Book now"}{" "}
-                {source === "custom" ? <FileText size={15} /> : <Check size={15} />}
+                {submitting ? "Creating booking…" : "Book now"} <Check size={15} />
               </button>
             )}
           </footer>
@@ -1404,10 +1286,10 @@ export default function BookingEngine() {
                 <Users size={16} className="text-gold" aria-hidden="true" />
               </div>
               <p className="tabular mt-3 font-heading text-[2.25rem] font-extrabold leading-none tracking-[-0.03em]">
-                {formatMoney(quote.total)}
+                {withTaxMark(formatMoney(quote.total))}
               </p>
               <p className="mt-2 text-xs text-white/55">
-                for {travellerCount} traveller{travellerCount === 1 ? "" : "s"}
+                for {travellerCount} traveller{travellerCount === 1 ? "" : "s"} · {TAX_NOTE}
               </p>
 
               <dl className="mt-6 space-y-3 border-t border-white/10 pt-5 text-xs">
