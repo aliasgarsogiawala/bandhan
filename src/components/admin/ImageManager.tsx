@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
-import { ArrowDown, ArrowUp, ChevronDown, ImagePlus, Search, Trash2, TriangleAlert } from "lucide-react";
+import React, { useMemo, useRef, useState } from "react";
+import { ArrowDown, ArrowUp, ChevronDown, ImagePlus, Search, Trash2, TriangleAlert, Upload } from "lucide-react";
 import PageHeader from "@/components/admin/PageHeader";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { store, useCollection } from "@/lib/admin/store";
+import { imageLinkProblem, uploadImages } from "@/lib/admin/imageLinks";
 import type { Destination, PackageGalleryImage, TourPackage } from "@/data/mockData";
 
 type Tab = "packages" | "destinations";
@@ -30,26 +31,6 @@ interface ManagedItem {
 
 const fieldClass =
   "w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-sm font-medium text-primary transition-colors focus:border-accent focus:outline-none";
-
-// Links to a web page that *shows* an image, rather than the image file itself.
-const PAGE_LINK_PATTERNS = [
-  /google\.[a-z.]+\/(imgres|search)/i,
-  /drive\.google\.com\/(file|open)/i,
-  /instagram\.com\/(p|reel)\//i,
-  /pinterest\.[a-z.]+\/pin\//i,
-  /facebook\.com\//i,
-];
-
-/** Returns an error message for an unusable link, or "" when it looks fine. */
-function linkProblem(url: string): string {
-  const value = url.trim();
-  if (!value) return "";
-  if (!/^https:\/\/\S+$/i.test(value)) return "The link must start with https:// and contain no spaces.";
-  if (PAGE_LINK_PATTERNS.some((pattern) => pattern.test(value))) {
-    return "This is a link to a web page, not the image itself. Right-click the image and choose “Copy image address”.";
-  }
-  return "";
-}
 
 function fromPackage(pkg: TourPackage): ManagedItem {
   return {
@@ -100,6 +81,38 @@ function ImagePreview({ url, className = "" }: { url: string; className?: string
   );
 }
 
+/** Uploads photos from this device to UploadThing and hands back their URLs. */
+function UploadButton({ multiple = false, label, onUploaded }: { multiple?: boolean; label: string; onUploaded: (urls: string[]) => void }) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState("");
+
+  const upload = async (files: FileList | null) => {
+    if (!files?.length) return;
+    setUploading(true);
+    setError("");
+    try {
+      const urls = await uploadImages(files, multiple ? 10 : 1);
+      if (urls.length) onUploaded(urls);
+    } catch (uploadError) {
+      setError(uploadError instanceof Error ? uploadError.message : "Upload failed. Try again.");
+    } finally {
+      setUploading(false);
+      if (inputRef.current) inputRef.current.value = "";
+    }
+  };
+
+  return (
+    <div className="space-y-1">
+      <button type="button" onClick={() => inputRef.current?.click()} disabled={uploading} className="flex min-h-10 shrink-0 items-center gap-1.5 rounded-xl bg-accent px-4 text-xs font-bold text-white transition-colors hover:bg-accent-dark disabled:opacity-60">
+        <Upload size={15} /> {uploading ? "Uploading…" : label}
+      </button>
+      <input ref={inputRef} type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple={multiple} onChange={(event) => void upload(event.target.files)} className="hidden" />
+      {error && <p className="text-xs font-medium text-accent-dark">{error}</p>}
+    </div>
+  );
+}
+
 function UrlField({
   label,
   hint,
@@ -111,7 +124,7 @@ function UrlField({
   value: string;
   onChange: (value: string) => void;
 }) {
-  const problem = linkProblem(value);
+  const problem = imageLinkProblem(value);
   return (
     <div className="grid gap-3 sm:grid-cols-[160px_1fr]">
       <ImagePreview url={problem ? "" : value.trim()} className="aspect-[4/3] w-full" />
@@ -119,13 +132,15 @@ function UrlField({
         <label className="block text-xs font-semibold uppercase tracking-wide text-primary">
           {label}
           <input
-            type="url"
+            type="text"
+            inputMode="url"
             value={value}
             onChange={(event) => onChange(event.target.value)}
-            placeholder="https://… paste the image address"
+            placeholder="Upload a photo, or paste the image address"
             className={`${fieldClass} mt-1.5 normal-case tracking-normal`}
           />
         </label>
+        <UploadButton label="Upload image" onUploaded={(urls) => onChange(urls[0])} />
         <p className="text-[11px] text-foreground-light">{hint}</p>
         {problem && (
           <p className="flex items-start gap-1.5 text-xs font-medium text-accent-dark">
@@ -146,8 +161,8 @@ function ItemEditor({ item, tab }: { item: ManagedItem; tab: Tab }) {
 
   const dirty = JSON.stringify(draft) !== JSON.stringify(item.images);
   const allUrls = [draft.image, draft.heroImage, ...draft.gallery.map((slide) => slide.image)];
-  const hasProblem = allUrls.some((url) => linkProblem(url));
-  const newUrlProblem = linkProblem(newUrl);
+  const hasProblem = allUrls.some((url) => imageLinkProblem(url));
+  const newUrlProblem = imageLinkProblem(newUrl);
 
   const setField = (field: "image" | "heroImage", value: string) => {
     setDraft((current) => ({ ...current, [field]: value }));
@@ -164,6 +179,11 @@ function ItemEditor({ item, tab }: { item: ManagedItem; tab: Tab }) {
     const [slide] = next.splice(index, 1);
     next.splice(index + offset, 0, slide);
     updateGallery(next);
+  };
+
+  const appendGallery = (urls: string[]) => {
+    setDraft((current) => ({ ...current, gallery: [...current.gallery, ...urls.map((image) => ({ image, caption: "" }))] }));
+    setMessage(null);
   };
 
   const addSlide = () => {
@@ -241,13 +261,14 @@ function ItemEditor({ item, tab }: { item: ManagedItem; tab: Tab }) {
         </div>
 
         {draft.gallery.map((slide, index) => {
-          const problem = linkProblem(slide.image);
+          const problem = imageLinkProblem(slide.image);
           return (
             <div key={index} className="grid gap-3 rounded-2xl border border-slate-100 bg-sand/40 p-3 sm:grid-cols-[120px_1fr_auto]">
               <ImagePreview url={problem ? "" : slide.image.trim()} className="aspect-[4/3] w-full" />
               <div className="space-y-2">
                 <input
-                  type="url"
+                  type="text"
+                  inputMode="url"
                   value={slide.image}
                   aria-label={`Gallery image ${index + 1} link`}
                   onChange={(event) =>
@@ -287,7 +308,8 @@ function ItemEditor({ item, tab }: { item: ManagedItem; tab: Tab }) {
         <div className="space-y-1.5">
           <div className="flex gap-2">
             <input
-              type="url"
+              type="text"
+              inputMode="url"
               value={newUrl}
               onChange={(event) => setNewUrl(event.target.value)}
               onKeyDown={(event) => {
@@ -304,6 +326,7 @@ function ItemEditor({ item, tab }: { item: ManagedItem; tab: Tab }) {
             </button>
           </div>
           {newUrlProblem && <p className="text-xs font-medium text-accent-dark">{newUrlProblem}</p>}
+          <UploadButton multiple label="Upload photos" onUploaded={appendGallery} />
         </div>
       </div>
 

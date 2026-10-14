@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useRef, useState } from "react";
-import { uploadFiles } from "@/lib/uploadthing";
+import { imageLinkProblem, uploadImages } from "@/lib/admin/imageLinks";
 import { useCollection } from "@/lib/admin/store";
 import type { GalleryItem } from "@/data/mockData";
 
@@ -22,6 +22,7 @@ export default function MediaPicker({ value, onChange, multiple = false, label }
   const [error, setError] = useState("");
   const [urlInput, setUrlInput] = useState("");
   const [dragActive, setDragActive] = useState(false);
+  const [brokenUrls, setBrokenUrls] = useState<string[]>([]);
   const selected = useMemo(() => (Array.isArray(value) ? value : value ? [value] : []), [value]);
 
   const update = (next: string[]) => onChange(multiple ? next : next[0] || "");
@@ -40,8 +41,7 @@ export default function MediaPicker({ value, onChange, multiple = false, label }
     setError("");
     setUploading(true);
     try {
-      const result = await uploadFiles("imageUploader", { files: Array.from(files).slice(0, 10) });
-      const urls = result.map((file) => file.url);
+      const urls = await uploadImages(files, multiple ? 10 : 1);
       update(multiple ? [...selected, ...urls] : urls);
     } catch (uploadError) {
       setError(uploadError instanceof Error ? uploadError.message : "Upload failed. Try again.");
@@ -51,9 +51,13 @@ export default function MediaPicker({ value, onChange, multiple = false, label }
     }
   };
 
+  const urlProblem = imageLinkProblem(multiple ? urlInput : typeof value === "string" ? value : "");
+  const selectedProblem = selected.map(imageLinkProblem).find(Boolean)
+    || (selected.some((url) => brokenUrls.includes(url)) ? "An image link above didn't load — it may be a web page or a deleted file. Remove it and upload the photo instead." : "");
+
   const addUrl = () => {
     const url = urlInput.trim();
-    if (!url) return;
+    if (!url || imageLinkProblem(url)) return;
     update(multiple ? [...selected, url] : [url]);
     setUrlInput("");
   };
@@ -70,7 +74,8 @@ export default function MediaPicker({ value, onChange, multiple = false, label }
         {selected.map((url, index) => (
           <div key={`${url}-${index}`} className="relative w-28 h-24 rounded-xl overflow-hidden border border-slate-200 bg-slate-100 group">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={url} alt={`Selected media ${index + 1}`} className="w-full h-full object-cover" />
+            <img src={url} alt={`Selected media ${index + 1}`} onError={() => setBrokenUrls((current) => (current.includes(url) ? current : [...current, url]))} className="w-full h-full object-cover" />
+            {brokenUrls.includes(url) && <span className="absolute inset-0 flex items-center justify-center bg-accent/85 p-1 text-center text-[10px] font-bold text-white">Not an image</span>}
             {multiple && index === 0 && <span className="absolute left-1 bottom-1 px-1.5 py-0.5 rounded bg-primary/85 text-white text-[9px] font-bold uppercase">Cover</span>}
             <button type="button" onClick={() => remove(url)} className="absolute top-1 right-1 w-6 h-6 rounded-full bg-primary/80 text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity" aria-label="Remove image">×</button>
           </div>
@@ -100,6 +105,7 @@ export default function MediaPicker({ value, onChange, multiple = false, label }
           the browser's absolute-URL check, which silently blocks the whole form submit. */}
       <div className="flex gap-2"><input type="text" inputMode="url" autoComplete="off" value={multiple ? urlInput : (typeof value === "string" ? value : "")} onChange={(event) => multiple ? setUrlInput(event.target.value) : onChange(event.target.value)} onKeyDown={(event) => { if (multiple && event.key === "Enter") { event.preventDefault(); addUrl(); } }} placeholder={multiple ? "Paste an image URL" : "Or paste an image URL"} className={fieldClass} />{multiple && <button type="button" onClick={addUrl} className="px-4 rounded-xl border border-slate-200 text-xs font-bold text-primary hover:bg-slate-50 whitespace-nowrap">Add URL</button>}</div>
       <p className="text-[11px] text-foreground-light">JPG, PNG, WEBP, or GIF up to 8MB. Click Create/Save after uploading to attach the media.</p>
+      {(urlProblem || selectedProblem) && <div className="rounded-xl border border-accent/20 bg-accent/5 px-3 py-2 text-xs text-accent-dark">{urlProblem || selectedProblem}</div>}
       {error && <div className="rounded-xl border border-accent/20 bg-accent/5 px-3 py-2 text-xs text-accent-dark">{error}</div>}
     </div>
   );

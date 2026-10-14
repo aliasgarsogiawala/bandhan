@@ -30,3 +30,19 @@ export function canOptimizeImage(src: string): boolean {
     return false;
   }
 }
+
+// Links to a web page that *shows* an image, rather than the image file itself.
+const PAGE_LINK_PATTERNS = [
+  /google\.[a-z.]+\/(imgres|search)/i,
+  /drive\.google\.com\/(file|open)/i,
+  /instagram\.com\/(p|reel)\//i,
+  /pinterest\.[a-z.]+\/pin\//i,
+  /facebook\.com\//i,
+  /(^|\/\/)(www\.)?unsplash\.com\/(photos|@)/i,
+  /(^|\/\/)(www\.)?pexels\.com\/photo\//i,
+];
+
+/** True for a link to a photo's web page (e.g. unsplash.com/photos/…), which no browser can show as an image. */
+export function isImagePageLink(src: string): boolean {
+  return PAGE_LINK_PATTERNS.some((pattern) => pattern.test(src.trim()));
+}
